@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useThemeConfig } from '@core/composable/useThemeConfig'
 import type { I18nLanguage } from '@layouts/types'
 
 const props = withDefaults(defineProps<Props>(), {
@@ -12,19 +11,10 @@ defineEmits<{
 
 interface Props {
   languages: I18nLanguage[]
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   location?: any
 }
 
-const { locale } = useI18n({ useScope: 'global' })
-const { isAppRtl } = useThemeConfig()
-const lang = isAppRtl.value ? 'ar' : 'en'
-
-locale.value = lang
-
-watch(locale, val => {
-  document.documentElement.setAttribute('lang', val as string)
-})
+const { locale } = useI18n()
 </script>
 
 <template>

@@ -231,6 +231,7 @@ module.exports = {
       // Ignore files
       '\.eslintrc\.js',
     ],
+    '@typescript-eslint/no-explicit-any': 'off',
   },
   settings: {
     'import/resolver': {

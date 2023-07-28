@@ -12,7 +12,11 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
 // @layouts plugin
 import { VerticalNavLayout } from '@layouts'
 
-const { appRouteTransition, isLessThanOverlayNavBreakpoint } = useThemeConfig()
+const {
+  // appRouteTransition,
+  isLessThanOverlayNavBreakpoint,
+} = useThemeConfig()
+
 const { width: windowWidth } = useWindowSize()
 </script>
 
@@ -43,14 +47,17 @@ const { width: windowWidth } = useWindowSize()
     </template>
 
     <!-- 👉 Pages -->
-    <RouterView v-slot="{ Component }">
+    <RouterView />
+    <!--
+      <RouterView v-slot="{ Component }">
       <Transition
-        :name="appRouteTransition"
-        mode="out-in"
+      :name="appRouteTransition"
+      mode="out-in"
       >
-        <Component :is="Component" />
+      <Component :is="Component" />
       </Transition>
-    </RouterView>
+      </RouterView>
+    -->
 
     <!-- 👉 Footer -->
     <!--

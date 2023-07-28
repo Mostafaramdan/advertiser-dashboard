@@ -29,7 +29,7 @@ const form = ref({
         class="auth-card pa-4"
         max-width="448"
       >
-        <VCardItem class="justify-center">
+        <VCardItem>
           <template #prepend>
             <div class="d-flex">
               <VNodeRenderer :nodes="themeConfig.app.logo" />

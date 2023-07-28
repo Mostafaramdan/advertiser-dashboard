@@ -5,6 +5,8 @@ import ScrollToTop from '@core/components/ScrollToTop.vue'
 import { useThemeConfig } from '@core/composable/useThemeConfig'
 import { hexToRgb } from '@layouts/utils'
 
+import UseLocaleHelpers from '@/composables/UseLocaleHelpers'
+
 const { layoutComponent } = UseAppLayouts()
 const { syncInitialLoaderTheme, syncVuetifyThemeWithTheme: syncConfigThemeWithVuetifyTheme, isAppRtl, handleSkinChanges } = useThemeConfig()
 
@@ -14,6 +16,10 @@ const { global } = useTheme()
 syncInitialLoaderTheme()
 syncConfigThemeWithVuetifyTheme()
 handleSkinChanges()
+
+const { initAppLanguage } = UseLocaleHelpers()
+
+initAppLanguage()
 </script>
 
 <template>

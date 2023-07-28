@@ -32,7 +32,7 @@ const isPasswordVisible = ref(false)
 
       <!-- 👉 Auth Card -->
       <VCard class="auth-card pa-4">
-        <VCardItem class="justify-center">
+        <VCardItem>
           <template #prepend>
             <div class="d-flex">
               <VNodeRenderer :nodes="themeConfig.app.logo" />
