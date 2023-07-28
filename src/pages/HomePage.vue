@@ -1,5 +1,4 @@
 <script setup lang="ts">
-console.log('Hello from HomePage.vue')
 </script>
 
 <template>
