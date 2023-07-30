@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import type { FormInputProps } from '@/interfaces/Forms'
+import type { FormRadioProps } from '@/interfaces/Forms'
 
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
 // #region Props
-const props = withDefaults(defineProps<FormInputProps>(), {
+const props = withDefaults(defineProps<FormRadioProps>(), {
   rules: '',
+  hideLabel: false,
 })
 
 // #endregion
@@ -17,26 +18,12 @@ const props = withDefaults(defineProps<FormInputProps>(), {
 // #region Emits
 const emit = defineEmits<{ (e: 'update:modelValue', value: any): void }>()
 
-defineOptions({
-  name: 'AppTextField',
-  inheritAttrs: false,
-})
-
 // #endregion
 
 /***************************************
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-const elementId = computed(() => {
-  const attrs = useAttrs()
-  const _elementIdToken = attrs.id || attrs.label
-
-  return _elementIdToken ? `app-text-field-${_elementIdToken}-${Math.random().toString(36).slice(2, 7)}` : undefined
-})
-
-const label = computed(() => useAttrs().label as string | undefined)
-
 const value = computed({
   get() {
     return props.modelValue
@@ -51,43 +38,33 @@ const value = computed({
 
 <template>
   <VeeField
-    v-slot="{ handleChange, errorMessage, handleBlur }"
+    v-slot="{ handleChange, errorMessage }"
     v-model="value"
     :name="name"
     :label="label"
     :rules="rules"
-    class="app-text-field flex-grow-1"
-    :class="$attrs.class"
+    class="app-checkbox flex-grow-1"
   >
     <VLabel
-      v-if="label"
-      :for="elementId"
+      v-if="!hideLabel"
       class="mb-1 text-body-2 text-high-emphasis"
       :text="label"
     />
-    <VTextField
-      v-bind="{
-        ...$attrs,
-        class: null,
-        label: undefined,
-        variant: 'outlined',
-        id: elementId,
-      }"
+    <VRadioGroup
       :model-value="value"
+      v-bind="$attrs"
       :error="!!errorMessage"
       :error-messages="errorMessage"
       @update:model-value="handleChange"
-      @blur="handleBlur"
     >
-      <template
-        v-for="(_, slotName) in $slots"
-        #[slotName]="slotProps"
-      >
-        <slot
-          :name="slotName"
-          v-bind="slotProps || {}"
+      <div>
+        <VRadio
+          v-for="(option, index) in options"
+          :key="index"
+          :label="option[optionLabel]"
+          :value="option[optionValue]"
         />
-      </template>
-    </VTextField>
+      </div>
+    </VRadioGroup>
   </VeeField>
 </template>

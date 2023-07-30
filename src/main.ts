@@ -1,9 +1,10 @@
 /* eslint-disable import/order */
 import '@/@iconify/icons-bundle'
 import App from '@/App.vue'
-import VeeValidatePlugin from '@/plugins/VeeValidatePlugin'
 import i18n from '@/plugins/i18n'
 import layoutsPlugin from '@/plugins/layouts'
+import VeeValidatePlugin from '@/plugins/veeValidatePlugin'
+import VueToastification from '@/plugins/vue-toastification'
 import vuetify from '@/plugins/vuetify'
 import { loadFonts } from '@/plugins/webfontloader'
 import router from '@/router'
@@ -23,6 +24,7 @@ app.use(createPinia())
 app.use(router)
 app.use(i18n)
 app.use(VeeValidatePlugin)
+app.use(VueToastification)
 app.use(layoutsPlugin)
 
 // Mount vue app

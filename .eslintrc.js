@@ -38,6 +38,10 @@ module.exports = {
       singleline: 'beside',
       multiline: 'below',
     }],
+    'vue/max-attributes-per-line': ['error', {
+      singleline: 4,
+      multiline: 1,
+    }],
 
     'antfu/top-level-function': 'off',
 
@@ -66,7 +70,7 @@ module.exports = {
     'lines-around-comment': [
       'error',
       {
-        beforeBlockComment: true,
+        beforeBlockComment: false,
         beforeLineComment: true,
         allowBlockStart: true,
         allowClassStart: true,
@@ -138,7 +142,8 @@ module.exports = {
         '/^(click):[a-z]+((\d)|([A-Z0-9][a-z0-9]+))*([A-Z])?/',
       ],
     }],
-    'vue/define-macros-order': 'error',
+
+    'vue/define-macros-order': 'off',
     'vue/html-comment-content-newline': 'error',
     'vue/html-comment-content-spacing': 'error',
     'vue/html-comment-indent': 'error',

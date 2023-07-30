@@ -1,0 +1,38 @@
+export interface FormInputProps {
+  modelValue: any
+  name: string
+  rules?: string
+}
+
+export interface FormRadioProps {
+  name: string
+  label: string
+  modelValue: any
+  options: any[]
+  optionLabel: string
+  optionValue: string
+  rules?: string
+  hideLabel?: boolean
+}
+
+export interface FormCheckboxProps {
+  name: string
+  label: string
+  modelValue: any
+  options: any[]
+  optionLabel: string
+  optionValue: string
+  rules?: string
+  hideLabel?: boolean
+}
+
+export interface FormFileProps {
+  modelValue: any
+  name: string
+  label: string
+  rules: string
+  hideLabel?: boolean
+  acceptedTypes?: string[]
+  maxFileSize?: number
+  uploadTip?: string
+}

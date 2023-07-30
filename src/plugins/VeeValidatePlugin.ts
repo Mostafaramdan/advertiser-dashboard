@@ -2,6 +2,7 @@ import { localize, setLocale } from '@vee-validate/i18n'
 import {
   confirmed,
   email,
+  max,
   max_value,
   min,
   min_value,
@@ -26,6 +27,7 @@ export default (app: any) => {
   defineRule('required', required)
   defineRule('email', email)
   defineRule('min', min)
+  defineRule('max', max)
   defineRule('url', url)
   defineRule('confirmed', confirmed)
   defineRule('min_value', min_value)

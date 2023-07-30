@@ -16,7 +16,10 @@ import { useThemeConfig } from '@core/composable/useThemeConfig'
 const props = defineProps({
   autofocus: Boolean,
   counter: [Boolean, Number, String] as PropType<true | number | string>,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  errorMsg: {
+    type: String,
+    default: '',
+  },
   counterValue: Function as PropType<(value: any) => number>,
   prefix: String,
   placeholder: String,
@@ -138,6 +141,8 @@ const elementId = computed(() => {
       }, props.class]"
       class="position-relative v-text-field"
       :style="props.style"
+      :error-messages="props.errorMsg"
+      :error="!!props.errorMsg"
     >
       <template #default="{ id, isDirty, isValid, isDisabled }">
         <!-- v-field -->

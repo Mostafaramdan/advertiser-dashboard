@@ -1,11 +1,32 @@
 <script lang="ts" setup>
+import type { FormInputProps } from '@/interfaces/Forms'
+
+/***************************************
+ **** Section Props Declaration  ******
+ **************************************/
+// #region Props
+const props = withDefaults(defineProps<FormInputProps>(), {
+  rules: '',
+})
+
+// #endregion
+/***************************************
+ **** Section Emits Declaration ********
+ **************************************/
+// #region Emits
+const emit = defineEmits<{ (e: 'update:modelValue', value: any): void }>()
+
 defineOptions({
   name: 'AppTextarea',
   inheritAttrs: false,
 })
 
-// const { class: _class, label, variant: _, ...restAttrs } = useAttrs()
+// #endregion
 
+/***************************************
+ **** Section Computed Variables  ******
+ **************************************/
+// #region Computed
 const elementId = computed (() => {
   const attrs = useAttrs()
   const _elementIdToken = attrs.id || attrs.label
@@ -14,12 +35,28 @@ const elementId = computed (() => {
 })
 
 const label = computed(() => useAttrs().label as string | undefined)
+
+const value = computed({
+  get() {
+    return props.modelValue
+  },
+  set(newValue: any) {
+    emit('update:modelValue', newValue)
+  },
+})
+
+// #endregion
 </script>
 
 <template>
-  <div
+  <VeeField
+    v-slot="{ handleChange, errorMessage, handleBlur }"
+    v-model="value"
     class="app-textarea flex-grow-1"
     :class="$attrs.class"
+    :name="name"
+    :label="label"
+    :rules="rules"
   >
     <VLabel
       v-if="label"
@@ -35,16 +72,21 @@ const label = computed(() => useAttrs().label as string | undefined)
         variant: 'outlined',
         id: elementId,
       }"
+      :model-value="value"
+      :error="!!errorMessage"
+      :error-messages="errorMessage"
+      @update:model-value="handleChange"
+      @blur="handleBlur"
     >
       <template
-        v-for="(_, name) in $slots"
-        #[name]="slotProps"
+        v-for="(_, slotName) in $slots"
+        #[slotName]="slotProps"
       >
         <slot
-          :name="name"
+          :name="slotName"
           v-bind="slotProps || {}"
         />
       </template>
     </VTextarea>
-  </div>
+  </VeeField>
 </template>

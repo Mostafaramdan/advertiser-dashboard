@@ -1,0 +1,19 @@
+.app-loader-bar {
+  .v-progress-linear {
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+  }
+}
+
+@media screen and (max-width: 500px) {
+.layout-page-content, .layout-wrapper.layout-nav-type-vertical .layout-navbar {
+    padding: .5rem;
+  }
+  .layout-wrapper.layout-nav-type-vertical.layout-navbar-sticky .layout-navbar {
+    inset-block-start: .3rem;
+  }
+  .layout-wrapper.layout-nav-type-vertical.layout-navbar-sticky .layout-page-content {
+    margin-block-start: .3rem;
+  }
+}

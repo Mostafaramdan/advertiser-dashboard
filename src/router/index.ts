@@ -13,6 +13,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/test-form',
+      name: 'test-form',
+      component: () => import('@/pages/TestForm.vue'),
+      meta: {
+        layout: 'default',
+      },
+    },
+    {
       path: '/login',
       name: 'login-page',
       component: () => import('@/pages/LoginPage.vue'),

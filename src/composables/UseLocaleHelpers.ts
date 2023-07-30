@@ -38,10 +38,9 @@ export default function UseLocaleHelpers() {
   }
 
   function initAppLanguage() {
-    locale.value = isAppRtl.value ? 'ar' : 'en'
+    changeAppLocale(isAppRtl.value ? 'ar' : 'en')
     watch(locale, val => {
       changeAppLocale(val)
-      console.log('locale changed to: ')
     })
   }
 
