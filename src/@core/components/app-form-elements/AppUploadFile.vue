@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import axios from 'axios'
 import { useToast } from 'vue-toastification'
 import { FILES_TYPES } from '@/constants/index'
 import { getFileType } from '@/helpers/index'
 import type { FormFileProps } from '@/interfaces/Forms'
-import axios from '@axios'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -249,13 +249,7 @@ function cancelUpload() {
         </span>
       </label>
     </div>
-    <div class="v-input__details">
-      <div v-if="errorMessage" class="v-messages">
-        <div class="v-messages__message text-danger" style="color: rgb(var(--v-theme-error));">
-          {{ errorMessage }}
-        </div>
-      </div>
-    </div>
+    <AppErrorMessage :error-message="errorMessage" />
   </VeeField>
 </template>
 

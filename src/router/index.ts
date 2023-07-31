@@ -44,6 +44,14 @@ const router = createRouter({
         layout: 'blank',
       },
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'error-page',
+      component: () => import('@/pages/ErrorPage.vue'),
+      meta: {
+        layout: 'blank',
+      },
+    },
   ],
 })
 

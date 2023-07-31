@@ -166,5 +166,13 @@
     "max_value": "{field} يجب أن يكون أقل من أو يساوي 0:{max}",
     "numeric": "{field} يجب أن يكون رقمًا"
   },
-  "upload_tip": "يتم قبول الملفات فقط: {formats} بحد أقصى {size} ميجا بايت"
+  "upload_tip": "يتم قبول الملفات فقط: {formats} بحد أقصى {size} ميجا بايت",
+  "click_or_drag_to_add_file": "انقر أو اسحب لإضافة ملف",
+  "links": {
+    "back_to_home": "العودة إلى الرئيسية"
+  },
+  "errors": {
+    "something_went_wrong": "هناك خطأ ما",
+    "you_are_not_authorized": "ليس لديك الصلاحية للوصول إلى هذه الصفحة"
+  }
 }

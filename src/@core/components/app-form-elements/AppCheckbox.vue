@@ -61,12 +61,6 @@ const value = computed({
         @update:model-value="handleChange"
       />
     </div>
-    <div v-if="errorMessage" class="v-input__details">
-      <div class="v-messages">
-        <div class="v-messages__message">
-          {{ errorMessage }}
-        </div>
-      </div>
-    </div>
+    <AppErrorMessage :error-message="errorMessage" />
   </VeeField>
 </template>

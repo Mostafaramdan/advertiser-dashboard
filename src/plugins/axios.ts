@@ -1,53 +1,107 @@
+/* eslint-disable indent */
+import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import axios from 'axios'
-import router from '@/router'
+import { useToast } from 'vue-toastification'
+import { useAuthStore } from '@/stores/AuthStore'
 
-const axiosIns = axios.create({
-  // You can add your headers here
-  // ================================
-  // baseURL: 'https://some-domain.com/api/',
-  // timeout: 1000,
-  // headers: {'X-Custom-Header': 'foobar'}
-})
+// import { useSharedStore } from '@/stores/SharedStore'
 
-// ℹ️ Add request interceptor to send the authorization header on each subsequent request after login
-axiosIns.interceptors.request.use(config => {
-  // Retrieve token from localStorage
-  const token = localStorage.getItem('accessToken')
+export const axiosConf = {
+  install: (app: any) => {
+    const router = app.config.globalProperties.$router
 
-  // If token is found
-  if (token) {
-    // Get request headers and if headers is undefined assign blank object
-    config.headers = config.headers || {}
+    // app.config.globalProperties.$axios = axios
 
-    // Set authorization header
-    // ℹ️ JSON.parse will convert token to string
-    config.headers.Authorization = token ? `Bearer ${JSON.parse(token)}` : ''
-  }
+    // const sharedStore = useSharedStore()
+    const authStore = useAuthStore()
 
-  // Return modified config
-  return config
-})
+    const toast = useToast()
 
-// ℹ️ Add response interceptor to handle 401 response
-axiosIns.interceptors.response.use(response => {
-  return response
-}, error => {
-  // Handle error
-  if (error.response.status === 401) {
-    // ℹ️ Logout user and redirect to login page
-    // Remove "userData" from localStorage
-    localStorage.removeItem('userData')
+    axios.defaults.baseURL = import.meta.env.VITE_BASE_API_URL
 
-    // Remove "accessToken" from localStorage
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('userAbilities')
+    /**
+     *
+     * @param config
+     */
+    function setHeaders(config: any) {
+      const headers: any = config.headers
 
-    // If 401 response returned from api
-    router.push('/login')
-  }
-  else {
-    return Promise.reject(error)
-  }
-})
+      headers.Authorization = `Bearer ${authStore.getAuthToken}`
 
-export default axiosIns
+      // headers['lang'] = sharedStore.getLang
+      // config.params = { ...config.params, lang: sharedStore.getLang }
+      return headers
+    }
+
+    axios.interceptors.request.use(
+      /**
+       *
+       * @param config
+       */
+      (config: InternalAxiosRequestConfig<any>) => {
+        // set Headers
+        config.headers = setHeaders(config)
+
+        // sharedStore.setLoading(true)
+        return config
+      },
+      (error: AxiosError<any>) => {
+        // sharedStore.setLoading(false)
+        return Promise.reject(error)
+      },
+    )
+
+    axios.interceptors.response.use(
+      /**
+       *
+       * @param response
+       */
+      (response: AxiosResponse<any>) => {
+        toast.success('Aaaaaaaaaaaaa')
+        router.push({ name: 'login-page' })
+
+        return response
+      },
+      /**
+       *
+       * @param error
+       */
+      (error: AxiosError<any>): Promise<AxiosError<any>> => {
+        const errorResponse = error.response
+        switch (errorResponse?.status) {
+          case 400:
+          // Bad Request
+            toast.error(errorResponse?.data?.message)
+            break
+          case 401:
+          // Unauthorized
+          // clear user data
+            toast.error(errorResponse?.data?.message)
+            authStore.clearAuthUser()
+            break
+          case 403:
+          // Forbidden
+            toast.error(errorResponse?.data?.message)
+            router.push({
+              name: 'error-page',
+              query: { message: 'This url is invalid' },
+            })
+            break
+          case 500:
+            router.push({
+              name: 'error-page',
+              query: { message: 'Something Went Wrong! Try Again Later' },
+            })
+            break
+          default:
+            toast.error(errorResponse?.data?.message)
+            break
+        }
+        console.log('Axios Error IS:', error)
+
+        return Promise.reject(error)
+      },
+    )
+  },
+}
+export default axiosConf

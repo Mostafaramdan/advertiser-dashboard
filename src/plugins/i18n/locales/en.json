@@ -167,5 +167,13 @@
     "max_value": "{field} must be not greater than 0:{max}",
     "numeric": "{field} must be a number"
   },
-  "upload_tip": "Only accept: {formats} files with a maximum size {size}MB"
+  "upload_tip": "Only accept: {formats} files with a maximum size {size}MB",
+  "click_or_drag_to_add_file": "Click or drag to add file",
+  "links": {
+    "back_to_home": "Back to home"
+  },
+  "errors": {
+    "something_went_wrong": "Something went wrong",
+    "you_are_not_authorized": "You are not authorized to access this page"
+  }
 }
