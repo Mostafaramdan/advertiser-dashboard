@@ -155,7 +155,7 @@
     }
   },
   "validations": {
-    "required": "{field} مطلوب",
+    "required": "يجب إدخال {field}",
     "email": "{field} يجب أن يكون بريدًا إلكترونيًا صالحًا",
     "min": "{field} يجب أن يكون بحد أدنى 0:{min} حرفًا",
     "max": "{field} يجب أن يكون بحد أقصى 0:{max} حرفًا",

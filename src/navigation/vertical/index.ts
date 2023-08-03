@@ -6,10 +6,13 @@ export default [
     to: { name: 'home-page' },
     icon: { icon: 'tabler-smart-home' },
   },
+  {
+    title: 'الاعدادات',
+    icon: { icon: 'tabler-settings' },
 
-  // {
-  //   title: 'Second page',
-  //   to: { name: 'second-page' },
-  //   icon: { icon: 'tabler-file' },
-  // },
+    children: [
+      { title: 'الكيانات', to: { name: 'entities-settings' } },
+    ],
+  },
+
 ] as VerticalNavItems

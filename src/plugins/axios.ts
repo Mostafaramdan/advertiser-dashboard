@@ -2,9 +2,8 @@
 import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import { useToast } from 'vue-toastification'
+import { useSharedStore } from '@/stores/SharedStore'
 import { useAuthStore } from '@/stores/AuthStore'
-
-// import { useSharedStore } from '@/stores/SharedStore'
 
 export const axiosConf = {
   install: (app: any) => {
@@ -12,7 +11,7 @@ export const axiosConf = {
 
     // app.config.globalProperties.$axios = axios
 
-    // const sharedStore = useSharedStore()
+    const sharedStore = useSharedStore()
     const authStore = useAuthStore()
 
     const toast = useToast()
@@ -25,11 +24,12 @@ export const axiosConf = {
      */
     function setHeaders(config: any) {
       const headers: any = config.headers
+      const token = authStore.getToken
+      if (token)
+        headers.Authorization = `Bearer ${token}`
 
-      headers.Authorization = `Bearer ${authStore.getAuthToken}`
+      headers['Content-Type'] = config.headers['Content-Type'] || 'application/json'
 
-      // headers['lang'] = sharedStore.getLang
-      // config.params = { ...config.params, lang: sharedStore.getLang }
       return headers
     }
 
@@ -42,11 +42,13 @@ export const axiosConf = {
         // set Headers
         config.headers = setHeaders(config)
 
-        // sharedStore.setLoading(true)
+        sharedStore.setLoading(true)
+
         return config
       },
       (error: AxiosError<any>) => {
-        // sharedStore.setLoading(false)
+        sharedStore.setLoading(false)
+
         return Promise.reject(error)
       },
     )
@@ -57,8 +59,7 @@ export const axiosConf = {
        * @param response
        */
       (response: AxiosResponse<any>) => {
-        toast.success('Aaaaaaaaaaaaa')
-        router.push({ name: 'login-page' })
+        sharedStore.setLoading(false)
 
         return response
       },
@@ -67,6 +68,8 @@ export const axiosConf = {
        * @param error
        */
       (error: AxiosError<any>): Promise<AxiosError<any>> => {
+        sharedStore.setLoading(false)
+
         const errorResponse = error.response
         switch (errorResponse?.status) {
           case 400:
@@ -76,8 +79,21 @@ export const axiosConf = {
           case 401:
           // Unauthorized
           // clear user data
-            toast.error(errorResponse?.data?.message)
+            toast.error(errorResponse?.data?.message || errorResponse?.data?.error)
+
             authStore.clearAuthUser()
+            console.log(router.currentRoute.value.name)
+
+            if (router.currentRoute.value.name !== 'login-page') {
+              console.log('sssssssssss', router.currentRoute.value.name)
+
+              router.push({
+                name: 'login-page',
+                query: {
+                  redirect: router.currentRoute.value.fullPath,
+                },
+              })
+            }
             break
           case 403:
           // Forbidden

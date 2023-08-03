@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import AppLoader from './AppLoader.vue'
 import navItems from '@/navigation/vertical'
 import { useThemeConfig } from '@core/composable/useThemeConfig'
 
@@ -47,6 +48,7 @@ const { width: windowWidth } = useWindowSize()
     </template>
 
     <!-- 👉 Pages -->
+    <AppLoader />
     <RouterView />
     <!--
       <RouterView v-slot="{ Component }">

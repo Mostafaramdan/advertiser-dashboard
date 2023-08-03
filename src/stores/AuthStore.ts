@@ -1,7 +1,7 @@
-const router = useRouter()
+import type { User } from '@/interfaces/Auth'
 
 interface State {
-  authUser: any
+  authUser: User | null
 }
 
 export const useAuthStore = defineStore('authStore', {
@@ -14,8 +14,32 @@ export const useAuthStore = defineStore('authStore', {
     isAuthUser(state): boolean {
       return !!state.authUser
     },
-    getAuthToken(state: any) {
-      return state.isAuthUser && state.authUser.token
+    getToken(state: any) {
+      return state.authUser?.token
+    },
+    hasPermission(state) {
+      return (permission: string) => {
+        return state.authUser?.permissions?.actions.includes(permission)
+      }
+    },
+    hasPermissions(state) {
+      return (permissions: string[]) => {
+        return permissions.every(permission => {
+          return state.authUser?.permissions?.actions.includes(permission)
+        })
+      }
+    },
+    hasAtLeaseOnePermission(state) {
+      return (permissions: string[]) => {
+        return permissions.some(permission => {
+          return state.authUser?.permissions?.actions.includes(permission)
+        })
+      }
+    },
+    canAccessPage(state) {
+      return (page: string) => {
+        return state.authUser?.permissions?.accessible_pages.includes(page)
+      }
     },
   },
   actions: {
@@ -26,7 +50,10 @@ export const useAuthStore = defineStore('authStore', {
     clearAuthUser() {
       this.authUser = null
       localStorage.removeItem('authUser')
-      router.push({ name: 'login-page' })
+    },
+    setUserPermissions(permissions: any) {
+      if (this.authUser)
+        this.authUser.permissions = permissions
     },
   },
 })

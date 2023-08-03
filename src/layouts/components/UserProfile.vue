@@ -1,9 +1,49 @@
 <script setup lang="ts">
-import avatar1 from '@images/avatars/avatar-1.png'
+import { authService } from '@/services/AuthService'
+import { useAuthStore } from '@/stores/AuthStore'
+
+/***************************************
+ **** Section Variables Declaration ****
+ **************************************/
+// #region Variables
+const router = useRouter()
+const { authUser, clearAuthUser } = useAuthStore()
+const isLoading = ref<boolean>(false)
+
+// #endregion
+
+/***************************************
+ **** Section Computed Variables  ******
+ **************************************/
+// #region Computed
+const userData = computed(() => authUser)
+
+// #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
+/**
+ * @description Logout user and clear auth user data
+ * @returns void
+ */
+function logout() {
+  isLoading.value = true
+  authService.logout().then(() => {
+    clearAuthUser()
+    router.push({ name: 'login-page' })
+  }).finally(() => {
+    isLoading.value = false
+  })
+}
+
+// #endregion
 </script>
 
 <template>
   <VBadge
+    v-if="userData"
     dot
     location="bottom right"
     offset-x="3"
@@ -16,7 +56,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
       color="primary"
       variant="tonal"
     >
-      <VImg :src="avatar1" />
+      <VImg :src="userData.image" />
 
       <!-- SECTION Menu -->
       <VMenu
@@ -41,16 +81,16 @@ import avatar1 from '@images/avatars/avatar-1.png'
                     color="primary"
                     variant="tonal"
                   >
-                    <VImg :src="avatar1" />
+                    <VImg :src="userData.image" />
                   </VAvatar>
                 </VBadge>
               </VListItemAction>
             </template>
 
             <VListItemTitle class="font-weight-semibold">
-              John Doe
+              {{ userData.name }}
             </VListItemTitle>
-            <VListItemSubtitle>Admin</VListItemSubtitle>
+            <VListItemSubtitle>{{ userData.email }}</VListItemSubtitle>
           </VListItem>
 
           <VDivider class="my-2" />
@@ -65,53 +105,16 @@ import avatar1 from '@images/avatars/avatar-1.png'
               />
             </template>
 
-            <VListItemTitle>Profile</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 Settings -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="tabler-settings"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>Settings</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 Pricing -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="tabler-currency-dollar"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>Pricing</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 FAQ -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="tabler-help"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>FAQ</VListItemTitle>
+            <VListItemTitle>
+              الملف الشخصي
+            </VListItemTitle>
           </VListItem>
 
           <!-- Divider -->
           <VDivider class="my-2" />
 
           <!-- 👉 Logout -->
-          <VListItem to="/login">
+          <VListItem :disabled="isLoading" @click="logout">
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -120,7 +123,9 @@ import avatar1 from '@images/avatars/avatar-1.png'
               />
             </template>
 
-            <VListItemTitle>Logout</VListItemTitle>
+            <VListItemTitle>
+              تسجيل الخروج
+            </VListItemTitle>
           </VListItem>
         </VList>
       </VMenu>

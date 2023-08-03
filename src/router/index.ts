@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { settingsRoutes } from '@/modules/settings/settingsRoutes'
 import HomePage from '@/pages/HomePage.vue'
+import { useAuthStore } from '@/stores/AuthStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,7 +27,7 @@ const router = createRouter({
       name: 'login-page',
       component: () => import('@/pages/LoginPage.vue'),
       meta: {
-        layout: 'blank',
+        layout: 'forms',
       },
     },
     {
@@ -45,6 +47,16 @@ const router = createRouter({
       },
     },
     {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/modules/settings/settingsModule.vue'),
+      meta: {
+        layout: 'default',
+        accessPage: 'general',
+      },
+      children: settingsRoutes,
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'error-page',
       component: () => import('@/pages/ErrorPage.vue'),
@@ -55,6 +67,16 @@ const router = createRouter({
   ],
 })
 
-// Docs: https://router.vuejs.org/guide/advanced/navigation-guards.html#global-before-guards
+router.beforeEach(async (to, from, next) => {
+  const { isAuthUser, canAccessPage } = useAuthStore()
+
+  if (to.meta.layout === 'default' && !isAuthUser)
+    next({ name: 'login-page', query: { redirect: to.fullPath } })
+
+  if (isAuthUser && to.meta.accessPage && !canAccessPage(to.meta.accessPage as string))
+    next({ name: 'error-page', query: { message: 'errors.you_are_not_authorized' } })
+
+  next()
+})
 
 export default router

@@ -22,7 +22,7 @@ const { message, status } = route.query
  **************************************/
 // #region Computed
 const pageTitle = computed(() => {
-  return status === 401 ? t('errors.you_are_not_authorized') : t('errors.something_went_wrong')
+  return +status === 401 ? t('errors.you_are_not_authorized') : t('errors.something_went_wrong')
 })
 
 // #endregion
@@ -33,7 +33,7 @@ const pageTitle = computed(() => {
 // #region Lifecycle Hooks
 
 // clear the message from the url
-if (message)
+if (message || status)
   router.replace({ name: 'error-page' })
 
 // #endregion
@@ -41,7 +41,7 @@ if (message)
 
 <template>
   <div class="misc-wrapper">
-    <ErrorHeader :error-title="pageTitle" :error-description="message" />
+    <ErrorHeader :error-title="pageTitle" :error-description="t(message)" />
     <VBtn to="/" class="mb-12">
       {{ t("links.back_to_home") }}
     </VBtn>

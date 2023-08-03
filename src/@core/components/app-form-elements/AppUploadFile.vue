@@ -13,11 +13,10 @@ const props = withDefaults(defineProps<FormFileProps>(), {
   rules: '',
   hideLabel: false,
   maxFileSize: 10,
-
+  uploadTip: '',
   acceptedTypes: () => ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/webm'],
 
   // acceptedTypes: () => ['*'],
-  uploadTip: '',
 })
 
 // #endregion
@@ -38,7 +37,12 @@ const toast = useToast()
 const { t } = useI18n()
 
 const uploadedFile = ref()
-const isLoading = ref(false)
+
+const isLoading = reactive({
+  upload: false,
+  delete: false,
+})
+
 const percentage = ref(0)
 let requestController: any
 
@@ -62,7 +66,7 @@ const fileInfo = computed(() => {
   let fileIcon
   const fileObj = uploadedFile.value || selectedFile.value
   if (fileObj) {
-    fileType = getFileType(fileObj.type)
+    fileType = getFileType(fileObj.mimetype || fileObj.type)
     fileIcon = new URL(`../../../assets/images/svg/file-icons/${fileType}.svg`, import.meta.url)
   }
 
@@ -74,7 +78,7 @@ const fileInfo = computed(() => {
     return {
       name: file.name,
       type: fileType,
-      url: blobURL,
+      path: blobURL,
       icon: fileIcon,
     }
   }
@@ -113,19 +117,25 @@ function startUploadFile(e: any) {
   uploadFile(file)
 }
 
+function resetData() {
+  selectedFile.value = null
+  uploadedFile.value = null
+  isLoading.upload = false
+  isLoading.delete = false
+}
+
 function uploadFile(file: any) {
-  isLoading.value = true
+  isLoading.upload = true
   percentage.value = 0
 
-  const formData = new FormData()
-
-  formData.append('file', file)
-
-  // Here, you can use Axios to upload the file to your server
-  // For demonstration purposes, I'll just log the progress in the console.
   requestController = new AbortController()
   axios
-    .post('https://httpbin.org/post', formData, {
+    .post('file', {
+      file,
+    }, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
       signal: requestController.signal,
       onUploadProgress: (progressEvent: any) => {
         const progress = Math.round(
@@ -136,24 +146,33 @@ function uploadFile(file: any) {
         console.log(`Upload Progress: ${progress}%`)
       },
     })
-    .then(() => {
+    .then(res => {
+      console.log(res.data.data[0])
+
       console.log('File uploaded successfully!')
-      selectedFile.value = fileInfo.value
+      selectedFile.value = res.data.data[0]
     })
     .catch(error => {
       console.error('File upload failed.', error)
     }).finally(() => {
-      isLoading.value = false
+      uploadedFile.value = null
+      isLoading.upload = false
     })
 }
 
 function removeFile() {
-  isLoading.value = true
-  setTimeout(() => {
-    selectedFile.value = null
-    uploadedFile.value = null
-    isLoading.value = false
-  }, 2000)
+  isLoading.delete = true
+  if (fileInfo.value?.id) {
+    axios.delete(`file/${fileInfo.value?.id}`).then(() => {
+      resetData()
+
+      // TODO: ADD message from server response
+      toast.success('تم الحذف بنجاح')
+    })
+  }
+  else {
+    resetData()
+  }
 }
 
 function cancelUpload() {
@@ -183,11 +202,11 @@ function cancelUpload() {
     />
     <div class="upload-container">
       <div v-if="fileInfo" class="preview-box">
-        <img v-if="fileInfo.type === FILES_TYPES.image" :src="fileInfo.url">
-        <video v-else-if="fileInfo.type === FILES_TYPES.video" :src="fileInfo.url" controls />
+        <img v-if="fileInfo.type === FILES_TYPES.image" :src="fileInfo.path">
+        <video v-else-if="fileInfo.type === FILES_TYPES.video" :src="fileInfo.path" controls />
         <a
           v-else
-          :href="fileInfo.url"
+          :href="fileInfo.path"
           :download="fileInfo.name"
           target="_blank"
           rel="noopener noreferrer"
@@ -198,7 +217,7 @@ function cancelUpload() {
             {{ fileInfo.name }}
           </span>
         </a>
-        <div v-if="isLoading" class="preview-box__loader">
+        <div v-if="isLoading.upload" class="preview-box__loader">
           <VProgressCircular
             :rotate="360"
             :size="80"
@@ -221,8 +240,10 @@ function cancelUpload() {
           v-else
           density="compact"
           icon="tabler-trash"
-          color="error"
+          :color="isLoading.delete ? 'info' : 'error'"
           class="delete-btn"
+          :loading="isLoading.delete"
+          :disabled="isLoading.delete"
           @click="removeFile"
         />
       </div>
@@ -318,15 +339,12 @@ function cancelUpload() {
 
 .upload-label {
   display: block;
-  border: 2px solid #9ca3af;
+  border: 2px dashed #9ca3af;
+  border-radius: 8px;
   block-size: 100%;
   font-size: 12px;
   font-weight: 500;
   inline-size: 100%;
-
-  &:hover {
-    border-color: rgba(var(--v-theme-primary), 100%);
-  }
 
   &__input {
     position: absolute;
@@ -356,6 +374,16 @@ function cancelUpload() {
       inline-size: 40px;
       margin-block: 0 5px;
       margin-inline: auto;
+      transition: transform 0.3s;
+    }
+  }
+
+  &:hover,
+  &.active {
+    border-color: rgba(var(--v-theme-primary), 100%);
+
+    svg {
+      transform: scale(1.1);
     }
   }
 }

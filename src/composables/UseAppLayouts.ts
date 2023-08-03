@@ -2,6 +2,7 @@
 import { useRoute } from 'vue-router'
 import BlankLayout from '@/layouts/BlankLayout.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import FormsLayout from '@/layouts/FormsLayout.vue'
 
 export default function UseAppLayouts() {
   /***************************************
@@ -21,6 +22,9 @@ export default function UseAppLayouts() {
     switch (route.meta.layout) {
       case 'blank':
         layout = BlankLayout
+        break
+      case 'forms':
+        layout = FormsLayout
         break
       case 'default':
         layout = DefaultLayout

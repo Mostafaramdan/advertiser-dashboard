@@ -1,19 +1,30 @@
 .app-loader-bar {
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(var(--v-theme-grey-50), 1);
+  inset: 0;
+
   .v-progress-linear {
     position: fixed;
-    top: 0;
     z-index: 9999;
+    inset-block-start: 0;
   }
 }
 
 @media screen and (max-width: 500px) {
-.layout-page-content, .layout-wrapper.layout-nav-type-vertical .layout-navbar {
-    padding: .5rem;
+  .layout-page-content,
+  .layout-wrapper.layout-nav-type-vertical .layout-navbar {
+    padding: 0.5rem;
   }
+
   .layout-wrapper.layout-nav-type-vertical.layout-navbar-sticky .layout-navbar {
-    inset-block-start: .3rem;
+    inset-block-start: 0.3rem;
   }
+
   .layout-wrapper.layout-nav-type-vertical.layout-navbar-sticky .layout-page-content {
-    margin-block-start: .3rem;
+    margin-block-start: 0.3rem;
   }
 }
