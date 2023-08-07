@@ -131,12 +131,16 @@ const handleNavScroll = (evt: Event) => {
         :options="{ wheelPropagation: false }"
         @ps-scroll-y="handleNavScroll"
       >
-        <Component
-          :is="resolveNavItemComponent(item)"
+        <template
           v-for="(item, index) in navItems"
           :key="index"
-          :item="item"
-        />
+        >
+          <Component
+            :is="resolveNavItemComponent(item)"
+            v-if="item.show"
+            :item="item"
+          />
+        </template>
       </PerfectScrollbar>
     </slot>
   </Component>

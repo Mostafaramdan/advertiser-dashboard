@@ -31,6 +31,7 @@
         "selector-class-pattern": null,
         "color-function-notation": null,
         "number-max-precision": null,
-        "no-empty-source": null
+        "no-empty-source": null,
+        "selector-pseudo-class-no-unknown": null
     }
 }

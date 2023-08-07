@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <div v-if="isLoading" class="app-loader-bar">
+  <div v-if="isLoading" class="app-loader-bar" :class="{ 'full-screen': fullScreen }">
     <VProgressCircular
       v-if="fullScreen"
       :size="50"

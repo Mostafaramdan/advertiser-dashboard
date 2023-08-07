@@ -174,5 +174,12 @@
   "errors": {
     "something_went_wrong": "هناك خطأ ما",
     "you_are_not_authorized": "ليس لديك الصلاحية للوصول إلى هذه الصفحة"
+  },
+  "actions": {
+    "cancel": "إلغاء",
+    "create": "إنشاء",
+    "edit": "تعديل",
+    "confirm": "تأكيد",
+    "save": "حفظ"
   }
 }

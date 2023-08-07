@@ -62,4 +62,11 @@ export default defineConfig({
       './src/**/*.vue',
     ],
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@use "@styles/layout/mixins.scss" as *;',
+      },
+    },
+  },
 })

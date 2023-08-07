@@ -229,6 +229,7 @@ module.exports = {
       '\.eslintrc\.js',
     ],
     '@typescript-eslint/no-explicit-any': 'off',
+    'antfu/if-newline': 'off',
   },
   settings: {
     'import/resolver': {

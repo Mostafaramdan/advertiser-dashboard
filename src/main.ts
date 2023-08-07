@@ -1,6 +1,7 @@
 /* eslint-disable import/order */
 import '@/@iconify/icons-bundle'
 import App from '@/App.vue'
+import loadingDirective from '@/directives/loading'
 import axios from '@/plugins/axios'
 import i18n from '@/plugins/i18n'
 import layoutsPlugin from '@/plugins/layouts'
@@ -28,6 +29,7 @@ app.use(axios)
 app.use(VeeValidatePlugin)
 app.use(VueToastification)
 app.use(layoutsPlugin)
+app.directive('loading', loadingDirective)
 
 // Mount vue app
 app.mount('#app')

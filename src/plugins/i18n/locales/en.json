@@ -175,5 +175,12 @@
   "errors": {
     "something_went_wrong": "Something went wrong",
     "you_are_not_authorized": "You are not authorized to access this page"
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "create": "Create",
+    "edit": "Edit",
+    "confirm": "Confirm",
+    "save": "Save"
   }
 }

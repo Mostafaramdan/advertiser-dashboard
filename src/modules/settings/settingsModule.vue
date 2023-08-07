@@ -17,7 +17,6 @@ import { RouterView } from 'vue-router'
 
 <template>
   <section class="settings-container">
-    settings parent
     <RouterView />
   </section>
 </template>

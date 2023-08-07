@@ -36,3 +36,13 @@ export interface FormFileProps {
   maxFileSize?: number
   uploadTip?: string
 }
+
+export interface FormSwitchProps {
+  modelValue: any
+  name: string
+  label: string
+  rules?: string
+  hideLabel?: boolean
+}
+
+export type FormActionType = 'create' | 'edit' | 'delete' | 'view'

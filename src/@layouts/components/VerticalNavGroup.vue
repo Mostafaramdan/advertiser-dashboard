@@ -2,7 +2,6 @@
 import { injectionKeyIsVerticalNavHovered, useLayouts } from '@layouts'
 import { TransitionExpand, VerticalNavLink } from '@layouts/components'
 import { config } from '@layouts/config'
-import { canViewNavMenuGroup } from '@layouts/plugins/casl'
 import type { NavGroup } from '@layouts/types'
 import { isNavGroupActive, openGroups } from '@layouts/utils'
 
@@ -17,7 +16,7 @@ defineOptions({
 const route = useRoute()
 const router = useRouter()
 const { width: windowWidth } = useWindowSize()
-const { isVerticalNavMini, dynamicI18nProps } = useLayouts()
+const { isVerticalNavMini } = useLayouts()
 const hideTitleAndBadge = isVerticalNavMini(windowWidth)
 
 /*
@@ -172,7 +171,6 @@ watch(isVerticalNavMini(windowWidth, isVerticalNavHovered), val => {
 
 <template>
   <li
-    v-if="canViewNavMenuGroup(item)"
     class="nav-group"
     :class="[
       {
@@ -193,20 +191,16 @@ watch(isVerticalNavMini(windowWidth, isVerticalNavHovered), val => {
       />
       <TransitionGroup name="transition-slide-x">
         <!-- 👉 Title -->
-        <Component
-          :is=" config.app.enableI18n ? 'i18n-t' : 'span'"
-          v-bind="dynamicI18nProps(item.title, 'span')"
+        <span
           v-show="!hideTitleAndBadge"
           key="title"
           class="nav-item-title"
         >
           {{ item.title }}
-        </Component>
+        </span>
 
         <!-- 👉 Badge -->
-        <Component
-          :is="config.app.enableI18n ? 'i18n-t' : 'span'"
-          v-bind="dynamicI18nProps(item.badgeContent, 'span')"
+        <span
           v-show="!hideTitleAndBadge"
           v-if="item.badgeContent"
           key="badge"
@@ -214,7 +208,7 @@ watch(isVerticalNavMini(windowWidth, isVerticalNavHovered), val => {
           :class="item.badgeClass"
         >
           {{ item.badgeContent }}
-        </Component>
+        </span>
         <Component
           :is="config.app.iconRenderer || 'div'"
           v-show="!hideTitleAndBadge"
@@ -229,12 +223,16 @@ watch(isVerticalNavMini(windowWidth, isVerticalNavHovered), val => {
         v-show="isGroupOpen"
         class="nav-group-children"
       >
-        <Component
-          :is="'children' in child ? 'VerticalNavGroup' : VerticalNavLink"
+        <template
           v-for="child in item.children"
           :key="child.title"
-          :item="child"
-        />
+        >
+          <Component
+            :is="'children' in child ? 'VerticalNavGroup' : VerticalNavLink"
+            v-if="child.show"
+            :item="child"
+          />
+        </template>
       </ul>
     </TransitionExpand>
   </li>

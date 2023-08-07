@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import AppLoader from './AppLoader.vue'
-import navItems from '@/navigation/vertical'
 import { useThemeConfig } from '@core/composable/useThemeConfig'
 
 // Components
@@ -11,6 +10,7 @@ import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
 
 // @layouts plugin
+import { useAuthStore } from '@/stores/AuthStore'
 import { VerticalNavLayout } from '@layouts'
 
 const {
@@ -19,6 +19,32 @@ const {
 } = useThemeConfig()
 
 const { width: windowWidth } = useWindowSize()
+
+const { canAccessPage } = useAuthStore()
+
+const navItems = computed(() => {
+  return [
+    {
+      title: 'الرئيسية',
+      to: { name: 'home-page' },
+      icon: { icon: 'tabler-smart-home' },
+      show: true,
+    },
+    {
+      title: 'الاعدادات',
+      icon: { icon: 'tabler-settings' },
+      show: canAccessPage('Settings'),
+      children: [
+        {
+          title: 'الكيانات',
+          to: { name: 'entities-settings' },
+          show: canAccessPage('Entity'),
+        },
+      ],
+    },
+
+  ]
+})
 </script>
 
 <template>

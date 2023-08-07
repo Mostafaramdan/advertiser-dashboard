@@ -4,7 +4,7 @@ export const settingsRoutes = [
     name: 'entities-settings',
     component: () => import('./pages/EntitiesPage.vue'),
     meta: {
-      accessPage: 'Entity',
+      requiredAccess: 'Entity',
     },
   },
 ]

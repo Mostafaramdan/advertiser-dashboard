@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { useToast } from 'vue-toastification'
 import { FILES_TYPES } from '@/constants/index'
-import { getFileType } from '@/helpers/index'
+import { getFileType } from '@/helpers/file'
 import type { FormFileProps } from '@/interfaces/Forms'
 
 /***************************************
@@ -14,9 +14,10 @@ const props = withDefaults(defineProps<FormFileProps>(), {
   hideLabel: false,
   maxFileSize: 10,
   uploadTip: '',
-  acceptedTypes: () => ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/webm'],
 
-  // acceptedTypes: () => ['*'],
+  // acceptedTypes: () => ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/webm'],
+
+  acceptedTypes: () => ['*'],
 })
 
 // #endregion
@@ -147,14 +148,10 @@ function uploadFile(file: any) {
       },
     })
     .then(res => {
-      console.log(res.data.data[0])
-
-      console.log('File uploaded successfully!')
       selectedFile.value = res.data.data[0]
+      toast.success(res.data.message)
     })
-    .catch(error => {
-      console.error('File upload failed.', error)
-    }).finally(() => {
+    .finally(() => {
       uploadedFile.value = null
       isLoading.upload = false
     })
@@ -163,11 +160,9 @@ function uploadFile(file: any) {
 function removeFile() {
   isLoading.delete = true
   if (fileInfo.value?.id) {
-    axios.delete(`file/${fileInfo.value?.id}`).then(() => {
+    axios.delete(`file/${fileInfo.value?.id}`).then(res => {
       resetData()
-
-      // TODO: ADD message from server response
-      toast.success('تم الحذف بنجاح')
+      toast.success(res.data.message)
     })
   }
   else {
@@ -388,3 +383,4 @@ function cancelUpload() {
   }
 }
 </style>
+@/helpers/file

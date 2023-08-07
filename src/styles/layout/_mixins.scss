@@ -1,0 +1,52 @@
+/* stylelint-disable scss/no-global-function-names */
+// lang mixins
+@mixin ltr() {
+  html[dir="ltr"] & {
+    @content;
+  }
+}
+
+@mixin rtl() {
+  html[dir="rtl"] & {
+    @content;
+  }
+}
+
+// max lines
+@mixin max-lines($lines) {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+}
+
+// responsive mixins
+$r-breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 960px,
+  lg: 1280px,
+  xl: 1920px
+);
+$sm: map-get($r-breakpoints, sm);
+$md: map-get($r-breakpoints, md);
+$lg: map-get($r-breakpoints, lg);
+$xl: map-get($r-breakpoints, xl);
+
+@mixin responsive-up($breakpoint) {
+  @media (min-width: map-get($r-breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+@mixin responsive-down($breakpoint) {
+  @media (max-width: (map-get($r-breakpoints, $breakpoint) - 1px)) {
+    @content;
+  }
+}
+
+@mixin responsive-between($from, $to) {
+  @media (min-width: map-get($r-breakpoints, $from)) and (max-width: (map-get($r-breakpoints, $to) - 1px)) {
+    @content;
+  }
+}

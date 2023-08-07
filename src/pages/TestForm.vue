@@ -12,6 +12,7 @@ const initialValues = {
   date: null,
   time: null,
   file: null,
+  status: false,
 }
 
 const formData = reactive({ ...initialValues })
@@ -203,6 +204,15 @@ const submit = (values: any) => {
             rules="required"
             option-label="text"
             option-value="value"
+          />
+        </VCol>
+
+        <VCol cols="12">
+          <AppSwitch
+            v-model="formData.status"
+            label="الحالة"
+            name="status"
+            rules="required"
           />
         </VCol>
 

@@ -65,7 +65,7 @@
     "themeConfig.ts",
     "auto-imports.d.ts",
     "components.d.ts"
-  ],
+, "src/modules/settings/services/.ts"  ],
   "exclude": [
     "dist",
     "node_modules",

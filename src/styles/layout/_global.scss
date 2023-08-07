@@ -1,11 +1,13 @@
 .app-loader-bar {
-  position: fixed;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(var(--v-theme-grey-50), 1);
-  inset: 0;
+  &.full-screen {
+    position: fixed;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(var(--v-theme-grey-50), 1);
+    inset: 0;
+  }
 
   .v-progress-linear {
     position: fixed;
@@ -26,5 +28,34 @@
 
   .layout-wrapper.layout-nav-type-vertical.layout-navbar-sticky .layout-page-content {
     margin-block-start: 0.3rem;
+  }
+}
+
+.v-app-loader {
+  position: absolute;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(var(--v-theme-grey-50), 0.6);
+  inset: 0;
+
+  .spinner-circle {
+    border: 3px solid #f3f3f3;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    block-size: 40px;
+    border-block-start: 3px solid rgba(var(--v-theme-primary), 1);
+    inline-size: 40px;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
   }
 }

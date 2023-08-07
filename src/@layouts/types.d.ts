@@ -86,6 +86,7 @@ interface AclProperties {
 // 👉 Vertical nav section title
 export interface NavSectionTitle extends Partial<AclProperties> {
   heading: string
+  show?: boolean
 }
 
 // 👉 Vertical nav link
@@ -110,6 +111,7 @@ export interface NavLinkProps {
   href?: string
   target?: ATagTargetAttrValues
   rel?: ATagRelAttrValues
+  show?: boolean
 }
 
 export interface NavLink extends NavLinkProps, Partial<AclProperties> {
@@ -128,6 +130,7 @@ export interface NavGroup extends Partial<AclProperties> {
   badgeClass?: string
   children: (NavLink | NavGroup)[]
   disable?: boolean
+  show?: boolean
 }
 
 export declare type VerticalNavItems = (NavLink | NavGroup | NavSectionTitle)[]
