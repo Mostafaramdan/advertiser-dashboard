@@ -16,8 +16,8 @@ const redirectPath = route.query.redirect || '/'
 console.log(redirectPath)
 
 const formData = reactive({
-  email: 'admin@admin.com',
-  password: '123456',
+  email: '',
+  password: '',
 })
 
 // #endregion
