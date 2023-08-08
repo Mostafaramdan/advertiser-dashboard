@@ -7,6 +7,9 @@ class SharedService {
   /** **************** get ******************/
 
   /** **************** post ******************/
+  sortBulk(payload: { model: string; ids: number[]; target_id: number }): AxiosPromise {
+    return axios.post('sorting', payload)
+  }
 
   /** **************** put ******************/
   toggleActivation(payload: { model: string; id: number }): AxiosPromise {

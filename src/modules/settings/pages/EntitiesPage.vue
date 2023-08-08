@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { Entity } from '../interfaces/Entity'
 import EntitiesFormModal from '../modals/EntitiesFormModal.vue'
 import EntityDetailsModal from '../modals/EntityDetailsModal.vue'
 import { entitiesService } from '../services/EntitiesService'
 import { useAuthStore } from '@/stores/AuthStore'
+import { sharedService } from '@/services/SharedService'
 import type { MetaData, pageAction } from '@/interfaces/Shared'
 import type { FormActionType } from '@/interfaces/Forms'
 
@@ -12,7 +14,10 @@ import type { FormActionType } from '@/interfaces/Forms'
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
+const toast = useToast()
 const { hasPermission } = useAuthStore()
+
+const MODEL_NAME = 'entities'
 const selectedItems = ref<number[]>([])
 const tableData = ref<Entity[]>([])
 const metaData = ref<MetaData | null>(null)
@@ -21,6 +26,10 @@ const showDetailsModal = ref<boolean>(false)
 const FormAction = ref<FormActionType>('create')
 const activeItem = ref<Entity | null>(null)
 const confirmModal = ref<any>()
+
+const isLoading = reactive({
+  tableData: false,
+})
 
 const params = reactive({
   page: 1,
@@ -51,10 +60,6 @@ const headers: any = [
     align: 'center',
   },
 ]
-
-const isLoading = reactive({
-  tableData: false,
-})
 
 // #endregion
 
@@ -136,6 +141,7 @@ function deleteItem(item: Entity) {
   isLoading.tableData = true
   entitiesService.deleteEntity(item.id as number).then(res => {
     console.log(res)
+    toast.success(res.data.message)
 
     const targetIndex = tableData.value.findIndex((i: Entity) => i.id === item.id)
 
@@ -166,7 +172,6 @@ async function showConfirmDeleteItem(item: Entity) {
   if (confirm)
     deleteItem(item)
 }
-
 function showCrateModal() {
   activeItem.value = null
   FormAction.value = 'create'
@@ -183,7 +188,6 @@ function showViewModal(item: Entity) {
   activeItem.value = item
   showDetailsModal.value = true
 }
-
 function onCreateItem(item: Entity) {
   console.log('created', item)
 
@@ -199,8 +203,21 @@ function onEditItem(item: Entity) {
   tableData.value.splice(targetIndex, 1, item)
 }
 
-function transferSelectedItems() {
-  console.log('transferSelectedItems', selectedItems.value)
+function sortItems(target_id: number) {
+  const payload = {
+    target_id,
+    ids: selectedItems.value,
+    model: MODEL_NAME,
+  }
+
+  isLoading.tableData = true
+  sharedService.sortBulk(payload).then(res => {
+    console.log(res)
+    toast.success(res.data.message)
+    onReloadData()
+  }).catch(() => {
+    isLoading.tableData = false
+  })
 }
 
 // #endregion
@@ -224,7 +241,7 @@ function transferSelectedItems() {
         :items-per-page="params.itemPerPage"
         :show-multi-delete="permissions.delete"
         :show-multi-activate="permissions.changeStatus"
-        model="entities"
+        :model="MODEL_NAME"
         :selected-items="selectedItems"
         @update:items-per-page="onChangeItemsPerPage"
         @update:search="onChangeSearch"
@@ -255,7 +272,7 @@ function transferSelectedItems() {
           <ToggleActivationSwitch
             :id="item.raw.id"
             v-model="item.raw.blocked_at"
-            model="entities"
+            :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />
         </template>
@@ -291,7 +308,7 @@ function transferSelectedItems() {
                     <VListItemTitle>عرض</VListItemTitle>
                   </VListItem>
 
-                  <VListItem :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="transferSelectedItems">
+                  <VListItem :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="sortItems(item.raw.id)">
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />
                     </template>

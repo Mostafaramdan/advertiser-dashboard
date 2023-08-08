@@ -213,7 +213,7 @@ async function showConfirmActions(operation: 'delete' | 'activate' | 'deactivate
       />
     </div>
 
-    <div v-if="multiSelectOptions.length" class="d-flex gap-2 mb-3 pb-1 overflow-x-auto">
+    <div v-if="multiSelectOptions.length" class="d-flex gap-2 mb-3 pb-1 pe-1 overflow-x-auto">
       <VBtn
         v-for="(option, index) in multiSelectOptions"
         :key="index"
