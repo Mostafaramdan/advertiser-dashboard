@@ -6,22 +6,22 @@ class EntitiesService {
   contextPath = 'entities'
 
   /** **************** get ******************/
-  getEntities(params: any): AxiosPromise {
+  getItem(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}`, { params })
   }
 
   /** **************** post ******************/
-  createEntity(data: Entity): AxiosPromise {
+  createItem(data: Entity): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 
   /** **************** put ******************/
-  editEntity(data: Entity): AxiosPromise {
+  editItem(data: Entity): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
   }
 
   /** **************** delete ******************/
-  deleteEntity(id: number): AxiosPromise {
+  deleteItem(id: number): AxiosPromise {
     return axios.delete(`${this.contextPath}/${id}`)
   }
 }

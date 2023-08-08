@@ -1,41 +1,48 @@
 <script setup lang="ts">
-import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { Entity } from '../interfaces/Entity'
 import EntitiesFormModal from '../modals/EntitiesFormModal.vue'
 import EntityDetailsModal from '../modals/EntityDetailsModal.vue'
 import { entitiesService } from '../services/EntitiesService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { sharedService } from '@/services/SharedService'
-import type { MetaData, pageAction } from '@/interfaces/Shared'
-import type { FormActionType } from '@/interfaces/Forms'
+import type { pageAction } from '@/interfaces/Shared'
+import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
-const toast = useToast()
 const { hasPermission } = useAuthStore()
-
 const MODEL_NAME = 'entities'
-const selectedItems = ref<number[]>([])
-const tableData = ref<Entity[]>([])
-const metaData = ref<MetaData | null>(null)
-const showFormModal = ref<boolean>(false)
-const showDetailsModal = ref<boolean>(false)
-const FormAction = ref<FormActionType>('create')
-const activeItem = ref<Entity | null>(null)
-const confirmModal = ref<any>()
-
-const isLoading = reactive({
-  tableData: false,
-})
 
 const params = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
 })
+
+const {
+  selectedItems,
+  tableData,
+  metaData,
+  showFormModal,
+  showDetailsModal,
+  FormAction,
+  activeItem,
+  confirmModal,
+  IsLoadingData,
+  getPageData,
+  onReloadData,
+  onChangeItemsPerPage,
+  onChangeSearch,
+  showCrateModal,
+  showEditModal,
+  showViewModal,
+  onEditItem,
+  onCreateItem,
+  showConfirmDeleteItem,
+  sortItems,
+} = UseCrudHelpers<Entity>(entitiesService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -93,134 +100,6 @@ const pageActionsButtons = computed<pageAction[]>(() => {
 getPageData()
 
 // #endregion
-
-/***************************************
- **** Section Functions Declaration ****
- **************************************/
-// #region Functions
-
-function getPageData() {
-  isLoading.tableData = true
-  entitiesService.getEntities(params)
-    .then(res => {
-      const { data, meta } = res.data
-
-      tableData.value = data
-      metaData.value = meta
-    }).finally(() => {
-      isLoading.tableData = false
-    })
-}
-
-function reloadPageData() {
-  params.page = 1
-  getPageData()
-}
-
-function onChangeItemsPerPage(value: number): void {
-  params.itemPerPage = value
-  reloadPageData()
-}
-
-function onChangeSearch(value: string): void {
-  params.keyword = value
-  getPageData()
-}
-
-function onReloadData(): void {
-  reloadPageData()
-  selectedItems.value = []
-}
-
-function deleteItem(item: Entity) {
-  console.log('delete')
-
-  const targetItemIndex = selectedItems.value.findIndex((i: number) => i === item.id)
-  if (targetItemIndex !== -1) selectedItems.value.splice(targetItemIndex, 1)
-
-  isLoading.tableData = true
-  entitiesService.deleteEntity(item.id as number).then(res => {
-    console.log(res)
-    toast.success(res.data.message)
-
-    const targetIndex = tableData.value.findIndex((i: Entity) => i.id === item.id)
-
-    if (targetIndex === -1) return
-    tableData.value.splice(targetIndex, 1)
-
-    // handle meta data and pagination after delete
-    if (metaData.value) {
-      metaData.value.total -= 1
-      metaData.value.last_page = Math.ceil(metaData.value.total / params.itemPerPage)
-      if (tableData.value.length === 0 && metaData.value.current_page > 1) {
-        params.page = metaData.value.current_page - 1
-        getPageData()
-      }
-
-      // handle it for first page
-      else if (tableData.value.length === 0 && metaData.value.current_page === 1) {
-        getPageData()
-      }
-    }
-  }).finally(() => {
-    isLoading.tableData = false
-  })
-}
-
-async function showConfirmDeleteItem(item: Entity) {
-  const confirm = await confirmModal.value.open('يرجي التاكيد', 'هل انت متاكد من الحذف')
-  if (confirm)
-    deleteItem(item)
-}
-function showCrateModal() {
-  activeItem.value = null
-  FormAction.value = 'create'
-  showFormModal.value = true
-}
-
-function showEditModal(item: Entity) {
-  activeItem.value = item
-  FormAction.value = 'edit'
-  showFormModal.value = true
-}
-
-function showViewModal(item: Entity) {
-  activeItem.value = item
-  showDetailsModal.value = true
-}
-function onCreateItem(item: Entity) {
-  console.log('created', item)
-
-  reloadPageData()
-}
-
-function onEditItem(item: Entity) {
-  console.log('edited', item)
-
-  const targetIndex = tableData.value.findIndex((i: Entity) => i.id === item.id)
-
-  if (targetIndex === -1) return
-  tableData.value.splice(targetIndex, 1, item)
-}
-
-function sortItems(target_id: number) {
-  const payload = {
-    target_id,
-    ids: selectedItems.value,
-    model: MODEL_NAME,
-  }
-
-  isLoading.tableData = true
-  sharedService.sortBulk(payload).then(res => {
-    console.log(res)
-    toast.success(res.data.message)
-    onReloadData()
-  }).catch(() => {
-    isLoading.tableData = false
-  })
-}
-
-// #endregion
 </script>
 
 <template>
@@ -249,7 +128,7 @@ function sortItems(target_id: number) {
       />
       <VDataTableServer
         v-model="selectedItems"
-        v-loading="isLoading.tableData"
+        v-loading="IsLoadingData"
         :headers="headers"
         :items="tableData"
         show-select

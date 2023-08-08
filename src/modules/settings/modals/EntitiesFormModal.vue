@@ -73,7 +73,7 @@ if (props.activeItem)
 // #endregion
 function edit() {
   console.log('edit', formData)
-  entitiesService.editEntity(formData).then(res => {
+  entitiesService.editItem(formData).then(res => {
     console.log(res)
 
     // emit('editItem', res.data)
@@ -86,7 +86,7 @@ function edit() {
 
 function create() {
   console.log('create', formData)
-  entitiesService.createEntity(formData).then(res => {
+  entitiesService.createItem(formData).then(res => {
     console.log(res)
     emit('createItem', res.data)
   }).finally(() => {
