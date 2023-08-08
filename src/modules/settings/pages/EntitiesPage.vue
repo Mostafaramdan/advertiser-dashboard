@@ -200,13 +200,10 @@ getPageData()
         </template>
 
         <template #bottom>
-          <VPagination
-            v-if="metaData && metaData.last_page > 1"
-            v-model="params.page"
-            total-visible="4"
-            :length="metaData.last_page"
-            class="pt-5 pb-0"
-            @update:model-value="getPageData"
+          <PagePagination
+            v-model:page="params.page"
+            :meta-data="metaData"
+            :get-page-data="getPageData"
           />
         </template>
       </VDataTableServer>

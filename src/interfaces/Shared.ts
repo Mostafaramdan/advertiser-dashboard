@@ -24,3 +24,10 @@ export interface PageActionsProps {
   showMultiDelete?: boolean
   showMultiActivate?: boolean
 }
+
+// for pagination component
+export interface PagePaginationProps {
+  page: number
+  metaData: MetaData | null
+  getPageData: () => void
+}
