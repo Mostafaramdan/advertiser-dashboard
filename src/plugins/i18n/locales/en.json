@@ -182,5 +182,9 @@
     "edit": "Edit",
     "confirm": "Confirm",
     "save": "Save"
+  },
+  "general": {
+    "no_data": "There is no data to display",
+    "loading": "Loading..."
   }
 }

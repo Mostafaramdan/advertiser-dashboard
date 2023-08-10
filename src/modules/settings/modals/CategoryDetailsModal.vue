@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'
-import type { Entity } from '../interfaces/Entity'
+import type { Category } from '../interfaces/Category'
+import { CATEGORY_TYPES } from '@/constants/settings'
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
 // #region Props
 interface EntitiesFormModalProps {
   showModal: boolean
-  activeItem: Entity | null
+  activeItem: Category | null
 }
 
 const props = withDefaults(defineProps<EntitiesFormModalProps>(), {
@@ -59,21 +60,37 @@ const showModal = useVModel(props, 'showModal', emit)
 
     <!-- Dialog Content -->
     <VCard>
-      <VCard v-if="activeItem" title="عرض كيان">
+      <VCard v-if="activeItem" title="عرض نشاط">
         <VCardText>
           <VList :lines="false">
             <VListItem
               class="px-2 py-2"
-              title="اسم الكيان بالعربي"
+              title="اسم النشاط بالعربي"
               :subtitle="activeItem.name.ar"
               border
             />
             <VListItem
               class="px-2 py-2"
-              title="اسم الكيان بالانجليزي"
+              title="اسم النشاط بالانجليزي"
               :subtitle="activeItem.name.en"
               border
             />
+            <VListItem
+              class="px-2 py-2"
+              title="النوع"
+              border
+            >
+              <VChip
+                v-for="type in (activeItem.type as unknown)"
+                :key="type"
+                class="my-2 text-center"
+                color="primary"
+                variant="outlined"
+                label
+              >
+                {{ CATEGORY_TYPES[type] }}
+              </VChip>
+            </VListItem>
           </VList>
           <AppSwitch
             :model-value="activeItem.blocked_at"

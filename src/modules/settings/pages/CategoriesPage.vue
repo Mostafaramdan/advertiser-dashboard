@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { Entity } from '../interfaces/Entity'
-import EntitiesFormModal from '../modals/EntitiesFormModal.vue'
-import EntityDetailsModal from '../modals/EntityDetailsModal.vue'
-import { entitiesService } from '../services/EntitiesService'
+import type { Category } from '../interfaces/Category'
+import CategoriesFormModal from '../modals/CategoriesFormModal.vue'
+import CategoryDetailsModal from '../modals/CategoryDetailsModal.vue'
+import { categoriesService } from '../services/CategoriesService'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { pageAction } from '@/interfaces/Shared'
+import { CATEGORY_TYPES } from '@/constants/settings'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
@@ -14,7 +15,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'entities'
+const MODEL_NAME = 'categories'
 
 const params = reactive({
   page: 1,
@@ -43,7 +44,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<Entity>(entitiesService, params, MODEL_NAME)
+} = UseCrudHelpers<Category>(categoriesService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -57,6 +58,10 @@ const headers: any = [
   {
     title: 'الاسم انجليزي',
     key: 'name.en',
+  },
+  {
+    title: 'النوع',
+    key: 'type',
   },
   {
     title: 'الحالة',
@@ -76,10 +81,10 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('Create Entity'),
-  edit: hasPermission('Edit Entity'),
-  delete: hasPermission('Delete Entity'),
-  changeStatus: hasPermission('ChangeStatus Entity'),
+  create: hasPermission('Create Category'),
+  edit: hasPermission('Edit Category'),
+  delete: hasPermission('Delete Category'),
+  changeStatus: hasPermission('ChangeStatus Category'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -105,16 +110,16 @@ getPageData()
 
 <template>
   <ConfirmModal ref="confirmModal" />
-  <EntitiesFormModal
+  <CategoriesFormModal
     v-if="showFormModal"
     v-model:showModal="showFormModal"
     :form-action="FormAction"
     :active-item="activeItem"
-    @create-item="onCreateItem"
     @edit-item="onEditItem"
+    @create-item="onCreateItem"
   />
-  <EntityDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
-  <VCard title="الكيانات" class="page-card">
+  <CategoryDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+  <VCard title="النشاطات" class="page-card">
     <VCardText>
       <PageActions
         :page-actions-buttons="pageActionsButtons"
@@ -148,6 +153,21 @@ getPageData()
             {{ item.raw.name.en }}
           </span>
         </template>
+
+        <template #item.type="{ item }">
+          <div class="d-flex gap-2">
+            <VChip
+              v-for="type in (item.raw.type as unknown)"
+              :key="type"
+              variant="outlined"
+              color="primary"
+              label
+            >
+              {{ CATEGORY_TYPES[type] }}
+            </VChip>
+          </div>
+        </template>
+
         <template #item.blocked_at="{ item }">
           <ToggleActivationSwitch
             :id="item.raw.id"
