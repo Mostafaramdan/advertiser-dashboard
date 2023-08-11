@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { Category } from '../interfaces/Category'
-import CategoryDetailsModal from '../modals/CategoryDetailsModal.vue'
-import CategoryFormModal from '../modals/CategoryFormModal.vue'
-import { categoriesService } from '../services/CategoriesService'
+import type { Channel } from '../interfaces/Channel'
+import ChannelDetailsModal from '../modals/ChannelDetailsModal.vue'
+import ChannelFormModal from '../modals/ChannelFormModal.vue'
+import { channelsService } from '../services/ChannelsService'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { pageAction } from '@/interfaces/Shared'
-import { CATEGORY_TYPES } from '@/constants/settings'
+import { CHANNEL_TYPES } from '@/constants/settings'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
@@ -15,7 +15,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'categories'
+const MODEL_NAME = 'channels'
 
 const params = reactive({
   page: 1,
@@ -44,7 +44,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<Category>(categoriesService, params, MODEL_NAME)
+} = UseCrudHelpers<Channel>(channelsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -60,8 +60,14 @@ const headers: any = [
     key: 'name.en',
   },
   {
+    title: 'نسبة المتابعين',
+    key: 'followers_percentage',
+    align: 'center',
+  },
+  {
     title: 'النوع',
-    key: 'type',
+    key: 'channel_type',
+    align: 'center',
   },
   {
     title: 'الحالة',
@@ -81,10 +87,10 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('Create Category'),
-  edit: hasPermission('Edit Category'),
-  delete: hasPermission('Delete Category'),
-  changeStatus: hasPermission('ChangeStatus Category'),
+  create: hasPermission('Create Channel'),
+  edit: hasPermission('Edit Channel'),
+  delete: hasPermission('Delete Channel'),
+  changeStatus: hasPermission('ChangeStatus Channel'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -110,7 +116,7 @@ getPageData()
 
 <template>
   <ConfirmModal ref="confirmModal" />
-  <CategoryFormModal
+  <ChannelFormModal
     v-if="showFormModal"
     v-model:showModal="showFormModal"
     :form-action="FormAction"
@@ -118,8 +124,8 @@ getPageData()
     @edit-item="onEditItem"
     @create-item="onCreateItem"
   />
-  <CategoryDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
-  <VCard title="النشاطات" class="page-card">
+  <ChannelDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+  <VCard title="القنوات" class="page-card">
     <VCardText>
       <PageActions
         :page-actions-buttons="pageActionsButtons"
@@ -144,9 +150,23 @@ getPageData()
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.name.ar="{ item }">
-          <span>
-            {{ item.raw.name.ar }}
-          </span>
+          <div class="d-flex align-center">
+            <VAvatar
+              size="38"
+              variant="tonal"
+              class="me-3"
+              cover
+            >
+              <VImg
+                v-if="item.raw.image"
+                :src="item.raw.image.path"
+              />
+              <span v-else>!</span>
+            </VAvatar>
+            <span>
+              {{ item.raw.name.ar }}
+            </span>
+          </div>
         </template>
         <template #item.name.en="{ item }">
           <span>
@@ -154,18 +174,14 @@ getPageData()
           </span>
         </template>
 
-        <template #item.type="{ item }">
-          <div class="d-flex gap-2">
-            <VChip
-              v-for="type in (item.raw.type as unknown)"
-              :key="type"
-              variant="outlined"
-              color="primary"
-              label
-            >
-              {{ CATEGORY_TYPES[type] }}
-            </VChip>
-          </div>
+        <template #item.channel_type="{ item }">
+          <VChip
+            variant="outlined"
+            color="primary"
+            label
+          >
+            {{ CHANNEL_TYPES[item.raw.channel_type as 1 | 2] }}
+          </VChip>
         </template>
 
         <template #item.blocked_at="{ item }">
@@ -239,6 +255,10 @@ getPageData()
 
   span {
     @include max-lines(2);
+  }
+
+  .v-img__img--contain {
+    object-fit: cover;
   }
 }
 </style>

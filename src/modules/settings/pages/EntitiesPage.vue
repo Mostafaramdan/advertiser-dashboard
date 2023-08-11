@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { Entity } from '../interfaces/Entity'
-import EntitiesFormModal from '../modals/EntitiesFormModal.vue'
 import EntityDetailsModal from '../modals/EntityDetailsModal.vue'
+import EntityFormModal from '../modals/EntityFormModal.vue'
 import { entitiesService } from '../services/EntitiesService'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { pageAction } from '@/interfaces/Shared'
@@ -105,7 +105,7 @@ getPageData()
 
 <template>
   <ConfirmModal ref="confirmModal" />
-  <EntitiesFormModal
+  <EntityFormModal
     v-if="showFormModal"
     v-model:showModal="showFormModal"
     :form-action="FormAction"

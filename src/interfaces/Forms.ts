@@ -2,6 +2,7 @@ export interface FormInputProps {
   modelValue: any
   name: string
   rules?: string
+  hideDefaultLabel?: boolean
 }
 
 export interface FormRadioProps {
@@ -35,6 +36,8 @@ export interface FormFileProps {
   acceptedTypes?: string[]
   maxFileSize?: number
   uploadTip?: string
+  width?: string
+  height?: string
 }
 
 export interface FormSwitchProps {
@@ -46,3 +49,9 @@ export interface FormSwitchProps {
 }
 
 export type FormActionType = 'create' | 'edit' | 'delete' | 'view'
+
+export interface FormModalProps {
+  showModal: boolean
+  activeItem: any
+  formAction?: FormActionType
+}

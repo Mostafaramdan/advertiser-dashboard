@@ -31,3 +31,19 @@ export interface PagePaginationProps {
   metaData: MetaData | null
   getPageData: () => void
 }
+
+// File
+export interface File {
+  id: number
+  file_type: string
+  file_id: number
+  path: string
+  thumbnail: string
+  type: string
+  size: string
+  name: string
+  mimetype: string
+  info?: string
+  created_at: string
+  updated_at: string
+}

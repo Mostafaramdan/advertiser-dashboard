@@ -1,21 +1,15 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'
 import type { Entity } from '../interfaces/Entity'
-import { categoriesService } from '../services/CategoriesService'
-import { CATEGORY_TYPES_OPTIONS } from '@/constants/settings'
+import { entitiesService } from '../services/EntitiesService'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { cloneItem } from '@/helpers/index'
-import type { FormActionType } from '@/interfaces/Forms'
+
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
 // #region Props
-interface EntitiesFormModalProps {
-  showModal: boolean
-  formAction: FormActionType
-  activeItem: Entity | null
-}
-
-const props = withDefaults(defineProps<EntitiesFormModalProps>(), {
+const props = withDefaults(defineProps<FormModalProps>(), {
   showModal: false,
 })
 
@@ -47,7 +41,6 @@ const formData = reactive({
     ar: '',
     en: '',
   },
-  type: [],
   blocked_at: true,
 })
 
@@ -59,8 +52,8 @@ const formData = reactive({
 // #region Computed
 const formTitle = computed(() => {
   return props.formAction === 'create'
-    ? 'اضافة نشاط'
-    : props.formAction === 'edit' ? 'تعديل نشاط' : 'عرض نشاط'
+    ? 'اضافة كيان'
+    : props.formAction === 'edit' ? 'تعديل كيان' : 'عرض كيان'
 })
 
 // #endregion
@@ -75,7 +68,7 @@ if (props.activeItem)
 // #endregion
 function edit() {
   console.log('edit', formData)
-  categoriesService.editItem(formData).then(res => {
+  entitiesService.editItem(formData).then(res => {
     console.log(res)
 
     // emit('editItem', res.data)
@@ -88,7 +81,7 @@ function edit() {
 
 function create() {
   console.log('create', formData)
-  categoriesService.createItem(formData).then(res => {
+  entitiesService.createItem(formData).then(res => {
     console.log(res)
     emit('createItem', res.data)
   }).finally(() => {
@@ -114,6 +107,7 @@ const submit = () => {
     max-width="600"
     persistent
     scrollable
+    class="form-modal"
   >
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
@@ -127,7 +121,7 @@ const submit = () => {
               <VCol cols="12">
                 <AppTextField
                   v-model="formData.name.ar"
-                  label="اسم النشاط بالعربي"
+                  label="اسم الكيان بالعربي"
                   name="name.ar"
                   rules="required|min:3"
                 />
@@ -135,20 +129,9 @@ const submit = () => {
               <VCol cols="12">
                 <AppTextField
                   v-model="formData.name.en"
-                  label="اسم النشاط بالانجليزي"
+                  label="اسم الكيان بالانجليزي"
                   name="name.en"
                   rules="required|min:3"
-                />
-              </VCol>
-              <VCol>
-                <AppCheckbox
-                  v-model="formData.type"
-                  :options="CATEGORY_TYPES_OPTIONS"
-                  name="type"
-                  label="النوع"
-                  rules="required"
-                  option-label="label"
-                  option-value="value"
                 />
               </VCol>
               <VCol cols="12">

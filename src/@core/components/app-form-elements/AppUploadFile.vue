@@ -14,6 +14,8 @@ const props = withDefaults(defineProps<FormFileProps>(), {
   hideLabel: false,
   maxFileSize: 10,
   uploadTip: '',
+  width: '180px',
+  height: '180px',
 
   // acceptedTypes: () => ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/webm'],
 
@@ -195,7 +197,7 @@ function cancelUpload() {
       class="mb-1 text-body-2 text-high-emphasis"
       :text="label"
     />
-    <div class="upload-container">
+    <div class="upload-container" :style="{ width, height }">
       <div v-if="fileInfo" class="preview-box">
         <img v-if="fileInfo.type === FILES_TYPES.image" :src="fileInfo.path">
         <video v-else-if="fileInfo.type === FILES_TYPES.video" :src="fileInfo.path" controls />
@@ -273,8 +275,6 @@ function cancelUpload() {
 .upload-container {
   position: relative;
   background: rgba(var(--v-theme-grey-100), 100%);
-  block-size: 180px;
-  inline-size: 180px;
 
   .preview-box {
     block-size: 100%;
@@ -361,7 +361,6 @@ function cancelUpload() {
     inset-inline-start: 0;
     padding-inline: 10px;
     text-align: center;
-    word-break: break-all;
 
     svg {
       display: block;
@@ -383,4 +382,3 @@ function cancelUpload() {
   }
 }
 </style>
-@/helpers/file

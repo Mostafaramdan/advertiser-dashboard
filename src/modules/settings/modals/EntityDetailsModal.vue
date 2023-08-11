@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'
-import type { Entity } from '../interfaces/Entity'
+import type { FormModalProps } from '@/interfaces/Forms'
+
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
 // #region Props
-interface EntitiesFormModalProps {
-  showModal: boolean
-  activeItem: Entity | null
-}
-
-const props = withDefaults(defineProps<EntitiesFormModalProps>(), {
+const props = withDefaults(defineProps<FormModalProps>(), {
   showModal: false,
 })
 
@@ -53,35 +49,39 @@ const showModal = useVModel(props, 'showModal', emit)
   <VDialog
     v-model="showModal"
     max-width="600"
+    scrollable
+    class="details-modal"
   >
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
     <!-- Dialog Content -->
     <VCard>
-      <VCard v-if="activeItem" title="عرض كيان">
-        <VCardText>
-          <VList :lines="false">
-            <VListItem
-              class="px-2 py-2"
-              title="اسم الكيان بالعربي"
-              :subtitle="activeItem.name.ar"
-              border
+      <div>
+        <VCard v-if="activeItem" title="عرض كيان">
+          <VCardText>
+            <VList :lines="false">
+              <VListItem
+                class="px-2 py-2"
+                title="اسم الكيان بالعربي"
+                :subtitle="activeItem.name.ar"
+                border
+              />
+              <VListItem
+                class="px-2 py-2"
+                title="اسم الكيان بالانجليزي"
+                :subtitle="activeItem.name.en"
+                border
+              />
+            </VList>
+            <AppSwitch
+              :model-value="activeItem.blocked_at"
+              label="الحالة"
+              name="blocked_at"
             />
-            <VListItem
-              class="px-2 py-2"
-              title="اسم الكيان بالانجليزي"
-              :subtitle="activeItem.name.en"
-              border
-            />
-          </VList>
-          <AppSwitch
-            :model-value="activeItem.blocked_at"
-            label="الحالة"
-            name="blocked_at"
-          />
-        </VCardText>
-      </VCard>
+          </VCardText>
+        </VCard>
+      </div>
     </VCard>
   </VDialog>
 </template>

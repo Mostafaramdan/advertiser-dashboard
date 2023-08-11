@@ -73,6 +73,11 @@ const navItems = computed(() => {
           to: { name: 'categories-settings' },
           show: canAccessPage('Entity'),
         },
+        {
+          title: 'القنوات',
+          to: { name: 'channels-settings' },
+          show: canAccessPage('Channel'),
+        },
       ],
     },
 

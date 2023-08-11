@@ -16,6 +16,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'channels',
+    name: 'channels-settings',
+    component: () => import('./pages/ChannelsPage.vue'),
+    meta: {
+      requiredAccess: 'Channel',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/index.vue'),
