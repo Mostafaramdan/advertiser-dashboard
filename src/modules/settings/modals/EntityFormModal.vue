@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'
+import { useToast } from 'vue-toastification'
 import type { Entity } from '../interfaces/Entity'
 import { entitiesService } from '../services/EntitiesService'
 import type { FormModalProps } from '@/interfaces/Forms'
@@ -32,6 +33,7 @@ const emit = defineEmits<{
  **************************************/
 // #region Variables
 const { t } = useI18n()
+const toast = useToast()
 const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
@@ -67,9 +69,8 @@ if (props.activeItem)
 
 // #endregion
 function edit() {
-  console.log('edit', formData)
   entitiesService.editItem(formData).then(res => {
-    console.log(res)
+    toast.success(res.data.message)
 
     // emit('editItem', res.data)
     emit('editItem', formData)
@@ -80,9 +81,8 @@ function edit() {
 }
 
 function create() {
-  console.log('create', formData)
   entitiesService.createItem(formData).then(res => {
-    console.log(res)
+    toast.success(res.data.message)
     emit('createItem', res.data)
   }).finally(() => {
     isLoading.value = false
