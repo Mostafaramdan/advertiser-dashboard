@@ -11,6 +11,7 @@
     &__title {
       display: flex;
       align-items: flex-start;
+      margin-block-start: 8px;
 
       span {
         padding: 5px;
@@ -26,7 +27,7 @@
     }
   }
 
-  .v-label:not(.v-field-label--floating) {
+  .v-label.text-body-2 {
     display: none;
   }
 
@@ -53,5 +54,11 @@
     .v-field {
       inline-size: 60px;
     }
+  }
+
+  .v-switch {
+    margin-block-start: 5px;
+    padding-block: 0;
+    padding-inline: 5px;
   }
 }

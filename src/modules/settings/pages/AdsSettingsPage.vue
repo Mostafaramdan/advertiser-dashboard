@@ -59,6 +59,7 @@ function saveData(modifiedData: SettingsListItem[]) {
   isLoading.submit = true
   adsService.editData({ data: modifiedData }).then(res => {
     toast.success(res.data.message)
+    oldData.value = cloneItem(data.value)
   }).finally(() => {
     isLoading.submit = false
   })
@@ -88,7 +89,7 @@ function submit() {
             :key="item.id"
             class="setting-list__item v-row"
           >
-            <div class="py-0 mb-4 mb-md-0 v-col-12 v-col-md-6">
+            <div class="py-0 mb-4 mb-md-0 v-col-12" :class="item.has_input && !item.has_radio ? 'v-col-md-6' : 'v-col-md-10'">
               <div class="setting-list__item__title">
                 <span>{{ item.id }}</span>
                 {{ item.name }}
@@ -104,7 +105,7 @@ function submit() {
                 rules="required|numeric|min_value:0"
                 label="هذ الحقل"
               >
-                <template #append>
+                <template v-if="item.value_key" #append>
                   {{ item.value_key }}
                 </template>
               </AppTextField>
