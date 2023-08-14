@@ -61,3 +61,24 @@
     display: none;
   }
 }
+
+// tabs
+.v-tabs {
+  &.v-tabs-pill {
+    .v-slide-group__content {
+      gap: 5px;
+    }
+
+    .v-tab.v-btn {
+      transition: all 0.3s;
+
+      &:not(.v-tab--selected) {
+        background: rgba(var(--v-theme-grey-300), 0.7);
+
+        &:hover {
+          background: rgba(var(--v-theme-primary), 0.3);
+        }
+      }
+    }
+  }
+}

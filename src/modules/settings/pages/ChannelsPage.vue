@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { Entity } from '../interfaces/Entity'
-import EntityDetailsModal from '../modals/EntityDetailsModal.vue'
-import EntityFormModal from '../modals/EntityFormModal.vue'
-import { entitiesService } from '../services/EntitiesService'
+import type { Channel } from '../interfaces/Channel'
+import ChannelDetailsModal from '../modals/ChannelDetailsModal.vue'
+import ChannelFormModal from '../modals/ChannelFormModal.vue'
+import { channelsService } from '../services/ChannelsService'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { pageAction } from '@/interfaces/Shared'
+import { CHANNEL_TYPES } from '@/constants/settings'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
@@ -14,7 +15,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'entities'
+const MODEL_NAME = 'channels'
 
 const params = reactive({
   page: 1,
@@ -43,7 +44,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<Entity>(entitiesService, params, MODEL_NAME)
+} = UseCrudHelpers<Channel>(channelsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -57,6 +58,16 @@ const headers: any = [
   {
     title: 'الاسم انجليزي',
     key: 'name.en',
+  },
+  {
+    title: 'نسبة المتابعين',
+    key: 'followers_percentage',
+    align: 'center',
+  },
+  {
+    title: 'النوع',
+    key: 'channel_type',
+    align: 'center',
   },
   {
     title: 'الحالة',
@@ -76,10 +87,10 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('Create Entity'),
-  edit: hasPermission('Edit Entity'),
-  delete: hasPermission('Delete Entity'),
-  changeStatus: hasPermission('ChangeStatus Entity'),
+  create: hasPermission('Create Channel'),
+  edit: hasPermission('Edit Channel'),
+  delete: hasPermission('Delete Channel'),
+  changeStatus: hasPermission('ChangeStatus Channel'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -105,16 +116,16 @@ getPageData()
 
 <template>
   <ConfirmModal ref="confirmModal" />
-  <EntityFormModal
+  <ChannelFormModal
     v-if="showFormModal"
     v-model:showModal="showFormModal"
     :form-action="FormAction"
     :active-item="activeItem"
-    @create-item="onCreateItem"
     @edit-item="onEditItem"
+    @create-item="onCreateItem"
   />
-  <EntityDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
-  <VCard title="الكيانات" class="page-card">
+  <ChannelDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+  <VCard title="القنوات" class="page-card">
     <VCardText>
       <PageActions
         :page-actions-buttons="pageActionsButtons"
@@ -139,15 +150,40 @@ getPageData()
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.name.ar="{ item }">
-          <span>
-            {{ item.raw.name.ar }}
-          </span>
+          <div class="d-flex align-center">
+            <VAvatar
+              size="38"
+              variant="tonal"
+              class="me-3"
+              cover
+            >
+              <VImg
+                v-if="item.raw.image"
+                :src="item.raw.image.path"
+              />
+              <span v-else>!</span>
+            </VAvatar>
+            <span>
+              {{ item.raw.name.ar }}
+            </span>
+          </div>
         </template>
         <template #item.name.en="{ item }">
           <span>
             {{ item.raw.name.en }}
           </span>
         </template>
+
+        <template #item.channel_type="{ item }">
+          <VChip
+            variant="outlined"
+            color="primary"
+            label
+          >
+            {{ CHANNEL_TYPES[item.raw.channel_type as 1 | 2] }}
+          </VChip>
+        </template>
+
         <template #item.blocked_at="{ item }">
           <ToggleActivationSwitch
             :id="item.raw.id"
@@ -219,6 +255,10 @@ getPageData()
 
   span {
     @include max-lines(2);
+  }
+
+  .v-img__img--contain {
+    object-fit: cover;
   }
 }
 </style>

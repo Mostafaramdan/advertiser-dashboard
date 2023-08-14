@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'
+import { CHANNEL_TYPES } from '@/constants/settings'
 import type { FormModalProps } from '@/interfaces/Forms'
 
 /***************************************
@@ -58,21 +59,41 @@ const showModal = useVModel(props, 'showModal', emit)
     <!-- Dialog Content -->
     <VCard>
       <div>
-        <VCard v-if="activeItem" title="عرض كيان">
+        <VCard v-if="activeItem" title="عرض قناة">
           <VCardText>
             <VList :lines="false">
               <VListItem
                 class="px-2 py-2"
-                title="اسم الكيان بالعربي"
+                title="اسم القناة بالعربي"
                 :subtitle="activeItem.name.ar"
                 border
               />
               <VListItem
                 class="px-2 py-2"
-                title="اسم الكيان بالانجليزي"
+                title="اسم القناة بالانجليزي"
                 :subtitle="activeItem.name.en"
                 border
               />
+              <VListItem
+                class="px-2 py-2"
+                title="نسبة المتابعين"
+                :subtitle="activeItem.followers_percentage || 0"
+                border
+              />
+              <VListItem
+                class="px-2 py-2"
+                title="النوع"
+                border
+              >
+                <VChip
+                  class="text-center mt-2"
+                  color="primary"
+                  variant="outlined"
+                  label
+                >
+                  {{ CHANNEL_TYPES[activeItem.channel_type] }}
+                </VChip>
+              </VListItem>
             </VList>
             <AppSwitch
               :model-value="activeItem.blocked_at"

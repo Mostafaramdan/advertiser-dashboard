@@ -34,11 +34,81 @@ const navItems = computed(() => {
       title: 'الاعدادات',
       icon: { icon: 'tabler-settings' },
       show: canAccessPage('Settings'),
+      to: null,
       children: [
+        {
+          title: 'اعدادات حساب المنصة',
+          show: canAccessPage('Entity'),
+          to: null,
+          children: [
+            {
+              title: 'بيانات المنصة',
+              to: { name: 'platform-settings-details' },
+              show: canAccessPage('Entity'),
+            },
+            {
+              title: 'حسابات التواصل',
+              to: { name: 'social-accounts-settings' },
+              show: canAccessPage('Entity'),
+            },
+            {
+              title: 'دوام المنصة',
+              to: { name: 'work-time-settings' },
+              show: canAccessPage('Entity'),
+            },
+            {
+              title: 'طرق الدفع',
+              to: { name: 'payment-methods-settings' },
+              show: canAccessPage('Entity'),
+            },
+          ],
+        },
         {
           title: 'الكيانات',
           to: { name: 'entities-settings' },
           show: canAccessPage('Entity'),
+        },
+        {
+          title: 'النشاطات',
+          to: { name: 'categories-settings' },
+          show: canAccessPage('Entity'),
+        },
+        {
+          title: 'القنوات',
+          to: { name: 'channels-settings' },
+          show: canAccessPage('Channel'),
+        },
+        {
+          title: 'اعدادات التشغيل',
+          to: { name: 'ads-settings' },
+          show: canAccessPage('AdSettings'),
+        },
+        {
+          title: 'الإعدادات المالية',
+          show: canAccessPage('Entity'),
+          to: null,
+          children: [
+            {
+              title: 'اعدادت الحسابات',
+              to: { name: 'accounts-settings' },
+              show: canAccessPage('Entity'),
+            },
+            {
+              title: 'شرائح عمولة الدفع',
+              to: { name: 'payment-commission-settings' },
+              show: canAccessPage('Entity'),
+            },
+            {
+              title: 'اعدادت النقاط',
+              to: { name: 'points-settings' },
+              show: canAccessPage('Entity'),
+            },
+            {
+              title: 'اعدادت الضريبة',
+              to: { name: 'tax-settings' },
+              show: canAccessPage('Entity'),
+            },
+          ],
         },
       ],
     },

@@ -25,6 +25,10 @@ const pageTitle = computed(() => {
   return +status === 401 ? t('errors.you_are_not_authorized') : t('errors.something_went_wrong')
 })
 
+const pageDescription = computed(() => {
+  return message ? t(message) : ''
+})
+
 // #endregion
 
 /***************************************
@@ -41,7 +45,7 @@ if (message || status)
 
 <template>
   <div class="misc-wrapper">
-    <ErrorHeader :error-title="pageTitle" :error-description="t(message)" />
+    <ErrorHeader :error-title="pageTitle" :error-description="pageDescription" />
     <VBtn to="/" class="mb-12">
       {{ t("links.back_to_home") }}
     </VBtn>

@@ -1,0 +1,57 @@
+.setting-list {
+  &__item {
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-block: 10px;
+
+    &:not(:last-of-type) {
+      border-block-end: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+    }
+
+    &__title {
+      display: flex;
+      align-items: flex-start;
+
+      span {
+        padding: 5px;
+        border: 1px solid rgb(var(--v-theme-primary), 1);
+        color: rgba(var(--v-theme-primary), 1);
+        font-size: 14px;
+        line-height: 1;
+        margin-inline-end: 10px;
+        min-inline-size: 25px;
+        text-align: center;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .v-label:not(.v-field-label--floating) {
+    display: none;
+  }
+
+  .v-input {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 10px;
+
+    .v-input__details {
+      inline-size: 100%;
+    }
+
+    .v-field__input {
+      text-align: center;
+    }
+
+    .v-input__append {
+      margin: 0;
+      inline-size: calc(100% - 70px);
+      padding-block-start: 0;
+    }
+
+    .v-field {
+      inline-size: 60px;
+    }
+  }
+}

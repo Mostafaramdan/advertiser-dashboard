@@ -118,10 +118,10 @@ export function UseCrudHelpers<ItemType>(
 
   /**
    * @description reload data on create item
-   * @param  {ItemType} item
+   * @param  {any} item
    * @return  {void}
    */
-  function onCreateItem(item: ItemType): void {
+  function onCreateItem(item: any): void {
     console.log('created', item)
 
     reloadPageData()
