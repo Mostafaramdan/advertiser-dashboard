@@ -1,7 +1,7 @@
 export interface FormInputProps {
   modelValue: any
   name: string
-  rules?: string
+  rules?: string | object
   hideDefaultLabel?: boolean
 }
 
