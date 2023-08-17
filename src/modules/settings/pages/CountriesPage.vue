@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { Entity } from '../interfaces/Entity'
-import EntityDetailsModal from '../modals/EntityDetailsModal.vue'
-import EntityFormModal from '../modals/EntityFormModal.vue'
-import { entitiesService } from '../services/EntitiesService'
+import type { Country } from '../interfaces/Country'
+import CountryDetailsModal from '../modals/CountryDetailsModal.vue'
+import { countriesService } from '../services/CountriesService'
 import { useAuthStore } from '@/stores/AuthStore'
-import type { pageAction } from '@/interfaces/Shared'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
@@ -13,8 +11,8 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
  **************************************/
 // #region Variables
 const { t } = useI18n()
-const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'entities'
+const { hasPermission, canAccessPage } = useAuthStore()
+const MODEL_NAME = 'countries'
 
 const params = reactive({
   page: 1,
@@ -26,9 +24,7 @@ const {
   selectedItems,
   tableData,
   metaData,
-  showFormModal,
   showDetailsModal,
-  FormAction,
   activeItem,
   confirmModal,
   IsLoadingData,
@@ -36,14 +32,9 @@ const {
   onReloadData,
   onChangeItemsPerPage,
   onChangeSearch,
-  showCrateModal,
-  showEditModal,
   showViewModal,
-  onEditItem,
-  onCreateItem,
-  showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<Entity>(entitiesService, params, MODEL_NAME)
+} = UseCrudHelpers<Country>(countriesService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -57,6 +48,16 @@ const headers: any = [
   {
     title: 'الاسم انجليزي',
     key: 'name.en',
+  },
+  {
+    title: 'رمز الدولة',
+    key: 'iso_name',
+    align: 'center',
+  },
+  {
+    title: 'عدد المناطق',
+    key: 'areas_count',
+    align: 'center',
   },
   {
     title: 'الحالة',
@@ -76,22 +77,9 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_entity'),
-  edit: hasPermission('update_entity'),
-  delete: hasPermission('delete_entity'),
-  changeStatus: hasPermission('change_status_entity'),
-  sort: hasPermission('sort_entity'),
+  changeStatus: hasPermission('change_status_country'),
+  sort: hasPermission('sort_country'),
 }))
-
-const pageActionsButtons = computed<pageAction[]>(() => {
-  return [
-    {
-      icon: 'tabler-plus',
-      show: permissions.value.create as boolean,
-      handler: showCrateModal,
-    },
-  ]
-})
 
 // #endregion
 
@@ -106,21 +94,11 @@ getPageData()
 
 <template>
   <ConfirmModal ref="confirmModal" />
-  <EntityFormModal
-    v-if="showFormModal"
-    v-model:showModal="showFormModal"
-    :form-action="FormAction"
-    :active-item="activeItem"
-    @create-item="onCreateItem"
-    @edit-item="onEditItem"
-  />
-  <EntityDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
-  <VCard title="الكيانات" class="page-card">
+  <CountryDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+  <VCard title="الدول" class="page-card">
     <VCardText>
       <PageActions
-        :page-actions-buttons="pageActionsButtons"
         :items-per-page="params.itemPerPage"
-        :show-multi-delete="permissions.delete"
         :show-multi-activate="permissions.changeStatus"
         :model="MODEL_NAME"
         :selected-items="selectedItems"
@@ -140,12 +118,33 @@ getPageData()
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.name.ar="{ item }">
-          <span>
-            {{ item.raw.name.ar }}
-          </span>
+          <a
+            :href="item.raw.google_map"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="d-inline-flex align-center"
+            style="min-width: 120px;"
+          >
+            <VAvatar
+              size="38"
+              variant="tonal"
+              class="me-3"
+              cover
+            >
+              <VImg
+                v-if="item.raw.image"
+                :src="item.raw.image"
+                cover
+              />
+              <span v-else>!</span>
+            </VAvatar>
+            <span>
+              {{ item.raw.name.ar }}
+            </span>
+          </a>
         </template>
         <template #item.name.en="{ item }">
-          <span>
+          <span style="min-width: 120px;">
             {{ item.raw.name.en }}
           </span>
         </template>
@@ -160,12 +159,8 @@ getPageData()
 
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete">
-              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item.raw)" />
-            </IconBtn>
-
-            <IconBtn :disabled="!permissions.edit">
-              <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
+            <IconBtn>
+              <VIcon icon="tabler-eye" @click="showViewModal(item.raw)" />
             </IconBtn>
 
             <VBtn
@@ -181,12 +176,13 @@ getPageData()
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem @click="showViewModal(item.raw)">
+                  <!-- TODO: Add Correct page -->
+                  <VListItem v-if="canAccessPage('countries')">
                     <template #prepend>
-                      <VIcon icon="tabler-eye" />
+                      <VIcon icon="tabler-view-360" />
                     </template>
 
-                    <VListItemTitle>عرض</VListItemTitle>
+                    <VListItemTitle>عرض المناطق</VListItemTitle>
                   </VListItem>
 
                   <VListItem v-if="permissions.sort" :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="sortItems(item.raw.id)">

@@ -80,6 +80,11 @@ const navItems = computed(() => {
           ],
         },
         {
+          title: 'الدول',
+          to: { name: 'countries-settings' },
+          show: canAccessPage('countries'),
+        },
+        {
           title: 'الكيانات',
           to: { name: 'entities-settings' },
           show: canAccessPage('entities'),

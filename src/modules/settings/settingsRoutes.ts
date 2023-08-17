@@ -1,5 +1,13 @@
 export const settingsRoutes = [
   {
+    path: 'countries',
+    name: 'countries-settings',
+    component: () => import('./pages/CountriesPage.vue'),
+    meta: {
+      requiredAccess: 'countries',
+    },
+  },
+  {
     path: 'entities',
     name: 'entities-settings',
     component: () => import('./pages/EntitiesPage.vue'),

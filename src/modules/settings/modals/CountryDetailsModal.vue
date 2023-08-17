@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'
-import { CATEGORY_TYPES } from '@/constants/settings'
 import type { FormModalProps } from '@/interfaces/Forms'
 
 /***************************************
@@ -27,6 +26,7 @@ const emit = defineEmits<{
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
+const { locale } = useI18n()
 const showModal = useVModel(props, 'showModal', emit)
 
 // #endregion
@@ -59,35 +59,69 @@ const showModal = useVModel(props, 'showModal', emit)
     <!-- Dialog Content -->
     <VCard>
       <div>
-        <VCard v-if="activeItem" title="عرض نشاط">
+        <VCard v-if="activeItem" title="عرض دولة">
           <VCardText>
             <VList :lines="false">
               <VListItem
+                v-if="activeItem.image"
                 class="px-2 py-2"
-                title="اسم النشاط بالعربي"
+                title="صورة القناء"
+                border
+              >
+                <a :href="activeItem.google_map" target="_blank" rel="noopener noreferrer" class="d-inline-block">
+                  <VImg
+                    :src="activeItem.image"
+                    width="100"
+                    class="my-2"
+                  />
+                </a>
+              </VListItem>
+              <VListItem
+                class="px-2 py-2"
+                title="اسم الدولة بالعربي"
                 :subtitle="activeItem.name.ar"
                 border
               />
               <VListItem
                 class="px-2 py-2"
-                title="اسم النشاط بالانجليزي"
+                title="اسم الدولة بالانجليزي"
                 :subtitle="activeItem.name.en"
+                border
+              />
+
+              <VListItem
+                class="px-2 py-2"
+                title="رمز الدولة"
+                :subtitle="activeItem.iso_name"
                 border
               />
               <VListItem
                 class="px-2 py-2"
-                title="النوع"
+                title="عدد المناطق"
+                :subtitle="activeItem.areas_count"
+                border
+              />
+              <VListItem
+                class="px-2 py-2"
+                title="مفتاح الدولة"
+                :subtitle="activeItem.phone_key"
+                border
+              />
+
+              <VListItem
+                class="px-2 py-2"
+                title="تصنيف الدولة"
                 border
               >
                 <VChip
-                  v-for="type in (activeItem.type as unknown)"
-                  :key="type"
-                  class="my-2 me-2 text-center"
+                  v-for="(item, index) in activeItem.country_categories"
+                  :key="index"
+                  class="text-center my-2 me-2"
                   color="primary"
                   variant="outlined"
                   label
                 >
-                  {{ CATEGORY_TYPES[type] }}
+                  {{ item[locale] }}
                 </VChip>
               </VListItem>
             </VList>

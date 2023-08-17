@@ -161,6 +161,7 @@ getPageData()
               <VImg
                 v-if="item.raw.image"
                 :src="item.raw.image.path"
+                cover
               />
               <span v-else>!</span>
             </VAvatar>
