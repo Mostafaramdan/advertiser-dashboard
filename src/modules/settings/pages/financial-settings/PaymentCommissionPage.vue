@@ -14,7 +14,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'payment_commission'
+const MODEL_NAME = 'payment_commissions'
 
 const params = reactive({
   page: 1,
