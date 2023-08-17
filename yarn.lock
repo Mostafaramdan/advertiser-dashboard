@@ -1076,12 +1076,7 @@
     "@vue/compiler-ssr" "3.3.4"
     "@vue/shared" "3.3.4"
 
-"@vue/shared@^3.3.0-beta.3":
-  version "3.3.0-beta.3"
-  resolved "https://registry.npmjs.org/@vue/shared/-/shared-3.3.0-beta.3.tgz"
-  integrity sha512-st1SnB/Bkbb9TsieeI4TRX9TqHYIR5wvIma3ZtEben55EYSWa1q5u2BhTNgABSdH+rv3Xwfrvpwh5PmCw6Y53g==
-
-"@vue/shared@3.3.4":
+"@vue/shared@^3.3.0-beta.3", "@vue/shared@3.3.4":
   version "3.3.4"
   resolved "https://registry.npmjs.org/@vue/shared/-/shared-3.3.4.tgz"
   integrity sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==
