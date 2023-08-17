@@ -46,7 +46,7 @@ const formData = reactive<Channel>({
     en: '',
   },
   blocked_at: true,
-  channel_type: 1,
+  channel_type: null,
   image: null,
   image_id: null,
   followers_percentage: null,
@@ -70,8 +70,10 @@ const formTitle = computed(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-if (props.activeItem)
+if (props.activeItem) {
   Object.assign(formData, cloneItem(props.activeItem))
+  formData.channel_type = formData.channel_type?.toString() as any || null
+}
 
 // #endregion
 function edit() {

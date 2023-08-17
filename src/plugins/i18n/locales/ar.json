@@ -164,7 +164,11 @@
     "confirmed": "{field} يجب أن يكون نفس الحقل السابق",
     "min_value": "{field} يجب أن يكون أكبر من أو يساوي 0:{min}",
     "max_value": "{field} يجب أن يكون أقل من أو يساوي 0:{max}",
-    "numeric": "{field} يجب أن يكون رقمًا"
+    "numeric": "{field} يجب أن يكون رقمًا",
+    "greaterThanTime": "الوقت يجب أن يكون أكبر من 0:{time}",
+    "lessThanTime": "الوقت يجب أن يكون أقل من 0:{time}",
+    "minWords": "{field} يجب أن يحتوي على 0:{min} كلمات على الأقل",
+    "validIcloud": "الرجاء إدخال حساب iCloud صالح"
   },
   "upload_tip": "يتم قبول الملفات فقط: {formats} بحد أقصى {size} ميجا بايت",
   "click_or_drag_to_add_file": "انقر أو اسحب لإضافة ملف",
@@ -185,5 +189,11 @@
   "general": {
     "no_data": "لا يوجد بيانات",
     "loading": "جار التحميل..."
+  },
+  "payment_methods": {
+    "bank": "بنك",
+    "card": "بطاقة",
+    "apple_pay": "Apple Pay",
+    "stc_pay": "STC Pay"
   }
 }

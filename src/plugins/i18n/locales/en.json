@@ -165,7 +165,11 @@
     "confirmed": "{field} must be the same as previous field",
     "min_value": "{field} must be not less than 0:{min}",
     "max_value": "{field} must be not greater than 0:{max}",
-    "numeric": "{field} must be a number"
+    "numeric": "{field} must be a number",
+    "greaterThanTime": "the time should be greater than 0:{time}",
+    "lessThanTime": "the time should be less than 0:{time}",
+    "minWords": "{field} should have at least 0:{min} words",
+    "validIcloud": "{field} must be a valid iCloud email"
   },
   "upload_tip": "Only accept: {formats} files with a maximum size {size}MB",
   "click_or_drag_to_add_file": "Click or drag to add file",
@@ -186,5 +190,11 @@
   "general": {
     "no_data": "There is no data to display",
     "loading": "Loading..."
+  },
+  "payment_methods": {
+    "bank": "Bank",
+    "card": "Card",
+    "apple_pay": "Apple Pay",
+    "stc_pay": "STC Pay"
   }
 }

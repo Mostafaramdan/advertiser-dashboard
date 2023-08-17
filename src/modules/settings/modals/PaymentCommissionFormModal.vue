@@ -44,7 +44,7 @@ const formData = reactive<PaymentCommission>({
   maximum: null,
   value_in_platform: null,
   value_out_platform: null,
-  active: true,
+  blocked_at: true,
 })
 
 // #endregion
@@ -150,24 +150,32 @@ const submit = () => {
                   v-model.number="formData.value_in_platform"
                   label="نسبة العمولة داخل المنصة"
                   name="value_in_platform"
-                  rules="required|numeric"
+                  rules="required|numeric|max_value:100"
                   type="number"
-                />
+                >
+                  <template #append-inner>
+                    %
+                  </template>
+                </AppTextField>
               </VCol>
               <VCol cols="12" md="6">
                 <AppTextField
                   v-model.number="formData.value_out_platform"
                   label="نسبة العمولة خارج المنصة"
                   name="value_out_platform"
-                  rules="required|numeric"
+                  rules="required|numeric|max_value:100"
                   type="number"
-                />
+                >
+                  <template #append-inner>
+                    %
+                  </template>
+                </AppTextField>
               </VCol>
               <VCol cols="12">
                 <AppSwitch
-                  v-model="formData.active"
+                  v-model="formData.blocked_at"
                   label="الحالة"
-                  name="active"
+                  name="blocked_at"
                 />
               </VCol>
             </VRow>

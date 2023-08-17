@@ -11,6 +11,11 @@
   font-weight: 500;
 }
 
+.v-messages__message[class] {
+  line-height: initial;
+  padding-block-end: 2px;
+}
+
 // pagination
 .v-pagination button.v-btn {
   block-size: auto;
@@ -81,4 +86,9 @@
       }
     }
   }
+}
+
+// avatar {
+.v-avatar--variant-tonal .v-avatar__underlay {
+  inline-size: 100%;
 }

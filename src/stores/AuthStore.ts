@@ -41,6 +41,13 @@ export const useAuthStore = defineStore('authStore', {
         return state.authUser?.permissions?.accessible_pages.includes(page)
       }
     },
+    canAccessAtLeastOnePage(state) {
+      return (pages: string[]) => {
+        return pages.some(page => {
+          return state.authUser?.permissions?.accessible_pages.includes(page)
+        })
+      }
+    },
   },
   actions: {
     setAuthUser(user: any) {

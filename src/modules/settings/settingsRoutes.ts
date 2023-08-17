@@ -4,7 +4,7 @@ export const settingsRoutes = [
     name: 'entities-settings',
     component: () => import('./pages/EntitiesPage.vue'),
     meta: {
-      requiredAccess: 'Entity',
+      requiredAccess: 'entities',
     },
   },
   {
@@ -12,7 +12,7 @@ export const settingsRoutes = [
     name: 'categories-settings',
     component: () => import('./pages/CategoriesPage.vue'),
     meta: {
-      requiredAccess: 'Entity',
+      requiredAccess: 'categories',
     },
   },
   {
@@ -20,7 +20,7 @@ export const settingsRoutes = [
     name: 'ads-settings',
     component: () => import('./pages/AdsSettingsPage.vue'),
     meta: {
-      requiredAccess: 'AdSettings',
+      requiredAccess: 'ads_settings',
     },
   },
   {
@@ -28,7 +28,7 @@ export const settingsRoutes = [
     name: 'channels-settings',
     component: () => import('./pages/ChannelsPage.vue'),
     meta: {
-      requiredAccess: 'Channel',
+      requiredAccess: 'channels',
     },
   },
   {
@@ -36,7 +36,7 @@ export const settingsRoutes = [
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),
     meta: {
-      requiredAccess: 'Entity',
+      requireAtLeastOneAccess: ['general_settings', 'social_settings', 'schedule_settings', 'billing_cards'],
     },
     children: [
       {
@@ -44,7 +44,7 @@ export const settingsRoutes = [
         name: 'platform-settings-details',
         component: () => import('./pages/platform/DetailsPage.vue'),
         meta: {
-          requiredAccess: 'Entity',
+          requiredAccess: 'general_settings',
         },
       },
       {
@@ -52,7 +52,7 @@ export const settingsRoutes = [
         name: 'social-accounts-settings',
         component: () => import('./pages/platform/SocialAccountsPage.vue'),
         meta: {
-          requiredAccess: 'Entity',
+          requiredAccess: 'social_settings',
         },
       },
       {
@@ -60,7 +60,7 @@ export const settingsRoutes = [
         name: 'work-time-settings',
         component: () => import('./pages/platform/WorkTimePage.vue'),
         meta: {
-          requiredAccess: 'Entity',
+          requiredAccess: 'schedule_settings',
         },
       },
       {
@@ -68,7 +68,7 @@ export const settingsRoutes = [
         name: 'payment-methods-settings',
         component: () => import('./pages/platform/PaymentMethodsPage.vue'),
         meta: {
-          requiredAccess: 'Entity',
+          requiredAccess: 'billing_cards',
         },
       },
     ],
@@ -78,7 +78,7 @@ export const settingsRoutes = [
     name: 'financial-settings',
     component: () => import('./pages/financial-settings/IndexPage.vue'),
     meta: {
-      requiredAccess: 'Entity',
+      requireAtLeastOneAccess: ['financial_settings', 'payment_commissions', 'point_settings', 'tax_settings'],
     },
     children: [
       {
@@ -86,7 +86,7 @@ export const settingsRoutes = [
         name: 'accounts-settings',
         component: () => import('./pages/financial-settings/AccountsPage.vue'),
         meta: {
-          requiredAccess: 'Entity',
+          requiredAccess: 'financial_settings',
         },
       },
       {
@@ -94,7 +94,7 @@ export const settingsRoutes = [
         name: 'payment-commission-settings',
         component: () => import('./pages/financial-settings/PaymentCommissionPage.vue'),
         meta: {
-          requiredAccess: 'Entity',
+          requiredAccess: 'payment_commissions',
         },
       },
       {
@@ -102,7 +102,7 @@ export const settingsRoutes = [
         name: 'points-settings',
         component: () => import('./pages/financial-settings/PointsPage.vue'),
         meta: {
-          requiredAccess: 'Entity',
+          requiredAccess: 'point_settings',
         },
       },
       {
@@ -110,7 +110,7 @@ export const settingsRoutes = [
         name: 'tax-settings',
         component: () => import('./pages/financial-settings/TaxPage.vue'),
         meta: {
-          requiredAccess: 'Entity',
+          requiredAccess: 'tax_settings',
         },
       },
     ],

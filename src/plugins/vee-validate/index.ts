@@ -15,7 +15,8 @@ import {
   configure,
   defineRule,
 } from 'vee-validate'
-import i18n from './i18n/index'
+import i18n from '../i18n/index'
+import { greaterThanTime, lessThanTime, minWords, validIcloud } from './custom-rules'
 
 function getMessages(messages: any) {
   return Object.fromEntries(Object.entries(messages).map(([key, value]) => {
@@ -33,6 +34,10 @@ export default (app: any) => {
   defineRule('min_value', min_value)
   defineRule('max_value', max_value)
   defineRule('numeric', numeric)
+  defineRule('greaterThanTime', greaterThanTime)
+  defineRule('lessThanTime', lessThanTime)
+  defineRule('minWords', minWords)
+  defineRule('validIcloud', validIcloud)
 
   configure({
     generateMessage: localize({

@@ -76,7 +76,7 @@ const headers: any = [
   },
   {
     title: 'الحالة',
-    key: 'active',
+    key: 'blocked_at',
   },
   {
     title: 'العمليات',
@@ -92,10 +92,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('Create Entity'),
-  edit: hasPermission('Edit Entity'),
-  delete: hasPermission('Delete Entity'),
-  changeStatus: hasPermission('ChangeStatus Entity'),
+  create: hasPermission('create_payment_commission'),
+  edit: hasPermission('update_payment_commission'),
+  delete: hasPermission('delete_payment_commission'),
+  changeStatus: hasPermission('sort_payment_commission'),
+  sort: hasPermission('sort_payment_commission'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -161,10 +162,16 @@ getPageData()
             {{ item.raw.name }}
           </span>
         </template>
-        <template #item.active="{ item }">
+        <template #item.value_in_platform="{ item }">
+          {{ item.raw.value_in_platform }} %
+        </template>
+        <template #item.value_out_platform="{ item }">
+          {{ item.raw.value_out_platform }} %
+        </template>
+        <template #item.blocked_at="{ item }">
           <ToggleActivationSwitch
             :id="item.raw.id"
-            v-model="item.raw.active"
+            v-model="item.raw.blocked_at"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />
@@ -201,7 +208,7 @@ getPageData()
                     <VListItemTitle>عرض</VListItemTitle>
                   </VListItem>
 
-                  <VListItem :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="sortItems(item.raw.id)">
+                  <VListItem v-if="permissions.sort" :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="sortItems(item.raw.id)">
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />
                     </template>

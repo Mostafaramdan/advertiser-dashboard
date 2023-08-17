@@ -1,0 +1,13 @@
+.v-theme--dark {
+  .flatpickr-monthSelect-month {
+    color: #eee;
+
+    &:hover {
+      background: transparent;
+    }
+
+    &.flatpickr-disabled {
+      opacity: 0.6;
+    }
+  }
+}

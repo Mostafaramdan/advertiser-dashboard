@@ -8,22 +8,22 @@ const navLinks = computed(() => {
     {
       title: 'اعدادت الحسابات',
       to: { name: 'accounts-settings' },
-      show: canAccessPage('Entity'),
+      show: canAccessPage('financial_settings'),
     },
     {
       title: 'شرائح عمولة الدفع',
       to: { name: 'payment-commission-settings' },
-      show: canAccessPage('Entity'),
+      show: canAccessPage('payment_commissions'),
     },
     {
       title: 'اعدادت النقاط',
       to: { name: 'points-settings' },
-      show: canAccessPage('Entity'),
+      show: canAccessPage('point_settings'),
     },
     {
       title: 'اعدادت الضريبة',
       to: { name: 'tax-settings' },
-      show: canAccessPage('Entity'),
+      show: canAccessPage('tax_settings'),
     },
   ]
 })

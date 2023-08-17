@@ -30,7 +30,7 @@ const { layoutAttrs, injectSkinClasses } = useSkins()
 const { setUserPermissions } = useAuthStore()
 const isLoading = ref<boolean>(false)
 
-const { canAccessPage } = useAuthStore()
+const { canAccessPage, canAccessAtLeastOnePage } = useAuthStore()
 
 // #endregion
 
@@ -49,80 +49,80 @@ const navItems = computed(() => {
     {
       title: 'الاعدادات',
       icon: { icon: 'tabler-settings' },
-      show: canAccessPage('Settings'),
+      show: canAccessPage('settings'),
       to: null,
       children: [
         {
           title: 'اعدادات حساب المنصة',
-          show: canAccessPage('Entity'),
+          show: canAccessAtLeastOnePage(['general_settings', 'social_settings', 'schedule_settings', 'billing_cards']),
           to: null,
           children: [
             {
               title: 'بيانات المنصة',
               to: { name: 'platform-settings-details' },
-              show: canAccessPage('Entity'),
+              show: canAccessPage('general_settings'),
             },
             {
               title: 'حسابات التواصل',
               to: { name: 'social-accounts-settings' },
-              show: canAccessPage('Entity'),
+              show: canAccessPage('social_settings'),
             },
             {
               title: 'دوام المنصة',
               to: { name: 'work-time-settings' },
-              show: canAccessPage('Entity'),
+              show: canAccessPage('schedule_settings'),
             },
             {
               title: 'طرق الدفع',
               to: { name: 'payment-methods-settings' },
-              show: canAccessPage('Entity'),
+              show: canAccessPage('billing_cards'),
             },
           ],
         },
         {
           title: 'الكيانات',
           to: { name: 'entities-settings' },
-          show: canAccessPage('Entity'),
+          show: canAccessPage('entities'),
         },
         {
           title: 'النشاطات',
           to: { name: 'categories-settings' },
-          show: canAccessPage('Entity'),
+          show: canAccessPage('categories'),
         },
         {
           title: 'القنوات',
           to: { name: 'channels-settings' },
-          show: canAccessPage('Channel'),
+          show: canAccessPage('channels'),
         },
         {
           title: 'اعدادات التشغيل',
           to: { name: 'ads-settings' },
-          show: canAccessPage('AdSettings'),
+          show: canAccessPage('ads_settings'),
         },
         {
           title: 'الإعدادات المالية',
-          show: canAccessPage('Entity'),
+          show: canAccessAtLeastOnePage(['financial_settings', 'payment_commissions', 'point_settings', 'tax_settings']),
           to: null,
           children: [
             {
               title: 'اعدادت الحسابات',
               to: { name: 'accounts-settings' },
-              show: canAccessPage('Entity'),
+              show: canAccessPage('financial_settings'),
             },
             {
               title: 'شرائح عمولة الدفع',
               to: { name: 'payment-commission-settings' },
-              show: canAccessPage('Entity'),
+              show: canAccessPage('payment_commissions'),
             },
             {
               title: 'اعدادت النقاط',
               to: { name: 'points-settings' },
-              show: canAccessPage('Entity'),
+              show: canAccessPage('point_settings'),
             },
             {
               title: 'اعدادت الضريبة',
               to: { name: 'tax-settings' },
-              show: canAccessPage('Entity'),
+              show: canAccessPage('tax_settings'),
             },
           ],
         },

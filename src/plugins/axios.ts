@@ -85,8 +85,6 @@ export const axiosConf = {
             console.log(router.currentRoute.value.name)
 
             if (router.currentRoute.value.name !== 'login-page') {
-              console.log('sssssssssss', router.currentRoute.value.name)
-
               router.push({
                 name: 'login-page',
                 query: {

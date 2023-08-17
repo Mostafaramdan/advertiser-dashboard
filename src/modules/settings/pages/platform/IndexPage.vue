@@ -8,22 +8,22 @@ const navLinks = computed(() => {
     {
       title: 'بيانات المنصة',
       to: { name: 'platform-settings-details' },
-      show: canAccessPage('Entity'),
+      show: canAccessPage('general_settings'),
     },
     {
       title: 'حسابات التواصل',
       to: { name: 'social-accounts-settings' },
-      show: canAccessPage('Entity'),
+      show: canAccessPage('social_settings'),
     },
     {
       title: 'دوام المنصة',
       to: { name: 'work-time-settings' },
-      show: canAccessPage('Entity'),
+      show: canAccessPage('schedule_settings'),
     },
     {
       title: 'طرق الدفع',
       to: { name: 'payment-methods-settings' },
-      show: canAccessPage('Entity'),
+      show: canAccessPage('billing_cards'),
     },
   ]
 })

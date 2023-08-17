@@ -1,39 +1,46 @@
 <script setup lang="ts">
-const { t } = useI18n()
-const selectedCountry = ref(0)
+import { useToast } from 'vue-toastification'
+import PlatformDetailsCard from '../../components/PlatformDetailsCard.vue'
+import type { PlatformFormData, PlatformInfo } from '../../interfaces/PlatformDetails'
+import { platformService } from '../../services/PlatformService'
+import { useAuthStore } from '@/stores/AuthStore'
+import { listService } from '@/services/ListService'
+/***************************************
+ **** Section Variables Declaration ****
+ **************************************/
+// #region Variables
+const toast = useToast()
+const { t, locale } = useI18n()
+const { hasPermission } = useAuthStore()
+
+const SAUDI_ARABIA_ID = 237
+const formRef = ref<any>(null)
+const selectedCountry = ref<any>(SAUDI_ARABIA_ID)
+
+const isLoading = reactive({
+  countries: false,
+  data: false,
+  submit: false,
+})
 
 const countries = ref([
   {
-    id: 0,
-    name: 'الكل',
-  },
-  {
-    id: 1,
-    name: 'السعودية',
-  },
-  {
-    id: 2,
-    name: 'الامارات',
-  },
-  {
-    id: 3,
-    name: 'البحرين',
-  },
-  {
-    id: 4,
-    name: 'مصر',
+    id: SAUDI_ARABIA_ID,
+    name: {
+      ar: 'السعودية',
+      en: 'Saudi Arabia',
+    },
   },
 ])
 
-const isLoading = ref<boolean>(false)
-const formRef = ref<any>(null)
+const platformData = ref<PlatformInfo | null>(null)
 
-const formData = reactive<any>({
-  arName: {
+const formData = reactive<PlatformFormData | any>({
+  name_ar: {
     value: '',
     show: true,
   },
-  enName: {
+  name_en: {
     value: '',
     show: true,
   },
@@ -68,19 +75,73 @@ const formData = reactive<any>({
   logo: null,
 })
 
-const submit = () => {
-  formRef.value.validate().then(({ valid }: any) => {
-    if (!valid)
-      return
+// #endregion
 
-    // isLoading.value = true
-    console.log('submit', formData)
+/***************************************
+ **** Section Computed Variables  ******
+ **************************************/
+// #region Computed
+const permissions = computed(() => ({
+  edit: hasPermission('update_general_settings'),
+}))
+
+// #endregion
+
+/***************************************
+ **** Section Lifecycle Hooks  *********
+ **************************************/
+// #region Lifecycle Hooks
+getPageData()
+getCountries()
+
+// #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
+function toggleShow(field: string): void {
+  formData[field].show = !formData[field].show
+}
+
+function getCountries() {
+  isLoading.countries = true
+  listService.getCountries().then((res: any) => {
+    countries.value = res.data.data
+  }).finally(() => {
+    isLoading.countries = false
   })
 }
 
-function toggleShow(field: string) {
-  formData[field].show = !formData[field].show
+function getPageData() {
+  isLoading.data = true
+  platformService.getGeneralData(selectedCountry.value).then(res => {
+    const { settings_general_users, data } = res.data
+
+    platformData.value = settings_general_users
+    Object.assign(formData, data)
+  }).finally(() => {
+    isLoading.data = false
+  })
 }
+
+function edit() {
+  isLoading.submit = true
+  platformService.editGeneralData(selectedCountry.value, formData).then(res => {
+    toast.success(res.data.message)
+  }).finally(() => {
+    isLoading.submit = false
+  })
+}
+
+function submit() {
+  formRef.value.validate().then(({ valid }: any) => {
+    if (!valid) return
+    edit()
+  })
+}
+
+// #endregion
 </script>
 
 <template>
@@ -91,283 +152,173 @@ function toggleShow(field: string) {
           v-model="selectedCountry"
           :items="countries"
           item-value="id"
-          item-title="name"
+          :item-title="`name[${locale}]`"
           prepend-inner-icon="tabler-flag"
           label="الدولة"
-          :clearable="selectedCountry !== 0"
-          @click:clear="selectedCountry = 0"
+          :loading="isLoading.countries"
+          :disabled="isLoading.countries"
+          @update:model-value="getPageData"
         />
       </VCol>
     </VRow>
-    <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
-      <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>
-          عرض بيانات المنصة
-        </VExpansionPanelTitle>
-        <VExpansionPanelText>
-          <div class="platform-info">
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                الشعار
-              </h3>
-              <div class="platform-info__card__body">
-                <VImg
-                  src="https://plus.unsplash.com/premium_photo-1690749740487-01bbb8e51e71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1965&q=80"
-                  height="100px"
-                  width="100px"
-                  cover
-                />
-              </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                عدد المشتركين
-              </h3>
-              <div class="platform-info__card__body">
-                5000
-              </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                متوسط التقييم
-              </h3>
-              <div class="platform-info__card__body">
-                <div class="d-flex align-center">
-                  <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />  3.63
-                </div>
-              </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                رصيدالمحفظة
-              </h3>
-              <div class="platform-info__card__body">
-                100
-              </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                رصيد النقاط
-              </h3>
-              <div class="platform-info__card__body">
-                100
-              </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                الحسابات النشطة
-              </h3>
-              <div class="platform-info__card__body">
-                100
-              </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                ح غير النشطة
-              </h3>
-              <div class="platform-info__card__body">
-                100
-              </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                الحسابات المكتملة
-              </h3>
-              <div class="platform-info__card__body">
-                <span class="mt-1">100</span>
-                <VProgressCircular
-                  :rotate="360"
-                  :size="50"
-                  :width="3"
-                  :model-value="50"
-                  color="primary"
-                  class="mt-2 mb-3"
-                >
-                  50
-                </VProgressCircular>
-              </div>
-            </div>
-          </div>
-        </VExpansionPanelText>
-      </VExpansionPanel>
-    </VExpansionPanels>
+    <VCard v-loading="isLoading.data" flat :disabled="!permissions.edit">
+      <PlatformDetailsCard :platform-data="platformData" />
 
-    <VeeForm ref="formRef" v-slot="{ meta }" @submit="submit">
-      <VRow>
-        <VCol col="12" lg="9">
-          <VRow>
-            <VCol cols="12" md="6">
-              <AppTextField
-                v-model="formData.arName.value"
-                label="اسم المنصة عربي"
-                name="arName"
-                rules="required|min:3"
-              >
-                <template #append>
-                  <VBtn size="38" variant="outlined" @click="toggleShow('arName')">
-                    <VIcon
-                      :icon="formData.arName.show ? 'tabler-eye' : 'tabler-eye-off'"
-                      size="22"
-                    />
-                  </VBtn>
-                </template>
-              </AppTextField>
-            </VCol>
-            <VCol cols="12" md="6">
-              <AppTextField
-                v-model="formData.enName.value"
-                label="اسم المنصة انجليزي"
-                name="enName"
-                rules="required|min:3"
-              >
-                <template #append>
-                  <VBtn size="38" variant="outlined" @click="toggleShow('enName')">
-                    <VIcon
-                      :icon="formData.enName.show ? 'tabler-eye' : 'tabler-eye-off'"
-                      size="22"
-                    />
-                  </VBtn>
-                </template>
-              </AppTextField>
-            </VCol>
-            <VCol cols="12" md="6">
-              <AppTextField
-                v-model="formData.email.value"
-                label="البريد الالكتروني"
-                name="email"
-                rules="required|email"
-                type="email"
-              >
-                <template #append>
-                  <VBtn size="38" variant="outlined" @click="toggleShow('email')">
-                    <VIcon
-                      :icon="formData.email.show ? 'tabler-eye' : 'tabler-eye-off'"
-                      size="22"
-                    />
-                  </VBtn>
-                </template>
-              </AppTextField>
-            </VCol>
-            <VCol cols="12" md="6">
-              <AppTextField
-                v-model="formData.unified_number.value"
-                label="الرقم الموحد"
-                name="unified_number"
-                rules="required|numeric|min:10"
-                type="number"
-              >
-                <template #append>
-                  <VBtn size="38" variant="outlined" @click="toggleShow('unified_number')">
-                    <VIcon
-                      :icon="formData.unified_number.show ? 'tabler-eye' : 'tabler-eye-off'"
-                      size="22"
-                    />
-                  </VBtn>
-                </template>
-              </AppTextField>
-            </VCol>
-            <VCol cols="12">
-              <AppTextField
-                v-model="formData.address.value"
-                label="العنوان"
-                name="address"
-                rules="required|min:3"
-              >
-                <template #append>
-                  <VBtn size="38" variant="outlined" @click="toggleShow('address')">
-                    <VIcon
-                      :icon="formData.address.show ? 'tabler-eye' : 'tabler-eye-off'"
-                      size="22"
-                    />
-                  </VBtn>
-                </template>
-              </AppTextField>
-            </VCol>
-            <VCol cols="12" md="6">
-              <AppTextField
-                v-model="formData.tax_registration_number.value"
-                label="السجل الضريبي"
-                name="tax_registration_number"
-                rules="required|numeric|min:10"
-                type="number"
-              >
-                <template #append>
-                  <VBtn size="38" variant="outlined" @click="toggleShow('tax_registration_number')">
-                    <VIcon
-                      :icon="formData.tax_registration_number.show ? 'tabler-eye' : 'tabler-eye-off'"
-                      size="22"
-                    />
-                  </VBtn>
-                </template>
-              </AppTextField>
-            </VCol>
-            <VCol cols="12" md="6">
-              <AppTextField
-                v-model="formData.commercial_registration_number.value"
-                label="السجل التجاري"
-                name="commercial_registration_number"
-                rules="required|numeric|min:10"
-                type="number"
-              >
-                <template #append>
-                  <VBtn size="38" variant="outlined" @click="toggleShow('commercial_registration_number')">
-                    <VIcon
-                      :icon="formData.commercial_registration_number.show ? 'tabler-eye' : 'tabler-eye-off'"
-                      size="22"
-                    />
-                  </VBtn>
-                </template>
-              </AppTextField>
-            </VCol>
-          </VRow>
-        </VCol>
-        <VCol cols="12" lg="3">
-          <AppUploadFile v-model="formData.logo" name="logo" label="شعار المنصة" rules="required" />
-        </VCol>
-      </VRow>
-      <VBtn :loading="isLoading" :disabled="isLoading || !meta.valid" class="mt-6 px-10" @click="submit">
-        {{ t('actions.save') }}
-      </VBtn>
-    </VeeForm>
+      <VeeForm ref="formRef" v-slot="{ meta }" @submit="submit">
+        <VRow>
+          <VCol col="12" lg="9">
+            <VRow>
+              <VCol cols="12" md="6">
+                <AppTextField
+                  v-model="formData.name_ar.value"
+                  label="اسم المنصة عربي"
+                  name="name_ar"
+                  rules="required|min:3"
+                >
+                  <template #append>
+                    <VBtn size="38" variant="outlined" @click="toggleShow('name_ar')">
+                      <VIcon
+                        :icon="formData.name_ar.show ? 'tabler-eye' : 'tabler-eye-off'"
+                        size="22"
+                      />
+                    </VBtn>
+                  </template>
+                </AppTextField>
+              </VCol>
+              <VCol cols="12" md="6">
+                <AppTextField
+                  v-model="formData.name_en.value"
+                  label="اسم المنصة انجليزي"
+                  name="name_en"
+                  rules="required|min:3"
+                >
+                  <template #append>
+                    <VBtn size="38" variant="outlined" @click="toggleShow('name_en')">
+                      <VIcon
+                        :icon="formData.name_en.show ? 'tabler-eye' : 'tabler-eye-off'"
+                        size="22"
+                      />
+                    </VBtn>
+                  </template>
+                </AppTextField>
+              </VCol>
+              <VCol cols="12" md="6">
+                <AppTextField
+                  v-model="formData.email.value"
+                  label="البريد الالكتروني"
+                  name="email"
+                  rules="required|email"
+                  type="email"
+                >
+                  <template #append>
+                    <VBtn size="38" variant="outlined" @click="toggleShow('email')">
+                      <VIcon
+                        :icon="formData.email.show ? 'tabler-eye' : 'tabler-eye-off'"
+                        size="22"
+                      />
+                    </VBtn>
+                  </template>
+                </AppTextField>
+              </VCol>
+              <VCol cols="12" md="6">
+                <AppTextField
+                  v-model="formData.unified_number.value"
+                  label="الرقم الموحد"
+                  name="unified_number"
+                  rules="required|numeric|min:10"
+                  type="number"
+                >
+                  <template #append>
+                    <VBtn size="38" variant="outlined" @click="toggleShow('unified_number')">
+                      <VIcon
+                        :icon="formData.unified_number.show ? 'tabler-eye' : 'tabler-eye-off'"
+                        size="22"
+                      />
+                    </VBtn>
+                  </template>
+                </AppTextField>
+              </VCol>
+              <VCol cols="12">
+                <AppTextField
+                  v-model="formData.address.value"
+                  label="العنوان"
+                  name="address"
+                  rules="required|min:3"
+                >
+                  <template #append>
+                    <VBtn size="38" variant="outlined" @click="toggleShow('address')">
+                      <VIcon
+                        :icon="formData.address.show ? 'tabler-eye' : 'tabler-eye-off'"
+                        size="22"
+                      />
+                    </VBtn>
+                  </template>
+                </AppTextField>
+              </VCol>
+              <VCol cols="12" md="6">
+                <AppTextField
+                  v-model="formData.tax_registration_number.value"
+                  label="السجل الضريبي"
+                  name="tax_registration_number"
+                  rules="required|numeric|min:10"
+                  type="number"
+                >
+                  <template #append>
+                    <VBtn size="38" variant="outlined" @click="toggleShow('tax_registration_number')">
+                      <VIcon
+                        :icon="formData.tax_registration_number.show ? 'tabler-eye' : 'tabler-eye-off'"
+                        size="22"
+                      />
+                    </VBtn>
+                  </template>
+                </AppTextField>
+              </VCol>
+              <VCol cols="12" md="6">
+                <AppTextField
+                  v-model="formData.commercial_registration_number.value"
+                  label="السجل التجاري"
+                  name="commercial_registration_number"
+                  rules="required|numeric|min:10"
+                  type="number"
+                >
+                  <template #append>
+                    <VBtn size="38" variant="outlined" @click="toggleShow('commercial_registration_number')">
+                      <VIcon
+                        :icon="formData.commercial_registration_number.show ? 'tabler-eye' : 'tabler-eye-off'"
+                        size="22"
+                      />
+                    </VBtn>
+                  </template>
+                </AppTextField>
+              </VCol>
+            </VRow>
+          </VCol>
+          <VCol cols="12" lg="3">
+            <AppUploadFile
+              v-model="formData.logo"
+              :accepted-types="['image/jpeg', 'image/png', 'image/svg+xml']"
+              name="logo"
+              label="شعار المنصة"
+              rules="required"
+            />
+          </VCol>
+        </VRow>
+        <VBtn
+          v-if="permissions.edit"
+          :loading="isLoading.submit"
+          :disabled="isLoading.submit || !meta.valid"
+          class="mt-6 px-10"
+          @click="submit"
+        >
+          {{ t('actions.save') }}
+        </VBtn>
+      </VeeForm>
+    </VCard>
   </section>
 </template>
 
 <style lang="scss" scoped>
 .platform-settings-details {
-  .platform-info {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    gap: 10px;
-
-    &__card {
-      display: flex;
-      overflow: hidden;
-      flex-direction: column;
-      flex-grow: 1;
-      border: 1px solid rgba(var(--v-theme-grey-400), 1);
-      border-radius: 5px;
-      min-inline-size: 110px;
-      text-align: center;
-
-      &__title {
-        padding: 5px;
-        background: rgba(var(--v-theme-grey-200), 1);
-        font-size: 12px;
-      }
-
-      &__body {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        align-items: center;
-        justify-content: center;
-        color: rgba(var(--v-theme-primary), 1);
-        min-block-size: 100px;
-      }
-    }
-  }
-
   :deep(.v-input--horizontal .v-input__append) {
     padding: 0;
     margin-inline-start: 10px;

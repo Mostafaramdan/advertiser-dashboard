@@ -76,10 +76,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('Create Entity'),
-  edit: hasPermission('Edit Entity'),
-  delete: hasPermission('Delete Entity'),
-  changeStatus: hasPermission('ChangeStatus Entity'),
+  create: hasPermission('create_entity'),
+  edit: hasPermission('update_entity'),
+  delete: hasPermission('delete_entity'),
+  changeStatus: hasPermission('change_status_entity'),
+  sort: hasPermission('sort_entity'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -188,7 +189,7 @@ getPageData()
                     <VListItemTitle>عرض</VListItemTitle>
                   </VListItem>
 
-                  <VListItem :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="sortItems(item.raw.id)">
+                  <VListItem v-if="permissions.delete" :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="sortItems(item.raw.id)">
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />
                     </template>

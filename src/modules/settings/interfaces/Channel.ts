@@ -4,7 +4,7 @@ export interface Channel {
   id?: number
   name: { en: string; ar: string }
   followers_percentage: number | null
-  channel_type: 1 | 2
+  channel_type: '1' | '2' | null
   blocked_at?: boolean
   image_id?: number | null
   image?: File | null

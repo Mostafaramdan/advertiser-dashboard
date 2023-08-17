@@ -52,7 +52,7 @@ const router = createRouter({
       component: () => import('@/modules/settings/settingsModule.vue'),
       meta: {
         layout: 'default',
-        requireAccess: 'Settings',
+        requireAccess: 'settings',
       },
       children: settingsRoutes,
     },
@@ -68,12 +68,15 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const { isAuthUser, canAccessPage } = useAuthStore()
+  const { isAuthUser, canAccessPage, canAccessAtLeastOnePage } = useAuthStore()
 
   if (to.meta.layout === 'default' && !isAuthUser)
     next({ name: 'login-page', query: { redirect: to.fullPath } })
 
   if (isAuthUser && to.meta.requiredAccess && !canAccessPage(to.meta.requiredAccess as string))
+    next({ name: 'error-page', query: { message: 'errors.you_are_not_authorized' } })
+
+  if (isAuthUser && to.meta.requireAtLeastOneAccess && !canAccessAtLeastOnePage(to.meta.requireAtLeastOneAccess as string[]))
     next({ name: 'error-page', query: { message: 'errors.you_are_not_authorized' } })
 
   next()

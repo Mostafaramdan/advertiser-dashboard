@@ -63,6 +63,18 @@ const showModal = useVModel(props, 'showModal', emit)
           <VCardText>
             <VList :lines="false">
               <VListItem
+                v-if="activeItem.image?.path"
+                class="px-2 py-2"
+                title="صورة القناء"
+                border
+              >
+                <VImg
+                  :src="activeItem.image.path"
+                  max-width="100"
+                  class="my-2"
+                />
+              </VListItem>
+              <VListItem
                 class="px-2 py-2"
                 title="اسم القناة بالعربي"
                 :subtitle="activeItem.name.ar"
