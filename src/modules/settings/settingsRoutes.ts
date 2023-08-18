@@ -8,6 +8,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'countries/:id/areas',
+    name: 'areas-settings',
+    component: () => import('./pages/AreasPage.vue'),
+    meta: {
+      requiredAccess: 'areas',
+    },
+  },
+  {
     path: 'entities',
     name: 'entities-settings',
     component: () => import('./pages/EntitiesPage.vue'),

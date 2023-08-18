@@ -62,6 +62,10 @@
 
 .page-card {
   min-block-size: 82vh;
+
+  .v-card-title {
+    white-space: normal;
+  }
 }
 
 // input number

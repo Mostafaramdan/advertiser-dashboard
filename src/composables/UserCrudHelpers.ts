@@ -14,6 +14,7 @@ export function UseCrudHelpers<ItemType>(
   // #region Variables
   const toast = useToast()
   const selectedItems = ref<number[]>([])
+  const responseData = reactive<any>({})
   const tableData = ref<ItemType[]>([])
   const metaData = ref<MetaData | null>(null)
   const showFormModal = ref<boolean>(false)
@@ -71,6 +72,7 @@ export function UseCrudHelpers<ItemType>(
       .then((res: any) => {
         const { data, meta } = res.data
 
+        Object.assign(responseData, res.data)
         tableData.value = data
         metaData.value = meta
       })
@@ -248,6 +250,7 @@ export function UseCrudHelpers<ItemType>(
 
   return {
     selectedItems,
+    responseData,
     tableData,
     metaData,
     showFormModal,
