@@ -74,3 +74,13 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   appearance: textfield;
 }
+
+// form modal
+.form-modal {
+  &.v-theme--dark {
+    .v-btn--disabled {
+      background-color: rgb(var(--v-theme-grey-200)) !important;
+      cursor: not-allowed;
+    }
+  }
+}

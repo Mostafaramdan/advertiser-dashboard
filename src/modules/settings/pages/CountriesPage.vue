@@ -176,8 +176,7 @@ getPageData()
 
               <VMenu activator="parent">
                 <VList>
-                  <!-- TODO: Add Correct page -->
-                  <VListItem v-if="canAccessPage('countries')">
+                  <VListItem v-if="canAccessPage('areas')">
                     <template #prepend>
                       <VIcon icon="tabler-view-360" />
                     </template>

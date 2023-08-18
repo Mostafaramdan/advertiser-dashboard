@@ -15,14 +15,9 @@ import {
   configure,
   defineRule,
 } from 'vee-validate'
-import i18n from '../i18n/index'
 import { greaterThanTime, lessThanTime, minWords, validIcloud } from './custom-rules'
-
-function getMessages(messages: any) {
-  return Object.fromEntries(Object.entries(messages).map(([key, value]) => {
-    return [key, (value as any).source]
-  }))
-}
+import arMessages from './messages/ar'
+import enMessages from './messages/en'
 
 export default (app: any) => {
   defineRule('required', required)
@@ -42,10 +37,10 @@ export default (app: any) => {
   configure({
     generateMessage: localize({
       en: {
-        messages: getMessages(i18n.global.messages.value.en.validations),
+        messages: enMessages,
       },
       ar: {
-        messages: getMessages(i18n.global.messages.value.ar.validations),
+        messages: arMessages,
       },
     }),
   })
