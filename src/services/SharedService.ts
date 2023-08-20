@@ -1,5 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
+import type { File } from '@/interfaces/Shared'
 
 class SharedService {
   contextPath = ''
@@ -9,6 +10,14 @@ class SharedService {
   /** **************** post ******************/
   sortBulk(payload: { model: string; ids: number[]; target_id: number }): AxiosPromise {
     return axios.post('sorting', payload)
+  }
+
+  uploadFile(file: File): AxiosPromise {
+    return axios.post('file', { file }, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
   }
 
   /** **************** put ******************/

@@ -134,7 +134,7 @@ const submit = () => {
                 <AppUploadFile
                   v-model="formData.image"
                   name="image"
-                  label="صورة القناء"
+                  label="صورة القناة"
                   rules="required"
                   :accepted-types="['image/jpeg', 'image/png', 'image/svg+xml']"
                   width="150px"

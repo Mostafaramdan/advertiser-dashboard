@@ -41,7 +41,7 @@ const toast = useToast()
 const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
-const paymentsGetWays = PAYMENT_GET_WAYS.map((item: any) => ({ ...item, label: t(item.label) }))
+const paymentsGetWays = Object.entries(PAYMENT_GET_WAYS).map(([key, value]) => ({ value: key, label: t(`payment_methods.${value}`) }))
 
 const platPickerConfig = {
   minDate: new Date(),
@@ -159,15 +159,15 @@ const submit = () => {
                 />
               </VCol>
               <template v-if="formData.gateway">
-                <VCol v-if="formData.gateway !== 'bank'" cols="12">
+                <VCol v-if="formData.gateway !== PAYMENT_GET_WAYS.bank" cols="12">
                   <AppTextField
                     v-model="formData.card_username"
                     name="card_username"
-                    :label="formData.gateway === 'card' ? 'اسم مستخدم البطاقة' : 'اسم المستخدم'"
+                    :label="formData.gateway === PAYMENT_GET_WAYS.card ? 'اسم مستخدم البطاقة' : 'اسم المستخدم'"
                     rules="required|minWords:2"
                   />
                 </VCol>
-                <template v-if="formData.gateway === 'card'">
+                <template v-if="formData.gateway === PAYMENT_GET_WAYS.card">
                   <VCol cols="12">
                     <AppTextField
                       v-model="formData.card_number"
@@ -206,7 +206,7 @@ const submit = () => {
                     </VeeField>
                   </VCol>
                 </template>
-                <template v-else-if="formData.gateway === 'bank'">
+                <template v-else-if="formData.gateway === PAYMENT_GET_WAYS.bank">
                   <VCol cols="12">
                     <AppTextField
                       v-model="formData.bank_name"
@@ -232,7 +232,7 @@ const submit = () => {
                     />
                   </VCol>
                 </template>
-                <template v-else-if="formData.gateway === 'apple_pay'">
+                <template v-else-if="formData.gateway === PAYMENT_GET_WAYS.apple_pay">
                   <VCol cols="12">
                     <AppTextField
                       v-model="formData.icloud"
@@ -242,7 +242,7 @@ const submit = () => {
                     />
                   </VCol>
                 </template>
-                <template v-else-if="formData.gateway === 'stc_pay'">
+                <template v-else-if="formData.gateway === PAYMENT_GET_WAYS.stc_pay">
                   <VCol cols="12">
                     <AppTextField
                       v-model="formData.phone"

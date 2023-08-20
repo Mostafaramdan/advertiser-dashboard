@@ -13,6 +13,7 @@ const initialValues = {
   time: null,
   file: null,
   status: false,
+  editorContent: '',
 }
 
 const formData = reactive({ ...initialValues })
@@ -46,7 +47,6 @@ const submit = (values: any) => {
 </script>
 
 <template>
-  {{ formData }}
   <VCard class="pa-5">
     <VeeForm
       v-slot="{ resetForm }"
@@ -54,6 +54,14 @@ const submit = (values: any) => {
       @submit="submit"
     >
       <VRow>
+        <VCol cols="12">
+          <AppTextEditor
+            v-model="formData.editorContent"
+            name="editorContent"
+            label="Content"
+            rules="required"
+          />
+        </VCol>
         <VCol cols="12">
           <AppUploadFile v-model="formData.file" name="file" label="File" rules="required" />
         </VCol>

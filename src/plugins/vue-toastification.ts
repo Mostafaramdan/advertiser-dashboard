@@ -3,7 +3,7 @@ import Toast from 'vue-toastification'
 export default (app: any) => {
   app.use(Toast, {
     position: 'bottom-center',
-    timeout: 5000,
+    timeout: 2500,
     closeOnClick: false,
   })
 }

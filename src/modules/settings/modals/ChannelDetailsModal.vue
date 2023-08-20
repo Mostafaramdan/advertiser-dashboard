@@ -65,7 +65,7 @@ const showModal = useVModel(props, 'showModal', emit)
               <VListItem
                 v-if="activeItem.image?.path"
                 class="px-2 py-2"
-                title="صورة القناء"
+                title="صورة القناة"
                 border
               >
                 <VImg

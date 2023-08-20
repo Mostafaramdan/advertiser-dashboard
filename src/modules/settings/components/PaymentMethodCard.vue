@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PaymentGetWay, PaymentMethod } from '../interfaces/PlatformDetails'
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
+import { PAYMENT_GET_WAYS } from '@/constants/settings'
 import { useAuthStore } from '@/stores/AuthStore'
 /***************************************
  **** Section Props Declaration  ******
@@ -85,7 +86,7 @@ const permissions = computed(() => ({
         <VImg :src="getImageUrl(`svg/payments-icons/${gateway}.svg`)" />
       </VAvatar>
       <div class="payment-card__body">
-        <template v-if="gateway === 'bank'">
+        <template v-if="gateway === PAYMENT_GET_WAYS.bank">
           <h2 class="text-h6">
             {{ payment.bank_username }}
           </h2>
@@ -93,7 +94,7 @@ const permissions = computed(() => ({
             {{ payment.iban }}
           </p>
         </template>
-        <template v-else-if="gateway === 'card'">
+        <template v-else-if="gateway === PAYMENT_GET_WAYS.card">
           <div class="d-flex flex-wrap justify-between">
             <h2 class="text-h6 me-3 min-w-80">
               رقم البطاقة
@@ -111,7 +112,7 @@ const permissions = computed(() => ({
             </p>
           </div>
         </template>
-        <template v-else-if="gateway === 'apple_pay'">
+        <template v-else-if="gateway === PAYMENT_GET_WAYS.apple_pay">
           <div class="d-flex flex-wrap justify-between">
             <h2 class="text-h6 me-3 min-w-80">
               اسم المستخدم
@@ -129,7 +130,7 @@ const permissions = computed(() => ({
             </p>
           </div>
         </template>
-        <template v-else-if="gateway === 'stc_pay'">
+        <template v-else-if="gateway === PAYMENT_GET_WAYS.stc_pay">
           <div class="d-flex flex-wrap justify-between">
             <h2 class="text-h6 me-3 min-w-80">
               اسم المستخدم

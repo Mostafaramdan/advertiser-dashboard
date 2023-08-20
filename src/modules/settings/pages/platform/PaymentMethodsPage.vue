@@ -154,7 +154,7 @@ function onEditItem(item: PaymentMethod) {
 
       <VWindow
         v-model="selectedGetWay"
-        class="ms-md-3 mt-3 mt-md-0 flex-grow-1"
+        class="ms-md-3 mt-3 mt-lg-0 flex-grow-1"
       >
         <VWindowItem v-for="(payments, key) in data" :key="key" :value="key">
           <VRow v-if="payments.length">

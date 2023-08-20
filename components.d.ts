@@ -30,6 +30,7 @@ declare module '@vue/runtime-core' {
     AppStepper: typeof import('./src/@core/components/AppStepper.vue')['default']
     AppSwitch: typeof import('./src/@core/components/app-form-elements/AppSwitch.vue')['default']
     AppTextarea: typeof import('./src/@core/components/app-form-elements/AppTextarea.vue')['default']
+    AppTextEditor: typeof import('./src/@core/components/app-form-elements/AppTextEditor.vue')['default']
     AppTextField: typeof import('./src/@core/components/app-form-elements/AppTextField.vue')['default']
     AppUploadFile: typeof import('./src/@core/components/app-form-elements/AppUploadFile.vue')['default']
     BuyNow: typeof import('./src/@core/components/BuyNow.vue')['default']

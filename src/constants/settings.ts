@@ -22,9 +22,9 @@ export const WORK_DAYS: any = {
 }
 
 // payment getWays
-export const PAYMENT_GET_WAYS: any = [
-  { value: 'bank', label: 'payment_methods.bank' },
-  { value: 'card', label: 'payment_methods.card' },
-  { value: 'apple_pay', label: 'payment_methods.apple_pay' },
-  { value: 'stc_pay', label: 'payment_methods.stc_pay' },
-]
+export const PAYMENT_GET_WAYS: any = {
+  bank: 'bank',
+  card: 'card',
+  apple_pay: 'apple_pay',
+  stc_pay: 'stc_pay',
+}

@@ -55,3 +55,11 @@ export interface FormModalProps {
   activeItem: any
   formAction?: FormActionType
 }
+
+export interface FormTextEditor {
+  modelValue: any
+  name: string
+  label: string
+  rules?: string
+  hideLabel?: boolean
+}
