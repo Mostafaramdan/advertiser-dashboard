@@ -62,4 +62,5 @@ export interface FormTextEditor {
   label: string
   rules?: string
   hideLabel?: boolean
+  isReadOnly?: boolean
 }

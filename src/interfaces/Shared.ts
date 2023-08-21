@@ -47,3 +47,10 @@ export interface File {
   created_at: string
   updated_at: string
 }
+
+// page tab nav item
+export interface PageTabNavItem {
+  title: string
+  show: boolean | any
+  to: any
+}

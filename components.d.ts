@@ -56,6 +56,7 @@ declare module '@vue/runtime-core' {
     Notifications: typeof import('./src/@core/components/Notifications.vue')['default']
     PageActions: typeof import('./src/components/shared/PageActions.vue')['default']
     PagePagination: typeof import('./src/components/shared/PagePagination.vue')['default']
+    PageTabsNav: typeof import('./src/components/shared/PageTabsNav.vue')['default']
     PricingPlanDialog: typeof import('./src/components/dialogs/PricingPlanDialog.vue')['default']
     ReferAndEarnDialog: typeof import('./src/components/dialogs/ReferAndEarnDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

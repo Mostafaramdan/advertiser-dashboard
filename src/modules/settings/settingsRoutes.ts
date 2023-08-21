@@ -48,6 +48,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'questions',
+    name: 'questions-settings',
+    component: () => import('./pages/QuestionsPage.vue'),
+    meta: {
+      requiredAccess: 'questions',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),

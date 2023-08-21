@@ -28,3 +28,9 @@ export const PAYMENT_GET_WAYS: any = {
   apple_pay: 'apple_pay',
   stc_pay: 'stc_pay',
 }
+
+export const USERS_TYPES: any = {
+  advertiser: 'معلنين',
+  user: 'تجار',
+  guest: 'زوار',
+}

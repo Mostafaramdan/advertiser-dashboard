@@ -7,6 +7,7 @@ import type { FormInputProps } from '@/interfaces/Forms'
 // #region Props
 const props = withDefaults(defineProps<FormInputProps>(), {
   rules: '',
+  hideDefaultLabel: false,
 })
 
 // #endregion
@@ -60,7 +61,7 @@ const value = computed({
     :rules="rules"
   >
     <VLabel
-      v-if="label"
+      v-if="label && !hideDefaultLabel"
       :for="elementId"
       class="mb-1 text-body-2 text-high-emphasis"
       :text="label"
@@ -70,7 +71,7 @@ const value = computed({
       v-bind="{
         ...$attrs,
         class: null,
-        label: undefined,
+        label: hideDefaultLabel ? label : undefined,
         variant: 'outlined',
         id: elementId,
       }"

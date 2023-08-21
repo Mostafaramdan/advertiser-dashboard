@@ -1,0 +1,119 @@
+<script setup lang="ts">
+import { useVModel } from '@vueuse/core'
+import { USERS_TYPES } from '@/constants/settings'
+import type { FormModalProps } from '@/interfaces/Forms'
+
+/***************************************
+ **** Section Props Declaration  ******
+ **************************************/
+// #region Props
+const props = withDefaults(defineProps<FormModalProps>(), {
+  showModal: false,
+})
+
+// #endregion
+
+/***************************************
+ **** Section Emits Declaration ********
+ **************************************/
+// #region Emits
+const emit = defineEmits<{
+  (e: 'update:showModal', value: boolean): void
+}>()
+
+// #endregion
+
+/***************************************
+ **** Section Variables Declaration ****
+ **************************************/
+// #region Variables
+const showModal = useVModel(props, 'showModal', emit)
+
+// #endregion
+
+/***************************************
+ **** Section Computed Variables  ******
+ **************************************/
+// #region Computed
+
+// #endregion
+
+/***************************************
+ **** Section Lifecycle Hooks  *********
+ **************************************/
+// #region Lifecycle Hooks
+
+// #endregion
+</script>
+
+<template>
+  <VDialog
+    v-model="showModal"
+    max-width="1000"
+    scrollable
+    class="details-modal"
+  >
+    <!-- Dialog close btn -->
+    <DialogCloseBtn @click="showModal = !showModal" />
+
+    <!-- Dialog Content -->
+    <VCard>
+      <div>
+        <VCard v-if="activeItem" title="عرض سؤال">
+          <VCardText>
+            <VList :lines="false">
+              <VListItem
+                class="px-2 py-2"
+                title="السؤال"
+                :subtitle="activeItem.question"
+                border
+              />
+              <VListItem
+                class="px-2 py-2"
+                title="القسم"
+                :subtitle="activeItem.category.name"
+                border
+              />
+
+              <VListItem
+                class="px-2 py-2"
+                title="الاجابة"
+                border
+              >
+                <AppTextEditor
+                  v-model="activeItem.answer"
+                  name="answer"
+                  label="الاجابة"
+                  is-read-only
+                  hide-label
+                />
+              </VListItem>
+
+              <VListItem
+                class="px-2 py-2"
+                title="نوع المستخدمين"
+                border
+              >
+                <VChip
+                  v-for="type in (activeItem.for as unknown)"
+                  :key="type"
+                  class="my-2 me-2 text-center"
+                  color="primary"
+                  variant="outlined"
+                  label
+                >
+                  {{ USERS_TYPES[type] }}
+                </VChip>
+              </VListItem>
+            </VList>
+            <AppSwitch
+              :model-value="activeItem.blocked_at"
+              label="الحالة"
+              name="blocked_at"
+            />
+          </VCardText>
+        </VCard>
+      </div>
+    </VCard>
+  </VDialog>
+</template>

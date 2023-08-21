@@ -15,6 +15,8 @@ import 'quill-image-uploader/dist/quill.imageUploader.min.css'
 // #region Props
 const props = withDefaults(defineProps<FormTextEditor>(), {
   rules: '',
+  hideLabel: false,
+  isReadOnly: false,
 })
 
 // #endregion
@@ -93,7 +95,7 @@ function uploadImage(file: File) {
 </script>
 
 <template>
-  <div variant="flat" class="quill-editor-container flex-grow-1">
+  <div variant="flat" class="quill-editor-container flex-grow-1" :class="{ 'read-only': isReadOnly }">
     <VeeField
       v-slot="{ handleChange, errorMessage, handleBlur }"
       v-model="value"
@@ -102,7 +104,7 @@ function uploadImage(file: File) {
       :rules="rules"
     >
       <VLabel
-        v-if="label"
+        v-if="label && !hideLabel"
         class="mb-1 text-body-2 text-high-emphasis"
         :text="label"
       />
@@ -139,6 +141,16 @@ function uploadImage(file: File) {
 }
 
 .quill-editor-container {
+  &.read-only {
+    :deep(.ql-toolbar,) {
+      display: none;
+    }
+
+    :deep(.ql-container.ql-snow) {
+      border: none;
+    }
+  }
+
   :deep(.ql-editor) {
     font-size: 16px;
     min-block-size: 140px;

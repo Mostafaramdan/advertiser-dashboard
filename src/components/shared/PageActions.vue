@@ -188,6 +188,7 @@ async function showConfirmActions(operation: 'delete' | 'activate' | 'deactivate
         class="search-input me-auto"
         @update:model-value="handleDebounceSearch"
       />
+      <slot />
       <template v-for="(action, index) in pageActionsButtons" :key="index">
         <VBtn
           v-if="action.show"

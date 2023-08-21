@@ -8,6 +8,10 @@ class ListService {
   getCountries(): AxiosPromise {
     return axios.get(`${this.contextPath}/countries`)
   }
+
+  getQuestionsCategories(): AxiosPromise {
+    return axios.get(`${this.contextPath}/support_categories`)
+  }
 }
 
 export const listService = new ListService()

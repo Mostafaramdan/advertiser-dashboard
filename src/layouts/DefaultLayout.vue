@@ -131,6 +131,11 @@ const navItems = computed(() => {
             },
           ],
         },
+        {
+          title: 'الاسئلة الشائعة',
+          to: { name: 'questions-settings' },
+          show: canAccessPage('questions'),
+        },
       ],
     },
 
