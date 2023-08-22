@@ -14,7 +14,7 @@ export interface Country {
   iso_name: string
   image: string
   google_map: string
-  blocked_at: boolean
+  is_active: boolean
   areas_count: number
 
 }

@@ -3,7 +3,7 @@ export interface SettingsListItem {
   name: string
   value: number
   value_key: string
-  blocked_at: boolean
+  is_active: boolean
   has_input?: boolean
   has_radio?: boolean
   options?: any

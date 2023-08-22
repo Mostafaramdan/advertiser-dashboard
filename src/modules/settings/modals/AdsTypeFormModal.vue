@@ -43,7 +43,7 @@ const formData = reactive({
     ar: '',
     en: '',
   },
-  blocked_at: true,
+  is_active: true,
 })
 
 // #endregion
@@ -136,9 +136,9 @@ const submit = () => {
               </VCol>
               <VCol cols="12">
                 <AppSwitch
-                  v-model="formData.blocked_at"
+                  v-model="formData.is_active"
                   label="الحالة"
-                  name="blocked_at"
+                  name="is_active"
                 />
               </VCol>
             </VRow>

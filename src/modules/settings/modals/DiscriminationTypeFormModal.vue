@@ -44,7 +44,7 @@ const formData = reactive<DiscriminationType>({
     ar: '',
     en: '',
   },
-  blocked_at: true,
+  is_active: true,
   image: null,
   image_id: null,
   minimum: null,
@@ -177,9 +177,9 @@ const submit = () => {
               </VCol>
               <VCol cols="12" class="pt-0">
                 <AppSwitch
-                  v-model="formData.blocked_at"
+                  v-model="formData.is_active"
                   label="الحالة"
-                  name="blocked_at"
+                  name="is_active"
                 />
               </VCol>
             </VRow>

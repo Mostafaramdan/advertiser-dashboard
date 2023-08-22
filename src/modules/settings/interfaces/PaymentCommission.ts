@@ -6,5 +6,5 @@ export interface PaymentCommission {
   minimum: number | null
   maximum: number | null
   value_key?: string
-  blocked_at?: boolean
+  is_active?: boolean
 }

@@ -4,6 +4,6 @@ export interface SocialAccount {
   type: string
   value: string
   image: string
-  blocked_at: boolean
+  is_active: boolean
   key?: string
 }

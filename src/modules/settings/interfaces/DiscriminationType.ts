@@ -5,7 +5,7 @@ export interface DiscriminationType {
   name: { en: string; ar: string }
   minimum: number | null
   maximum: number | null
-  blocked_at?: boolean
+  is_active?: boolean
   image_id?: number | null
   image?: File | null
 }

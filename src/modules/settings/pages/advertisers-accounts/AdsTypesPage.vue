@@ -60,7 +60,7 @@ const headers: any = [
   },
   {
     title: 'الحالة',
-    key: 'blocked_at',
+    key: 'is_active',
   },
   {
     title: 'العمليات',
@@ -152,10 +152,10 @@ getPageData()
         <template #item.value_out_platform="{ item }">
           {{ item.raw.value_out_platform }} %
         </template>
-        <template #item.blocked_at="{ item }">
+        <template #item.is_active="{ item }">
           <ToggleActivationSwitch
             :id="item.raw.id"
-            v-model="item.raw.blocked_at"
+            v-model="item.raw.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />

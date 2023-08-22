@@ -64,7 +64,7 @@ const formData = reactive<PaymentMethod>({
   iban: '',
   icloud: '',
   phone: '',
-  blocked_at: true,
+  is_active: true,
 })
 
 // #endregion

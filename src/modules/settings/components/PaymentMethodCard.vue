@@ -34,7 +34,7 @@ const { hasPermission } = useAuthStore()
 const { getImageUrl } = UseGeneralHelpers()
 const MODEL_NAME = 'billing_cards'
 
-const cardStatus = ref(props.payment.blocked_at)
+const cardStatus = ref(props.payment.is_active)
 
 // #endregion
 

@@ -43,5 +43,5 @@ export interface PaymentMethod {
   phone?: string
   icloud?: string
   cvv?: string
-  blocked_at: boolean
+  is_active: boolean
 }

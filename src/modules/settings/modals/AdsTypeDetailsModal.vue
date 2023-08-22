@@ -75,9 +75,9 @@ const showModal = useVModel(props, 'showModal', emit)
               />
             </VList>
             <AppSwitch
-              :model-value="activeItem.blocked_at"
+              :model-value="activeItem.is_active"
               label="الحالة"
-              name="blocked_at"
+              name="is_active"
             />
           </VCardText>
         </VCard>

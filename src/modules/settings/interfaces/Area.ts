@@ -1,6 +1,6 @@
 export interface Area {
   id?: number
-  blocked_at?: boolean
+  is_active?: boolean
   sort?: number
   name: {
     en: string

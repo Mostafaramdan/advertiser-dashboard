@@ -114,7 +114,7 @@ function submit() {
               v-if="item.type === 'number'"
               v-model="item.value"
               :name="`value-${item.id}`"
-              :rules="{ required: item.blocked_at, numeric: true, min: 10, max: 14 }"
+              :rules="{ required: item.is_active, numeric: true, min: 10, max: 14 }"
               label="هذ الحقل"
               class="text-input"
               type="number"
@@ -124,7 +124,7 @@ function submit() {
               v-else-if="item.type === 'text'"
               v-model.number="item.value"
               :name="`value-${item.id}`"
-              :rules="{ required: item.blocked_at, url: true }"
+              :rules="{ required: item.is_active, url: true }"
               label="هذ الحقل"
               class="text-input"
               placeholder="ادخل الرابط"
@@ -133,7 +133,7 @@ function submit() {
 
           <div class="py-0 v-col-12 v-col-md-2 d-flex justify-md-center">
             <VSwitch
-              v-model="item.blocked_at"
+              v-model="item.is_active"
               hide-details
               density="comfortable"
               :inset="false"

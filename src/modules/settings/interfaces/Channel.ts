@@ -5,7 +5,7 @@ export interface Channel {
   name: { en: string; ar: string }
   followers_percentage: number | null
   channel_type: '1' | '2' | null
-  blocked_at?: boolean
+  is_active?: boolean
   image_id?: number | null
   image?: File | null
 }

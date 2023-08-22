@@ -5,5 +5,5 @@ export interface Question {
   for: string[]
   category?: { name: string; id: number }
   category_id?: number | null
-  blocked_at?: boolean
+  is_active?: boolean
 }

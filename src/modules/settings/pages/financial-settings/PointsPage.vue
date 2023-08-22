@@ -124,7 +124,7 @@ function submit() {
 
           <div class="py-0 v-col-12 v-col-md-2 d-flex justify-md-center">
             <VSwitch
-              v-model="item.blocked_at"
+              v-model="item.is_active"
               hide-details
               density="comfortable"
               :inset="false"
