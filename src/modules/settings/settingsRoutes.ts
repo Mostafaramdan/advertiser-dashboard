@@ -139,4 +139,56 @@ export const settingsRoutes = [
       },
     ],
   },
+  {
+    path: 'advertisers-accounts',
+    name: 'advertisers-accounts',
+    component: () => import('./pages/advertisers-accounts/IndexPage.vue'),
+    meta: {
+      requireAtLeastOneAccess: ['ads_types', 'discrimination_types', 'entities', 'entities'],
+    },
+    children: [
+      {
+        path: 'ads-types',
+        name: 'ads-types-settings',
+        component: () => import('./pages/advertisers-accounts/AdsTypesPage.vue'),
+        meta: {
+          requiredAccess: 'ads_types',
+        },
+      },
+      {
+        path: 'discrimination-types',
+        name: 'discrimination-types-settings',
+        component: () => import('./pages/advertisers-accounts/DiscriminationTypesPage.vue'),
+        meta: {
+          requiredAccess: 'discrimination_types',
+        },
+      },
+
+      // TODO: add permissions
+      {
+        path: 'effect-slides',
+        name: 'effect-slides-settings',
+        component: () => import('./pages/advertisers-accounts/EffectSlidesPage.vue'),
+        meta: {
+          requiredAccess: 'entities',
+        },
+      },
+      {
+        path: 'accounts-cases',
+        name: 'accounts-cases-settings',
+        component: () => import('./pages/advertisers-accounts/AccountsCasesPage.vue'),
+        meta: {
+          requiredAccess: 'entities',
+        },
+      },
+      {
+        path: 'subscription',
+        name: 'subscription-settings',
+        component: () => import('./pages/advertisers-accounts/SubscriptionPage.vue'),
+        meta: {
+          requiredAccess: 'entities',
+        },
+      },
+    ],
+  },
 ]

@@ -136,6 +136,40 @@ const navItems = computed(() => {
           to: { name: 'questions-settings' },
           show: canAccessPage('questions'),
         },
+        {
+          title: 'حسابات المعلنين',
+          show: canAccessAtLeastOnePage(['ads_types', 'discrimination_types']),
+          to: null,
+          children: [
+            {
+              title: 'أنواع الاعلانات',
+              to: { name: 'ads-types-settings' },
+              show: canAccessPage('ads_types'),
+            },
+            {
+              title: 'انواع تمييز الحسابات',
+              to: { name: 'discrimination-types-settings' },
+              show: canAccessPage('discrimination_types'),
+            },
+
+            // TODO: add permissions
+            {
+              title: 'شرائح التأثير',
+              to: { name: 'effect-slides-settings' },
+              show: canAccessPage('entities'),
+            },
+            {
+              title: 'حالات الحسابات',
+              to: { name: 'accounts-cases-settings' },
+              show: canAccessPage('entities'),
+            },
+            {
+              title: 'إعدادات الاشتراك',
+              to: { name: 'subscription-settings' },
+              show: canAccessPage('entities'),
+            },
+          ],
+        },
       ],
     },
 

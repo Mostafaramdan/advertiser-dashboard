@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { PaymentCommission } from '../../interfaces/PaymentCommission'
-import PaymentCommissionDetailsModal from '../../modals/PaymentCommissionDetailsModal.vue'
-import PaymentCommissionFormModal from '../../modals/PaymentCommissionFormModal.vue'
-import { paymentCommissionService } from '../../services/PaymentCommissionService'
+import type { AdsType } from '../../interfaces/AdsType'
+import AdsTypeDetailsModal from '../../modals/AdsTypeDetailsModal.vue'
+import AdsTypeFormModal from '../../modals/AdsTypeFormModal.vue'
+import { adsTypesService } from '../../services/AdsTypesService'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { pageAction } from '@/interfaces/Shared'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
@@ -14,7 +14,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'payment_commissions'
+const MODEL_NAME = 'ads_types'
 
 const params = reactive({
   page: 1,
@@ -43,36 +43,20 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<PaymentCommission>(paymentCommissionService, params, MODEL_NAME)
+} = UseCrudHelpers<AdsType>(adsTypesService, params, MODEL_NAME)
 
 const headers: any = [
   {
     title: '#',
-    key: 'id',
+    key: 'sort',
   },
   {
-    title: 'الاسم',
-    key: 'name',
+    title: 'الاسم عربي',
+    key: 'name.ar',
   },
   {
-    title: 'الحد الادنى',
-    key: 'minimum',
-    align: 'center',
-  },
-  {
-    title: 'الحد الأعلى',
-    key: 'maximum',
-    align: 'center',
-  },
-  {
-    title: 'نسبة العمولة داخل المنصة',
-    key: 'value_in_platform',
-    align: 'center',
-  },
-  {
-    title: 'نسبة العمولة خارج المنصة',
-    key: 'value_out_platform',
-    align: 'center',
+    title: 'الاسم انجليزي',
+    key: 'name.en',
   },
   {
     title: 'الحالة',
@@ -92,11 +76,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_payment_commission'),
-  edit: hasPermission('update_payment_commission'),
-  delete: hasPermission('delete_payment_commission'),
-  changeStatus: hasPermission('change_status_payment_commission'),
-  sort: hasPermission('sort_payment_commission'),
+  create: hasPermission('create_ads_type'),
+  edit: hasPermission('update_ads_type'),
+  delete: hasPermission('delete_ads_type'),
+  changeStatus: hasPermission('change_status_ads_type'),
+  sort: hasPermission('sort_ads_type'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -121,19 +105,19 @@ getPageData()
 </script>
 
 <template>
-  <ConfirmModal ref="confirmModal" />
+  <div>
+    <ConfirmModal ref="confirmModal" />
 
-  <PaymentCommissionFormModal
-    v-if="showFormModal"
-    v-model:showModal="showFormModal"
-    :form-action="FormAction"
-    :active-item="activeItem"
-    @create-item="onCreateItem"
-    @edit-item="onEditItem"
-  />
-  <PaymentCommissionDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+    <AdsTypeFormModal
+      v-if="showFormModal"
+      v-model:showModal="showFormModal"
+      :form-action="FormAction"
+      :active-item="activeItem"
+      @create-item="onCreateItem"
+      @edit-item="onEditItem"
+    />
+    <AdsTypeDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
 
-  <VCard flat>
     <div class="pt-1">
       <PageActions
         :page-actions-buttons="pageActionsButtons"
@@ -229,7 +213,7 @@ getPageData()
         </template>
       </VDataTableServer>
     </div>
-  </VCard>
+  </div>
 </template>
 
 <style lang="scss" scoped>

@@ -1,9 +1,9 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { Channel } from './../interfaces/Channel'
+import type { Entity } from './../interfaces/Entity'
 
-class ChannelsService {
-  contextPath = 'channels'
+class AdsTypesService {
+  contextPath = 'ads_types'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -11,12 +11,12 @@ class ChannelsService {
   }
 
   /** **************** post ******************/
-  createItem(data: Channel): AxiosPromise {
+  createItem(data: Entity): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 
   /** **************** put ******************/
-  editItem(data: Channel): AxiosPromise {
+  editItem(data: Entity): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
   }
 
@@ -26,4 +26,4 @@ class ChannelsService {
   }
 }
 
-export const channelsService = new ChannelsService()
+export const adsTypesService = new AdsTypesService()

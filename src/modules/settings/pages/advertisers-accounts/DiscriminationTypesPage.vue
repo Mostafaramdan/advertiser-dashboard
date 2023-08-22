@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { PaymentCommission } from '../../interfaces/PaymentCommission'
-import PaymentCommissionDetailsModal from '../../modals/PaymentCommissionDetailsModal.vue'
-import PaymentCommissionFormModal from '../../modals/PaymentCommissionFormModal.vue'
-import { paymentCommissionService } from '../../services/PaymentCommissionService'
+import type { DiscriminationType } from '../../interfaces/DiscriminationType'
+import DiscriminationTypeDetailsModal from '../../modals/DiscriminationTypeDetailsModal.vue'
+import DiscriminationTypeFormModal from '../../modals/DiscriminationTypeFormModal.vue'
+import { discriminationTypeService } from '../../services/DiscriminationTypeService'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { pageAction } from '@/interfaces/Shared'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
@@ -14,7 +14,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'payment_commissions'
+const MODEL_NAME = 'discrimination_types'
 
 const params = reactive({
   page: 1,
@@ -43,35 +43,29 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<PaymentCommission>(paymentCommissionService, params, MODEL_NAME)
+} = UseCrudHelpers<DiscriminationType>(discriminationTypeService, params, MODEL_NAME)
 
 const headers: any = [
   {
     title: '#',
-    key: 'id',
+    key: 'sort',
   },
   {
-    title: 'الاسم',
-    key: 'name',
+    title: 'الاسم عربي',
+    key: 'name.ar',
   },
   {
-    title: 'الحد الادنى',
+    title: 'الاسم انجليزي',
+    key: 'name.en',
+  },
+  {
+    title: 'الحد الادني للشريحة',
     key: 'minimum',
     align: 'center',
   },
   {
-    title: 'الحد الأعلى',
+    title: 'الحد الاعلي للشريحة',
     key: 'maximum',
-    align: 'center',
-  },
-  {
-    title: 'نسبة العمولة داخل المنصة',
-    key: 'value_in_platform',
-    align: 'center',
-  },
-  {
-    title: 'نسبة العمولة خارج المنصة',
-    key: 'value_out_platform',
     align: 'center',
   },
   {
@@ -92,11 +86,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_payment_commission'),
-  edit: hasPermission('update_payment_commission'),
-  delete: hasPermission('delete_payment_commission'),
-  changeStatus: hasPermission('change_status_payment_commission'),
-  sort: hasPermission('sort_payment_commission'),
+  create: hasPermission('create_discrimination_type'),
+  edit: hasPermission('update_discrimination_type'),
+  delete: hasPermission('delete_discrimination_type'),
+  changeStatus: hasPermission('change_status_discrimination_type'),
+  sort: hasPermission('sort_discrimination_type'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -121,19 +115,17 @@ getPageData()
 </script>
 
 <template>
-  <ConfirmModal ref="confirmModal" />
-
-  <PaymentCommissionFormModal
-    v-if="showFormModal"
-    v-model:showModal="showFormModal"
-    :form-action="FormAction"
-    :active-item="activeItem"
-    @create-item="onCreateItem"
-    @edit-item="onEditItem"
-  />
-  <PaymentCommissionDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
-
-  <VCard flat>
+  <div>
+    <ConfirmModal ref="confirmModal" />
+    <DiscriminationTypeFormModal
+      v-if="showFormModal"
+      v-model:showModal="showFormModal"
+      :form-action="FormAction"
+      :active-item="activeItem"
+      @edit-item="onEditItem"
+      @create-item="onCreateItem"
+    />
+    <DiscriminationTypeDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
     <div class="pt-1">
       <PageActions
         :page-actions-buttons="pageActionsButtons"
@@ -157,17 +149,32 @@ getPageData()
         class="app-table"
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
-        <template #item.name="{ item }">
-          <span>
-            {{ item.raw.name }}
+        <template #item.name.ar="{ item }">
+          <div class="d-flex align-center">
+            <VAvatar
+              size="38"
+              variant="tonal"
+              class="me-3"
+              cover
+            >
+              <VImg
+                v-if="item.raw.image"
+                :src="item.raw.image.path"
+                cover
+              />
+              <span v-else>!</span>
+            </VAvatar>
+            <span style="min-width: 100px;">
+              {{ item.raw.name.ar }}
+            </span>
+          </div>
+        </template>
+        <template #item.name.en="{ item }">
+          <span style="min-width: 100px;">
+            {{ item.raw.name.en }}
           </span>
         </template>
-        <template #item.value_in_platform="{ item }">
-          {{ item.raw.value_in_platform }} %
-        </template>
-        <template #item.value_out_platform="{ item }">
-          {{ item.raw.value_out_platform }} %
-        </template>
+
         <template #item.blocked_at="{ item }">
           <ToggleActivationSwitch
             :id="item.raw.id"
@@ -229,7 +236,7 @@ getPageData()
         </template>
       </VDataTableServer>
     </div>
-  </VCard>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -239,6 +246,10 @@ getPageData()
 
   span {
     @include max-lines(2);
+  }
+
+  .v-img__img--contain {
+    object-fit: cover;
   }
 }
 </style>
