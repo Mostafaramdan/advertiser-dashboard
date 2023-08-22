@@ -48,6 +48,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'reports-reasons',
+    name: 'reports-reasons-settings',
+    component: () => import('./pages/ReportsReasons.vue'),
+    meta: {
+      requiredAccess: 'report_reasons',
+    },
+  },
+  {
     path: 'questions',
     name: 'questions-settings',
     component: () => import('./pages/QuestionsPage.vue'),

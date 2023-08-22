@@ -163,6 +163,11 @@ const navItems = computed(() => {
             },
           ],
         },
+        {
+          title: 'أسباب البلاغات',
+          to: { name: 'reports-reasons-settings' },
+          show: canAccessPage('report_reasons'),
+        },
       ],
     },
 
