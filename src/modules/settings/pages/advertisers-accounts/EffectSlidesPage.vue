@@ -1,3 +1,0 @@
-<template>
-  effect slides
-</template>

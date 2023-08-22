@@ -144,7 +144,7 @@ export const settingsRoutes = [
     name: 'advertisers-accounts',
     component: () => import('./pages/advertisers-accounts/IndexPage.vue'),
     meta: {
-      requireAtLeastOneAccess: ['ads_types', 'discrimination_types', 'entities', 'entities'],
+      requireAtLeastOneAccess: ['ads_types', 'discrimination_types', 'account_cases', 'subscription_settings'],
     },
     children: [
       {
@@ -163,22 +163,12 @@ export const settingsRoutes = [
           requiredAccess: 'discrimination_types',
         },
       },
-
-      // TODO: add permissions
-      {
-        path: 'effect-slides',
-        name: 'effect-slides-settings',
-        component: () => import('./pages/advertisers-accounts/EffectSlidesPage.vue'),
-        meta: {
-          requiredAccess: 'entities',
-        },
-      },
       {
         path: 'accounts-cases',
         name: 'accounts-cases-settings',
         component: () => import('./pages/advertisers-accounts/AccountsCasesPage.vue'),
         meta: {
-          requiredAccess: 'entities',
+          requiredAccess: 'account_cases',
         },
       },
       {
@@ -186,7 +176,7 @@ export const settingsRoutes = [
         name: 'subscription-settings',
         component: () => import('./pages/advertisers-accounts/SubscriptionPage.vue'),
         meta: {
-          requiredAccess: 'entities',
+          requiredAccess: 'subscription_settings',
         },
       },
     ],

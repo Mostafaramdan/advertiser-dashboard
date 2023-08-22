@@ -138,7 +138,7 @@ const navItems = computed(() => {
         },
         {
           title: 'حسابات المعلنين',
-          show: canAccessAtLeastOnePage(['ads_types', 'discrimination_types']),
+          show: canAccessAtLeastOnePage(['ads_types', 'discrimination_types', 'account_cases', 'subscription_settings']),
           to: null,
           children: [
             {
@@ -151,22 +151,15 @@ const navItems = computed(() => {
               to: { name: 'discrimination-types-settings' },
               show: canAccessPage('discrimination_types'),
             },
-
-            // TODO: add permissions
-            {
-              title: 'شرائح التأثير',
-              to: { name: 'effect-slides-settings' },
-              show: canAccessPage('entities'),
-            },
             {
               title: 'حالات الحسابات',
               to: { name: 'accounts-cases-settings' },
-              show: canAccessPage('entities'),
+              show: canAccessPage('account_cases'),
             },
             {
               title: 'إعدادات الاشتراك',
               to: { name: 'subscription-settings' },
-              show: canAccessPage('entities'),
+              show: canAccessPage('subscription_settings'),
             },
           ],
         },
