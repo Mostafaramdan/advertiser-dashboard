@@ -110,9 +110,9 @@ function create() {
   platformService.createPaymentMethod(formData).then(res => {
     toast.success(res.data.message)
     emit('createItem', res.data.data)
+    showModal.value = false
   }).finally(() => {
     isLoading.value = false
-    showModal.value = false
   })
 }
 

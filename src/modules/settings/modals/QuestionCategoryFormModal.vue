@@ -73,9 +73,9 @@ function edit() {
 
     // emit('editItem', res.data)
     emit('editItem', formData)
+    showModal.value = false
   }).finally(() => {
     isLoading.value = false
-    showModal.value = false
   })
 }
 
@@ -83,9 +83,9 @@ function create() {
   questionsCategoriesService.createItem(formData).then(res => {
     toast.success(res.data.message)
     emit('createItem', res.data)
+    showModal.value = false
   }).finally(() => {
     isLoading.value = false
-    showModal.value = false
   })
 }
 
