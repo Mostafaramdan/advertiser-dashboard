@@ -168,6 +168,11 @@ const navItems = computed(() => {
           to: { name: 'reports-reasons-settings' },
           show: canAccessPage('report_reasons'),
         },
+        {
+          title: 'عناصر التقييم',
+          to: { name: 'rating-items-settings' },
+          show: canAccessPage('rate_types'),
+        },
       ],
     },
 

@@ -64,6 +64,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'rating-items',
+    name: 'rating-items-settings',
+    component: () => import('./pages/RateItemsPage.vue'),
+    meta: {
+      requiredAccess: 'rate_types',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),

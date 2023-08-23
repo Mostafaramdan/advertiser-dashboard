@@ -1,7 +1,7 @@
 import type { ObjectDirective } from 'vue'
 
 const loadingDirective: ObjectDirective<HTMLElement> = {
-  mounted(el) {
+  mounted(el, binding) {
     const targetElement = el as HTMLElement
 
     targetElement.style.position = 'relative'
@@ -16,6 +16,12 @@ const loadingDirective: ObjectDirective<HTMLElement> = {
 
     loadingContainer.appendChild(spinnerCircleElement)
     targetElement.appendChild(loadingContainer)
+
+    if (binding.value)
+      loadingContainer.style.display = 'flex'
+
+    else
+      loadingContainer.style.display = 'none'
   },
   updated(el, binding) {
     const loadingElement = el.querySelector('.v-app-loader') as HTMLElement

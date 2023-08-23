@@ -29,8 +29,27 @@ export const PAYMENT_GET_WAYS: any = {
   stc_pay: 'stc_pay',
 }
 
+// users types
 export const USERS_TYPES: any = {
   advertiser: 'معلنين',
   user: 'تجار',
   guest: 'زوار',
+}
+
+// rate item types
+export const RATE_ITEM_TYPES: any = {
+  positive: 'ايجابي',
+  negative: 'سلبي',
+}
+
+// rate item ways
+export const RATE_ITEM_WAYS: any = {
+  straight: 'مباشر',
+  question: 'سؤال',
+}
+
+// rate item targets
+export const RATE_ITEM_TARGETS: any = {
+  advertiser: 'المعلن',
+  user: 'التاجر',
 }
