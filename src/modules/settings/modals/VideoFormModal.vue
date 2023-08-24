@@ -46,7 +46,7 @@ const isLoading = reactive({
 
 const categoriesSelectRef = ref()
 const formRef = ref<any>(null)
-const MAX_FILE_SIZE = 10
+const MAX_FILE_SIZE = 40
 const videosLists = ref<VideoListItem[]>([])
 
 const formData = reactive<Video>({
