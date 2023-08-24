@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { TermsConditionsItem } from '../interfaces/TermsConditionsItem'
-import TermsConditionsDetailsModal from '../modals/TermsConditionsDetailsModal.vue'
-import TermsConditionsFormModal from '../modals/TermsConditionsFormModal.vue'
-import { termsConditionsService } from '../services/TermsConditionsService'
+import type { SubscriptionExtraPoint } from '../interfaces/SubscriptionExtraPoint'
+import SubscriptionExtraPointDetailsModal from '../modals/SubscriptionExtraPointDetailsModal.vue'
+import SubscriptionExtraPointFormModal from '../modals/SubscriptionExtraPointFormModal.vue'
+import { subscriptionExtraPointsService } from '../services/SubscriptionExtraPointsService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { listService } from '@/services/ListService'
 import type { pageAction } from '@/interfaces/Shared'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
@@ -15,25 +14,13 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'terms'
+const MODEL_NAME = 'subscription_extra_points'
 
-const params: any = reactive({
+const params = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
-  type: ['support'],
 })
-
-const isLoading = reactive({
-  types: false,
-})
-
-const termsConditionsTypes = ref<{ label: string; id: string }[]>([
-  {
-    id: 'support',
-    label: 'شروط واحكام عامة',
-  },
-])
 
 const {
   selectedItems,
@@ -56,7 +43,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<TermsConditionsItem>(termsConditionsService, params, MODEL_NAME)
+} = UseCrudHelpers<SubscriptionExtraPoint>(subscriptionExtraPointsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -64,12 +51,12 @@ const headers: any = [
     key: 'sort',
   },
   {
-    title: 'العنوان',
-    key: 'name',
+    title: 'الاسم عربي',
+    key: 'name.ar',
   },
   {
-    title: 'النوع',
-    key: 'type',
+    title: 'الاسم انجليزي',
+    key: 'name.en',
   },
   {
     title: 'الحالة',
@@ -89,11 +76,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_term'),
-  edit: hasPermission('update_term'),
-  delete: hasPermission('delete_term'),
-  changeStatus: hasPermission('change_status_term'),
-  sort: hasPermission('sort_term'),
+  create: hasPermission('create_subscription_extra_point'),
+  edit: hasPermission('update_subscription_extra_point'),
+  delete: hasPermission('delete_subscription_extra_point'),
+  changeStatus: hasPermission('change_status_subscription_extra_point'),
+  sort: hasPermission('sort_subscription_extra_point'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -112,41 +99,7 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-getTermsConditionsTypes()
 getPageData()
-
-// #endregion
-
-/***************************************
- **** Section Functions Declaration ****
- **************************************/
-// #region Functions
-function getTermsConditionsTypes() {
-  isLoading.types = true
-  listService.getTermsConditionsTypes().then(res => {
-    termsConditionsTypes.value = res.data
-  }).finally(() => {
-    isLoading.types = false
-  })
-}
-
-function handleOnEditItem(item: TermsConditionsItem) {
-  if (params.type.includes(item.type.id)) {
-    onEditItem(item)
-  }
-
-  else {
-    params.type.push(item.type.id)
-    getPageData()
-  }
-}
-
-function handleCreateItem(item: any) {
-  if (!params.type.includes(item.data?.type?.id))
-    params.type.push(item.type)
-
-  onCreateItem(item)
-}
 
 // #endregion
 </script>
@@ -154,17 +107,16 @@ function handleCreateItem(item: any) {
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
-    <TermsConditionsFormModal
+    <SubscriptionExtraPointFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
       :active-item="activeItem"
-      :terms-conditions-types="termsConditionsTypes"
-      @edit-item="handleOnEditItem"
-      @create-item="handleCreateItem"
+      @create-item="onCreateItem"
+      @edit-item="onEditItem"
     />
-    <TermsConditionsDetailsModal v-if="showDetailsModal" v-model:showModal="showDetailsModal" :active-item="activeItem" />
-    <VCard title="الشروط والاحكام" class="page-card">
+    <SubscriptionExtraPointDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+    <VCard title="بنود إضافية للباقات" class="page-card">
       <VCardText>
         <PageActions
           :page-actions-buttons="pageActionsButtons"
@@ -176,36 +128,7 @@ function handleCreateItem(item: any) {
           @update:items-per-page="onChangeItemsPerPage"
           @update:search="onChangeSearch"
           @reload-data="onReloadData"
-        >
-          <div class="v-col-md-4 pa-0">
-            <AppSelect
-              v-model="params.type"
-              multiple
-              name="type"
-              :items="termsConditionsTypes"
-              item-title="label"
-              item-value="id"
-              label="النوع"
-              hide-default-label
-              :loading="isLoading.types"
-              :disabled="isLoading.types"
-              @update:model-value="onReloadData"
-            >
-              <template #selection="{ item, index }">
-                <VChip v-if="index < 1">
-                  <span>{{ item.title }}</span>
-                </VChip>
-                <span
-                  v-if="index === 1"
-                  class="text-grey text-caption align-self-center"
-                >
-                  (+{{ params.type.length - 1 }} اخري)
-                </span>
-              </template>
-            </AppSelect>
-          </div>
-          <span class="me-auto" />
-        </PageActions>
+        />
         <VDataTableServer
           v-model="selectedItems"
           v-loading="IsLoadingData"
@@ -217,18 +140,16 @@ function handleCreateItem(item: any) {
           class="app-table"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
-          <template #item.name="{ item }">
-            <span style="min-width: 200px;">
-              {{ item.raw.name }}
+          <template #item.name.ar="{ item }">
+            <span style="min-width: 170px;">
+              {{ item.raw.name.ar || '-' }}
             </span>
           </template>
-
-          <template #item.type="{ item }">
-            <span style="min-width: 150px;">
-              {{ item.raw.type.label }}
+          <template #item.name.en="{ item }">
+            <span style="min-width: 170px;">
+              {{ item.raw.name.en || '-' }}
             </span>
           </template>
-
           <template #item.is_active="{ item }">
             <ToggleActivationSwitch
               :id="item.raw.id"
@@ -295,14 +216,6 @@ function handleCreateItem(item: any) {
 </template>
 
 <style lang="scss" scoped>
-:deep(.v-select__selection-text) {
-  @include max-lines(1);
-}
-
-:deep(.search-input) {
-  margin: 0 !important;
-}
-
 :deep(.v-data-table .v-table__wrapper > table td) {
   max-inline-size: 250px;
   word-wrap: break-word;

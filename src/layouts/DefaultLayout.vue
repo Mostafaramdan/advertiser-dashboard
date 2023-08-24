@@ -178,6 +178,16 @@ const navItems = computed(() => {
           to: { name: 'terms-conditions-settings' },
           show: canAccessPage('terms'),
         },
+        {
+          title: 'بنود إضافية للباقات',
+          to: { name: 'subscription-extra-points-settings' },
+          show: canAccessPage('subscription_extra_points'),
+        },
+        {
+          title: 'جديد المنصة',
+          to: { name: 'platform-news-settings' },
+          show: canAccessPage('page_news'),
+        },
       ],
     },
 

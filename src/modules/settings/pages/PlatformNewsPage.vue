@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { TermsConditionsItem } from '../interfaces/TermsConditionsItem'
-import TermsConditionsDetailsModal from '../modals/TermsConditionsDetailsModal.vue'
-import TermsConditionsFormModal from '../modals/TermsConditionsFormModal.vue'
-import { termsConditionsService } from '../services/TermsConditionsService'
+import type { PlatformNewsItem } from '../interfaces/PlatformNewsItem'
+import PlatformNewsDetailsModal from '../modals/PlatformNewsDetailsModal.vue'
+import PlatformNewsFormModal from '../modals/PlatformNewsFormModal.vue'
+import { platformNewsService } from '../services/PlatformNewsService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { listService } from '@/services/ListService'
 import type { pageAction } from '@/interfaces/Shared'
+import { USERS_TYPES } from '@/constants/settings'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
@@ -15,7 +15,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'terms'
+const MODEL_NAME = 'page_news'
 
 const params: any = reactive({
   page: 1,
@@ -23,17 +23,6 @@ const params: any = reactive({
   keyword: '',
   type: ['support'],
 })
-
-const isLoading = reactive({
-  types: false,
-})
-
-const termsConditionsTypes = ref<{ label: string; id: string }[]>([
-  {
-    id: 'support',
-    label: 'شروط واحكام عامة',
-  },
-])
 
 const {
   selectedItems,
@@ -56,7 +45,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<TermsConditionsItem>(termsConditionsService, params, MODEL_NAME)
+} = UseCrudHelpers<PlatformNewsItem>(platformNewsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -68,8 +57,8 @@ const headers: any = [
     key: 'name',
   },
   {
-    title: 'النوع',
-    key: 'type',
+    title: 'نوع المستخدمين',
+    key: 'for',
   },
   {
     title: 'الحالة',
@@ -89,11 +78,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_term'),
-  edit: hasPermission('update_term'),
-  delete: hasPermission('delete_term'),
-  changeStatus: hasPermission('change_status_term'),
-  sort: hasPermission('sort_term'),
+  create: hasPermission('create_page_new'),
+  edit: hasPermission('update_page_new'),
+  delete: hasPermission('delete_page_new'),
+  changeStatus: hasPermission('change_status_page_new'),
+  sort: hasPermission('sort_page_new'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -112,41 +101,7 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-getTermsConditionsTypes()
 getPageData()
-
-// #endregion
-
-/***************************************
- **** Section Functions Declaration ****
- **************************************/
-// #region Functions
-function getTermsConditionsTypes() {
-  isLoading.types = true
-  listService.getTermsConditionsTypes().then(res => {
-    termsConditionsTypes.value = res.data
-  }).finally(() => {
-    isLoading.types = false
-  })
-}
-
-function handleOnEditItem(item: TermsConditionsItem) {
-  if (params.type.includes(item.type.id)) {
-    onEditItem(item)
-  }
-
-  else {
-    params.type.push(item.type.id)
-    getPageData()
-  }
-}
-
-function handleCreateItem(item: any) {
-  if (!params.type.includes(item.data?.type?.id))
-    params.type.push(item.type)
-
-  onCreateItem(item)
-}
 
 // #endregion
 </script>
@@ -154,17 +109,16 @@ function handleCreateItem(item: any) {
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
-    <TermsConditionsFormModal
+    <PlatformNewsFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
       :active-item="activeItem"
-      :terms-conditions-types="termsConditionsTypes"
-      @edit-item="handleOnEditItem"
-      @create-item="handleCreateItem"
+      @edit-item="onEditItem"
+      @create-item="onCreateItem"
     />
-    <TermsConditionsDetailsModal v-if="showDetailsModal" v-model:showModal="showDetailsModal" :active-item="activeItem" />
-    <VCard title="الشروط والاحكام" class="page-card">
+    <PlatformNewsDetailsModal v-if="showDetailsModal" v-model:showModal="showDetailsModal" :active-item="activeItem" />
+    <VCard title="جديد المنصة" class="page-card">
       <VCardText>
         <PageActions
           :page-actions-buttons="pageActionsButtons"
@@ -176,36 +130,7 @@ function handleCreateItem(item: any) {
           @update:items-per-page="onChangeItemsPerPage"
           @update:search="onChangeSearch"
           @reload-data="onReloadData"
-        >
-          <div class="v-col-md-4 pa-0">
-            <AppSelect
-              v-model="params.type"
-              multiple
-              name="type"
-              :items="termsConditionsTypes"
-              item-title="label"
-              item-value="id"
-              label="النوع"
-              hide-default-label
-              :loading="isLoading.types"
-              :disabled="isLoading.types"
-              @update:model-value="onReloadData"
-            >
-              <template #selection="{ item, index }">
-                <VChip v-if="index < 1">
-                  <span>{{ item.title }}</span>
-                </VChip>
-                <span
-                  v-if="index === 1"
-                  class="text-grey text-caption align-self-center"
-                >
-                  (+{{ params.type.length - 1 }} اخري)
-                </span>
-              </template>
-            </AppSelect>
-          </div>
-          <span class="me-auto" />
-        </PageActions>
+        />
         <VDataTableServer
           v-model="selectedItems"
           v-loading="IsLoadingData"
@@ -223,12 +148,19 @@ function handleCreateItem(item: any) {
             </span>
           </template>
 
-          <template #item.type="{ item }">
-            <span style="min-width: 150px;">
-              {{ item.raw.type.label }}
-            </span>
+          <template #item.for="{ item }">
+            <div class="d-flex gap-2">
+              <VChip
+                v-for="type in (item.raw.for as unknown)"
+                :key="type"
+                variant="outlined"
+                color="primary"
+                label
+              >
+                {{ USERS_TYPES[type] }}
+              </VChip>
+            </div>
           </template>
-
           <template #item.is_active="{ item }">
             <ToggleActivationSwitch
               :id="item.raw.id"
@@ -295,14 +227,6 @@ function handleCreateItem(item: any) {
 </template>
 
 <style lang="scss" scoped>
-:deep(.v-select__selection-text) {
-  @include max-lines(1);
-}
-
-:deep(.search-input) {
-  margin: 0 !important;
-}
-
 :deep(.v-data-table .v-table__wrapper > table td) {
   max-inline-size: 250px;
   word-wrap: break-word;

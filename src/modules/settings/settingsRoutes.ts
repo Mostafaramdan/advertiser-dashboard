@@ -80,6 +80,22 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'subscription-extra-points',
+    name: 'subscription-extra-points-settings',
+    component: () => import('./pages/SubscriptionExtraPointsPage.vue'),
+    meta: {
+      requiredAccess: 'subscription_extra_points',
+    },
+  },
+  {
+    path: 'platform-news',
+    name: 'platform-news-settings',
+    component: () => import('./pages/PlatformNewsPage.vue'),
+    meta: {
+      requiredAccess: 'page_news',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),
