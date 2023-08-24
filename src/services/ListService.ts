@@ -12,6 +12,10 @@ class ListService {
   getQuestionsCategories(): AxiosPromise {
     return axios.get(`${this.contextPath}/support_categories`)
   }
+
+  getTermsConditionsTypes(): AxiosPromise {
+    return axios.get(`${this.contextPath}/page_rule_types`)
+  }
 }
 
 export const listService = new ListService()

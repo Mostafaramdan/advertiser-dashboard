@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import QuestionsCategoriesSelect from '../components/QuestionsCategoriesSelect.vue'
-import type { Question } from '../interfaces/Question'
-import { questionsService } from '../services/QuestionsService'
+import type { TermsConditionsItem } from '../interfaces/TermsConditionsItem'
+import { termsConditionsService } from '../services/TermsConditionsService'
 import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
-import { USERS_TYPES } from '@/constants/settings'
+import { cloneItem } from '@/helpers/index'
 
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
 // #region Props
-const props = withDefaults(defineProps<FormModalProps>(), {
+interface TermsConditionsFormModalProps extends FormModalProps {
+  termsConditionsTypes: any[]
+}
+
+const props = withDefaults(defineProps<TermsConditionsFormModalProps>(), {
   showModal: false,
 })
 
@@ -24,8 +26,8 @@ const props = withDefaults(defineProps<FormModalProps>(), {
 // #region Emits
 const emit = defineEmits<{
   (e: 'update:showModal', value: boolean): void
-  (e: 'createItem', value: Question): void
-  (e: 'editItem', value: Question): void
+  (e: 'createItem', value: TermsConditionsItem): void
+  (e: 'editItem', value: TermsConditionsItem): void
 }>()
 
 // #endregion
@@ -46,11 +48,10 @@ const isLoading = reactive({
 const formRef = ref<any>(null)
 const categoriesSelectRef = ref()
 
-const formData = reactive({
-  question: '',
-  answer: '',
-  category_id: null,
-  for: [],
+const formData = reactive<TermsConditionsItem>({
+  name: '',
+  description: '',
+  type: null,
   is_active: true,
 })
 
@@ -62,8 +63,8 @@ const formData = reactive({
 // #region Computed
 const formTitle = computed(() => {
   return props.formAction === 'create'
-    ? 'اضافة سؤال'
-    : props.formAction === 'edit' ? 'تعديل سؤال' : 'عرض سؤال'
+    ? 'اضافة شرط'
+    : props.formAction === 'edit' ? 'تعديل شرط' : 'عرض شرط'
 })
 
 // #endregion
@@ -72,9 +73,8 @@ const formTitle = computed(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-
 if (props.activeItem?.id) {
-  Object.assign(formData, { ...cloneItem(props.activeItem), category_id: props.activeItem.category.id })
+  Object.assign(formData, { ...cloneItem(props.activeItem), type: props.activeItem.type.id })
   getItemDetails(props.activeItem.id)
 }
 
@@ -86,17 +86,16 @@ if (props.activeItem?.id) {
 // #region Functions
 function getItemDetails(id: any) {
   isLoading.data = true
-  questionsService.getSingleItem(id).then(res => {
+  termsConditionsService.getSingleItem(id).then(res => {
     const response = res.data.data
 
-    Object.assign(formData, { ...response, category_id: props.activeItem.category.id })
+    Object.assign(formData, { ...response, type: response.type.id })
   }).finally(() => {
     isLoading.data = false
   })
 }
-
 function edit() {
-  questionsService.editItem(formData).then(res => {
+  termsConditionsService.editItem(formData).then(res => {
     toast.success(res.data.message)
 
     // emit('editItem', res.data)
@@ -108,7 +107,7 @@ function edit() {
 }
 
 function create() {
-  questionsService.createItem(formData).then(res => {
+  termsConditionsService.createItem(formData).then(res => {
     toast.success(res.data.message)
     emit('createItem', res.data)
     showModal.value = false
@@ -149,19 +148,23 @@ const submit = () => {
             <VRow>
               <VCol cols="12" md="6">
                 <AppTextField
-                  v-model="formData.question"
-                  label="السؤال"
-                  name="question"
-                  rules="required|min:3"
+                  v-model="formData.name"
+                  label="العنوان"
+                  name="name"
+                  rules="required|min:10|max:55"
                 />
               </VCol>
               <VCol cols="12" md="6">
                 <div ref="categoriesSelectRef" class="categories-select">
-                  <QuestionsCategoriesSelect
-                    v-model="formData.category_id"
-                    label="القسم"
-                    name="category_id"
+                  <AppSelect
+                    v-model="formData.type"
+                    name="type"
+                    :items="termsConditionsTypes"
+                    item-title="label"
+                    item-value="id"
+                    label="النوع"
                     rules="required"
+                    clearable
                     :menu-props="{
                       'attach': categoriesSelectRef,
                       'location-strategy': 'static',
@@ -171,21 +174,10 @@ const submit = () => {
               </VCol>
               <VCol cols="12">
                 <AppTextEditor
-                  v-model="formData.answer"
-                  label="الاجابة"
-                  name="answer"
+                  v-model="formData.description"
+                  label="الوصف"
+                  name="description"
                   rules="required|min:3"
-                />
-              </VCol>
-              <VCol cols="12" class="pb-0">
-                <AppCheckbox
-                  v-model="formData.for"
-                  :options="getOptionsArrayFromObject(USERS_TYPES)"
-                  name="type"
-                  label="نوع المستخدمين"
-                  rules="required"
-                  option-label="label"
-                  option-value="value"
                 />
               </VCol>
               <VCol cols="12">
@@ -206,7 +198,7 @@ const submit = () => {
             >
               {{ t('actions.cancel') }}
             </VBtn>
-            <VBtn :loading="isLoading.submit" :disabled="isLoading.submit || isLoading.data || !meta.valid" @click="submit">
+            <VBtn :loading="isLoading.submit" :disabled="isLoading.data || isLoading.submit || !meta.valid" @click="submit">
               {{ formAction === 'edit' ? t('actions.save') : t('actions.create') }}
             </VBtn>
           </VCardText>

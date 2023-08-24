@@ -1,9 +1,9 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { Question } from './../interfaces/Question'
+import type { TermsConditionsItem } from './../interfaces/TermsConditionsItem'
 
-class QuestionsService {
-  contextPath = 'questions'
+class TermsConditionsService {
+  contextPath = 'terms'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -15,12 +15,12 @@ class QuestionsService {
   }
 
   /** **************** post ******************/
-  createItem(data: Question): AxiosPromise {
+  createItem(data: TermsConditionsItem): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 
   /** **************** put ******************/
-  editItem(data: Question): AxiosPromise {
+  editItem(data: TermsConditionsItem): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
   }
 
@@ -30,4 +30,4 @@ class QuestionsService {
   }
 }
 
-export const questionsService = new QuestionsService()
+export const termsConditionsService = new TermsConditionsService()

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'
-import { questionsService } from '../services/QuestionsService'
-import { USERS_TYPES } from '@/constants/settings'
+import { termsConditionsService } from '../services/TermsConditionsService'
 import type { FormModalProps } from '@/interfaces/Forms'
 
 /***************************************
@@ -55,7 +54,7 @@ getItemDetails(props.activeItem.id)
 // #region Functions
 function getItemDetails(id: any) {
   isLoading.value = true
-  questionsService.getSingleItem(id).then(res => {
+  termsConditionsService.getSingleItem(id).then(res => {
     data.value = res.data.data
   }).finally(() => {
     isLoading.value = false
@@ -83,14 +82,14 @@ function getItemDetails(id: any) {
             <VList :lines="false">
               <VListItem
                 class="px-2 py-2"
-                title="السؤال"
-                :subtitle="data.question"
+                title="العنوان"
+                :subtitle="data.name"
                 border
               />
               <VListItem
                 class="px-2 py-2"
-                title="القسم"
-                :subtitle="data.category.name"
+                title="النوع"
+                :subtitle="data.type.label"
                 border
               />
 
@@ -100,29 +99,12 @@ function getItemDetails(id: any) {
                 border
               >
                 <AppTextEditor
-                  v-model="data.answer"
-                  name="answer"
-                  label="الاجابة"
+                  v-model="data.description"
+                  name="description"
+                  label="الوصف"
                   is-read-only
                   hide-label
                 />
-              </VListItem>
-
-              <VListItem
-                class="px-2 py-2"
-                title="نوع المستخدمين"
-                border
-              >
-                <VChip
-                  v-for="type in (data.for as unknown)"
-                  :key="type"
-                  class="my-2 me-2 text-center"
-                  color="primary"
-                  variant="outlined"
-                  label
-                >
-                  {{ USERS_TYPES[type] }}
-                </VChip>
               </VListItem>
             </VList>
             <AppSwitch

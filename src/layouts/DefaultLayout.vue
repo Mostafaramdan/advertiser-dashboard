@@ -173,6 +173,11 @@ const navItems = computed(() => {
           to: { name: 'rating-items-settings' },
           show: canAccessPage('rate_types'),
         },
+        {
+          title: 'الشروط والاحكام',
+          to: { name: 'terms-conditions-settings' },
+          show: canAccessPage('terms'),
+        },
       ],
     },
 

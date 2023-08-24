@@ -117,7 +117,7 @@ getPageData()
       @edit-item="onEditItem"
       @create-item="onCreateItem"
     />
-    <QuestionDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+    <QuestionDetailsModal v-if="showDetailsModal" v-model:showModal="showDetailsModal" :active-item="activeItem" />
     <PageActions
       :page-actions-buttons="pageActionsButtons"
       :items-per-page="params.itemPerPage"
@@ -133,7 +133,7 @@ getPageData()
         <QuestionsCategoriesSelect
           v-model="params.category_id"
           hide-default-label
-          @update:model-value="getPageData"
+          @update:model-value="onReloadData"
         />
       </div>
       <span class="me-auto" />

@@ -72,6 +72,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'terms-and-conditions',
+    name: 'terms-conditions-settings',
+    component: () => import('./pages/TermsConditionsPage.vue'),
+    meta: {
+      requiredAccess: 'terms',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),
