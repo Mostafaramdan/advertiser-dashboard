@@ -120,6 +120,22 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'tickets',
+    name: 'tickets-settings',
+    component: () => import('./pages/TicketsPage.vue'),
+    meta: {
+      requiredAccess: 'ticket_settings',
+    },
+  },
+  {
+    path: 'chat',
+    name: 'chat-settings',
+    component: () => import('./pages/ChatPage.vue'),
+    meta: {
+      requiredAccess: 'chat_settings',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),

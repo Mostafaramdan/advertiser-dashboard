@@ -203,6 +203,16 @@ const navItems = computed(() => {
           to: { name: 'about-us-settings' },
           show: canAccessPage('abouts'),
         },
+        {
+          title: 'إعدادات التذاكر',
+          to: { name: 'tickets-settings' },
+          show: canAccessPage('ticket_settings'),
+        },
+        {
+          title: 'إعدادات الشات',
+          to: { name: 'chat-settings' },
+          show: canAccessPage('chat_settings'),
+        },
       ],
     },
 
