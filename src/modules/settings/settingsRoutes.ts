@@ -98,9 +98,17 @@ export const settingsRoutes = [
   {
     path: 'partners',
     name: 'partners-settings',
-    component: () => import('./pages/PartnersPge.vue'),
+    component: () => import('./pages/PartnersPage.vue'),
     meta: {
       requiredAccess: 'partners',
+    },
+  },
+  {
+    path: 'about-us',
+    name: 'about-us-settings',
+    component: () => import('./pages/AboutUsPage.vue'),
+    meta: {
+      requiredAccess: 'abouts',
     },
   },
   {

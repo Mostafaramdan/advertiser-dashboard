@@ -193,6 +193,11 @@ const navItems = computed(() => {
           to: { name: 'partners-settings' },
           show: canAccessPage('partners'),
         },
+        {
+          title: 'من نحن',
+          to: { name: 'about-us-settings' },
+          show: canAccessPage('abouts'),
+        },
       ],
     },
 

@@ -116,6 +116,7 @@ function uploadImage(file: File) {
           :toolbar="toolbarOptions"
           :modules="modules"
           v-bind="$attrs"
+          :read-only="isReadOnly"
           @update:content="handleChange"
           @blur="handleBlur"
         >
