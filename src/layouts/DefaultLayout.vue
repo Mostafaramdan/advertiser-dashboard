@@ -188,6 +188,11 @@ const navItems = computed(() => {
           to: { name: 'platform-news-settings' },
           show: canAccessPage('page_news'),
         },
+        {
+          title: 'شركاء النجاح',
+          to: { name: 'partners-settings' },
+          show: canAccessPage('partners'),
+        },
       ],
     },
 

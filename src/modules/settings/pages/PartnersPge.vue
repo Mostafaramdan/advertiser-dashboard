@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { PlatformNewsItem } from '../interfaces/PlatformNewsItem'
-import PlatformNewsDetailsModal from '../modals/PlatformNewsDetailsModal.vue'
-import PlatformNewsFormModal from '../modals/PlatformNewsFormModal.vue'
-import { platformNewsService } from '../services/PlatformNewsService'
+import type { Partner } from '../interfaces/Partner'
+import PartnerDetailsModal from '../modals/PartnerDetailsModal.vue'
+import PartnerFormModal from '../modals/PartnerFormModal.vue'
+import { partnerService } from '../services/PartnerService'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { pageAction } from '@/interfaces/Shared'
-import { USERS_TYPES } from '@/constants/settings'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
@@ -15,7 +14,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'page_news'
+const MODEL_NAME = 'partners'
 
 const params: any = reactive({
   page: 1,
@@ -44,7 +43,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<PlatformNewsItem>(platformNewsService, params, MODEL_NAME)
+} = UseCrudHelpers<Partner>(partnerService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -54,10 +53,6 @@ const headers: any = [
   {
     title: 'العنوان',
     key: 'name',
-  },
-  {
-    title: 'نوع المستخدمين',
-    key: 'for',
   },
   {
     title: 'الحالة',
@@ -77,11 +72,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_page_new'),
-  edit: hasPermission('update_page_new'),
-  delete: hasPermission('delete_page_new'),
-  changeStatus: hasPermission('change_status_page_new'),
-  sort: hasPermission('sort_page_new'),
+  create: hasPermission('create_partner'),
+  edit: hasPermission('update_partner'),
+  delete: hasPermission('delete_partner'),
+  changeStatus: hasPermission('change_status_partner'),
+  sort: hasPermission('sort_partner'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -108,7 +103,7 @@ getPageData()
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
-    <PlatformNewsFormModal
+    <PartnerFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
@@ -116,8 +111,8 @@ getPageData()
       @edit-item="onEditItem"
       @create-item="onCreateItem"
     />
-    <PlatformNewsDetailsModal v-if="showDetailsModal" v-model:showModal="showDetailsModal" :active-item="activeItem" />
-    <VCard title="جديد المنصة" class="page-card">
+    <PartnerDetailsModal v-if="showDetailsModal" v-model:showModal="showDetailsModal" :active-item="activeItem" />
+    <VCard title="شركاء النجاح" class="page-card">
       <VCardText>
         <PageActions
           :page-actions-buttons="pageActionsButtons"
@@ -147,19 +142,6 @@ getPageData()
             </span>
           </template>
 
-          <template #item.for="{ item }">
-            <div class="d-flex gap-2">
-              <VChip
-                v-for="type in (item.raw.for as unknown)"
-                :key="type"
-                variant="outlined"
-                color="primary"
-                label
-              >
-                {{ USERS_TYPES[type] }}
-              </VChip>
-            </div>
-          </template>
           <template #item.is_active="{ item }">
             <ToggleActivationSwitch
               :id="item.raw.id"

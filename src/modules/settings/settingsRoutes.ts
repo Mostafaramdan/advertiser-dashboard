@@ -96,6 +96,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'partners',
+    name: 'partners-settings',
+    component: () => import('./pages/PartnersPge.vue'),
+    meta: {
+      requiredAccess: 'partners',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),
