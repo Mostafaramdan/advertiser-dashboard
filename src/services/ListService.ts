@@ -16,6 +16,10 @@ class ListService {
   getTermsConditionsTypes(): AxiosPromise {
     return axios.get(`${this.contextPath}/page_rule_types`)
   }
+
+  getVideosLists(): AxiosPromise {
+    return axios.get(`${this.contextPath}/available_video_types`)
+  }
 }
 
 export const listService = new ListService()

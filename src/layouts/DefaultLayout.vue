@@ -194,6 +194,11 @@ const navItems = computed(() => {
           show: canAccessPage('partners'),
         },
         {
+          title: 'الفيديوهات التعريفية',
+          to: { name: 'videos-settings' },
+          show: canAccessPage('videos'),
+        },
+        {
           title: 'من نحن',
           to: { name: 'about-us-settings' },
           show: canAccessPage('abouts'),

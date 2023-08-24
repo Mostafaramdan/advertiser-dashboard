@@ -104,6 +104,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'videos',
+    name: 'videos-settings',
+    component: () => import('./pages/VideosPage.vue'),
+    meta: {
+      requiredAccess: 'videos',
+    },
+  },
+  {
     path: 'about-us',
     name: 'about-us-settings',
     component: () => import('./pages/AboutUsPage.vue'),
