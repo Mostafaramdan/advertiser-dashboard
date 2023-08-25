@@ -8,4 +8,5 @@ export interface SettingsListItem {
   has_radio?: boolean
   options?: any
   check_value?: any
+  is_text_editor?: boolean
 }

@@ -89,13 +89,24 @@ function submit() {
             :key="item.id"
             class="setting-list__item v-row"
           >
-            <div class="py-0 mb-4 mb-md-0 v-col-12" :class="item.has_input && !item.has_radio ? 'v-col-md-6' : 'v-col-md-10'">
+            <div
+              class="py-0 mb-4 mb-md-0 v-col-12"
+              :class="item.has_input && !item.is_text_editor ? 'v-col-md-6' : 'v-col-md-10'"
+            >
               <div class="setting-list__item__title">
                 <span>{{ item.id }}</span>
                 {{ item.name }}
               </div>
+              <div v-if="item.is_text_editor" class="mt-3">
+                <AppTextEditor
+                  v-model.number="item.value"
+                  rules="required"
+                  :name="`radio-${item.id}`"
+                  label="هذ الحقل"
+                />
+              </div>
             </div>
-            <div v-if="item.has_input" class="py-0 v-col-12 v-col-md-4">
+            <div v-if="item.has_input && !item.is_text_editor" class="py-0 v-col-12 v-col-md-4">
               <AppTextField
                 v-model.number="item.value"
                 :name="`value-${item.id}`"
