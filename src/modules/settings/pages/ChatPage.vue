@@ -91,7 +91,7 @@ function submit() {
           >
             <div
               class="py-0 mb-4 mb-md-0 v-col-12"
-              :class="item.has_input && !item.is_text_editor ? 'v-col-md-6' : 'v-col-md-10'"
+              :class="item.has_input && !item.is_text_editor ? 'v-col-md-10' : 'v-col-md-12'"
             >
               <div class="setting-list__item__title">
                 <span>{{ item.id }}</span>
@@ -106,7 +106,7 @@ function submit() {
                 />
               </div>
             </div>
-            <div v-if="item.has_input && !item.is_text_editor" class="py-0 v-col-12 v-col-md-4">
+            <div v-if="item.has_input && !item.is_text_editor" class="py-0 v-col-12 v-col-md-2">
               <AppTextField
                 v-model.number="item.value"
                 :name="`value-${item.id}`"
@@ -120,15 +120,6 @@ function submit() {
                   {{ item.value_key }}
                 </template>
               </AppTextField>
-            </div>
-
-            <div class="py-0 v-col-12 v-col-md-2 d-flex justify-md-center">
-              <VSwitch
-                v-model="item.is_active"
-                hide-details
-                density="comfortable"
-                :inset="false"
-              />
             </div>
           </div>
 
