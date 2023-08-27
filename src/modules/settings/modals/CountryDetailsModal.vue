@@ -124,6 +124,13 @@ const showModal = useVModel(props, 'showModal', emit)
                   {{ item[locale] }}
                 </VChip>
               </VListItem>
+              <VListItem
+                class="px-2 py-2"
+                title="رابط النطاق الجغرافى"
+                border
+              >
+                <a :href="activeItem.google_map" target="_blank" rel="noopener noreferrer">{{ activeItem.google_map }}</a>
+              </VListItem>
             </VList>
             <AppSwitch
               :model-value="activeItem.is_active"

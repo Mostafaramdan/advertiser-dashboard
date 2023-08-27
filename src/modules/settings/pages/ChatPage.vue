@@ -84,10 +84,10 @@ function submit() {
     <VCardText>
       <VeeForm ref="formRef" v-slot="{ meta }" @submit="submit">
         <div v-if="data" class="setting-list pt-4">
-          <div
+          <VRow
             v-for="item in data"
             :key="item.id"
-            class="setting-list__item v-row"
+            class="setting-list__item"
           >
             <div
               class="py-0 mb-4 mb-md-0 v-col-12"
@@ -121,7 +121,7 @@ function submit() {
                 </template>
               </AppTextField>
             </div>
-          </div>
+          </VRow>
 
           <VBtn
             v-if="permissions.edit"

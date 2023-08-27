@@ -104,10 +104,10 @@ function submit() {
       </div>
       <VDivider class="my-4" />
       <div v-if="data" class="setting-list pt-4">
-        <div
+        <VRow
           v-for="day in data.data"
           :key="day.id"
-          class="setting-list__item v-row"
+          class="setting-list__item"
         >
           <div class="py-0 mb-4 mb-md-0 v-col-12 v-col-md-2">
             <div class="setting-list__item__title">
@@ -146,7 +146,7 @@ function submit() {
               :label="!day.is_vacation ? 'عطلة' : 'دوام'"
             />
           </div>
-        </div>
+        </VRow>
 
         <VBtn
           v-if="permissions.edit"
