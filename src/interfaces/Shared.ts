@@ -54,3 +54,14 @@ export interface PageTabNavItem {
   show: boolean | any
   to: any
 }
+
+// Geo Location Modal
+export interface Location {
+  lat: number
+  lng: number
+  name: string
+}
+export interface GeoLocationModalProps {
+  showModal: boolean
+  location: Location
+}

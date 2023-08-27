@@ -19,39 +19,43 @@ withDefaults(defineProps<FormModalProps>(), {})
         عرض بيانات المنصة
       </VExpansionPanelTitle>
       <VExpansionPanelText v-if="platformData">
-        <div class="d-flex gap-3 flex-column flex-sm-row">
-          <VCard variant="outlined" class="mb-3 pa-3 v-col">
-            <div class="d-flex gap-4 justify-space-between">
-              <div>
-                <div class="text-h5 text-primary">
-                  {{ platformData.verified_users }}
+        <div class="d-flex gap-3 flex-column flex-sm-row mb-3">
+          <VCol class="pa-0">
+            <VCard variant="outlined" class="pa-3 h-100">
+              <div class="d-flex gap-4 justify-space-between">
+                <div>
+                  <div class="text-h5 text-primary">
+                    {{ platformData.verified_users }}
+                  </div>
+                  <span class="text-body-2">الحسابات الموثوقة </span>
                 </div>
-                <span class="text-body-2">الحسابات الموثوقة </span>
+                <VAvatar
+                  icon="tabler-users"
+                  color="primary"
+                  :size="42"
+                  variant="tonal"
+                />
               </div>
-              <VAvatar
-                icon="tabler-users"
-                color="primary"
-                :size="42"
-                variant="tonal"
-              />
-            </div>
-          </VCard>
-          <VCard variant="outlined" class="mb-3 pa-3 v-col">
-            <div class="d-flex gap-4 justify-space-between">
-              <div>
-                <div class="text-h5 text-primary">
-                  {{ platformData.registered_at_marouf }}
+            </VCard>
+          </VCol>
+          <VCol class="pa-0">
+            <VCard variant="outlined" class="pa-3 h-100">
+              <div class="d-flex gap-4 justify-space-between">
+                <div>
+                  <div class="text-h5 text-primary">
+                    {{ platformData.registered_at_marouf }}
+                  </div>
+                  <span class="text-body-2">الحسابات المسجلة فى معروف  </span>
                 </div>
-                <span class="text-body-2">الحسابات المسجلة فى معروف  </span>
+                <VAvatar
+                  icon="tabler-users"
+                  color="primary"
+                  :size="42"
+                  variant="tonal"
+                />
               </div>
-              <VAvatar
-                icon="tabler-users"
-                color="primary"
-                :size="42"
-                variant="tonal"
-              />
-            </div>
-          </VCard>
+            </VCard>
+          </VCol>
         </div>
         <div class="platform-info">
           <div v-if="platformData.logo" class="platform-info__card">

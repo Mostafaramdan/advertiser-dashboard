@@ -5,6 +5,7 @@ import type { PlatformFormData, PlatformInfo } from '../../interfaces/PlatformDe
 import { platformService } from '../../services/PlatformService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { listService } from '@/services/ListService'
+import GeoLocationModal from '@/components/shared/GeoLocationModal.vue'
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
@@ -16,6 +17,7 @@ const { hasPermission } = useAuthStore()
 const SAUDI_ARABIA_ID = 237
 const formRef = ref<any>(null)
 const selectedCountry = ref<any>(SAUDI_ARABIA_ID)
+const showGeoLocationModal = ref<boolean>(false)
 
 const isLoading = reactive({
   countries: false,
@@ -104,6 +106,12 @@ function toggleShow(field: string): void {
   formData[field].show = !formData[field].show
 }
 
+function updateAddress({ name, lat, lng }: any) {
+  formData.address.value = name
+  formData.address.lat = lat
+  formData.address.lng = lng
+}
+
 function getCountries() {
   isLoading.countries = true
   listService.getCountries().then((res: any) => {
@@ -146,6 +154,12 @@ function submit() {
 
 <template>
   <section class="platform-settings-details">
+    <GeoLocationModal
+      v-if="showGeoLocationModal"
+      v-model:showModal="showGeoLocationModal"
+      :location="{ ...formData.address, name: formData.address.value }"
+      @update:location="updateAddress"
+    />
     <VRow>
       <VCol col="12" md="6" lg="5" class="mb-4">
         <VSelect
@@ -242,9 +256,17 @@ function submit() {
                 <AppTextField
                   v-model="formData.address.value"
                   label="العنوان"
-                  name="address"
+                  name="location"
                   rules="required|min:3"
                 >
+                  <template #append-inner>
+                    <VIcon
+                      icon="tabler-map-pin"
+                      size="28"
+                      color="primary"
+                      @click="showGeoLocationModal = true"
+                    />
+                  </template>
                   <template #append>
                     <VBtn size="38" variant="outlined" @click="toggleShow('address')">
                       <VIcon
@@ -319,6 +341,10 @@ function submit() {
 
 <style lang="scss" scoped>
 .platform-settings-details {
+  :deep(.v-field__append-inner) {
+    padding-block-start: 3px;
+  }
+
   :deep(.v-input--horizontal .v-input__append) {
     padding: 0;
     margin-inline-start: 10px;

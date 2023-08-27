@@ -162,7 +162,8 @@
   },
   "errors": {
     "something_went_wrong": "Something went wrong",
-    "you_are_not_authorized": "You are not authorized to access this page"
+    "you_are_not_authorized": "You are not authorized to access this page",
+    "geo_location_error_msg": "Geolocation is not supported by this browser."
   },
   "actions": {
     "cancel": "Cancel",

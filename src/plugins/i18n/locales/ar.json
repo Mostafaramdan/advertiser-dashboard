@@ -161,7 +161,8 @@
   },
   "errors": {
     "something_went_wrong": "هناك خطأ ما",
-    "you_are_not_authorized": "ليس لديك الصلاحية للوصول إلى هذه الصفحة"
+    "you_are_not_authorized": "ليس لديك الصلاحية للوصول إلى هذه الصفحة",
+    "geo_location_error_msg": "المتصفح الخاص بك لا يدعم موقع جغرافي"
   },
   "actions": {
     "cancel": "إلغاء",
