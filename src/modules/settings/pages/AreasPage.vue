@@ -130,10 +130,16 @@ getPageData()
   <VCard class="page-card">
     <template #title>
       <div v-if="country" class="d-flex align-center">
+        <VBtn
+          variant="outlined"
+          icon="tabler-arrow-right"
+          size="40"
+          :to="{ name: 'countries-settings' }"
+        />
         <VAvatar
           size="38"
           variant="tonal"
-          class="me-3"
+          class="mx-3"
           cover
         >
           <VImg cover :src="country.image" />

@@ -59,18 +59,18 @@ const showModal = useVModel(props, 'showModal', emit)
     <!-- Dialog Content -->
     <VCard>
       <div>
-        <VCard v-if="activeItem" title="عرض نشاط">
+        <VCard v-if="activeItem" title="عرض قسم">
           <VCardText>
             <VList :lines="false">
               <VListItem
                 class="px-2 py-2"
-                title="اسم النشاط بالعربي"
+                title="اسم القسم بالعربي"
                 :subtitle="activeItem.name.ar"
                 border
               />
               <VListItem
                 class="px-2 py-2"
-                title="اسم النشاط بالانجليزي"
+                title="اسم القسم بالانجليزي"
                 :subtitle="activeItem.name.en"
                 border
               />

@@ -65,6 +65,7 @@ const multiSelectOptions = computed(() => {
         loading: isLoading.delete,
         disabled: isLoading.general || !props.showMultiDelete,
         color: 'error',
+        show: props.showMultiDelete,
       },
       {
         label: 'تفعيل المحدد',
@@ -73,6 +74,7 @@ const multiSelectOptions = computed(() => {
         loading: isLoading.activate,
         disabled: isLoading.general || !props.showMultiActivate,
         color: 'primary',
+        show: props.showMultiActivate,
       },
       {
         label: 'إلغاء تفعيل المحدد',
@@ -81,6 +83,7 @@ const multiSelectOptions = computed(() => {
         loading: isLoading.deactivate,
         disabled: isLoading.general || !props.showMultiActivate,
         color: 'dark',
+        show: props.showMultiActivate,
       },
     ]
   }
@@ -215,22 +218,26 @@ async function showConfirmActions(operation: 'delete' | 'activate' | 'deactivate
     </div>
 
     <div v-if="multiSelectOptions.length" class="d-flex gap-2 mb-3 pb-1 pe-1 overflow-x-auto">
-      <VBtn
+      <template
         v-for="(option, index) in multiSelectOptions"
         :key="index"
-        :disabled="option.disabled"
-        :loading="option.loading"
-        variant="outlined"
-        :color="option.color"
-        @click="option.handler"
       >
-        {{ option.label }}
+        <VBtn
+          v-if="option.show"
+          :disabled="option.disabled"
+          :loading="option.loading"
+          variant="outlined"
+          :color="option.color"
+          @click="option.handler"
+        >
+          {{ option.label }}
 
-        <VIcon
-          end
-          :icon="option.icon"
-        />
-      </VBtn>
+          <VIcon
+            end
+            :icon="option.icon"
+          />
+        </VBtn>
+      </template>
     </div>
   </div>
 </template>

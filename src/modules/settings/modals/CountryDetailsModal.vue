@@ -65,7 +65,7 @@ const showModal = useVModel(props, 'showModal', emit)
               <VListItem
                 v-if="activeItem.image"
                 class="px-2 py-2"
-                title="صورة القناء"
+                title="صورة الدولة"
                 border
               >
                 <a :href="activeItem.google_map" target="_blank" rel="noopener noreferrer" class="d-inline-block">

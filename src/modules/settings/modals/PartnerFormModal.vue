@@ -145,7 +145,7 @@ const submit = () => {
                   v-model="formData.name"
                   label="اسم الشريك"
                   name="name"
-                  rules="required|min:5|max:35"
+                  rules="required|min:3|max:50"
                 />
               </VCol>
               <VCol cols="12">

@@ -181,6 +181,15 @@ export function UseCrudHelpers<ItemType>(
     if (targetIndex === -1) return
     tableData.value.splice(targetIndex, 1)
 
+    // update sort for table data
+    if (item.sort) {
+      for (let i = targetIndex; i < tableData.value.length; i++)
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+        if (tableData.value[i].sort) tableData.value[i].sort -= 1
+    }
+
     if (metaData.value) {
       metaData.value.total -= 1
       metaData.value.last_page = Math.ceil(

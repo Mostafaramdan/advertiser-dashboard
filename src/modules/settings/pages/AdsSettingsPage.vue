@@ -84,10 +84,10 @@ function submit() {
     <VCardText>
       <VeeForm ref="formRef" v-slot="{ meta }" @submit="submit">
         <div v-if="data" class="setting-list pt-4">
-          <div
+          <VRow
             v-for="item in data"
             :key="item.id"
-            class="setting-list__item v-row"
+            class="setting-list__item"
           >
             <div class="py-0 mb-4 mb-md-0 v-col-12" :class="item.has_input && !item.has_radio ? 'v-col-md-6' : 'v-col-md-10'">
               <div class="setting-list__item__title">
@@ -119,7 +119,7 @@ function submit() {
                 :inset="false"
               />
             </div>
-          </div>
+          </VRow>
 
           <VBtn
             v-if="permissions.edit"

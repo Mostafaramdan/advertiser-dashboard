@@ -144,7 +144,7 @@ const submit = () => {
                   label="رمز المنطقة"
                   name="area_code"
                   type="number"
-                  rules="required|numeric|min:2|max:4"
+                  rules="required|min:3|max:20"
                 />
               </VCol>
               <VCol cols="12">

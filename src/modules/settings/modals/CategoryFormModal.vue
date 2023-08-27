@@ -56,8 +56,8 @@ const formData = reactive({
 // #region Computed
 const formTitle = computed(() => {
   return props.formAction === 'create'
-    ? 'اضافة نشاط'
-    : props.formAction === 'edit' ? 'تعديل نشاط' : 'عرض نشاط'
+    ? 'اضافة قسم'
+    : props.formAction === 'edit' ? 'تعديل قسم' : 'عرض قسم'
 })
 
 // #endregion
@@ -123,17 +123,17 @@ const submit = () => {
               <VCol cols="12">
                 <AppTextField
                   v-model="formData.name.ar"
-                  label="اسم النشاط بالعربي"
+                  label="اسم القسم بالعربي"
                   name="name.ar"
-                  rules="required|min:3"
+                  rules="required|min:3|max:50"
                 />
               </VCol>
               <VCol cols="12">
                 <AppTextField
                   v-model="formData.name.en"
-                  label="اسم النشاط بالانجليزي"
+                  label="اسم القسم بالانجليزي"
                   name="name.en"
-                  rules="required|min:3"
+                  rules="required|min:3|max:50"
                 />
               </VCol>
               <VCol>

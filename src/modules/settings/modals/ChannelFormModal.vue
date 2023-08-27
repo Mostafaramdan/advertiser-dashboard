@@ -147,7 +147,7 @@ const submit = () => {
                   v-model="formData.name.ar"
                   label="اسم القناة بالعربي"
                   name="name.ar"
-                  rules="required|min:3"
+                  rules="required|min:3|max:50"
                 />
               </VCol>
               <VCol cols="12" md="6">
@@ -155,7 +155,7 @@ const submit = () => {
                   v-model="formData.name.en"
                   label="اسم القناة بالانجليزي"
                   name="name.en"
-                  rules="required|min:3"
+                  rules="required|min:3|max:50"
                 />
               </VCol>
               <VCol cols="12">

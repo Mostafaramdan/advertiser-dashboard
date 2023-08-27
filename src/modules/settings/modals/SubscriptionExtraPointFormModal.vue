@@ -123,7 +123,7 @@ const submit = () => {
                   v-model="formData.name.ar"
                   label="اسم البند بالعربي"
                   name="name.ar"
-                  rules="required|min:3|max:100"
+                  rules="required|min:3|max:120"
                 />
               </VCol>
               <VCol cols="12">
@@ -131,7 +131,7 @@ const submit = () => {
                   v-model="formData.name.en"
                   label="اسم البند بالانجليزي"
                   name="name.en"
-                  rules="required|min:3|max:100"
+                  rules="required|min:3|max:120"
                 />
               </VCol>
               <VCol cols="12">

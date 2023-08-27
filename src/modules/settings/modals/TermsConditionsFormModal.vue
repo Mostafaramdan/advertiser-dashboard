@@ -151,7 +151,7 @@ const submit = () => {
                   v-model="formData.name"
                   label="العنوان"
                   name="name"
-                  rules="required|min:10|max:55"
+                  rules="required|min:3|max:120"
                 />
               </VCol>
               <VCol cols="12" md="6">

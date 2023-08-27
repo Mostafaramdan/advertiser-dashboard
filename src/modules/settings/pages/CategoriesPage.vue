@@ -120,7 +120,7 @@ getPageData()
     @create-item="onCreateItem"
   />
   <CategoryDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
-  <VCard title="النشاطات" class="page-card">
+  <VCard title="الاقسام" class="page-card">
     <VCardText>
       <PageActions
         :page-actions-buttons="pageActionsButtons"

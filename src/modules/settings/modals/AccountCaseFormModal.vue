@@ -127,7 +127,7 @@ const submit = () => {
                   v-model="formData.name.ar"
                   label="اسم الحالة بالعربي"
                   name="name.ar"
-                  rules="required|min:5|max:20"
+                  rules="required|min:3|max:50"
                 />
               </VCol>
               <VCol cols="12" md="6">
@@ -135,7 +135,7 @@ const submit = () => {
                   v-model="formData.name.en"
                   label="اسم الحالة بالانجليزي"
                   name="name.en"
-                  rules="required|min:5|max:20"
+                  rules="required|min:3|max:50"
                 />
               </VCol>
               <VCol cols="12">
@@ -143,7 +143,7 @@ const submit = () => {
                   v-model="formData.message.ar"
                   label="الرسالة بالعربي"
                   name="message.ar"
-                  rules="required|min:5|max:50"
+                  rules="required|min:3|max:120"
                   rows="2"
                 />
               </VCol>
@@ -152,7 +152,7 @@ const submit = () => {
                   v-model="formData.message.en"
                   label="الرسالة بالانجليزي"
                   name="message.en"
-                  rules="required|min:5|max:50"
+                  rules="required|min:3|max:120"
                   rows="2"
                 />
               </VCol>
