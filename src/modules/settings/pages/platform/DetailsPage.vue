@@ -55,7 +55,11 @@ const formData = reactive<PlatformFormData | any>({
     show: true,
   },
   address: {
-    value: '',
+    value: {
+      name: '',
+      lat: null,
+      lng: null,
+    },
     show: true,
   },
   fax: {
@@ -106,10 +110,8 @@ function toggleShow(field: string): void {
   formData[field].show = !formData[field].show
 }
 
-function updateAddress({ name, lat, lng }: any) {
-  formData.address.value = name
-  formData.address.lat = lat
-  formData.address.lng = lng
+function updateAddress(address: any) {
+  formData.address.value = { ...address }
 }
 
 function getCountries() {
@@ -157,7 +159,7 @@ function submit() {
     <GeoLocationModal
       v-if="showGeoLocationModal"
       v-model:showModal="showGeoLocationModal"
-      :location="{ ...formData.address, name: formData.address.value }"
+      :location="{ ...formData.address.value }"
       @update:location="updateAddress"
     />
     <VRow>
@@ -254,7 +256,7 @@ function submit() {
               </VCol>
               <VCol cols="12">
                 <AppTextField
-                  v-model="formData.address.value"
+                  v-model="formData.address.value.name"
                   label="العنوان"
                   name="location"
                   rules="required|min:3"
@@ -262,8 +264,9 @@ function submit() {
                   <template #append-inner>
                     <VIcon
                       icon="tabler-map-pin"
-                      size="28"
+                      size="32"
                       color="primary"
+                      class="mt-n1"
                       @click="showGeoLocationModal = true"
                     />
                   </template>
@@ -341,10 +344,6 @@ function submit() {
 
 <style lang="scss" scoped>
 .platform-settings-details {
-  :deep(.v-field__append-inner) {
-    padding-block-start: 3px;
-  }
-
   :deep(.v-input--horizontal .v-input__append) {
     padding: 0;
     margin-inline-start: 10px;

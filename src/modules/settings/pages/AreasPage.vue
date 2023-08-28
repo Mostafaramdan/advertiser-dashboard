@@ -130,16 +130,11 @@ getPageData()
   <VCard class="page-card">
     <template #title>
       <div v-if="country" class="d-flex align-center">
-        <VBtn
-          variant="outlined"
-          icon="tabler-arrow-right"
-          size="40"
-          :to="{ name: 'countries-settings' }"
-        />
+        <PageBackBtn :link="{ name: 'countries-settings' }" />
         <VAvatar
           size="38"
           variant="tonal"
-          class="mx-3"
+          class="me-3"
           cover
         >
           <VImg cover :src="country.image" />
@@ -158,6 +153,7 @@ getPageData()
         :show-multi-activate="permissions.changeStatus"
         :model="MODEL_NAME"
         :selected-items="selectedItems"
+        :back-link="{ name: 'countries-settings' }"
         @update:items-per-page="onChangeItemsPerPage"
         @update:search="onChangeSearch"
         @reload-data="onReloadData"
