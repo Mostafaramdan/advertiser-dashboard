@@ -102,7 +102,7 @@ function submit() {
                 type="number"
                 :min="0"
                 class="text-center"
-                rules="required|numeric|min_value:0"
+                :rules="{ required: item.is_active, numeric: true, min_value: item.min_value, max_value: item.max_value }"
                 label="هذ الحقل"
               >
                 <template v-if="item.value_key" #append>

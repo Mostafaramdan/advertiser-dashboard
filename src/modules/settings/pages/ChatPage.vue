@@ -100,7 +100,7 @@ function submit() {
               <div v-if="item.is_text_editor" class="mt-3">
                 <AppTextEditor
                   v-model.number="item.value"
-                  rules="required"
+                  :rules="{ required: true }"
                   :name="`radio-${item.id}`"
                   label="هذ الحقل"
                 />
@@ -113,7 +113,7 @@ function submit() {
                 type="number"
                 :min="0"
                 class="text-center"
-                rules="required|numeric|min_value:0"
+                :rules="{ required: true, numeric: true, min_value: item.min_value, max_value: item.max_value }"
                 label="هذ الحقل"
               >
                 <template v-if="item.value_key" #append>

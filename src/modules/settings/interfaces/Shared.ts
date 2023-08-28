@@ -9,4 +9,6 @@ export interface SettingsListItem {
   options?: any
   check_value?: any
   is_text_editor?: boolean
+  min_value?: number
+  max_value?: number
 }

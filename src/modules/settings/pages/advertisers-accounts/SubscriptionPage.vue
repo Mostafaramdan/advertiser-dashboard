@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { cloneItem, getChangesOfArray } from '@/helpers/index'
-import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import type { SettingsListItem } from '../../interfaces/Shared'
 import { subscriptionService } from '../../services/SubscriptionService'
+import { useAuthStore } from '@/stores/AuthStore'
+import { cloneItem, getChangesOfArray } from '@/helpers/index'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -100,7 +100,7 @@ function submit() {
               :options="item.options"
               :name="`radio-${item.id}`"
               label="هذ الحقل"
-              rules="required"
+              :rules="{ required: item.is_active }"
               option-label="label"
               option-value="value"
               inline
@@ -113,7 +113,7 @@ function submit() {
               type="number"
               :min="0"
               class="text-center"
-              rules="required|numeric|min_value:0"
+              :rules="{ required: item.is_active, numeric: true, min_value: item.min_value, max_value: item.max_value }"
               label="هذ الحقل"
             >
               <template v-if="item.value_key" #append>

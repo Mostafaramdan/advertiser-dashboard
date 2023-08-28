@@ -12,7 +12,7 @@ export interface FormRadioProps {
   options: any[]
   optionLabel: string
   optionValue: string
-  rules?: string
+  rules?: string | object
   hideLabel?: boolean
 }
 
@@ -23,7 +23,7 @@ export interface FormCheckboxProps {
   options: any[]
   optionLabel: string
   optionValue: string
-  rules?: string
+  rules?: string | object
   hideLabel?: boolean
 }
 
@@ -44,7 +44,7 @@ export interface FormSwitchProps {
   modelValue: any
   name: string
   label: string
-  rules?: string
+  rules?: string | object
   hideLabel?: boolean
 }
 
@@ -60,7 +60,7 @@ export interface FormTextEditor {
   modelValue: any
   name: string
   label: string
-  rules?: string
+  rules?: string | object
   hideLabel?: boolean
   isReadOnly?: boolean
 }
