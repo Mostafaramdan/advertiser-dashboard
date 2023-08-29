@@ -14,34 +14,34 @@ export const useAuthStore = defineStore('authStore', {
     isAuthUser(state): boolean {
       return !!state.authUser
     },
-    getToken(state: any) {
+    getToken(state: State) {
       return state.authUser?.token
     },
-    hasPermission(state) {
-      return (permission: string) => {
-        return state.authUser?.permissions?.actions.includes(permission)
+    hasPermission(state): (permission: string) => boolean {
+      return (permission: string): boolean => {
+        return !!state.authUser?.permissions?.actions?.includes(permission)
       }
     },
-    hasPermissions(state) {
-      return (permissions: string[]) => {
+    hasPermissions(state): (permissions: string[]) => boolean {
+      return (permissions: string[]): boolean => {
         return permissions.every(permission => {
           return state.authUser?.permissions?.actions.includes(permission)
         })
       }
     },
-    hasAtLeaseOnePermission(state) {
+    hasAtLeaseOnePermission(state): (permissions: string[]) => boolean {
       return (permissions: string[]) => {
         return permissions.some(permission => {
           return state.authUser?.permissions?.actions.includes(permission)
         })
       }
     },
-    canAccessPage(state) {
+    canAccessPage(state): (page: string) => boolean {
       return (page: string) => {
-        return state.authUser?.permissions?.accessible_pages.includes(page)
+        return !!state.authUser?.permissions?.accessible_pages.includes(page)
       }
     },
-    canAccessAtLeastOnePage(state) {
+    canAccessAtLeastOnePage(state): (pages: string[]) => boolean {
       return (pages: string[]) => {
         return pages.some(page => {
           return state.authUser?.permissions?.accessible_pages.includes(page)
