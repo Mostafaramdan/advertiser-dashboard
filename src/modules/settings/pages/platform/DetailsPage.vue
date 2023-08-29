@@ -264,9 +264,9 @@ function submit() {
                   <template #append-inner>
                     <VIcon
                       icon="tabler-map-pin"
-                      size="32"
+                      size="30"
                       color="primary"
-                      class="mt-n1"
+                      class="mt-0"
                       @click="showGeoLocationModal = true"
                     />
                   </template>

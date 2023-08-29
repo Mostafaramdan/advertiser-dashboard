@@ -57,6 +57,24 @@ const router = createRouter({
       children: settingsRoutes,
     },
     {
+      path: '/advertisers',
+      name: 'advertisers-page',
+      component: () => import('@/pages/AdvertisersPage.vue'),
+      meta: {
+        layout: 'default',
+        requireAccess: 'advertisers',
+      },
+    },
+    {
+      path: '/users',
+      name: 'users-page',
+      component: () => import('@/pages/UsersPage.vue'),
+      meta: {
+        layout: 'default',
+        requireAccess: 'users',
+      },
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'error-page',
       component: () => import('@/pages/ErrorPage.vue'),

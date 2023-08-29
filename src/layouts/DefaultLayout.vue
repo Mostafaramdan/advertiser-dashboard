@@ -215,7 +215,18 @@ const navItems = computed(() => {
         },
       ],
     },
-
+    {
+      title: 'المعلنين',
+      to: { name: 'advertisers-page' },
+      icon: { icon: 'tabler-user-dollar' },
+      show: canAccessPage('advertisers'),
+    },
+    {
+      title: 'المستخدمين',
+      to: { name: 'users-page' },
+      icon: { icon: 'tabler-user' },
+      show: canAccessPage('users'),
+    },
   ]
 })
 
