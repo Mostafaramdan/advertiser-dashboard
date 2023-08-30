@@ -169,7 +169,9 @@
     "create": "إنشاء",
     "edit": "تعديل",
     "confirm": "تأكيد",
-    "save": "حفظ"
+    "save": "حفظ",
+    "apply_filter": "تطبيق الفلتر",
+    "reset_filter": "إعادة تعيين الفلتر"
   },
   "general": {
     "no_data": "لا يوجد بيانات",
@@ -180,5 +182,6 @@
     "card": "بطاقة",
     "apple_pay": "Apple Pay",
     "stc_pay": "STC Pay"
-  }
+  },
+  "filter_results": "تصفية النتائج"
 }

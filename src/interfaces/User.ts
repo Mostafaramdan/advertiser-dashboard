@@ -13,5 +13,5 @@ export interface User {
   user_requests: number
   is_deleted: boolean
   is_active: boolean
-  gender: string
+  gender: 'male' | 'female'
 }

@@ -170,7 +170,9 @@
     "create": "Create",
     "edit": "Edit",
     "confirm": "Confirm",
-    "save": "Save"
+    "save": "Save",
+    "apply_filter": "Apply Filter",
+    "reset_filter": "Reset Filter"
   },
   "general": {
     "no_data": "There is no data to display",
@@ -181,5 +183,6 @@
     "card": "Card",
     "apple_pay": "Apple Pay",
     "stc_pay": "STC Pay"
-  }
+  },
+  "filter_results": "Filter Results"
 }
