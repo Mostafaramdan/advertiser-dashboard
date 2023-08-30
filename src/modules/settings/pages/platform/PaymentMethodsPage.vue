@@ -100,7 +100,6 @@ function onShowEditModal(item: PaymentMethod) {
 }
 
 function onCreateItem(item: PaymentMethod) {
-  console.log(item)
   if (item.gateway) {
     selectedGetWay.value = item.gateway
     data[item.gateway].push(item)

@@ -124,12 +124,17 @@ function applyFilter() {
 
       .v-expansion-panel-title[class] {
         min-block-size: auto;
-        padding-block: 10px;
+        padding-block: 12px;
         padding-inline: 6px;
       }
 
       .v-expansion-panel-text__wrapper {
         padding: 6px;
+      }
+
+      .v-app-loader .spinner-circle {
+        block-size: 30px;
+        inline-size: 30px;
       }
     }
   }

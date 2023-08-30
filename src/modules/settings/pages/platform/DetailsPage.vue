@@ -11,7 +11,7 @@ import GeoLocationModal from '@/components/shared/GeoLocationModal.vue'
  **************************************/
 // #region Variables
 const toast = useToast()
-const { t, locale } = useI18n()
+const { t } = useI18n()
 const { hasPermission } = useAuthStore()
 
 const SAUDI_ARABIA_ID = 237
@@ -168,7 +168,7 @@ function submit() {
           v-model="selectedCountry"
           :items="countries"
           item-value="id"
-          :item-title="`name[${locale}]`"
+          item-title="label"
           prepend-inner-icon="tabler-flag"
           label="الدولة"
           :loading="isLoading.countries"

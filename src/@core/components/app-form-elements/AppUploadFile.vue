@@ -146,7 +146,6 @@ function uploadFile(file: any) {
         )
 
         percentage.value = progress
-        console.log(`Upload Progress: ${progress}%`)
       },
     })
     .then(res => {

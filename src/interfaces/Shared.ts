@@ -23,6 +23,7 @@ export interface PageActionsProps {
   selectedItems?: number[]
   showMultiDelete?: boolean
   showMultiActivate?: boolean
+  searchPlaceholder?: string
 }
 
 // for pagination component

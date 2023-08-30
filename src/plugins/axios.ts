@@ -7,10 +7,8 @@ import { useAuthStore } from '@/stores/AuthStore'
 
 export const axiosConf = {
   install: (app: any) => {
-    const router = app.config.globalProperties.$router
-
-    // app.config.globalProperties.$axios = axios
-
+    const { $router, $i18n } = app.config.globalProperties
+    const router = $router
     const sharedStore = useSharedStore()
     const authStore = useAuthStore()
 
@@ -25,10 +23,10 @@ export const axiosConf = {
     function setHeaders(config: any) {
       const headers: any = config.headers
       const token = authStore.getToken
-      if (token)
-        headers.Authorization = `Bearer ${token}`
+      if (token) headers.Authorization = `Bearer ${token}`
 
       headers['Content-Type'] = config.headers['Content-Type'] || 'application/json'
+      headers['Accept-Language'] = $i18n.locale
 
       return headers
     }
@@ -80,9 +78,7 @@ export const axiosConf = {
           // Unauthorized
           // clear user data
             toast.error(errorResponse?.data?.message || errorResponse?.data?.error)
-
             authStore.clearAuthUser()
-            console.log(router.currentRoute.value.name)
 
             if (router.currentRoute.value.name !== 'login-page') {
               router.push({

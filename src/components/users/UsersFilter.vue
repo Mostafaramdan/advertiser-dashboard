@@ -29,7 +29,6 @@ const emit = defineEmits<{
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
-const { locale } = useI18n()
 const showFilter = useVModel(props, 'showFilter', emit)
 const countriesList = ref([])
 const areasList = ref([])
@@ -84,7 +83,12 @@ function getCountries() {
 function getAreas() {
   filters.area_id = null
   if (!filters.country_id) return
-  console.log('getAreas', filters.country_id)
+  isLoading.areas = true
+  listService.getAreas(filters.country_id).then((res: any) => {
+    areasList.value = res.data.data
+  }).finally(() => {
+    isLoading.areas = false
+  })
 }
 
 // #endregion
@@ -141,8 +145,7 @@ function getAreas() {
             :items="countriesList"
             class="mt-2"
             item-value="id"
-            :item-title="`name[${locale}]`"
-            prepend-inner-icon="tabler-flag"
+            item-title="label"
             label="الدولة"
             :loading="isLoading.countries"
             :disabled="isLoading.countries"
@@ -154,13 +157,11 @@ function getAreas() {
             class="mt-3"
             :items="areasList"
             item-value="id"
-            :item-title="`name[${locale}]`"
-            prepend-inner-icon="tabler-flag"
+            item-title="label"
             label="المدينة"
             :loading="isLoading.areas"
             :disabled="isLoading.areas || !filters.country_id"
             clearable
-            @update:model-value="getAreas"
           />
         </VExpansionPanelText>
       </VExpansionPanel>

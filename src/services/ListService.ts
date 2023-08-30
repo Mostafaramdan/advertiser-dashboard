@@ -9,6 +9,10 @@ class ListService {
     return axios.get(`${this.contextPath}/countries`)
   }
 
+  getAreas(country_id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/areas?country_id=${country_id}`)
+  }
+
   getQuestionsCategories(): AxiosPromise {
     return axios.get(`${this.contextPath}/support_categories`)
   }
@@ -19,6 +23,10 @@ class ListService {
 
   getVideosLists(): AxiosPromise {
     return axios.get(`${this.contextPath}/available_video_types`)
+  }
+
+  getPackagesLists(): AxiosPromise {
+    return axios.get(`${this.contextPath}/packages`)
   }
 }
 

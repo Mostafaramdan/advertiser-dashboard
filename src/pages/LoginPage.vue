@@ -13,8 +13,6 @@ const isPasswordVisible = ref<boolean>(false)
 const isLoading = ref<boolean>(false)
 const redirectPath = route.query.redirect || '/'
 
-console.log(redirectPath)
-
 const formData = reactive({
   email: 'admin@admin.com',
   password: '123456',
@@ -29,7 +27,6 @@ const formData = reactive({
 function submit() {
   const isValid = formRef.value.validate()
   if (isValid) {
-    console.log(formData)
     isLoading.value = true
     authService.login(formData).then((res: any) => {
       setAuthUser(res.data.data)

@@ -114,13 +114,11 @@ function handleShowFilter() {
 }
 
 function onApplyFilter(filters: any) {
-  console.log('onApplyFilter', filters)
   Object.assign(params, { ...filters, page: 1 })
   getPageData()
 }
 
 function deleteItem(item: Advertiser) {
-  console.log('deleteItem', item)
   IsLoadingData.value = true
   advertisersService.deleteItem(item.id).then(res => {
     item.is_deleted = true

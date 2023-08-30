@@ -3,8 +3,6 @@ import { useSkins } from '@core/composable/useSkins'
 
 export default defineComponent({
   setup() {
-    console.log('Hello from BlankLayout.vue')
-
     const routerView = resolveComponent('router-view')
     const { injectSkinClasses } = useSkins()
 

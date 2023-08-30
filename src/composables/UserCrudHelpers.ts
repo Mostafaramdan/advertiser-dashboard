@@ -123,9 +123,7 @@ export function UseCrudHelpers<ItemType>(
    * @param  {any} item
    * @return  {void}
    */
-  function onCreateItem(item: any): void {
-    console.log('created', item)
-
+  function onCreateItem(): void {
     reloadPageData()
   }
 
@@ -135,8 +133,6 @@ export function UseCrudHelpers<ItemType>(
    * @return  {void}
    */
   function onEditItem(item: any): void {
-    console.log('edited', item)
-
     const targetIndex = tableData.value.findIndex((i: any) => i.id === item.id)
 
     if (targetIndex === -1) return
@@ -216,8 +212,6 @@ export function UseCrudHelpers<ItemType>(
    * @return  {void}
    */
   function deleteItem(item: any): void {
-    console.log('delete')
-
     deleteItemFromSelectedItems(item)
 
     IsLoadingData.value = true

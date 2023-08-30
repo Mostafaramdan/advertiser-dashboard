@@ -30,14 +30,15 @@ const emit = defineEmits<{
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
-const { locale } = useI18n()
 const showFilter = useVModel(props, 'showFilter', emit)
 const countriesList = ref([])
 const areasList = ref([])
+const packagesList = ref([])
 
 const isLoading = reactive({
   countries: false,
   areas: false,
+  packages: false,
 })
 
 const initFilters = {
@@ -47,6 +48,7 @@ const initFilters = {
   sort_by: null,
   country_id: null,
   area_id: null,
+  packages: [],
 }
 
 const filters = reactive({ ...initFilters })
@@ -58,6 +60,7 @@ const filters = reactive({ ...initFilters })
  **************************************/
 // #region Lifecycle Hooks
 getCountries()
+getPackages()
 
 // #endregion
 
@@ -85,7 +88,21 @@ function getCountries() {
 function getAreas() {
   filters.area_id = null
   if (!filters.country_id) return
-  console.log('getAreas', filters.country_id)
+  isLoading.areas = true
+  listService.getAreas(filters.country_id).then((res: any) => {
+    areasList.value = res.data.data
+  }).finally(() => {
+    isLoading.areas = false
+  })
+}
+
+function getPackages() {
+  isLoading.packages = true
+  listService.getPackagesLists().then((res: any) => {
+    packagesList.value = res.data.data
+  }).finally(() => {
+    isLoading.packages = false
+  })
 }
 
 // #endregion
@@ -132,6 +149,22 @@ function getAreas() {
           />
         </VExpansionPanelText>
       </VExpansionPanel>
+      <VExpansionPanel v-loading="isLoading.packages" elevation="0">
+        <VExpansionPanelTitle>
+          بحث بنوع / فئة الاشتراك
+        </VExpansionPanelTitle>
+        <VExpansionPanelText>
+          <AppCheckbox
+            v-model="filters.packages"
+            :options="packagesList"
+            hide-label
+            name="packages"
+            label="فئة الاشتراك"
+            option-label="label"
+            option-value="id"
+          />
+        </VExpansionPanelText>
+      </VExpansionPanel>
       <VExpansionPanel elevation="0">
         <VExpansionPanelTitle>
           عرض النتائج بحسب
@@ -158,8 +191,7 @@ function getAreas() {
             :items="countriesList"
             class="mt-2"
             item-value="id"
-            :item-title="`name[${locale}]`"
-            prepend-inner-icon="tabler-flag"
+            item-title="label"
             label="الدولة"
             :loading="isLoading.countries"
             :disabled="isLoading.countries"
@@ -171,13 +203,11 @@ function getAreas() {
             class="mt-3"
             :items="areasList"
             item-value="id"
-            :item-title="`name[${locale}]`"
-            prepend-inner-icon="tabler-flag"
+            item-title="label"
             label="المدينة"
             :loading="isLoading.areas"
             :disabled="isLoading.areas || !filters.country_id"
             clearable
-            @update:model-value="getAreas"
           />
         </VExpansionPanelText>
       </VExpansionPanel>
