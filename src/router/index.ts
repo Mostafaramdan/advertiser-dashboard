@@ -66,6 +66,15 @@ const router = createRouter({
       },
     },
     {
+      path: '/advertisers/:id',
+      name: 'advertisers-profile-page',
+      component: () => import('@/pages/AdvertiserProfilePage.vue'),
+      meta: {
+        layout: 'default',
+        requireAccess: 'advertiser_details',
+      },
+    },
+    {
       path: '/users',
       name: 'users-page',
       component: () => import('@/pages/UsersPage.vue'),

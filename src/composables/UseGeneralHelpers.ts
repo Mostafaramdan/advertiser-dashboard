@@ -32,9 +32,20 @@ export default function UseGeneralHelpers() {
     })
   }
 
+  function formatDate(date: string): string {
+    const language = locale.value === 'ar' ? 'ar-EG' : 'en-US'
+
+    return new Date(date).toLocaleDateString(language, {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    })
+  }
+
   // #endregion
   return {
     getImageUrl,
+    formatDate,
     formatDateTime,
   }
 }

@@ -144,39 +144,3 @@ withDefaults(defineProps<FormModalProps>(), {})
     </VExpansionPanel>
   </VExpansionPanels>
 </template>
-
-<style scoped lang="scss">
-  .platform-info {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    gap: 10px;
-
-    &__card {
-      display: flex;
-      overflow: hidden;
-      flex-direction: column;
-      flex-grow: 1;
-      border: 1px solid rgba(var(--v-theme-grey-400), 1);
-      border-radius: 5px;
-      inline-size: 110px;
-      text-align: center;
-
-      &__title {
-        padding: 5px;
-        background: rgba(var(--v-theme-grey-200), 1);
-        font-size: 12px;
-      }
-
-      &__body {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        align-items: center;
-        justify-content: center;
-        color: rgba(var(--v-theme-primary), 1);
-        min-block-size: 100px;
-      }
-    }
-  }
-</style>
