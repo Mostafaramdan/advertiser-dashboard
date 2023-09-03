@@ -171,7 +171,8 @@
     "confirm": "تأكيد",
     "save": "حفظ",
     "apply_filter": "تطبيق الفلتر",
-    "reset_filter": "إعادة تعيين الفلتر"
+    "reset_filter": "إعادة تعيين الفلتر",
+    "send": "ارسال"
   },
   "general": {
     "no_data": "لا يوجد بيانات",

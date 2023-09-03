@@ -172,7 +172,8 @@
     "confirm": "Confirm",
     "save": "Save",
     "apply_filter": "Apply Filter",
-    "reset_filter": "Reset Filter"
+    "reset_filter": "Reset Filter",
+    "send": "Send"
   },
   "general": {
     "no_data": "There is no data to display",

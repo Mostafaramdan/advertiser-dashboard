@@ -66,3 +66,20 @@ export interface GeoLocationModalProps {
   showModal: boolean
   location: Location
 }
+
+// notifiction modal
+export interface NotificationModalProps {
+  showModal: boolean
+  extraData?: object
+  defaultMessage?: string
+  showNotificationTypes?: boolean
+  defaultSelectedType?: string
+  url?: string | null
+  user: {
+    email: string
+    username: string
+    phone: string
+    image: string | null
+    id: number
+  }
+}

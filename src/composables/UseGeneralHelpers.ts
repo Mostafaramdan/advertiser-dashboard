@@ -21,6 +21,7 @@ export default function UseGeneralHelpers() {
    * @returns {string}  formatted date
    */
   function formatDateTime(date: string): string {
+    if (!date) return '-'
     const language = locale.value === 'ar' ? 'ar-EG' : 'en-US'
 
     return new Date(date).toLocaleDateString(language, {
@@ -33,6 +34,7 @@ export default function UseGeneralHelpers() {
   }
 
   function formatDate(date: string): string {
+    if (!date) return '-'
     const language = locale.value === 'ar' ? 'ar-EG' : 'en-US'
 
     return new Date(date).toLocaleDateString(language, {

@@ -1,38 +1,166 @@
 <script setup lang="ts">
-import { useToast } from 'vue-toastification'
+import type { AdvertiserBasicData, AdvertiserDetails } from '@/interfaces/Advertiser'
 import { advertisersService } from '@/services/AdvertisersService'
+import { useAuthStore } from '@/stores/AuthStore'
+import { useToast } from 'vue-toastification'
+
+/***************************************
+ **** Section Props Declaration  ******
+ **************************************/
+// #region Props
+interface DetailsTabProps {
+  user: AdvertiserBasicData | null
+}
+withDefaults(defineProps<DetailsTabProps>(), {})
+
+// #endregion
+
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
 const toast = useToast()
 const route = useRoute()
+const { hasPermission } = useAuthStore()
 const advertiserId: number = +route.params.id
-const data = ref<any>({})
-const isLoading = ref<any>(false)
+const data = ref<AdvertiserDetails | any>({})
+const isLoading = ref<boolean>(false)
+const showNotificationModal = ref<boolean>(false)
 
 const procedures = ref([
   {
     label: 'التحقق من الاعدادات',
     key: 'trustes_settings',
-    loading: false,
+    loading: false
   },
   {
     label: 'مرخص في موثوق',
     key: 'licensed_at_mawthoq',
-    loading: false,
+    loading: false
   },
   {
     label: 'معتمد في المنصة',
     key: 'verified',
-    loading: false,
+    loading: false
   },
   {
     label: 'موثق في معروف',
     key: 'ma3roof_verified',
-    loading: false,
-  },
+    loading: false
+  }
 ])
+
+const statsData = ref([
+  {
+    label: 'عدد المتابعين',
+    key: 'followers_count'
+  },
+  {
+    label: 'عدد الاعلانات',
+    key: 'ads_count'
+  },
+  {
+    label: 'التقييم',
+    key: 'rate'
+  },
+  {
+    label: 'المحفظة',
+    key: 'wallet'
+  },
+  {
+    label: 'النقاط',
+    key: 'points_balance'
+  },
+  {
+    label: 'حالة الاشتراك',
+    key: 'subscription_status'
+  },
+  {
+    label: 'الإعدادات',
+    key: 'profile_completion'
+  }
+])
+
+const advertiserDetails = ref([
+  {
+    label: 'البريد الإلكتروني',
+    key: 'email'
+  },
+  {
+    label: 'الهاتف',
+    key: 'phone'
+  },
+  {
+    label: 'اسم المستخدم',
+    key: 'username'
+  },
+  {
+    label: 'اسم صاحب الحساب',
+    key: 'account_name'
+  },
+  {
+    label: 'الدولة',
+    key: 'country_name'
+  },
+  {
+    label: 'المدينة',
+    key: 'area_name'
+  },
+  {
+    label: 'حالة الحساب',
+    key: 'profile_completion'
+  },
+  {
+    label: 'نوع الكيان',
+    key: 'type'
+  },
+  {
+    label: 'باقة الاشتراك',
+    key: 'subscription_name'
+  },
+  {
+    label: 'بيانات موثوق',
+    key: 'mawthooq'
+  },
+  {
+    label: 'بيانات معروف',
+    key: 'ma3roof'
+  }
+])
+
+const advertiserBankAccountData = ref([
+  {
+    label: 'اسم الحساب',
+    key: 'account_name'
+  },
+  {
+    label: 'رقم الحساب',
+    key: 'account_number'
+  },
+  {
+    label: 'اسم البنك',
+    key: 'name'
+  },
+  {
+    label: 'رمز السويفت',
+    key: 'swift_code'
+  },
+  {
+    label: 'نوع الحساب',
+    key: 'type'
+  }
+])
+
+// #endregion
+
+/***************************************
+ **** Section Computed Variables  ******
+ **************************************/
+// #region Computed
+const permissions = computed(() => ({
+  takeProcedure: hasPermission('take_procedure'),
+  sendNotification: hasPermission('notify_user')
+}))
 
 // #endregion
 
@@ -64,9 +192,10 @@ function takeProcedure(procedure: any) {
   procedure.loading = true
   advertisersService
     .takeProcedure({ id: advertiserId, type: procedure.key })
-    .then(res => {
+    .then((res) => {
       toast.success(res.data.message)
-    }).catch(() => {
+    })
+    .catch(() => {
       data.value.procedures[procedure.key] = !data.value.procedures[procedure.key]
     })
     .finally(() => {
@@ -80,68 +209,27 @@ function takeProcedure(procedure: any) {
 
 <template>
   <div v-loading="isLoading">
+    <NotificationModal
+      v-if="user && showNotificationModal"
+      v-model:showModal="showNotificationModal"
+      :user="user"
+    />
     <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
       <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>
-          عرض بيانات التاجر
-        </VExpansionPanelTitle>
+        <VExpansionPanelTitle> عرض بيانات التاجر </VExpansionPanelTitle>
         <VExpansionPanelText>
           <div class="platform-info">
-            <div v-if="data.logo" class="platform-info__card">
+            <div v-for="stat in statsData" :key="stat.key" class="platform-info__card">
               <h3 class="platform-info__card__title">
-                عدد المتابعين
+                {{ stat.label }}
               </h3>
-              <div class="platform-info__card__body">
-                {{ data.followers_count }}
-              </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                عدد الاعلانات
-              </h3>
-              <div class="platform-info__card__body">
-                {{ data.ads_count }}
-              </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                التقييم
-              </h3>
-              <div class="platform-info__card__body">
+              <div v-if="stat.key === 'rate'" class="platform-info__card__body">
                 <div class="d-flex align-center">
-                  <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />  {{ data.rate }}
+                  <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
+                  {{ data.rate }}
                 </div>
               </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                المحفظة
-              </h3>
-              <div class="platform-info__card__body">
-                {{ data.wallet }}
-              </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                النقاط
-              </h3>
-              <div class="platform-info__card__body">
-                {{ data.points_balance }}
-              </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                حالة الاشتراك
-              </h3>
-              <div class="platform-info__card__body">
-                {{ data.subscription_status }}
-              </div>
-            </div>
-            <div class="platform-info__card">
-              <h3 class="platform-info__card__title">
-                الإعدادات
-              </h3>
-              <div class="platform-info__card__body">
+              <div v-else-if="stat.key === 'profile_completion'" class="platform-info__card__body">
                 <VProgressCircular
                   :rotate="360"
                   :size="50"
@@ -153,136 +241,79 @@ function takeProcedure(procedure: any) {
                   {{ data.profile_completion }}%
                 </VProgressCircular>
               </div>
+              <template v-else>
+                <div class="platform-info__card__body">
+                  {{ data[stat.key] }}
+                </div>
+              </template>
             </div>
           </div>
         </VExpansionPanelText>
       </VExpansionPanel>
     </VExpansionPanels>
 
-    <VRow>
-      <VCol cols="12" md="8">
+    <VRow class="py-3">
+      <VCol cols="12" md="8" class="py-0">
         <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
           <VExpansionPanel elevation="0">
-            <VExpansionPanelTitle>
-              عرض المزيد من البيانات
-            </VExpansionPanelTitle>
+            <VExpansionPanelTitle> عرض المزيد من البيانات </VExpansionPanelTitle>
             <VExpansionPanelText>
               <VRow>
-                <VCol class="py-2" cols="12" sm="6" lg="4">
+                <VCol
+                  v-for="item in advertiserDetails"
+                  :key="item.key"
+                  class="py-2"
+                  cols="12"
+                  sm="6"
+                  lg="4"
+                >
                   <h5 class="text-primary text-subtitle-2">
-                    البريد الإلكتروني
-                  </h5>
-                  <p class="text-body-2 mb-0">
-                    {{ data.email }}
-                  </p>
-                </VCol>
-                <VCol class="py-2" cols="12" sm="6" lg="4">
-                  <h5 class="text-primary text-subtitle-2">
-                    الهاتف
-                  </h5>
-                  <p class="text-body-2 mb-0">
-                    {{ data.phone }}
-                  </p>
-                </VCol>
-                <VCol class="py-2" cols="12" sm="6" lg="4">
-                  <h5 class="text-primary text-subtitle-2">
-                    اسم المستخدم
-                  </h5>
-                  <p class="text-body-2 mb-0">
-                    {{ data.username }}
-                  </p>
-                </VCol>
-                <VCol class="py-2" cols="12" sm="6" lg="4">
-                  <h5 class="text-primary text-subtitle-2">
-                    اسم صاحب الحساب
-                  </h5>
-                  <p class="text-body-2 mb-0">
-                    {{ data.account_name }}
-                  </p>
-                </VCol>
-                <VCol class="py-2" cols="12" sm="6" lg="4">
-                  <h5 class="text-primary text-subtitle-2">
-                    الدولة
-                  </h5>
-                  <p class="text-body-2 mb-0">
-                    {{ data.country_name || '-' }}
-                  </p>
-                </VCol>
-                <VCol class="py-2" cols="12" sm="6" lg="4">
-                  <h5 class="text-primary text-subtitle-2">
-                    المدينة
-                  </h5>
-                  <p class="text-body-2 mb-0">
-                    {{ data.area_name || '-' }}
-                  </p>
-                </VCol>
-                <VCol class="py-2" cols="12" sm="6" lg="4">
-                  <h5 class="text-primary text-subtitle-2">
-                    حالة الحساب
+                    {{ item.label }}
                   </h5>
                   <VChip
+                    v-if="item.key === 'profile_completion'"
                     label
                     :color="data.profile_completion === 100 ? 'success' : 'error'"
-                    :prepend-icon="data.profile_completion === 100 ? 'tabler-circle-check' : 'tabler-playstation-x'"
-                    class="px-2"
+                    :prepend-icon="
+                      data.profile_completion === 100
+                        ? 'tabler-circle-check'
+                        : 'tabler-playstation-x'
+                    "
+                    class="px-2 mt-1"
                   >
                     {{ data.profile_completion === 100 ? 'مكتمل' : 'غير مكتمل' }}
                   </VChip>
-                </VCol>
-                <VCol class="py-2" cols="12" sm="6" lg="4">
-                  <h5 class="text-primary text-subtitle-2">
-                    نوع الكيان
-                  </h5>
-                  <p class="text-body-2 mb-0">
-                    {{ data.type || '-' }}
-                  </p>
-                </VCol>
-                <VCol class="py-2" cols="12" sm="6" lg="4">
-                  <h5 class="text-primary text-subtitle-2">
-                    باقة الاشتراك
-                  </h5>
-                  <p class="text-body-2 mb-0">
-                    {{ data.subscription_name || '-' }}
-                  </p>
-                </VCol>
-
-                <VCol class="py-2" cols="12" sm="6" lg="4">
-                  <h5 class="text-primary text-subtitle-2">
-                    بيانات موثوق
-                  </h5>
                   <VChip
+                    v-else-if="item.key === 'mawthooq'"
                     label
                     :color="data.mawthooq ? 'success' : 'error'"
                     :prepend-icon="data.mawthooq ? 'tabler-circle-check' : 'tabler-playstation-x'"
-                    class="mb-2 me-2"
+                    class="px-2 mt-1"
                   >
                     {{ data.mawthooq ? 'تم الادخال' : 'لا يوجد بيانات' }}
                   </VChip>
-                </VCol>
-                <VCol class="py-2" cols="12" sm="6" lg="4">
-                  <h5 class="text-primary text-subtitle-2">
-                    بيانات معروف
-                  </h5>
                   <VChip
+                    v-else-if="item.key === 'ma3roof'"
                     label
                     :color="data.ma3roof ? 'success' : 'error'"
                     :prepend-icon="data.ma3roof ? 'tabler-circle-check' : 'tabler-playstation-x'"
-                    class="mb-2 me-2"
+                    class="px-2 mt-1"
                   >
                     {{ data.ma3roof ? 'تم الادخال' : 'لا يوجد بيانات' }}
                   </VChip>
+                  <p v-else class="text-body-2 mb-0">
+                    {{ data[item.key] || '-' }}
+                  </p>
                 </VCol>
               </VRow>
             </VExpansionPanelText>
           </VExpansionPanel>
         </VExpansionPanels>
       </VCol>
-      <VCol cols="12" md="4">
+      <VCol cols="12" md="4" class="py-0">
         <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
           <VExpansionPanel elevation="0">
-            <VExpansionPanelTitle>
-              عرض الاجراءات
-            </VExpansionPanelTitle>
+            <VExpansionPanelTitle> عرض الاجراءات </VExpansionPanelTitle>
             <VExpansionPanelText v-if="data.procedures">
               <VSwitch
                 v-for="procedure in procedures"
@@ -292,13 +323,19 @@ function takeProcedure(procedure: any) {
                 hide-details
                 :loading="procedure.loading"
                 :disabled="procedure.loading"
+                :readonly="!permissions.takeProcedure"
                 density="comfortable"
                 :inset="false"
                 class="mb-2"
                 @click="takeProcedure(procedure)"
               />
-              <VBtn variant="outlined" class="mt-2">
-                ارسال رسالة عبر
+              <VBtn
+                variant="outlined"
+                class="mt-2"
+                @click="showNotificationModal = true"
+                :disabled="!permissions.sendNotification"
+              >
+                ارسال تنبيه عبر
                 <VIcon end icon="tabler-mail" />
               </VBtn>
             </VExpansionPanelText>
@@ -308,52 +345,26 @@ function takeProcedure(procedure: any) {
     </VRow>
     <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
       <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>
-          عرض بيانات الحساب البنكي
-        </VExpansionPanelTitle>
+        <VExpansionPanelTitle> عرض بيانات الحساب البنكي </VExpansionPanelTitle>
         <VExpansionPanelText>
           <VRow v-if="data.bank_account">
-            <VCol class="py-2" cols="12" sm="6" lg="4">
+            <VCol
+              v-for="item in advertiserBankAccountData"
+              :key="item.key"
+              class="py-2"
+              cols="12"
+              sm="6"
+              lg="4"
+            >
               <h5 class="text-primary text-subtitle-2">
-                اسم الحساب
+                {{ item.label }}
               </h5>
               <p class="text-body-2 mb-0">
-                {{ data.bank_account.account_name }}
-              </p>
-            </VCol>
-            <VCol class="py-2" cols="12" sm="6" lg="4">
-              <h5 class="text-primary text-subtitle-2">
-                رقم الحساب
-              </h5>
-              <p class="text-body-2 mb-0">
-                {{ data.bank_account.account_number }}
-              </p>
-            </VCol>
-            <VCol class="py-2" cols="12" sm="6" lg="4">
-              <h5 class="text-primary text-subtitle-2">
-                اسم البنك
-              </h5>
-              <p class="text-body-2 mb-0">
-                {{ data.bank_account.name }}
-              </p>
-            </VCol>
-            <VCol class="py-2" cols="12" sm="6" lg="4">
-              <h5 class="text-primary text-subtitle-2">
-                رمز السويفت
-              </h5>
-              <p class="text-body-2 mb-0">
-                {{ data.bank_account.swift_code }}
-              </p>
-            </VCol>
-            <VCol class="py-2" cols="12" sm="6" lg="4">
-              <h5 class="text-primary text-subtitle-2">
-                نوع الحساب
-              </h5>
-              <p class="text-body-2 mb-0">
-                {{ data.bank_account.type }}
+                {{ data.bank_account[item.key] }}
               </p>
             </VCol>
           </VRow>
+          <p v-else class="text-body-1 mb-0">لا يوجد بيانات</p>
         </VExpansionPanelText>
       </VExpansionPanel>
     </VExpansionPanels>

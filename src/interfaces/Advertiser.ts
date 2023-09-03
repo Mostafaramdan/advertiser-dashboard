@@ -17,3 +17,74 @@ export interface Advertiser {
   followers_count: number
   ads_count: number
 }
+
+export interface AdvertiserBasicData {
+  id: number
+  subscription_end_date: string | null
+  image: string | null
+  username: string
+  email: string
+  phone: string
+  created_at: string
+  is_active: boolean
+  is_deleted: boolean
+}
+
+export interface AdvertiserDetails {
+  id: number
+  followers_count: number
+  ads_count: number
+  rate: number
+  wallet: number
+  points_balance: number
+  subscription_status: string
+  profile_completion: number
+  email: string
+  phone: string
+  username: string
+  account_name: string
+  country_name: string
+  area_name: string
+  type: string
+  subscription_name: string
+  mawthooq: boolean
+  ma3roof: boolean
+  procedures: {
+    ma3roof_verified: boolean
+    verified: boolean
+    licensed_at_mawthoq: boolean
+    trustes_settings: boolean
+  }
+  bank_account: {
+    account_name: string
+    account_number: string
+    name: string
+    swift_code: string
+    type: string
+  } | null
+}
+export interface LicenseDocument {
+  id: number
+  name: string
+  number: number
+  ended_at: string | null
+  remaining_days: number
+  updated_at: string | null
+  last_notified_at: string | null
+  file_path: string | null
+}
+
+export interface LicenseDocumentNotification {
+  id: number
+  admin_name: string
+  created_at: string
+  channels: string[]
+  message: string
+}
+
+export interface LicenseDocumentNote {
+  id: number
+  admin_name: string
+  created_at: string
+  note: string
+}

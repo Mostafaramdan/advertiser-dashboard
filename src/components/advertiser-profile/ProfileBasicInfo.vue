@@ -1,8 +1,19 @@
 <script setup lang="ts">
 import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
+import type { AdvertiserBasicData } from '@/interfaces/Advertiser'
 import { advertisersService } from '@/services/AdvertisersService'
 import { useAuthStore } from '@/stores/AuthStore'
+
+/***************************************
+ **** Section Emits Declaration ********
+ **************************************/
+// #region Emits
+const emit = defineEmits<{
+  (e: 'update:user', value: AdvertiserBasicData): void
+}>()
+
+// #endregion
 
 /***************************************
  **** Section Variables Declaration ****
@@ -13,7 +24,7 @@ const { formatDate } = UseGeneralHelpers()
 const route = useRoute()
 const advertiserId: number = +route.params.id
 const MODEL_NAME = 'advertisers'
-const advertiser = ref<any>()
+const advertiser = ref<AdvertiserBasicData | null>(null)
 const isLoading = ref<boolean>(false)
 
 // #endregion
@@ -32,7 +43,6 @@ const permissions = computed(() => ({
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-// check tab from query
 getBasicInfo()
 
 // #endregion
@@ -41,13 +51,15 @@ getBasicInfo()
  **** Section Functions Declaration ****
  **************************************/
 // #region Functions
-
 function getBasicInfo() {
   isLoading.value = true
   advertisersService
     .getBasicInfo(advertiserId)
     .then((res: any) => {
-      advertiser.value = res.data.data
+      const response: any = res.data.data
+
+      advertiser.value = response
+      emit('update:user', response)
     })
     .finally(() => {
       isLoading.value = false
@@ -61,7 +73,7 @@ function getBasicInfo() {
   <VCard class="mb-3">
     <VCardText class="pa-4">
       <VSkeletonLoader v-if="isLoading" type="list-item-avatar-two-line" />
-      <div v-else class="profile-card d-flex align-md-center">
+      <div v-else-if="advertiser" class="profile-card d-flex align-md-center">
         <VAvatar
           variant="outlined"
           size="80"
