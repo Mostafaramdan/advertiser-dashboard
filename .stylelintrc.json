@@ -32,6 +32,7 @@
         "color-function-notation": null,
         "number-max-precision": null,
         "no-empty-source": null,
-        "selector-pseudo-class-no-unknown": null
+        "selector-pseudo-class-no-unknown": null,
+        "declaration-block-trailing-semicolon": null
     }
 }

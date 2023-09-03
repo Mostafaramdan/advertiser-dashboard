@@ -4,15 +4,11 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    '@antfu/eslint-config-vue',
-    'plugin:vue/vue3-recommended',
-    'plugin:import/recommended',
-    'plugin:import/typescript',
-    'plugin:promise/recommended',
-    'plugin:sonarjs/recommended',
-    'plugin:@typescript-eslint/recommended',
-
-    // 'plugin:unicorn/recommended',
+    'plugin:vue/vue3-essential',
+    'eslint:recommended',
+    '@vue/eslint-config-typescript',
+    '@vue/eslint-config-prettier/skip-formatting',
+    'prettier'
   ],
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -24,9 +20,11 @@ module.exports = {
     'vue',
     '@typescript-eslint',
     'regex',
+    'prettier',
   ],
   ignorePatterns: ['src/@iconify/*.js', 'node_modules', 'dist', '*.d.ts'],
   rules: {
+    'prettier/prettier': 'error',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 
