@@ -123,19 +123,10 @@ getPageData()
             target="_blank"
             rel="noopener noreferrer"
             class="d-inline-flex align-center"
-            style="min-width: 120px;"
+            style="min-width: 120px"
           >
-            <VAvatar
-              size="38"
-              variant="tonal"
-              class="me-3"
-              cover
-            >
-              <VImg
-                v-if="item.raw.image"
-                :src="item.raw.image"
-                cover
-              />
+            <VAvatar size="38" variant="tonal" class="me-3" cover>
+              <VImg v-if="item.raw.image" :src="item.raw.image" cover />
               <span v-else>!</span>
             </VAvatar>
             <span>
@@ -144,7 +135,7 @@ getPageData()
           </a>
         </template>
         <template #item.name.en="{ item }">
-          <span style="min-width: 120px;">
+          <span style="min-width: 120px">
             {{ item.raw.name.en }}
           </span>
         </template>
@@ -163,20 +154,15 @@ getPageData()
               <VIcon icon="tabler-eye" @click="showViewModal(item.raw)" />
             </IconBtn>
 
-            <VBtn
-              icon
-              variant="text"
-              size="small"
-              color="medium-emphasis"
-            >
-              <VIcon
-                size="24"
-                icon="tabler-dots-vertical"
-              />
+            <VBtn icon variant="text" size="small" color="medium-emphasis">
+              <VIcon size="24" icon="tabler-dots-vertical" />
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem v-if="canAccessPage('areas')" :to="{ name: 'areas-settings', params: { id: item.raw.id } }">
+                  <VListItem
+                    v-if="canAccessPage('areas')"
+                    :to="{ name: 'areas-settings', params: { id: item.raw.id } }"
+                  >
                     <template #prepend>
                       <VIcon icon="tabler-view-360" />
                     </template>
@@ -184,7 +170,11 @@ getPageData()
                     <VListItemTitle>عرض المناطق</VListItemTitle>
                   </VListItem>
 
-                  <VListItem v-if="permissions.sort" :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="sortItems(item.raw.id)">
+                  <VListItem
+                    v-if="permissions.sort"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
+                    @click="sortItems(item.raw.id)"
+                  >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />
                     </template>

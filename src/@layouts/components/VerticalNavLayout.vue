@@ -18,7 +18,11 @@ export default defineComponent({
   setup(props, { slots }) {
     const { y: windowScrollY } = useWindowScroll()
     const { width: windowWidth } = useWindowSize()
-    const { _layoutClasses: layoutClasses, isLessThanOverlayNavBreakpoint, isNavbarBlurEnabled } = useLayouts()
+    const {
+      _layoutClasses: layoutClasses,
+      isLessThanOverlayNavBreakpoint,
+      isNavbarBlurEnabled,
+    } = useLayouts()
 
     const isOverlayNavActive = ref(false)
     const isLayoutOverlayVisible = ref(false)
@@ -39,7 +43,7 @@ export default defineComponent({
     // })
 
     // ℹ️ Hide overlay if user open overlay nav in <md and increase the window width without closing overlay nav
-    watch(windowWidth, value => {
+    watch(windowWidth, (value) => {
       if (!isLessThanOverlayNavBreakpoint.value(value) && isLayoutOverlayVisible.value)
         isLayoutOverlayVisible.value = false
     })
@@ -50,12 +54,21 @@ export default defineComponent({
     return () => {
       const verticalNavAttrs = toRef(props, 'verticalNavAttrs')
 
-      const { wrapper: verticalNavWrapper, wrapperProps: verticalNavWrapperProps, ...additionalVerticalNavAttrs } = verticalNavAttrs.value
+      const {
+        wrapper: verticalNavWrapper,
+        wrapperProps: verticalNavWrapperProps,
+        ...additionalVerticalNavAttrs
+      } = verticalNavAttrs.value
 
       // 👉 Vertical nav
       const verticalNav = h(
         VerticalNav,
-        { isOverlayNavActive: isOverlayNavActive.value, toggleIsOverlayNavActive, navItems: props.navItems, ...additionalVerticalNavAttrs },
+        {
+          isOverlayNavActive: isOverlayNavActive.value,
+          toggleIsOverlayNavActive,
+          navItems: props.navItems,
+          ...additionalVerticalNavAttrs,
+        },
         {
           'nav-header': () => slots['vertical-nav-header']?.(),
           'before-nav-items': () => slots['before-vertical-nav-items']?.(),
@@ -101,42 +114,33 @@ export default defineComponent({
       )
 
       // 👉 Footer
-      const footer = h(
-        'footer',
-        { class: 'layout-footer' },
-        [
-          h(
-            'div',
-            { class: 'footer-content-container' },
-            slots.footer?.(),
-          ),
-        ],
-      )
+      const footer = h('footer', { class: 'layout-footer' }, [
+        h('div', { class: 'footer-content-container' }, slots.footer?.()),
+      ])
 
       // 👉 Overlay
-      const layoutOverlay = h(
-        'div',
-        {
-          class: ['layout-overlay', { visible: isLayoutOverlayVisible.value }],
-          onClick: () => { isLayoutOverlayVisible.value = !isLayoutOverlayVisible.value },
+      const layoutOverlay = h('div', {
+        class: ['layout-overlay', { visible: isLayoutOverlayVisible.value }],
+        onClick: () => {
+          isLayoutOverlayVisible.value = !isLayoutOverlayVisible.value
         },
-      )
+      })
 
       return h(
         'div',
-        { class: ['layout-wrapper', ...layoutClasses.value(windowWidth.value, windowScrollY.value)] },
+        {
+          class: ['layout-wrapper', ...layoutClasses.value(windowWidth.value, windowScrollY.value)],
+        },
         [
-          verticalNavWrapper ? h(verticalNavWrapper, verticalNavWrapperProps, { default: () => verticalNav }) : verticalNav,
-          h(
-            'div',
-            { class: 'layout-content-wrapper' },
-            [
-              navbar,
-              main,
+          verticalNavWrapper
+            ? h(verticalNavWrapper, verticalNavWrapperProps, { default: () => verticalNav })
+            : verticalNav,
+          h('div', { class: 'layout-content-wrapper' }, [
+            navbar,
+            main,
 
-              // footer,
-            ],
-          ),
+            // footer,
+          ]),
           layoutOverlay,
         ],
       )
@@ -146,9 +150,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@use "@configured-variables" as variables;
-@use "@layouts/styles/placeholders";
-@use "@layouts/styles/mixins";
+@use '@configured-variables' as variables;
+@use '@layouts/styles/placeholders';
+@use '@layouts/styles/mixins';
 
 .layout-wrapper.layout-nav-type-vertical {
   // TODO(v2): Check why we need height in vertical nav & min-height in horizontal nav

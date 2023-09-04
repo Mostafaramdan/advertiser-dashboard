@@ -34,11 +34,15 @@ const isGroupActive = ref(false)
 
   updates isActive & isOpen based on active state of group.
 */
-watch(() => route.path, () => {
-  const isActive = isNavGroupActive(props.item.children, router)
+watch(
+  () => route.path,
+  () => {
+    const isActive = isNavGroupActive(props.item.children, router)
 
-  isGroupActive.value = isActive
-}, { immediate: true })
+    isGroupActive.value = isActive
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -48,12 +52,14 @@ watch(() => route.path, () => {
     class="nav-group"
     tag="li"
     content-container-tag="ul"
-    :class="[{
-      'active': isGroupActive,
-      'children-at-end': childrenAtEnd,
-      'sub-item': isSubItem,
-      'disabled': item.disable,
-    }]"
+    :class="[
+      {
+        active: isGroupActive,
+        'children-at-end': childrenAtEnd,
+        'sub-item': isSubItem,
+        disabled: item.disable,
+      },
+    ]"
     :popper-inline-end="childrenAtEnd"
   >
     <div class="nav-group-label">

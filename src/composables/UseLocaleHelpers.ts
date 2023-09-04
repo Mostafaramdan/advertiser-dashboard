@@ -14,22 +14,22 @@ export default function UseLocaleHelpers() {
   // #endregion
 
   /***************************************
- **** Section Watchers *****************
- **************************************/
+   **** Section Watchers *****************
+   **************************************/
   // #region Watchers
 
   // #endregion
 
   /***************************************
- **** Section Lifecycle Hooks  *********
- **************************************/
+   **** Section Lifecycle Hooks  *********
+   **************************************/
   // #region Lifecycle Hooks
 
   // #endregion
 
   /***************************************
- **** Section Functions Declaration ****
- **************************************/
+   **** Section Functions Declaration ****
+   **************************************/
   // #region Functions
   function changeAppLocale(lang: string) {
     document.documentElement.setAttribute('lang', lang as string)
@@ -39,7 +39,7 @@ export default function UseLocaleHelpers() {
 
   function initAppLanguage() {
     changeAppLocale(isAppRtl.value ? 'ar' : 'en')
-    watch(locale, val => {
+    watch(locale, (val) => {
       changeAppLocale(val)
     })
   }

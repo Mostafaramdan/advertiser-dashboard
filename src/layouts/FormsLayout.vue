@@ -8,10 +8,7 @@ import { themeConfig } from '@themeConfig'
 <template>
   <div class="layout-blank">
     <div class="auth-wrapper d-flex align-center justify-center pa-4">
-      <div
-        class="position-relative my-sm-16"
-        style="width: 500px;"
-      >
+      <div class="position-relative my-sm-16" style="width: 500px">
         <!-- 👉 Top shape -->
         <VNodeRenderer
           :nodes="h('div', { innerHTML: authV1TopShape })"
@@ -48,5 +45,5 @@ import { themeConfig } from '@themeConfig'
 </template>
 
 <style lang="scss">
-@use "@core/scss/template/pages/page-auth.scss";
+@use '@core/scss/template/pages/page-auth.scss';
 </style>

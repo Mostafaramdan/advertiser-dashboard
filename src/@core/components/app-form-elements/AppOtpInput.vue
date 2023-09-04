@@ -35,8 +35,7 @@ const handleKeyDown = (event: KeyboardEvent, index: number) => {
     if (refOtpComp.value !== null && index > 1) {
       const inputEl = refOtpComp.value.children[index - 2].querySelector('input')
 
-      if (inputEl)
-        inputEl.focus()
+      if (inputEl) inputEl.focus()
     }
   }
   const numberRegExp = /^([0-9])$/
@@ -47,8 +46,7 @@ const handleKeyDown = (event: KeyboardEvent, index: number) => {
     if (refOtpComp.value !== null && index !== 0 && index < refOtpComp.value.children.length) {
       const inputEl = refOtpComp.value.children[index].querySelector('input')
 
-      if (inputEl)
-        inputEl.focus()
+      if (inputEl) inputEl.focus()
     }
   }
 
@@ -58,13 +56,8 @@ const handleKeyDown = (event: KeyboardEvent, index: number) => {
 
 <template>
   <div>
-    <h6 class="text-h6 mb-3">
-      Type your 6 digit security code
-    </h6>
-    <div
-      ref="refOtpComp"
-      class="d-flex align-center gap-4"
-    >
+    <h6 class="text-h6 mb-3">Type your 6 digit security code</h6>
+    <div ref="refOtpComp" class="d-flex align-center gap-4">
       <AppTextField
         v-for="i in props.totalInput"
         :key="i"

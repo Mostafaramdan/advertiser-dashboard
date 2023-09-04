@@ -33,7 +33,6 @@ const page = useVModel(props, 'page', emit)
 <template>
   <div v-if="metaData && metaData.last_page > 1" class="page-pagination">
     <VPagination
-
       v-model="page"
       total-visible="4"
       :length="metaData.last_page"

@@ -54,23 +54,21 @@ getItemDetails(props.activeItem.id)
 // #region Functions
 function getItemDetails(id: any) {
   isLoading.value = true
-  termsConditionsService.getSingleItem(id).then(res => {
-    data.value = res.data.data
-  }).finally(() => {
-    isLoading.value = false
-  })
+  termsConditionsService
+    .getSingleItem(id)
+    .then((res) => {
+      data.value = res.data.data
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 // #endregion
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="1000"
-    scrollable
-    class="details-modal"
-  >
+  <VDialog v-model="showModal" max-width="1000" scrollable class="details-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -80,24 +78,10 @@ function getItemDetails(id: any) {
         <VCard v-if="data" title="عرض سؤال">
           <VCardText>
             <VList :lines="false">
-              <VListItem
-                class="px-2 py-2"
-                title="العنوان"
-                :subtitle="data.name"
-                border
-              />
-              <VListItem
-                class="px-2 py-2"
-                title="النوع"
-                :subtitle="data.type.label"
-                border
-              />
+              <VListItem class="px-2 py-2" title="العنوان" :subtitle="data.name" border />
+              <VListItem class="px-2 py-2" title="النوع" :subtitle="data.type.label" border />
 
-              <VListItem
-                class="px-2 py-2"
-                title="الاجابة"
-                border
-              >
+              <VListItem class="px-2 py-2" title="الاجابة" border>
                 <AppTextEditor
                   v-model="data.description"
                   name="description"
@@ -107,11 +91,7 @@ function getItemDetails(id: any) {
                 />
               </VListItem>
             </VList>
-            <AppSwitch
-              :model-value="data.is_active"
-              label="الحالة"
-              name="is_active"
-            />
+            <AppSwitch :model-value="data.is_active" label="الحالة" name="is_active" />
           </VCardText>
         </VCard>
       </div>

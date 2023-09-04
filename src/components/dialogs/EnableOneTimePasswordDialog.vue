@@ -45,7 +45,8 @@ const dialogModelValueUpdate = (val: boolean) => {
         </VCardTitle>
         <VCardSubtitle>
           <span class="text-base">
-            Enter your mobile phone number with country code and  we will send you a verification code.
+            Enter your mobile phone number with country code and we will send you a verification
+            code.
           </span>
         </VCardSubtitle>
       </VCardItem>
@@ -62,23 +63,10 @@ const dialogModelValueUpdate = (val: boolean) => {
           />
 
           <div class="d-flex flex-wrap justify-end gap-4">
-            <VBtn
-              color="secondary"
-              variant="tonal"
-              @click="resetPhoneNumber"
-            >
-              Cancel
-            </VBtn>
-            <VBtn
-              type="submit"
-              @click="formSubmit"
-            >
+            <VBtn color="secondary" variant="tonal" @click="resetPhoneNumber"> Cancel </VBtn>
+            <VBtn type="submit" @click="formSubmit">
               continue
-              <VIcon
-                end
-                icon="tabler-arrow-right"
-                class="flip-in-rtl"
-              />
+              <VIcon end icon="tabler-arrow-right" class="flip-in-rtl" />
             </VBtn>
           </div>
         </VForm>

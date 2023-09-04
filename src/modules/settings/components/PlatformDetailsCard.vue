@@ -15,9 +15,7 @@ withDefaults(defineProps<FormModalProps>(), {})
 <template>
   <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
     <VExpansionPanel elevation="0">
-      <VExpansionPanelTitle>
-        عرض بيانات المنصة
-      </VExpansionPanelTitle>
+      <VExpansionPanelTitle> عرض بيانات المنصة </VExpansionPanelTitle>
       <VExpansionPanelText v-if="platformData">
         <div class="d-flex gap-3 flex-column flex-sm-row mb-3">
           <VCol class="pa-0">
@@ -29,12 +27,7 @@ withDefaults(defineProps<FormModalProps>(), {})
                   </div>
                   <span class="text-body-2">الحسابات الموثوقة </span>
                 </div>
-                <VAvatar
-                  icon="tabler-users"
-                  color="primary"
-                  :size="42"
-                  variant="tonal"
-                />
+                <VAvatar icon="tabler-users" color="primary" :size="42" variant="tonal" />
               </div>
             </VCard>
           </VCol>
@@ -45,86 +38,61 @@ withDefaults(defineProps<FormModalProps>(), {})
                   <div class="text-h5 text-primary">
                     {{ platformData.registered_at_marouf }}
                   </div>
-                  <span class="text-body-2">الحسابات المسجلة فى معروف  </span>
+                  <span class="text-body-2">الحسابات المسجلة فى معروف </span>
                 </div>
-                <VAvatar
-                  icon="tabler-users"
-                  color="primary"
-                  :size="42"
-                  variant="tonal"
-                />
+                <VAvatar icon="tabler-users" color="primary" :size="42" variant="tonal" />
               </div>
             </VCard>
           </VCol>
         </div>
         <div class="platform-info">
           <div v-if="platformData.logo" class="platform-info__card">
-            <h3 class="platform-info__card__title">
-              الشعار
-            </h3>
+            <h3 class="platform-info__card__title">الشعار</h3>
             <div class="platform-info__card__body">
-              <VImg
-                :src="platformData.logo"
-                height="100px"
-                width="100px"
-                cover
-              />
+              <VImg :src="platformData.logo" height="100px" width="100px" cover />
             </div>
           </div>
           <div class="platform-info__card">
-            <h3 class="platform-info__card__title">
-              عدد المشتركين
-            </h3>
+            <h3 class="platform-info__card__title">عدد المشتركين</h3>
             <div class="platform-info__card__body">
               {{ platformData.total_users }}
             </div>
           </div>
           <div class="platform-info__card">
-            <h3 class="platform-info__card__title">
-              متوسط التقييم
-            </h3>
+            <h3 class="platform-info__card__title">متوسط التقييم</h3>
             <div class="platform-info__card__body">
               <div class="d-flex align-center">
-                <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />  {{ platformData.total_rate }}
+                <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
+                {{ platformData.total_rate }}
               </div>
             </div>
           </div>
           <div class="platform-info__card">
-            <h3 class="platform-info__card__title">
-              رصيدالمحفظة
-            </h3>
+            <h3 class="platform-info__card__title">رصيدالمحفظة</h3>
             <div class="platform-info__card__body">
               {{ platformData.wallet }}
             </div>
           </div>
           <div class="platform-info__card">
-            <h3 class="platform-info__card__title">
-              رصيد النقاط
-            </h3>
+            <h3 class="platform-info__card__title">رصيد النقاط</h3>
             <div class="platform-info__card__body">
               {{ platformData.points_balance }}
             </div>
           </div>
           <div class="platform-info__card">
-            <h3 class="platform-info__card__title">
-              الحسابات النشطة
-            </h3>
+            <h3 class="platform-info__card__title">الحسابات النشطة</h3>
             <div class="platform-info__card__body">
               {{ platformData.active }}
             </div>
           </div>
           <div class="platform-info__card">
-            <h3 class="platform-info__card__title">
-              ح غير النشطة
-            </h3>
+            <h3 class="platform-info__card__title">ح غير النشطة</h3>
             <div class="platform-info__card__body">
               {{ platformData.inactive }}
             </div>
           </div>
           <div class="platform-info__card">
-            <h3 class="platform-info__card__title">
-              الحسابات المكتملة
-            </h3>
+            <h3 class="platform-info__card__title">الحسابات المكتملة</h3>
             <div class="platform-info__card__body">
               <span class="mt-1"> {{ platformData.complete }}</span>
               <VProgressCircular

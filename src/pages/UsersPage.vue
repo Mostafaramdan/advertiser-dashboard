@@ -10,8 +10,8 @@ import { usersService } from '@/services/UsersService'
 import { useAuthStore } from '@/stores/AuthStore'
 
 /***************************************
-   **** Section Variables Declaration ****
-   **************************************/
+ **** Section Variables Declaration ****
+ **************************************/
 // #region Variables
 const FilterComponent = defineAsyncComponent(() => import('@/components/users/UsersFilter.vue'))
 const { t } = useI18n()
@@ -72,8 +72,8 @@ const headers: any = [
 // #endregion
 
 /***************************************
-   **** Section Computed Variables  ******
-   **************************************/
+ **** Section Computed Variables  ******
+ **************************************/
 // #region Computed
 const permissions = computed(() => ({
   delete: hasPermission('delete_users'),
@@ -98,16 +98,16 @@ const pageActionsButtons = computed<pageAction[]>(() => {
 // #endregion
 
 /***************************************
-   **** Section Lifecycle Hooks  *********
-   **************************************/
+ **** Section Lifecycle Hooks  *********
+ **************************************/
 // #region Lifecycle Hooks
 getPageData()
 
 // #endregion
 
 /***************************************
-   **** Section Functions Declaration ****
-   **************************************/
+ **** Section Functions Declaration ****
+ **************************************/
 // #region Functions
 function handleShowFilter() {
   showFilter.value = !showFilter.value
@@ -121,22 +121,22 @@ function onApplyFilter(filters: any) {
 
 function deleteItem(item: User) {
   IsLoadingData.value = true
-  usersService.deleteItem(item.id).then(res => {
-    item.is_deleted = true
-    toast.success(res.data.message)
-  }).catch(() => {
-    item.is_deleted = false
-  })
+  usersService
+    .deleteItem(item.id)
+    .then((res) => {
+      item.is_deleted = true
+      toast.success(res.data.message)
+    })
+    .catch(() => {
+      item.is_deleted = false
+    })
     .finally(() => {
       IsLoadingData.value = false
     })
 }
 
 async function showConfirmDeleteItem(item: User): Promise<void> {
-  const confirm = await confirmModal.value.open(
-    'يرجي التاكيد',
-    'هل انت متاكد من الحذف',
-  )
+  const confirm = await confirmModal.value.open('يرجي التاكيد', 'هل انت متاكد من الحذف')
 
   if (confirm) deleteItem(item)
 }
@@ -147,7 +147,12 @@ async function showConfirmDeleteItem(item: User): Promise<void> {
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
-    <Component :is="FilterComponent" v-if="loadFilter" v-model:showFilter="showFilter" @apply-filter="onApplyFilter" />
+    <Component
+      :is="FilterComponent"
+      v-if="loadFilter"
+      v-model:showFilter="showFilter"
+      @apply-filter="onApplyFilter"
+    />
     <VCard title="المستخدمين" class="page-card">
       <VCardText>
         <PageActions
@@ -176,16 +181,8 @@ async function showConfirmDeleteItem(item: User): Promise<void> {
           <template #item.account_name="{ item }">
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
-                <VAvatar
-                  size="38"
-                  variant="tonal"
-                  cover
-                >
-                  <VImg
-                    v-if="item.raw.image_path"
-                    :src="item.raw.image_path"
-                    cover
-                  />
+                <VAvatar size="38" variant="tonal" cover>
+                  <VImg v-if="item.raw.image_path" :src="item.raw.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
                 <VChip
@@ -198,14 +195,14 @@ async function showConfirmDeleteItem(item: User): Promise<void> {
                   محذوف
                 </VChip>
               </div>
-              <div style="min-width: 205px;">
+              <div style="min-width: 205px">
                 {{ item.raw.account_name }}
                 <span class="text-sm text-disabled d-block">{{ item.raw.email }}</span>
               </div>
             </div>
           </template>
           <template #item.country_name="{ item }">
-            <div style="min-width: 150px;">
+            <div style="min-width: 150px">
               {{ item.raw.country_name }}
               <span class="text-sm text-disabled d-block">{{ item.raw.area_name }}</span>
             </div>
@@ -220,7 +217,8 @@ async function showConfirmDeleteItem(item: User): Promise<void> {
             <div class="text-no-wrap">
               {{ GENDER_TYPES[item.raw.gender as 'male' | 'female'] }}
               <span class="d-flex align-center justify-center text-sm">
-                <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />  {{ item.raw.rate }}
+                <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
+                {{ item.raw.rate }}
               </span>
             </div>
           </template>
@@ -238,20 +236,16 @@ async function showConfirmDeleteItem(item: User): Promise<void> {
               <IconBtn :disabled="!permissions.viewUserDetails">
                 <VIcon icon="tabler-eye" />
               </IconBtn>
-              <VBtn
-                icon
-                variant="text"
-                size="small"
-                color="medium-emphasis"
-              >
-                <VIcon
-                  size="24"
-                  icon="tabler-dots-vertical"
-                />
+              <VBtn icon variant="text" size="small" color="medium-emphasis">
+                <VIcon size="24" icon="tabler-dots-vertical" />
 
                 <VMenu activator="parent">
                   <VList>
-                    <VListItem v-if="!item.raw.is_deleted" :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+                    <VListItem
+                      v-if="!item.raw.is_deleted"
+                      :disabled="!permissions.delete"
+                      @click="showConfirmDeleteItem(item.raw)"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-trash" />
                       </template>
@@ -305,17 +299,17 @@ async function showConfirmDeleteItem(item: User): Promise<void> {
   </section>
 </template>
 
-  <style lang="scss" scoped>
-  :deep(.v-data-table .v-table__wrapper > table td) {
-    max-inline-size: 250px;
-    word-wrap: break-word;
+<style lang="scss" scoped>
+:deep(.v-data-table .v-table__wrapper > table td) {
+  max-inline-size: 250px;
+  word-wrap: break-word;
 
-    span {
-      @include max-lines(2);
-    }
-
-    .v-img__img--contain {
-      object-fit: cover;
-    }
+  span {
+    @include max-lines(2);
   }
-  </style>
+
+  .v-img__img--contain {
+    object-fit: cover;
+  }
+}
+</style>

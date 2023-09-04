@@ -140,7 +140,12 @@ export const settingsRoutes = [
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),
     meta: {
-      requireAtLeastOneAccess: ['general_settings', 'social_settings', 'schedule_settings', 'billing_cards'],
+      requireAtLeastOneAccess: [
+        'general_settings',
+        'social_settings',
+        'schedule_settings',
+        'billing_cards',
+      ],
     },
     children: [
       {
@@ -182,7 +187,12 @@ export const settingsRoutes = [
     name: 'financial-settings',
     component: () => import('./pages/financial-settings/IndexPage.vue'),
     meta: {
-      requireAtLeastOneAccess: ['financial_settings', 'payment_commissions', 'point_settings', 'tax_settings'],
+      requireAtLeastOneAccess: [
+        'financial_settings',
+        'payment_commissions',
+        'point_settings',
+        'tax_settings',
+      ],
     },
     children: [
       {
@@ -224,7 +234,12 @@ export const settingsRoutes = [
     name: 'advertisers-accounts',
     component: () => import('./pages/advertisers-accounts/IndexPage.vue'),
     meta: {
-      requireAtLeastOneAccess: ['ads_types', 'discrimination_types', 'account_cases', 'subscription_settings'],
+      requireAtLeastOneAccess: [
+        'ads_types',
+        'discrimination_types',
+        'account_cases',
+        'subscription_settings',
+      ],
     },
     children: [
       {

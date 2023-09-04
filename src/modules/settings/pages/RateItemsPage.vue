@@ -125,7 +125,11 @@ getPageData()
     @edit-item="onEditItem"
     @create-item="onCreateItem"
   />
-  <RateItemDetailsModal v-if="showDetailsModal" v-model:showModal="showDetailsModal" :active-item="activeItem" />
+  <RateItemDetailsModal
+    v-if="showDetailsModal"
+    v-model:showModal="showDetailsModal"
+    :active-item="activeItem"
+  />
   <VCard title="عناصر التقييم" class="page-card">
     <VCardText>
       <PageActions
@@ -151,31 +155,23 @@ getPageData()
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.name.ar="{ item }">
-          <span style="min-width: 100px;">
+          <span style="min-width: 100px">
             {{ item.raw.name.ar }}
           </span>
         </template>
         <template #item.name.en="{ item }">
-          <span style="min-width: 100px;">
+          <span style="min-width: 100px">
             {{ item.raw.name.en }}
           </span>
         </template>
 
         <template #item.type="{ item }">
-          <VChip
-            variant="outlined"
-            color="primary"
-            label
-          >
+          <VChip variant="outlined" color="primary" label>
             {{ RATE_ITEM_TYPES[item.raw.type] }}
           </VChip>
         </template>
         <template #item.for="{ item }">
-          <VChip
-            variant="outlined"
-            color="primary"
-            label
-          >
+          <VChip variant="outlined" color="primary" label>
             {{ RATE_ITEM_TARGETS[item.raw.for] }}
           </VChip>
         </template>
@@ -199,16 +195,8 @@ getPageData()
               <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
             </IconBtn>
 
-            <VBtn
-              icon
-              variant="text"
-              size="small"
-              color="medium-emphasis"
-            >
-              <VIcon
-                size="24"
-                icon="tabler-dots-vertical"
-              />
+            <VBtn icon variant="text" size="small" color="medium-emphasis">
+              <VIcon size="24" icon="tabler-dots-vertical" />
 
               <VMenu activator="parent">
                 <VList>
@@ -220,7 +208,11 @@ getPageData()
                     <VListItemTitle>عرض</VListItemTitle>
                   </VListItem>
 
-                  <VListItem v-if="permissions.sort" :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="sortItems(item.raw.id)">
+                  <VListItem
+                    v-if="permissions.sort"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
+                    @click="sortItems(item.raw.id)"
+                  >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />
                     </template>

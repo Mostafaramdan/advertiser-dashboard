@@ -1,38 +1,27 @@
 export function greaterThanTime(value: string, [min]: any) {
-  if (!value || !value.length)
-    return true
-
-  else if (new Date(`2000-01-01 ${value}`) <= new Date(`2000-01-01 ${min}`))
-    return false
+  if (!value || !value.length) return true
+  else if (new Date(`2000-01-01 ${value}`) <= new Date(`2000-01-01 ${min}`)) return false
 
   return true
 }
 
 export function lessThanTime(value: string, [max]: any) {
-  if (!value || !value.length)
-    return true
-
-  else if (new Date(`2000-01-01 ${value}`) >= new Date(`2000-01-01 ${max}`))
-    return false
+  if (!value || !value.length) return true
+  else if (new Date(`2000-01-01 ${value}`) >= new Date(`2000-01-01 ${max}`)) return false
 
   return true
 }
 
 export function minWords(value: string, [min]: any) {
-  if (!value || !value.length)
-    return true
-
-  else if (value.trim().split(' ').length < min)
-    return false
+  if (!value || !value.length) return true
+  else if (value.trim().split(' ').length < min) return false
 
   return true
 }
 
 export function validIcloud(value: string) {
-  if (!value || !value.length)
-    return true
-  else if (!/^[a-zA-Z0-9._%+-]+@icloud\.com$/i.test(value))
-    return false
+  if (!value || !value.length) return true
+  else if (!/^[a-zA-Z0-9._%+-]+@icloud\.com$/i.test(value)) return false
 
   return true
 }

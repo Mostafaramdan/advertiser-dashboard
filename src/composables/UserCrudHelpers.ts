@@ -3,11 +3,7 @@ import type { FormActionType } from '@/interfaces/Forms'
 import type { MetaData } from '@/interfaces/Shared'
 import { sharedService } from '@/services/SharedService'
 
-export function UseCrudHelpers<ItemType>(
-  ItemService: any,
-  params: any,
-  modelName: string,
-) {
+export function UseCrudHelpers<ItemType>(ItemService: any, params: any, modelName: string) {
   /***************************************
    **** Section Variables Declaration ****
    **************************************/
@@ -82,8 +78,8 @@ export function UseCrudHelpers<ItemType>(
   }
 
   /**
-    * @description reload page data
-    * @return  {void}
+   * @description reload page data
+   * @return  {void}
    */
   function reloadPageData(): void {
     params.page = 1
@@ -92,7 +88,7 @@ export function UseCrudHelpers<ItemType>(
 
   /**
    * @description reload page data and reset selected items
-  */
+   */
   function onReloadData(): void {
     reloadPageData()
     selectedItems.value = []
@@ -102,7 +98,7 @@ export function UseCrudHelpers<ItemType>(
    * @description update items per page and reload page data
    * @param  {number} value
    * @return  {void}
-  */
+   */
   function onChangeItemsPerPage(value: number): void {
     params.itemPerPage = value
     reloadPageData()
@@ -145,10 +141,7 @@ export function UseCrudHelpers<ItemType>(
    * @return  {Promise<void>}
    */
   async function showConfirmDeleteItem(item: ItemType): Promise<void> {
-    const confirm = await confirmModal.value.open(
-      'يرجي التاكيد',
-      'هل انت متاكد من الحذف',
-    )
+    const confirm = await confirmModal.value.open('يرجي التاكيد', 'هل انت متاكد من الحذف')
 
     if (confirm) deleteItem(item)
   }
@@ -159,9 +152,7 @@ export function UseCrudHelpers<ItemType>(
    * @return  {void}
    */
   function deleteItemFromSelectedItems(item: any): void {
-    const targetItemIndex = selectedItems.value.findIndex(
-      (i: number) => i === item.id,
-    )
+    const targetItemIndex = selectedItems.value.findIndex((i: number) => i === item.id)
 
     if (targetItemIndex !== -1) selectedItems.value.splice(targetItemIndex, 1)
   }
@@ -180,27 +171,21 @@ export function UseCrudHelpers<ItemType>(
     // update sort for table data
     if (item.sort) {
       for (let i = targetIndex; i < tableData.value.length; i++)
-
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         if (tableData.value[i].sort) tableData.value[i].sort -= 1
     }
 
     if (metaData.value) {
       metaData.value.total -= 1
-      metaData.value.last_page = Math.ceil(
-        metaData.value.total / params.itemPerPage,
-      )
+      metaData.value.last_page = Math.ceil(metaData.value.total / params.itemPerPage)
       if (tableData.value.length === 0 && metaData.value.current_page > 1) {
         params.page = metaData.value.current_page - 1
         getPageData()
       }
 
       // handle it for first page
-      else if (
-        tableData.value.length === 0
-        && metaData.value.current_page === 1
-      ) {
+      else if (tableData.value.length === 0 && metaData.value.current_page === 1) {
         getPageData()
       }
     }
@@ -240,7 +225,7 @@ export function UseCrudHelpers<ItemType>(
     IsLoadingData.value = true
     sharedService
       .sortBulk(payload)
-      .then(res => {
+      .then((res) => {
         toast.success(res.data.message)
         onReloadData()
       })

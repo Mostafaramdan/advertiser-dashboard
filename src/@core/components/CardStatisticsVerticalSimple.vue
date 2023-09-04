@@ -14,12 +14,7 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
   <VCard>
     <VCardText class="d-flex flex-column align-center justify-center">
-      <VAvatar
-        v-if="props.icon"
-        size="42"
-        variant="tonal"
-        :color="props.color"
-      >
+      <VAvatar v-if="props.icon" size="42" variant="tonal" :color="props.color">
         <VIcon :icon="props.icon" />
       </VAvatar>
 

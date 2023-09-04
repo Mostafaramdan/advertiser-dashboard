@@ -22,25 +22,15 @@ watch(selectedOption, () => {
 </script>
 
 <template>
-  <VRow
-    v-if="props.checkboxContent && selectedOption"
-    v-model="selectedOption"
-  >
-    <VCol
-      v-for="item in props.checkboxContent"
-      :key="item.title"
-      v-bind="gridColumn"
-    >
+  <VRow v-if="props.checkboxContent && selectedOption" v-model="selectedOption">
+    <VCol v-for="item in props.checkboxContent" :key="item.title" v-bind="gridColumn">
       <VLabel
         class="custom-input custom-checkbox-icon rounded cursor-pointer"
         :class="selectedOption.includes(item.value) ? 'active' : ''"
       >
         <slot :item="item">
           <div class="d-flex flex-column align-center text-center gap-2">
-            <VIcon
-              v-bind="item.icon"
-              class="text-high-emphasis"
-            />
+            <VIcon v-bind="item.icon" class="text-high-emphasis" />
 
             <h6 class="cr-title text-base">
               {{ item.title }}
@@ -51,10 +41,7 @@ watch(selectedOption, () => {
           </div>
         </slot>
         <div>
-          <VCheckbox
-            v-model="selectedOption"
-            :value="item.value"
-          />
+          <VCheckbox v-model="selectedOption" :value="item.value" />
         </div>
       </VLabel>
     </VCol>

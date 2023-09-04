@@ -27,10 +27,7 @@ const dialogVisibleUpdate = (val: boolean) => {
 
     <VCard class="pricing-dialog pa-5 pa-sm-8">
       <VCardText>
-        <AppPricing
-          title="Subscription Plan"
-          md="4"
-        />
+        <AppPricing title="Subscription Plan" md="4" />
       </VCardText>
     </VCard>
   </VDialog>

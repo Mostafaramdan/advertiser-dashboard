@@ -35,10 +35,7 @@ defineOptions({
         density="comfortable"
       >
         <template #prepend-inner>
-          <VIcon
-            icon="tabler-search"
-            size="23"
-          />
+          <VIcon icon="tabler-search" size="23" />
         </template>
       </AppTextField>
 

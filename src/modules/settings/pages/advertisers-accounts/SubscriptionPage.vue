@@ -47,28 +47,33 @@ getPageData()
 // #region Functions
 function getPageData() {
   isLoading.data = true
-  subscriptionService.getData().then(res => {
-    data.value = res.data.data
-    oldData.value = cloneItem(res.data.data)
-  }).finally(() => {
-    isLoading.data = false
-  })
+  subscriptionService
+    .getData()
+    .then((res) => {
+      data.value = res.data.data
+      oldData.value = cloneItem(res.data.data)
+    })
+    .finally(() => {
+      isLoading.data = false
+    })
 }
 
 function saveData(modifiedData: SettingsListItem[]) {
   isLoading.submit = true
-  subscriptionService.editData({ data: modifiedData }).then(res => {
-    toast.success(res.data.message)
-    oldData.value = cloneItem(data.value)
-  }).finally(() => {
-    isLoading.submit = false
-  })
+  subscriptionService
+    .editData({ data: modifiedData })
+    .then((res) => {
+      toast.success(res.data.message)
+      oldData.value = cloneItem(data.value)
+    })
+    .finally(() => {
+      isLoading.submit = false
+    })
 }
 
 function submit() {
   formRef.value.validate().then(({ valid }: any) => {
-    if (!valid)
-      return
+    if (!valid) return
 
     const { modified } = getChangesOfArray(data.value, oldData.value)
 
@@ -83,12 +88,11 @@ function submit() {
   <VCard v-loading="isLoading.data" :disabled="!permissions.edit" min-height="60vh" variant="flat">
     <VeeForm ref="formRef" v-slot="{ meta }" @submit="submit">
       <div v-if="data" class="setting-list pt-4">
-        <VRow
-          v-for="item in data"
-          :key="item.id"
-          class="setting-list__item"
-        >
-          <div class="py-0 mb-4 mb-md-0 v-col-12" :class="item.has_input && !item.has_radio ? 'v-col-md-6' : 'v-col-md-10'">
+        <VRow v-for="item in data" :key="item.id" class="setting-list__item">
+          <div
+            class="py-0 mb-4 mb-md-0 v-col-12"
+            :class="item.has_input && !item.has_radio ? 'v-col-md-6' : 'v-col-md-10'"
+          >
             <div class="setting-list__item__title">
               <span>{{ item.id }}</span>
               {{ item.name }}
@@ -113,7 +117,12 @@ function submit() {
               type="number"
               :min="0"
               class="text-center"
-              :rules="{ required: item.is_active, numeric: true, min_value: item.min_value, max_value: item.max_value }"
+              :rules="{
+                required: item.is_active,
+                numeric: true,
+                min_value: item.min_value,
+                max_value: item.max_value,
+              }"
               label="هذ الحقل"
             >
               <template v-if="item.value_key" #append>
@@ -123,12 +132,7 @@ function submit() {
           </div>
 
           <div class="py-0 v-col-12 v-col-md-2 d-flex justify-md-center">
-            <VSwitch
-              v-model="item.is_active"
-              hide-details
-              density="comfortable"
-              :inset="false"
-            />
+            <VSwitch v-model="item.is_active" hide-details density="comfortable" :inset="false" />
           </div>
         </VRow>
 

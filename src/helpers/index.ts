@@ -14,8 +14,11 @@ export function getOptionsArrayFromObject(obj: any): any[] {
  * @param data - data
  * @param oldData - old data
  * @returns {added: [], deleted: [], modified: []}
-*/
-export function getChangesOfArray(data: any, oldData: any): { added: []; deleted: []; modified: [] } {
+ */
+export function getChangesOfArray(
+  data: any,
+  oldData: any,
+): { added: []; deleted: []; modified: [] } {
   if (!Array.isArray(data) || !Array.isArray(oldData))
     throw new Error('Both parameters must be arrays.')
 
@@ -30,16 +33,14 @@ export function getChangesOfArray(data: any, oldData: any): { added: []; deleted
 
     modifiedItems = data.reduce((result, newItem) => {
       const oldItem = find(oldData, { id: newItem.id })
-      if (oldItem && !isEqual(newItem, oldItem))
-        result.push(newItem)
+      if (oldItem && !isEqual(newItem, oldItem)) result.push(newItem)
 
       return result
     }, [])
-  }
-  else {
+  } else {
     addedItems = differenceBy(data, oldData)
     deletedItems = differenceBy(oldData, data)
-    modifiedItems = data.filter(item => oldData.includes(item) && !isEqual(item, oldData))
+    modifiedItems = data.filter((item) => oldData.includes(item) && !isEqual(item, oldData))
   }
 
   return {

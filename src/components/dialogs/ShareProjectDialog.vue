@@ -96,16 +96,10 @@ const membersList: Member[] = [
 
     <VCard class="share-project-dialog pa-5 pa-sm-8">
       <VCardText>
-        <h5 class="text-h5 text-center mb-3">
-          Share Project
-        </h5>
-        <p class="text-sm-body-1 text-center mb-6">
-          Share project with a team members
-        </p>
+        <h5 class="text-h5 text-center mb-3">Share Project</h5>
+        <p class="text-sm-body-1 text-center mb-6">Share project with a team members</p>
 
-        <p class="font-weight-medium mb-1">
-          Add Members
-        </p>
+        <p class="font-weight-medium mb-1">Add Members</p>
         <AppAutocomplete
           :items="membersList"
           item-title="name"
@@ -116,24 +110,16 @@ const membersList: Member[] = [
           <template #item="{ props: listItemProp, item }">
             <VListItem v-bind="listItemProp">
               <template #prepend>
-                <VAvatar
-                  :image="item.raw.avatar"
-                  size="30"
-                />
+                <VAvatar :image="item.raw.avatar" size="30" />
               </template>
             </VListItem>
           </template>
         </AppAutocomplete>
 
-        <h6 class="text-h6 mb-4 mt-8">
-          8 Members
-        </h6>
+        <h6 class="text-h6 mb-4 mt-8">8 Members</h6>
 
         <VList class="card-list">
-          <VListItem
-            v-for="member in membersList"
-            :key="member.name"
-          >
+          <VListItem v-for="member in membersList" :key="member.name">
             <template #prepend>
               <VAvatar :image="member.avatar" />
             </template>
@@ -146,11 +132,7 @@ const membersList: Member[] = [
             </VListItemSubtitle>
 
             <template #append>
-              <VBtn
-                variant="plain"
-                color="default"
-                :icon="$vuetify.display.xs"
-              >
+              <VBtn variant="plain" color="default" :icon="$vuetify.display.xs">
                 <span class="d-none d-sm-block">{{ member.permission }}</span>
                 <VIcon icon="tabler-chevron-down" />
 
@@ -172,16 +154,11 @@ const membersList: Member[] = [
 
         <div class="d-flex align-center justify-space-between flex-wrap gap-3 mt-6">
           <h6 class="text-sm font-weight-medium d-flex align-start">
-            <VIcon
-              icon="tabler-users"
-              class="me-2"
-            />
+            <VIcon icon="tabler-users" class="me-2" />
             <span>Public to Master - ThemeSelection</span>
           </h6>
 
-          <VBtn class="text-capitalize">
-            Copy Project Link
-          </VBtn>
+          <VBtn class="text-capitalize"> Copy Project Link </VBtn>
         </div>
       </VCardText>
     </VCard>

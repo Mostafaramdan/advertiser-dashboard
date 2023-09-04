@@ -123,27 +123,27 @@ getPageData()
 // #region Functions
 function getTermsConditionsTypes() {
   isLoading.types = true
-  listService.getTermsConditionsTypes().then(res => {
-    termsConditionsTypes.value = res.data
-  }).finally(() => {
-    isLoading.types = false
-  })
+  listService
+    .getTermsConditionsTypes()
+    .then((res) => {
+      termsConditionsTypes.value = res.data
+    })
+    .finally(() => {
+      isLoading.types = false
+    })
 }
 
 function handleOnEditItem(item: TermsConditionsItem) {
   if (params.type.includes(item.type.id)) {
     onEditItem(item)
-  }
-
-  else {
+  } else {
     params.type.push(item.type.id)
     getPageData()
   }
 }
 
 function handleCreateItem(item: any) {
-  if (!params.type.includes(item.data?.type?.id))
-    params.type.push(item.type)
+  if (!params.type.includes(item.data?.type?.id)) params.type.push(item.type)
 
   onCreateItem(item)
 }
@@ -163,7 +163,11 @@ function handleCreateItem(item: any) {
       @edit-item="handleOnEditItem"
       @create-item="handleCreateItem"
     />
-    <TermsConditionsDetailsModal v-if="showDetailsModal" v-model:showModal="showDetailsModal" :active-item="activeItem" />
+    <TermsConditionsDetailsModal
+      v-if="showDetailsModal"
+      v-model:showModal="showDetailsModal"
+      :active-item="activeItem"
+    />
     <VCard title="الشروط والاحكام" class="page-card">
       <VCardText>
         <PageActions
@@ -195,10 +199,7 @@ function handleCreateItem(item: any) {
                 <VChip v-if="index < 1">
                   <span>{{ item.title }}</span>
                 </VChip>
-                <span
-                  v-if="index === 1"
-                  class="text-grey text-caption align-self-center"
-                >
+                <span v-if="index === 1" class="text-grey text-caption align-self-center">
                   (+{{ params.type.length - 1 }} اخري)
                 </span>
               </template>
@@ -218,13 +219,13 @@ function handleCreateItem(item: any) {
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
           <template #item.name="{ item }">
-            <span style="min-width: 200px;">
+            <span style="min-width: 200px">
               {{ item.raw.name }}
             </span>
           </template>
 
           <template #item.type="{ item }">
-            <span style="min-width: 150px;">
+            <span style="min-width: 150px">
               {{ item.raw.type.label }}
             </span>
           </template>
@@ -248,16 +249,8 @@ function handleCreateItem(item: any) {
                 <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
               </IconBtn>
 
-              <VBtn
-                icon
-                variant="text"
-                size="small"
-                color="medium-emphasis"
-              >
-                <VIcon
-                  size="24"
-                  icon="tabler-dots-vertical"
-                />
+              <VBtn icon variant="text" size="small" color="medium-emphasis">
+                <VIcon size="24" icon="tabler-dots-vertical" />
 
                 <VMenu activator="parent">
                   <VList>
@@ -269,7 +262,11 @@ function handleCreateItem(item: any) {
                       <VListItemTitle>عرض</VListItemTitle>
                     </VListItem>
 
-                    <VListItem v-if="permissions.sort" :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="sortItems(item.raw.id)">
+                    <VListItem
+                      v-if="permissions.sort"
+                      :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
+                      @click="sortItems(item.raw.id)"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-transfer-in" />
                       </template>

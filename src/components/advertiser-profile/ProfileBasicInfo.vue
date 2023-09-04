@@ -74,13 +74,7 @@ function getBasicInfo() {
     <VCardText class="pa-4">
       <VSkeletonLoader v-if="isLoading" type="list-item-avatar-two-line" />
       <div v-else-if="advertiser" class="profile-card d-flex align-md-center">
-        <VAvatar
-          variant="outlined"
-          size="80"
-          class="me-3"
-          cover
-          rounded="0"
-        >
+        <VAvatar variant="outlined" size="80" class="me-3" cover rounded="0">
           <VImg v-if="advertiser.image" :src="advertiser.image" cover />
           <span v-else>!</span>
         </VAvatar>
@@ -95,26 +89,17 @@ function getBasicInfo() {
               :label="advertiser.is_active ? 'تنشيط' : 'إيقاف'"
             />
           </h3>
-          <VChip
-            v-if="advertiser.is_deleted"
-            color="error"
-            label
-            class="mb-2"
-          >
-            حساب محذوف
-          </VChip>
+          <VChip v-if="advertiser.is_deleted" color="error" label class="mb-2"> حساب محذوف </VChip>
           <div class="d-flex flex-wrap gap-x-4 gap-y-2">
-            <span class="d-flex align-center"><strong class="me-3">رقم العضوية</strong>
+            <span class="d-flex align-center"
+              ><strong class="me-3">رقم العضوية</strong>
               {{ advertiser.id }}
             </span>
             <span v-if="advertiser.created_at" class="d-flex align-center">
               <strong class="me-3">بداية النشاط</strong>
               {{ formatDate(advertiser.created_at) }}
             </span>
-            <span
-              v-if="advertiser.subscription_end_date"
-              class="d-flex align-center"
-            >
+            <span v-if="advertiser.subscription_end_date" class="d-flex align-center">
               <strong class="me-3">ينتهي الاشتراك بتاريخ</strong>
               {{ formatDate(advertiser.subscription_end_date) }}
             </span>

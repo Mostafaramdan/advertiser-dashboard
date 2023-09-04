@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<NotificationModalProps>(), {
   extraData: () => ({}),
   defaultMessage: '',
   showNotificationTypes: true,
-  url: null
+  url: null,
 })
 
 // #endregion
@@ -43,7 +43,7 @@ const url = props.url || API_SEND_NOTIFICATION(props.user.id)
 
 const formData = reactive<{ message: string; types: string[] }>({
   message: props.defaultMessage,
-  types: []
+  types: [],
 })
 
 // #endregion
@@ -65,7 +65,7 @@ function sendNotification() {
   const payload = {
     message: formData.message,
     types: formData.types,
-    ...props.extraData
+    ...props.extraData,
   }
 
   isLoading.value = true

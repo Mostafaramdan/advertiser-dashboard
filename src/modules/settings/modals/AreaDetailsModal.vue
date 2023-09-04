@@ -46,12 +46,7 @@ const showModal = useVModel(props, 'showModal', emit)
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="600"
-    scrollable
-    class="details-modal"
-  >
+  <VDialog v-model="showModal" max-width="600" scrollable class="details-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -79,19 +74,13 @@ const showModal = useVModel(props, 'showModal', emit)
                 :subtitle="activeItem.area_code"
                 border
               />
-              <VListItem
-                class="px-2 py-2"
-                title="رابط النطاق الجغرافى"
-                border
-              >
-                <a :href="activeItem.location_url" target="_blank" rel="noopener noreferrer">{{ activeItem.location_url }}</a>
+              <VListItem class="px-2 py-2" title="رابط النطاق الجغرافى" border>
+                <a :href="activeItem.location_url" target="_blank" rel="noopener noreferrer">{{
+                  activeItem.location_url
+                }}</a>
               </VListItem>
             </VList>
-            <AppSwitch
-              :model-value="activeItem.is_active"
-              label="الحالة"
-              name="is_active"
-            />
+            <AppSwitch :model-value="activeItem.is_active" label="الحالة" name="is_active" />
           </VCardText>
         </VCard>
       </div>

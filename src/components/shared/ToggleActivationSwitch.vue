@@ -59,13 +59,17 @@ function toggleActivation() {
     model: props.model,
   }
 
-  sharedService.toggleActivation(payload).then(res => {
-    toast.success(res.data.message)
-  }).catch(() => {
-    switchValue.value = !switchValue.value
-  }).finally(() => {
-    isLoading.value = false
-  })
+  sharedService
+    .toggleActivation(payload)
+    .then((res) => {
+      toast.success(res.data.message)
+    })
+    .catch(() => {
+      switchValue.value = !switchValue.value
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 // #endregion

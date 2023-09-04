@@ -3,17 +3,29 @@ import { hexToRgb } from '@layouts/utils'
 
 // 👉 Colors variables
 const colorVariables = (themeColors: ThemeInstance['themes']['value']['colors']) => {
-  const themeSecondaryTextColor = `rgba(${hexToRgb(themeColors.colors['on-surface'])},${themeColors.variables['medium-emphasis-opacity']})`
-  const themeDisabledTextColor = `rgba(${hexToRgb(themeColors.colors['on-surface'])},${themeColors.variables['disabled-opacity']})`
-  const themeBorderColor = `rgba(${hexToRgb(String(themeColors.variables['border-color']))},${themeColors.variables['border-opacity']})`
+  const themeSecondaryTextColor = `rgba(${hexToRgb(themeColors.colors['on-surface'])},${
+    themeColors.variables['medium-emphasis-opacity']
+  })`
+  const themeDisabledTextColor = `rgba(${hexToRgb(themeColors.colors['on-surface'])},${
+    themeColors.variables['disabled-opacity']
+  })`
+  const themeBorderColor = `rgba(${hexToRgb(String(themeColors.variables['border-color']))},${
+    themeColors.variables['border-opacity']
+  })`
 
-  return { labelColor: themeDisabledTextColor, borderColor: themeBorderColor, legendColor: themeSecondaryTextColor }
+  return {
+    labelColor: themeDisabledTextColor,
+    borderColor: themeBorderColor,
+    legendColor: themeSecondaryTextColor,
+  }
 }
 
 // SECTION config
 
 // 👉 Latest Bar Chart Config
-export const getLatestBarChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
+export const getLatestBarChartConfig = (
+  themeColors: ThemeInstance['themes']['value']['colors'],
+) => {
   const { borderColor, labelColor } = colorVariables(themeColors)
 
   return {
@@ -50,7 +62,9 @@ export const getLatestBarChartConfig = (themeColors: ThemeInstance['themes']['va
 }
 
 // 👉 Horizontal Bar Chart Config
-export const getHorizontalBarChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
+export const getHorizontalBarChartConfig = (
+  themeColors: ThemeInstance['themes']['value']['colors'],
+) => {
   const { borderColor, labelColor, legendColor } = colorVariables(themeColors)
 
   return {

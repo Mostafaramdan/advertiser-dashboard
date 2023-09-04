@@ -24,14 +24,14 @@ export const useAuthStore = defineStore('authStore', {
     },
     hasPermissions(state): (permissions: string[]) => boolean {
       return (permissions: string[]): boolean => {
-        return permissions.every(permission => {
+        return permissions.every((permission) => {
           return state.authUser?.permissions?.actions.includes(permission)
         })
       }
     },
     hasAtLeaseOnePermission(state): (permissions: string[]) => boolean {
       return (permissions: string[]) => {
-        return permissions.some(permission => {
+        return permissions.some((permission) => {
           return state.authUser?.permissions?.actions.includes(permission)
         })
       }
@@ -43,7 +43,7 @@ export const useAuthStore = defineStore('authStore', {
     },
     canAccessAtLeastOnePage(state): (pages: string[]) => boolean {
       return (pages: string[]) => {
-        return pages.some(page => {
+        return pages.some((page) => {
           return state.authUser?.permissions?.accessible_pages.includes(page)
         })
       }
@@ -59,8 +59,7 @@ export const useAuthStore = defineStore('authStore', {
       localStorage.removeItem('authUser')
     },
     setUserPermissions(permissions: any) {
-      if (this.authUser)
-        this.authUser.permissions = permissions
+      if (this.authUser) this.authUser.permissions = permissions
     },
   },
 })

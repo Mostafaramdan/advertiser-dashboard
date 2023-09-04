@@ -22,8 +22,5 @@ const handleLangChange = (lang: string) => {
 </script>
 
 <template>
-  <NavBarI18n
-    :languages="i18nCompLanguages"
-    @change="handleLangChange"
-  />
+  <NavBarI18n :languages="i18nCompLanguages" @change="handleLangChange" />
 </template>

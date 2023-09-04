@@ -116,32 +116,41 @@ function updateAddress(address: any) {
 
 function getCountries() {
   isLoading.countries = true
-  listService.getCountries().then((res: any) => {
-    countries.value = res.data.data
-  }).finally(() => {
-    isLoading.countries = false
-  })
+  listService
+    .getCountries()
+    .then((res: any) => {
+      countries.value = res.data.data
+    })
+    .finally(() => {
+      isLoading.countries = false
+    })
 }
 
 function getPageData() {
   isLoading.data = true
-  platformService.getGeneralData(selectedCountry.value).then(res => {
-    const { settings_general_users, data } = res.data
+  platformService
+    .getGeneralData(selectedCountry.value)
+    .then((res) => {
+      const { settings_general_users, data } = res.data
 
-    platformData.value = settings_general_users
-    Object.assign(formData, data)
-  }).finally(() => {
-    isLoading.data = false
-  })
+      platformData.value = settings_general_users
+      Object.assign(formData, data)
+    })
+    .finally(() => {
+      isLoading.data = false
+    })
 }
 
 function edit() {
   isLoading.submit = true
-  platformService.editGeneralData(selectedCountry.value, formData).then(res => {
-    toast.success(res.data.message)
-  }).finally(() => {
-    isLoading.submit = false
-  })
+  platformService
+    .editGeneralData(selectedCountry.value, formData)
+    .then((res) => {
+      toast.success(res.data.message)
+    })
+    .finally(() => {
+      isLoading.submit = false
+    })
 }
 
 function submit() {
@@ -289,9 +298,15 @@ function submit() {
                   type="number"
                 >
                   <template #append>
-                    <VBtn size="38" variant="outlined" @click="toggleShow('tax_registration_number')">
+                    <VBtn
+                      size="38"
+                      variant="outlined"
+                      @click="toggleShow('tax_registration_number')"
+                    >
                       <VIcon
-                        :icon="formData.tax_registration_number.show ? 'tabler-eye' : 'tabler-eye-off'"
+                        :icon="
+                          formData.tax_registration_number.show ? 'tabler-eye' : 'tabler-eye-off'
+                        "
                         size="22"
                       />
                     </VBtn>
@@ -307,9 +322,17 @@ function submit() {
                   type="number"
                 >
                   <template #append>
-                    <VBtn size="38" variant="outlined" @click="toggleShow('commercial_registration_number')">
+                    <VBtn
+                      size="38"
+                      variant="outlined"
+                      @click="toggleShow('commercial_registration_number')"
+                    >
                       <VIcon
-                        :icon="formData.commercial_registration_number.show ? 'tabler-eye' : 'tabler-eye-off'"
+                        :icon="
+                          formData.commercial_registration_number.show
+                            ? 'tabler-eye'
+                            : 'tabler-eye-off'
+                        "
                         size="22"
                       />
                     </VBtn>

@@ -63,11 +63,7 @@ function updateRouteQuery() {
 <template>
   <VCard title="الاسئلة الشائعة" class="page-card">
     <VCardText>
-      <VTabs
-        v-model="currentTab"
-        class="mb-3 v-tabs-pill"
-        @update:model-value="updateRouteQuery"
-      >
+      <VTabs v-model="currentTab" class="mb-3 v-tabs-pill" @update:model-value="updateRouteQuery">
         <template v-for="tab in tabs" :key="tab.value">
           <VTab v-if="tab.show" :value="tab.value">
             {{ tab.title }}

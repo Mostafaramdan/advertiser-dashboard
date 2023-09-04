@@ -1,6 +1,6 @@
-import type { UserConfig as UserLayoutConfig } from '@layouts/types';
-import type { Ref } from 'vue';
-import { RouteTransitions, Skins } from './enums';
+import type { UserConfig as UserLayoutConfig } from '@layouts/types'
+import type { Ref } from 'vue'
+import { RouteTransitions, Skins } from './enums'
 
 export interface UserThemeConfig {
   app: {
@@ -12,8 +12,8 @@ export interface UserThemeConfig {
     enableI18n: UserLayoutConfig['app']['enableI18n']
     theme: string
     isRtl: UserLayoutConfig['app']['isRtl']
-    skin: typeof Skins[keyof typeof Skins]
-    routeTransition:typeof RouteTransitions[keyof typeof RouteTransitions]
+    skin: (typeof Skins)[keyof typeof Skins]
+    routeTransition: (typeof RouteTransitions)[keyof typeof RouteTransitions]
     iconRenderer: UserLayoutConfig['app']['iconRenderer']
   }
   navbar: {
@@ -92,10 +92,9 @@ export interface CustomInputContent {
   desc: string
   value: string
   subtitle?: string
-  icon?: { icon: string, size?: string, color?: string }
-  images?:string
+  icon?: { icon: string; size?: string; color?: string }
+  images?: string
 }
-
 
 export interface GridColumn {
   cols?: string
@@ -103,16 +102,16 @@ export interface GridColumn {
   md?: string
   lg?: string
   xl?: string
-  xxl?:string
+  xxl?: string
 }
 
 // Data table
-export type SortItem = { key: string, order?: boolean | 'asc' | 'desc' }
+export type SortItem = { key: string; order?: boolean | 'asc' | 'desc' }
 
-export interface Options { 
+export interface Options {
   page: number
-  itemsPerPage:  number
+  itemsPerPage: number
   sortBy: readonly SortItem[]
   groupBy: readonly SortItem[]
   search: string | undefined
-}   
+}

@@ -13,11 +13,15 @@ class SharedService {
   }
 
   uploadFile(file: File): AxiosPromise {
-    return axios.post('file', { file }, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
+    return axios.post(
+      'file',
+      { file },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       },
-    })
+    )
   }
 
   /** **************** put ******************/

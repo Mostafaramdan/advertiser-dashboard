@@ -40,7 +40,11 @@ const suggestionGroups: SuggestionGroup[] = [
       { icon: 'tabler-calendar', title: 'Calendar', url: { name: 'apps-calendar' } },
       { icon: 'tabler-file-plus', title: 'Invoice Add', url: { name: 'apps-invoice-add' } },
       { icon: 'tabler-currency-dollar', title: 'Pricing', url: { name: 'pages-pricing' } },
-      { icon: 'tabler-user', title: 'Account Settings', url: { name: 'pages-account-settings-tab', params: { tab: 'account' } } },
+      {
+        icon: 'tabler-user',
+        title: 'Account Settings',
+        url: { name: 'pages-account-settings-tab', params: { tab: 'account' } },
+      },
     ],
   },
   {
@@ -49,7 +53,11 @@ const suggestionGroups: SuggestionGroup[] = [
       { icon: 'tabler-letter-a', title: 'Typography', url: { name: 'pages-typography' } },
       { icon: 'tabler-square', title: 'Tabs', url: { name: 'components-tabs' } },
       { icon: 'tabler-hand-click', title: 'Buttons', url: { name: 'components-button' } },
-      { icon: 'tabler-keyboard', title: 'Statistics', url: { name: 'pages-cards-card-statistics' } },
+      {
+        icon: 'tabler-keyboard',
+        title: 'Statistics',
+        url: { name: 'pages-cards-card-statistics' },
+      },
     ],
   },
   {
@@ -57,7 +65,11 @@ const suggestionGroups: SuggestionGroup[] = [
     content: [
       { icon: 'tabler-list', title: 'Select', url: { name: 'forms-select' } },
       { icon: 'tabler-space', title: 'Combobox', url: { name: 'forms-combobox' } },
-      { icon: 'tabler-calendar', title: 'Date & Time Picker', url: { name: 'forms-date-time-picker' } },
+      {
+        icon: 'tabler-calendar',
+        title: 'Date & Time Picker',
+        url: { name: 'forms-date-time-picker' },
+      },
       { icon: 'tabler-hexagon', title: 'Rating', url: { name: 'forms-rating' } },
     ],
   },
@@ -88,13 +100,15 @@ const router = useRouter()
 
 // 👉 fetch search result API
 watchEffect(() => {
-  axios.get('/app-bar/search', {
-    params: {
-      q: searchQuery.value,
-    },
-  }).then(response => {
-    searchResult.value = response.data
-  })
+  axios
+    .get('/app-bar/search', {
+      params: {
+        q: searchQuery.value,
+      },
+    })
+    .then((response) => {
+      searchResult.value = response.data
+    })
 })
 
 // 👉 redirect the selected page
@@ -112,19 +126,13 @@ const LazyAppBarSearch = defineAsyncComponent(() => import('@core/components/App
   <div
     class="d-flex align-center cursor-pointer"
     v-bind="$attrs"
-    style="user-select: none;"
+    style="user-select: none"
     @click="isAppSearchBarVisible = !isAppSearchBarVisible"
   >
     <!-- 👉 Search Trigger button -->
     <!-- close active tour while opening search bar using icon -->
-    <IconBtn
-      class="me-1"
-      @click="Shepherd.activeTour?.cancel()"
-    >
-      <VIcon
-        size="26"
-        icon="tabler-search"
-      />
+    <IconBtn class="me-1" @click="Shepherd.activeTour?.cancel()">
+      <VIcon size="26" icon="tabler-search" />
     </IconBtn>
 
     <span
@@ -167,7 +175,7 @@ const LazyAppBarSearch = defineAsyncComponent(() => import('@core/components/App
 </template>
 
 <style lang="scss" scoped>
-@use "@styles/variables/_vuetify.scss";
+@use '@styles/variables/_vuetify.scss';
 
 .meta-key {
   border: thin solid rgba(var(--v-border-color), var(--v-border-opacity));

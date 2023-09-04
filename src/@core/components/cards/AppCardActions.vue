@@ -87,7 +87,7 @@ const triggeredRemove = () => {
                   size="20"
                   icon="tabler-chevron-up"
                   :style="{ transform: isContentCollapsed ? 'rotate(-180deg)' : null }"
-                  style="transition-duration: 0.28s;"
+                  style="transition-duration: 0.28s"
                 />
               </IconBtn>
 
@@ -96,10 +96,7 @@ const triggeredRemove = () => {
                 v-if="(!(actionRemove || actionCollapsed) || actionRefresh) && !noActions"
                 @click="triggerRefresh"
               >
-                <VIcon
-                  size="20"
-                  icon="tabler-refresh"
-                />
+                <VIcon size="20" icon="tabler-refresh" />
               </IconBtn>
 
               <!-- 👉 Close button -->
@@ -107,22 +104,16 @@ const triggeredRemove = () => {
                 v-if="(!(actionRefresh || actionCollapsed) || actionRemove) && !noActions"
                 @click="triggeredRemove"
               >
-                <VIcon
-                  size="20"
-                  icon="tabler-x"
-                />
+                <VIcon size="20" icon="tabler-x" />
               </IconBtn>
             </div>
-          <!-- !SECTION -->
+            <!-- !SECTION -->
           </template>
         </VCardItem>
 
         <!-- 👉 card content -->
         <VExpandTransition>
-          <div
-            v-show="!isContentCollapsed"
-            class="v-card-content"
-          >
+          <div v-show="!isContentCollapsed" class="v-card-content">
             <slot />
           </div>
         </VExpandTransition>
@@ -143,7 +134,7 @@ const triggeredRemove = () => {
 
 <style lang="scss">
 .v-card-item {
-  +.v-card-content {
+  + .v-card-content {
     .v-card-text:first-child {
       padding-block-start: 0;
     }

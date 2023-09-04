@@ -9,7 +9,7 @@ interface LicensesDocumentsHistoryModalProps {
 }
 
 const props = withDefaults(defineProps<LicensesDocumentsHistoryModalProps>(), {
-  showModal: false
+  showModal: false,
 })
 
 // #endregion
@@ -34,13 +34,13 @@ const tabs = [
   {
     title: 'سجل التنبيهات',
     value: 'notifications',
-    component: defineAsyncComponent(() => import('./NotificationsHistory.vue'))
+    component: defineAsyncComponent(() => import('./NotificationsHistory.vue')),
   },
   {
     title: 'سجل الملاحظات',
     value: 'notes',
-    component: defineAsyncComponent(() => import('./NotesHistory.vue'))
-  }
+    component: defineAsyncComponent(() => import('./NotesHistory.vue')),
+  },
 ]
 
 // #endregion

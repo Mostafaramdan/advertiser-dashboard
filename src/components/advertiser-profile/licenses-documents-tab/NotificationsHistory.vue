@@ -13,8 +13,8 @@ import { VDataTableServer } from 'vuetify/labs/VDataTable'
 const props = defineProps({
   activeId: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 })
 // #endregion
 
@@ -29,30 +29,30 @@ const tableData = ref<LicenseDocumentNotification[]>([])
 const metaData = ref<MetaData | null>(null)
 const params = ref({
   page: 1,
-  itemPerPage: 10
+  itemPerPage: 10,
 })
 const headers: any = [
   {
     title: 'رقم الحركة',
-    key: 'id'
+    key: 'id',
   },
   {
     title: 'المرسل',
-    key: 'admin_name'
+    key: 'admin_name',
   },
   {
     title: 'تاريخ الاسال',
-    key: 'created_at'
+    key: 'created_at',
   },
   {
     title: 'قنوات الارسال',
     key: 'channels',
-    align: 'center'
+    align: 'center',
   },
   {
     title: 'الرسالة / التنبيه',
-    key: 'message'
-  }
+    key: 'message',
+  },
 ]
 
 //#endregion

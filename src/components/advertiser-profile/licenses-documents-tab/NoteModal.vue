@@ -13,7 +13,7 @@ interface LicensesAndDocumentsNoteModalProps {
 }
 
 const props = withDefaults(defineProps<LicensesAndDocumentsNoteModalProps>(), {
-  showModal: false
+  showModal: false,
 })
 
 // #endregion
@@ -38,7 +38,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 const formData = reactive<{ note: string }>({
-  note: ''
+  note: '',
 })
 
 // #endregion
@@ -52,7 +52,7 @@ const formData = reactive<{ note: string }>({
 function sendNotification() {
   const payload = {
     id: props.activeId,
-    data: { ...formData }
+    data: { ...formData },
   }
 
   isLoading.value = true

@@ -51,7 +51,7 @@ const setPrimaryColor = (color: string) => {
   ℹ️ This will return static color for first indexed color
   If we don't make first (primary) color as static then when another color is selected then we will have two theme colors with same hex codes and it will show two check marks
 */
-const getBoxColor = (color: string, index: number) => index ? color : staticPrimaryColor
+const getBoxColor = (color: string, index: number) => (index ? color : staticPrimaryColor)
 
 const { width: windowWidth } = useWindowSize()
 
@@ -71,13 +71,10 @@ const headerValues = computed(() => {
       icon
       size="small"
       class="app-customizer-toggler rounded-s-lg rounded-0"
-      style="z-index: 1001;"
+      style="z-index: 1001"
       @click="isNavDrawerOpen = true"
     >
-      <VIcon
-        size="22"
-        icon="tabler-settings"
-      />
+      <VIcon size="22" icon="tabler-settings" />
     </VBtn>
 
     <VNavigationDrawer
@@ -92,38 +89,22 @@ const headerValues = computed(() => {
       <!-- 👉 Header -->
       <div class="customizer-heading d-flex align-center justify-space-between">
         <div>
-          <h6 class="text-h6">
-            THEME CUSTOMIZER
-          </h6>
+          <h6 class="text-h6">THEME CUSTOMIZER</h6>
           <span class="text-body-1">Customize & Preview in Real Time</span>
         </div>
         <IconBtn @click="isNavDrawerOpen = false">
-          <VIcon
-            icon="tabler-x"
-            size="20"
-          />
+          <VIcon icon="tabler-x" size="20" />
         </IconBtn>
       </div>
 
       <VDivider />
 
-      <PerfectScrollbar
-        tag="ul"
-        :options="{ wheelPropagation: false }"
-      >
+      <PerfectScrollbar tag="ul" :options="{ wheelPropagation: false }">
         <!-- SECTION Theming -->
-        <CustomizerSection
-          title="THEMING"
-          :divider="false"
-        >
+        <CustomizerSection title="THEMING" :divider="false">
           <!-- 👉 Skin -->
-          <h6 class="text-base font-weight-regular">
-            Skins
-          </h6>
-          <VRadioGroup
-            v-model="skin"
-            inline
-          >
+          <h6 class="text-base font-weight-regular">Skins</h6>
+          <VRadioGroup v-model="skin" inline>
             <VRadio
               v-for="[key, val] in Object.entries(Skins)"
               :key="key"
@@ -133,13 +114,8 @@ const headerValues = computed(() => {
           </VRadioGroup>
 
           <!-- 👉 Theme -->
-          <h6 class="mt-3 text-base font-weight-regular">
-            Theme
-          </h6>
-          <VRadioGroup
-            v-model="theme"
-            inline
-          >
+          <h6 class="mt-3 text-base font-weight-regular">Theme</h6>
+          <VRadioGroup v-model="theme" inline>
             <VRadio
               v-for="themeOption in ['system', 'light', 'dark']"
               :key="themeOption"
@@ -150,22 +126,32 @@ const headerValues = computed(() => {
           </VRadioGroup>
 
           <!-- 👉 Primary color -->
-          <h6 class="mt-3 text-base font-weight-regular">
-            Primary Color
-          </h6>
+          <h6 class="mt-3 text-base font-weight-regular">Primary Color</h6>
           <div class="d-flex gap-x-4 mt-2">
             <div
               v-for="(color, index) in colors"
               :key="color"
-              style=" border-radius: 0.5rem; block-size: 2.5rem;inline-size: 2.5rem; transition: all 0.25s ease;"
+              style="
+                border-radius: 0.5rem;
+                block-size: 2.5rem;
+                inline-size: 2.5rem;
+                transition: all 0.25s ease;
+              "
               :style="{ backgroundColor: getBoxColor(initialThemeColors[color], index) }"
               class="cursor-pointer d-flex align-center justify-center"
-              :class="{ 'elevation-4': vuetifyTheme.current.value.colors.primary === getBoxColor(initialThemeColors[color], index) }"
+              :class="{
+                'elevation-4':
+                  vuetifyTheme.current.value.colors.primary ===
+                  getBoxColor(initialThemeColors[color], index),
+              }"
               @click="setPrimaryColor(getBoxColor(initialThemeColors[color], index))"
             >
               <VFadeTransition>
                 <VIcon
-                  v-show="vuetifyTheme.current.value.colors.primary === (getBoxColor(initialThemeColors[color], index))"
+                  v-show="
+                    vuetifyTheme.current.value.colors.primary ===
+                    getBoxColor(initialThemeColors[color], index)
+                  "
                   icon="tabler-check"
                   color="white"
                 />
@@ -178,13 +164,8 @@ const headerValues = computed(() => {
         <!-- SECTION LAYOUT -->
         <CustomizerSection title="LAYOUT">
           <!-- 👉 Content Width -->
-          <h6 class="text-base font-weight-regular">
-            Content width
-          </h6>
-          <VRadioGroup
-            v-model="appContentWidth"
-            inline
-          >
+          <h6 class="text-base font-weight-regular">Content width</h6>
+          <VRadioGroup v-model="appContentWidth" inline>
             <VRadio
               v-for="[key, val] in Object.entries(ContentWidth)"
               :key="key"
@@ -196,25 +177,12 @@ const headerValues = computed(() => {
           <h6 class="mt-3 text-base font-weight-regular">
             {{ appContentLayoutNav === AppContentLayoutNav.Vertical ? 'Navbar' : 'Header' }} Type
           </h6>
-          <VRadioGroup
-            v-model="navbarType"
-            inline
-          >
-            <VRadio
-              v-for="[key, val] in headerValues"
-              :key="key"
-              :label="key"
-              :value="val"
-            />
+          <VRadioGroup v-model="navbarType" inline>
+            <VRadio v-for="[key, val] in headerValues" :key="key" :label="key" :value="val" />
           </VRadioGroup>
           <!-- 👉 Footer Type -->
-          <h6 class="mt-3 text-base font-weight-regular">
-            Footer Type
-          </h6>
-          <VRadioGroup
-            v-model="footerType"
-            inline
-          >
+          <h6 class="mt-3 text-base font-weight-regular">Footer Type</h6>
+          <VRadioGroup v-model="footerType" inline>
             <VRadio
               v-for="[key, val] in Object.entries(FooterType)"
               :key="key"
@@ -224,18 +192,9 @@ const headerValues = computed(() => {
           </VRadioGroup>
           <!-- 👉 Navbar blur -->
           <div class="mt-4 d-flex align-center justify-space-between">
-            <VLabel
-              for="customizer-navbar-blur"
-              class="text-high-emphasis"
-            >
-              Navbar Blur
-            </VLabel>
+            <VLabel for="customizer-navbar-blur" class="text-high-emphasis"> Navbar Blur </VLabel>
             <div>
-              <VSwitch
-                id="customizer-navbar-blur"
-                v-model="isNavbarBlurEnabled"
-                class="ms-2"
-              />
+              <VSwitch id="customizer-navbar-blur" v-model="isNavbarBlurEnabled" class="ms-2" />
             </div>
           </div>
         </CustomizerSection>
@@ -244,13 +203,8 @@ const headerValues = computed(() => {
         <!-- SECTION Menu -->
         <CustomizerSection title="MENU">
           <!-- 👉 Menu Type -->
-          <h6 class="text-base font-weight-regular">
-            Menu Type
-          </h6>
-          <VRadioGroup
-            v-model="appContentLayoutNav"
-            inline
-          >
+          <h6 class="text-base font-weight-regular">Menu Type</h6>
+          <VRadioGroup v-model="appContentLayoutNav" inline>
             <VRadio
               v-for="[key, val] in Object.entries(AppContentLayoutNav)"
               :key="key"
@@ -264,10 +218,7 @@ const headerValues = computed(() => {
             v-if="appContentLayoutNav === AppContentLayoutNav.Vertical"
             class="mt-4 d-flex align-center justify-space-between"
           >
-            <VLabel
-              for="customizer-menu-collapsed"
-              class="text-high-emphasis"
-            >
+            <VLabel for="customizer-menu-collapsed" class="text-high-emphasis">
               Collapsed Menu
             </VLabel>
             <div>
@@ -282,12 +233,14 @@ const headerValues = computed(() => {
           <!-- 👉 Semi Dark Menu -->
           <div
             class="mt-4 align-center justify-space-between"
-            :class="vuetifyTheme.global.name.value === 'light' && appContentLayoutNav === AppContentLayoutNav.Vertical ? 'd-flex' : 'd-none'"
+            :class="
+              vuetifyTheme.global.name.value === 'light' &&
+              appContentLayoutNav === AppContentLayoutNav.Vertical
+                ? 'd-flex'
+                : 'd-none'
+            "
           >
-            <VLabel
-              for="customizer-menu-semi-dark"
-              class="text-high-emphasis"
-            >
+            <VLabel for="customizer-menu-semi-dark" class="text-high-emphasis">
               Semi Dark Menu
             </VLabel>
             <div>
@@ -305,32 +258,17 @@ const headerValues = computed(() => {
         <CustomizerSection title="MISC">
           <!-- 👉 RTL -->
           <div class="d-flex align-center justify-space-between">
-            <VLabel
-              for="customizer-rtl"
-              class="text-high-emphasis"
-            >
-              RTL
-            </VLabel>
+            <VLabel for="customizer-rtl" class="text-high-emphasis"> RTL </VLabel>
             <div>
-              <VSwitch
-                id="customizer-rtl"
-                v-model="isAppRtl"
-                class="ms-2"
-              />
+              <VSwitch id="customizer-rtl" v-model="isAppRtl" class="ms-2" />
             </div>
           </div>
 
           <!-- 👉 Route Transition -->
           <div class="mt-6">
             <VRow>
-              <VCol
-                cols="5"
-                class="d-flex align-center"
-              >
-                <VLabel
-                  for="route-transition"
-                  class="text-high-emphasis"
-                >
+              <VCol cols="5" class="d-flex align-center">
+                <VLabel for="route-transition" class="text-high-emphasis">
                   Router Transition
                 </VLabel>
               </VCol>

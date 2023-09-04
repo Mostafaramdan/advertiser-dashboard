@@ -47,12 +47,7 @@ const showModal = useVModel(props, 'showModal', emit)
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="600"
-    scrollable
-    class="details-modal"
-  >
+  <VDialog v-model="showModal" max-width="600" scrollable class="details-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -62,18 +57,14 @@ const showModal = useVModel(props, 'showModal', emit)
         <VCard v-if="activeItem" title="عرض دولة">
           <VCardText>
             <VList :lines="false">
-              <VListItem
-                v-if="activeItem.image"
-                class="px-2 py-2"
-                title="صورة الدولة"
-                border
-              >
-                <a :href="activeItem.google_map" target="_blank" rel="noopener noreferrer" class="d-inline-block">
-                  <VImg
-                    :src="activeItem.image"
-                    width="100"
-                    class="my-2"
-                  />
+              <VListItem v-if="activeItem.image" class="px-2 py-2" title="صورة الدولة" border>
+                <a
+                  :href="activeItem.google_map"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="d-inline-block"
+                >
+                  <VImg :src="activeItem.image" width="100" class="my-2" />
                 </a>
               </VListItem>
               <VListItem
@@ -108,11 +99,7 @@ const showModal = useVModel(props, 'showModal', emit)
                 border
               />
 
-              <VListItem
-                class="px-2 py-2"
-                title="تصنيف الدولة"
-                border
-              >
+              <VListItem class="px-2 py-2" title="تصنيف الدولة" border>
                 <VChip
                   v-for="(item, index) in activeItem.country_categories"
                   :key="index"
@@ -124,19 +111,13 @@ const showModal = useVModel(props, 'showModal', emit)
                   {{ item[locale] }}
                 </VChip>
               </VListItem>
-              <VListItem
-                class="px-2 py-2"
-                title="رابط النطاق الجغرافى"
-                border
-              >
-                <a :href="activeItem.google_map" target="_blank" rel="noopener noreferrer">{{ activeItem.google_map }}</a>
+              <VListItem class="px-2 py-2" title="رابط النطاق الجغرافى" border>
+                <a :href="activeItem.google_map" target="_blank" rel="noopener noreferrer">{{
+                  activeItem.google_map
+                }}</a>
               </VListItem>
             </VList>
-            <AppSwitch
-              :model-value="activeItem.is_active"
-              label="الحالة"
-              name="is_active"
-            />
+            <AppSwitch :model-value="activeItem.is_active" label="الحالة" name="is_active" />
           </VCardText>
         </VCard>
       </div>

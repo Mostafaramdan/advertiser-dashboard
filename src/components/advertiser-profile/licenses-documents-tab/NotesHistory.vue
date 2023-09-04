@@ -12,8 +12,8 @@ import { VDataTableServer } from 'vuetify/labs/VDataTable'
 const props = defineProps({
   activeId: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 })
 // #endregion
 
@@ -28,25 +28,25 @@ const tableData = ref<LicenseDocumentNote[]>([])
 const metaData = ref<MetaData | null>(null)
 const params = ref({
   page: 1,
-  itemPerPage: 10
+  itemPerPage: 10,
 })
 const headers: any = [
   {
     title: 'رقم الحركة',
-    key: 'id'
+    key: 'id',
   },
   {
     title: 'مدون الملاحظة',
-    key: 'admin_name'
+    key: 'admin_name',
   },
   {
     title: 'تاريخ التدوين',
-    key: 'created_at'
+    key: 'created_at',
   },
   {
     title: 'بيان الملاحظة',
-    key: 'note'
-  }
+    key: 'note',
+  },
 ]
 
 //#endregion

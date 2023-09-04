@@ -21,12 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
         <span class="text-body-2">{{ props.title }}</span>
       </div>
 
-      <VAvatar
-        :icon="props.icon"
-        :color="props.color"
-        :size="42"
-        variant="tonal"
-      />
+      <VAvatar :icon="props.icon" :color="props.color" :size="42" variant="tonal" />
     </VCardText>
   </VCard>
 </template>

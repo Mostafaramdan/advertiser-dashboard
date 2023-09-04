@@ -55,23 +55,21 @@ getItemDetails(props.activeItem.id)
 // #region Functions
 function getItemDetails(id: any) {
   isLoading.value = true
-  questionsService.getSingleItem(id).then(res => {
-    data.value = res.data.data
-  }).finally(() => {
-    isLoading.value = false
-  })
+  questionsService
+    .getSingleItem(id)
+    .then((res) => {
+      data.value = res.data.data
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 // #endregion
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="1000"
-    scrollable
-    class="details-modal"
-  >
+  <VDialog v-model="showModal" max-width="1000" scrollable class="details-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -81,24 +79,10 @@ function getItemDetails(id: any) {
         <VCard v-if="data" title="عرض سؤال">
           <VCardText>
             <VList :lines="false">
-              <VListItem
-                class="px-2 py-2"
-                title="السؤال"
-                :subtitle="data.question"
-                border
-              />
-              <VListItem
-                class="px-2 py-2"
-                title="القسم"
-                :subtitle="data.category.name"
-                border
-              />
+              <VListItem class="px-2 py-2" title="السؤال" :subtitle="data.question" border />
+              <VListItem class="px-2 py-2" title="القسم" :subtitle="data.category.name" border />
 
-              <VListItem
-                class="px-2 py-2"
-                title="الاجابة"
-                border
-              >
+              <VListItem class="px-2 py-2" title="الاجابة" border>
                 <AppTextEditor
                   v-model="data.answer"
                   name="answer"
@@ -108,13 +92,9 @@ function getItemDetails(id: any) {
                 />
               </VListItem>
 
-              <VListItem
-                class="px-2 py-2"
-                title="نوع المستخدمين"
-                border
-              >
+              <VListItem class="px-2 py-2" title="نوع المستخدمين" border>
                 <VChip
-                  v-for="type in (data.for as unknown)"
+                  v-for="type in data.for as unknown"
                   :key="type"
                   class="my-2 me-2 text-center"
                   color="primary"
@@ -125,11 +105,7 @@ function getItemDetails(id: any) {
                 </VChip>
               </VListItem>
             </VList>
-            <AppSwitch
-              :model-value="data.is_active"
-              label="الحالة"
-              name="is_active"
-            />
+            <AppSwitch :model-value="data.is_active" label="الحالة" name="is_active" />
           </VCardText>
         </VCard>
       </div>

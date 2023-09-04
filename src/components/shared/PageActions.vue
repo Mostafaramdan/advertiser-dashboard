@@ -86,8 +86,7 @@ const multiSelectOptions = computed(() => {
         show: props.showMultiActivate,
       },
     ]
-  }
-  else {
+  } else {
     return []
   }
 })
@@ -112,7 +111,7 @@ const handleDebounceSearch = debounce(() => {
 
 function toggleActivation(action: number) {
   isLoading.general = true
-  action ? isLoading.activate = true : isLoading.deactivate = true
+  action ? (isLoading.activate = true) : (isLoading.deactivate = true)
 
   const data = {
     model: props.model,
@@ -122,13 +121,13 @@ function toggleActivation(action: number) {
 
   sharedService
     .toggleActivationBulk(data)
-    .then(res => {
+    .then((res) => {
       toast.success(res.data.message)
       emit('reloadData')
     })
     .finally(() => {
       isLoading.general = false
-      action ? isLoading.activate = false : isLoading.deactivate = false
+      action ? (isLoading.activate = false) : (isLoading.deactivate = false)
     })
 }
 
@@ -143,7 +142,7 @@ function deleteBulk() {
 
   sharedService
     .deleteBulk(data)
-    .then(res => {
+    .then((res) => {
       toast.success(res.data.message)
       emit('reloadData')
     })
@@ -163,15 +162,15 @@ async function showConfirmActions(operation: 'delete' | 'activate' | 'deactivate
   const confirm = await confirmModal.value.open('يرجي التاكيد', confirmQuestions[operation])
   if (confirm) {
     switch (operation) {
-    case 'delete':
-      deleteBulk()
-      break
-    case 'activate':
-      toggleActivation(1)
-      break
-    case 'deactivate':
-      toggleActivation(0)
-      break
+      case 'delete':
+        deleteBulk()
+        break
+      case 'activate':
+        toggleActivation(1)
+        break
+      case 'deactivate':
+        toggleActivation(0)
+        break
     }
   }
 }
@@ -201,10 +200,7 @@ async function showConfirmActions(operation: 'delete' | 'activate' | 'deactivate
           :disabled="action.loading || action.disabled"
           @click="action.handler"
         >
-          <VIcon
-            :icon="action.icon"
-            size="22"
-          />
+          <VIcon :icon="action.icon" size="22" />
         </VBtn>
       </template>
       <VSelect
@@ -218,10 +214,7 @@ async function showConfirmActions(operation: 'delete' | 'activate' | 'deactivate
     </div>
 
     <div v-if="multiSelectOptions.length" class="d-flex gap-2 mb-3 pb-1 pe-1 overflow-x-auto">
-      <template
-        v-for="(option, index) in multiSelectOptions"
-        :key="index"
-      >
+      <template v-for="(option, index) in multiSelectOptions" :key="index">
         <VBtn
           v-if="option.show"
           :disabled="option.disabled"
@@ -232,10 +225,7 @@ async function showConfirmActions(operation: 'delete' | 'activate' | 'deactivate
         >
           {{ option.label }}
 
-          <VIcon
-            end
-            :icon="option.icon"
-          />
+          <VIcon end :icon="option.icon" />
         </VBtn>
       </template>
     </div>
@@ -254,7 +244,7 @@ async function showConfirmActions(operation: 'delete' | 'activate' | 'deactivate
   :deep(.items-select) {
     max-inline-size: 100px;
 
-    @include responsive-down("md") {
+    @include responsive-down('md') {
       max-inline-size: unset;
     }
   }
@@ -262,7 +252,7 @@ async function showConfirmActions(operation: 'delete' | 'activate' | 'deactivate
   :deep(.search-input) {
     max-inline-size: 320px;
 
-    @include responsive-down("md") {
+    @include responsive-down('md') {
       inline-size: 100%;
       max-inline-size: unset;
     }

@@ -47,28 +47,33 @@ getPageData()
 // #region Functions
 function getPageData() {
   isLoading.data = true
-  chatService.getData().then(res => {
-    data.value = res.data.data
-    oldData.value = cloneItem(res.data.data)
-  }).finally(() => {
-    isLoading.data = false
-  })
+  chatService
+    .getData()
+    .then((res) => {
+      data.value = res.data.data
+      oldData.value = cloneItem(res.data.data)
+    })
+    .finally(() => {
+      isLoading.data = false
+    })
 }
 
 function saveData(modifiedData: SettingsListItem[]) {
   isLoading.submit = true
-  chatService.editData({ data: modifiedData }).then(res => {
-    toast.success(res.data.message)
-    oldData.value = cloneItem(data.value)
-  }).finally(() => {
-    isLoading.submit = false
-  })
+  chatService
+    .editData({ data: modifiedData })
+    .then((res) => {
+      toast.success(res.data.message)
+      oldData.value = cloneItem(data.value)
+    })
+    .finally(() => {
+      isLoading.submit = false
+    })
 }
 
 function submit() {
   formRef.value.validate().then(({ valid }: any) => {
-    if (!valid)
-      return
+    if (!valid) return
 
     const { modified } = getChangesOfArray(data.value, oldData.value)
 
@@ -80,15 +85,16 @@ function submit() {
 </script>
 
 <template>
-  <VCard v-loading="isLoading.data" title="إعدادات الشات" class="page-card" :disabled="!permissions.edit">
+  <VCard
+    v-loading="isLoading.data"
+    title="إعدادات الشات"
+    class="page-card"
+    :disabled="!permissions.edit"
+  >
     <VCardText>
       <VeeForm ref="formRef" v-slot="{ meta }" @submit="submit">
         <div v-if="data" class="setting-list pt-4">
-          <VRow
-            v-for="item in data"
-            :key="item.id"
-            class="setting-list__item"
-          >
+          <VRow v-for="item in data" :key="item.id" class="setting-list__item">
             <div
               class="py-0 mb-4 mb-md-0 v-col-12"
               :class="item.has_input && !item.is_text_editor ? 'v-col-md-10' : 'v-col-md-12'"
@@ -113,7 +119,12 @@ function submit() {
                 type="number"
                 :min="0"
                 class="text-center"
-                :rules="{ required: true, numeric: true, min_value: item.min_value, max_value: item.max_value }"
+                :rules="{
+                  required: true,
+                  numeric: true,
+                  min_value: item.min_value,
+                  max_value: item.max_value,
+                }"
                 label="هذ الحقل"
               >
                 <template v-if="item.value_key" #append>

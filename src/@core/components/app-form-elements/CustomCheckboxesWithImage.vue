@@ -22,30 +22,16 @@ watch(selectedOption, () => {
 </script>
 
 <template>
-  <VRow
-    v-if="props.checkboxContent && selectedOption"
-    v-model="selectedOption"
-  >
-    <VCol
-      v-for="item in props.checkboxContent"
-      :key="item.value"
-      v-bind="gridColumn"
-    >
+  <VRow v-if="props.checkboxContent && selectedOption" v-model="selectedOption">
+    <VCol v-for="item in props.checkboxContent" :key="item.value" v-bind="gridColumn">
       <VLabel
         class="custom-input custom-checkbox rounded cursor-pointer w-100"
         :class="selectedOption.includes(item.value) ? 'active' : ''"
       >
         <div>
-          <VCheckbox
-            v-model="selectedOption"
-            :value="item.value"
-          />
+          <VCheckbox v-model="selectedOption" :value="item.value" />
         </div>
-        <img
-          :src="item.bgImage"
-          alt="bg-img"
-          class="custom-checkbox-image"
-        >
+        <img :src="item.bgImage" alt="bg-img" class="custom-checkbox-image" />
       </VLabel>
     </VCol>
   </VRow>

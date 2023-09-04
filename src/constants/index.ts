@@ -7,29 +7,29 @@ export const FILES_TYPES = {
   word: 'word',
   excel: 'excel',
   zip: 'zip',
-  other: 'other'
+  other: 'other',
 }
 
 export const GENDER_TYPES = {
   male: 'ذكر',
-  female: 'أنثى'
+  female: 'أنثى',
 }
 
 export const NOTIFICATIONS_TYPES = [
   {
     value: 'notification',
-    icon: 'tabler-bell'
+    icon: 'tabler-bell',
   },
   {
     value: 'email',
-    icon: 'tabler-mail'
+    icon: 'tabler-mail',
   },
   {
     value: 'whatsapp',
-    icon: 'tabler-brand-whatsapp'
+    icon: 'tabler-brand-whatsapp',
   },
   {
     value: 'sms',
-    icon: 'tabler-message'
-  }
+    icon: 'tabler-message',
+  },
 ]

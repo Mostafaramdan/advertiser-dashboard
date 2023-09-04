@@ -52,7 +52,7 @@ function getPageData() {
   isLoading.data = true
   platformService
     .getWorkTimeData()
-    .then(res => {
+    .then((res) => {
       data.value = res.data
       oldData.value = cloneItem(res.data.data)
     })
@@ -65,7 +65,7 @@ function saveData(modifiedData: WorkTimeData) {
   isLoading.submit = true
   platformService
     .editWorkTimeData(modifiedData)
-    .then(res => {
+    .then((res) => {
       toast.success(res.data.message)
       oldData.value = cloneItem(data.value?.data)
     })
@@ -96,19 +96,11 @@ function submit() {
   <VCard v-loading="isLoading.data" min-height="60vh" variant="flat" :disabled="!permissions.edit">
     <VeeForm v-if="data" ref="formRef" v-slot="{ meta }" @submit="submit">
       <div class="ps-2">
-        <AppSwitch
-          v-model="data.show"
-          label="الظهور"
-          name="show"
-        />
+        <AppSwitch v-model="data.show" label="الظهور" name="show" />
       </div>
       <VDivider class="my-4" />
       <div v-if="data" class="setting-list pt-4">
-        <VRow
-          v-for="day in data.data"
-          :key="day.id"
-          class="setting-list__item"
-        >
+        <VRow v-for="day in data.data" :key="day.id" class="setting-list__item">
           <div class="py-0 mb-4 mb-md-0 v-col-12 v-col-md-2">
             <div class="setting-list__item__title">
               {{ WORK_DAYS[day.day] }}
@@ -155,7 +147,7 @@ function submit() {
           :loading="isLoading.submit"
           @click="submit"
         >
-          {{ t("actions.save") }}
+          {{ t('actions.save') }}
         </VBtn>
       </div>
     </VeeForm>

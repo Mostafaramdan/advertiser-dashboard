@@ -15,10 +15,7 @@ const hideTitleAndBadge = isVerticalNavMini(windowWidth)
 </script>
 
 <template>
-  <li
-    class="nav-link"
-    :class="{ disabled: item.disable }"
-  >
+  <li class="nav-link" :class="{ disabled: item.disable }">
     <Component
       :is="item.to ? 'RouterLink' : 'a'"
       v-bind="getComputedNavLinkToProp(item)"
@@ -31,11 +28,7 @@ const hideTitleAndBadge = isVerticalNavMini(windowWidth)
       />
       <TransitionGroup name="transition-slide-x">
         <!-- 👉 Title -->
-        <span
-          v-show="!hideTitleAndBadge"
-          key="title"
-          class="nav-item-title"
-        >
+        <span v-show="!hideTitleAndBadge" key="title" class="nav-item-title">
           {{ item.title }}
         </span>
 

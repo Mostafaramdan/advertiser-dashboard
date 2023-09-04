@@ -46,7 +46,6 @@ const toolbarOptions = [
   [{ align: [] }],
   ['link', 'image', 'video'],
   ['clean'], // remove formatting button
-
 ]
 
 const modules = {
@@ -80,9 +79,11 @@ const value = computed({
 // #region Functions
 function uploadImage(file: File) {
   return new Promise((resolve, reject) => {
-    sharedService.uploadFile(file).then((res: any) => {
-      resolve(res.data.data[0].path)
-    })
+    sharedService
+      .uploadFile(file)
+      .then((res: any) => {
+        resolve(res.data.data[0].path)
+      })
       .catch((err: any) => {
         // eslint-disable-next-line prefer-promise-reject-errors
         reject('Upload failed')
@@ -95,7 +96,11 @@ function uploadImage(file: File) {
 </script>
 
 <template>
-  <div variant="flat" class="quill-editor-container flex-grow-1" :class="{ 'read-only': isReadOnly }">
+  <div
+    variant="flat"
+    class="quill-editor-container flex-grow-1"
+    :class="{ 'read-only': isReadOnly }"
+  >
     <VeeField
       v-slot="{ handleChange, errorMessage, handleBlur }"
       v-model="value"
@@ -120,14 +125,8 @@ function uploadImage(file: File) {
           @update:content="handleChange"
           @blur="handleBlur"
         >
-          <template
-            v-for="(_, slotName) in $slots"
-            #[slotName]="slotProps"
-          >
-            <slot
-              :name="slotName"
-              v-bind="slotProps || {}"
-            />
+          <template v-for="(_, slotName) in $slots" #[slotName]="slotProps">
+            <slot :name="slotName" v-bind="slotProps || {}" />
           </template>
         </QuillEditor>
       </div>
@@ -143,7 +142,7 @@ function uploadImage(file: File) {
 
 .quill-editor-container {
   &.read-only {
-    :deep(.ql-toolbar,) {
+    :deep(.ql-toolbar, ) {
       display: none;
     }
 

@@ -27,14 +27,8 @@ const { _layoutClasses: layoutClasses, isNavbarBlurEnabled } = useLayouts()
 </script>
 
 <template>
-  <div
-    class="layout-wrapper"
-    :class="layoutClasses(windowWidth, windowScrollY)"
-  >
-    <div
-      class="layout-navbar-and-nav-container"
-      :class="isNavbarBlurEnabled && 'header-blur'"
-    >
+  <div class="layout-wrapper" :class="layoutClasses(windowWidth, windowScrollY)">
+    <div class="layout-navbar-and-nav-container" :class="isNavbarBlurEnabled && 'header-blur'">
       <!-- 👉 Navbar -->
       <div class="layout-navbar">
         <div class="navbar-content-container">
@@ -73,9 +67,9 @@ const { _layoutClasses: layoutClasses, isNavbarBlurEnabled } = useLayouts()
 </template>
 
 <style lang="scss">
-@use "@configured-variables" as variables;
-@use "@layouts/styles/placeholders";
-@use "@layouts/styles/mixins";
+@use '@configured-variables' as variables;
+@use '@layouts/styles/placeholders';
+@use '@layouts/styles/mixins';
 
 .layout-wrapper {
   &.layout-nav-type-horizontal {

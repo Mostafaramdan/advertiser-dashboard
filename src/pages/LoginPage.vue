@@ -28,12 +28,15 @@ function submit() {
   const isValid = formRef.value.validate()
   if (isValid) {
     isLoading.value = true
-    authService.login(formData).then((res: any) => {
-      setAuthUser(res.data.data)
-      router.push({ path: redirectPath as string })
-    }).finally(() => {
-      isLoading.value = false
-    })
+    authService
+      .login(formData)
+      .then((res: any) => {
+        setAuthUser(res.data.data)
+        router.push({ path: redirectPath as string })
+      })
+      .finally(() => {
+        isLoading.value = false
+      })
   }
 }
 
@@ -42,19 +45,11 @@ function submit() {
 
 <template>
   <div class="pt-1 mb-5">
-    <h5 class="text-h5 mb-1">
-      مرحبا! 👋🏻
-    </h5>
-    <p class="mb-0">
-      الرجاء تسجيل الدخول
-    </p>
+    <h5 class="text-h5 mb-1">مرحبا! 👋🏻</h5>
+    <p class="mb-0">الرجاء تسجيل الدخول</p>
   </div>
 
-  <VeeForm
-    ref="formRef"
-    v-slot="{ meta }"
-    @submit="submit"
-  >
+  <VeeForm ref="formRef" v-slot="{ meta }" @submit="submit">
     <VRow>
       <VCol cols="12">
         <AppTextField
@@ -82,19 +77,11 @@ function submit() {
         />
 
         <div class="d-flex align-center justify-space-between flex-wrap mt-4 mb-4">
-          <RouterLink
-            :to="{ name: 'forget-password-page' }"
-            class="text-primary ms-2 mb-1"
-          >
+          <RouterLink :to="{ name: 'forget-password-page' }" class="text-primary ms-2 mb-1">
             نسيت كلمة المرور؟
           </RouterLink>
         </div>
-        <VBtn
-          block
-          type="submit"
-          :disabled="!meta.valid || isLoading"
-          :loading="isLoading"
-        >
+        <VBtn block type="submit" :disabled="!meta.valid || isLoading" :loading="isLoading">
           تسجيل الدخول
         </VBtn>
       </VCol>

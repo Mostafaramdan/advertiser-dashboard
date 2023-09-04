@@ -55,7 +55,9 @@ const formData = reactive({
 const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة كيان'
-    : props.formAction === 'edit' ? 'تعديل كيان' : 'عرض كيان'
+    : props.formAction === 'edit'
+    ? 'تعديل كيان'
+    : 'عرض كيان'
 })
 
 // #endregion
@@ -64,36 +66,40 @@ const formTitle = computed(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-if (props.activeItem)
-  Object.assign(formData, cloneItem(props.activeItem))
+if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 
 // #endregion
 function edit() {
-  entitiesService.editItem(formData).then(res => {
-    toast.success(res.data.message)
+  entitiesService
+    .editItem(formData)
+    .then((res) => {
+      toast.success(res.data.message)
 
-    // emit('editItem', res.data)
-    emit('editItem', formData)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.value = false
-  })
+      // emit('editItem', res.data)
+      emit('editItem', formData)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 function create() {
-  entitiesService.createItem(formData).then(res => {
-    toast.success(res.data.message)
-    emit('createItem', res.data)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.value = false
-  })
+  entitiesService
+    .createItem(formData)
+    .then((res) => {
+      toast.success(res.data.message)
+      emit('createItem', res.data)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 const submit = () => {
   formRef.value.validate().then(({ valid }: any) => {
-    if (!valid)
-      return
+    if (!valid) return
 
     isLoading.value = true
     props.formAction === 'create' ? create() : edit()
@@ -102,13 +108,7 @@ const submit = () => {
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="600"
-    persistent
-    scrollable
-    class="form-modal"
-  >
+  <VDialog v-model="showModal" max-width="600" persistent scrollable class="form-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -135,21 +135,13 @@ const submit = () => {
                 />
               </VCol>
               <VCol cols="12">
-                <AppSwitch
-                  v-model="formData.is_active"
-                  label="الحالة"
-                  name="is_active"
-                />
+                <AppSwitch v-model="formData.is_active" label="الحالة" name="is_active" />
               </VCol>
             </VRow>
           </VCardText>
 
           <VCardText v-if="formAction !== 'view'" class="d-flex justify-end flex-wrap gap-3">
-            <VBtn
-              variant="outlined"
-              color="error"
-              @click="showModal = false"
-            >
+            <VBtn variant="outlined" color="error" @click="showModal = false">
               {{ t('actions.cancel') }}
             </VBtn>
             <VBtn :loading="isLoading" :disabled="isLoading || !meta.valid" @click="submit">

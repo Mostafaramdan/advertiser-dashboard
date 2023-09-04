@@ -37,8 +37,7 @@ const pageDescription = computed(() => {
 // #region Lifecycle Hooks
 
 // clear the message from the url
-if (message || status)
-  router.replace({ name: 'error-page' })
+if (message || status) router.replace({ name: 'error-page' })
 
 // #endregion
 </script>
@@ -47,7 +46,7 @@ if (message || status)
   <div class="misc-wrapper">
     <ErrorHeader :error-title="pageTitle" :error-description="pageDescription" />
     <VBtn to="/" class="mb-12">
-      {{ t("links.back_to_home") }}
+      {{ t('links.back_to_home') }}
     </VBtn>
 
     <!-- 👉 Image -->
@@ -60,5 +59,5 @@ if (message || status)
 </template>
 
 <style lang="scss">
-@use "@core/scss/template/pages/misc.scss";
+@use '@core/scss/template/pages/misc.scss';
 </style>

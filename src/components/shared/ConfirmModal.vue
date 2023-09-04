@@ -61,13 +61,7 @@ export default defineComponent({
       </div>
       <div>{{ message }}</div>
       <div class="d-flex justify-end mt-8">
-        <VBtn
-          size="small"
-          color="error"
-          variant="outlined"
-          class="me-2"
-          @click="cancel"
-        >
+        <VBtn size="small" color="error" variant="outlined" class="me-2" @click="cancel">
           {{ $t('actions.cancel') }}
         </VBtn>
         <VBtn size="small" @click="agree">

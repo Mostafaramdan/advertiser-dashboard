@@ -60,12 +60,11 @@ const openSelectedMethodDialog = () => {
 
     <VCard class="pa-5 pa-sm-8">
       <VCardItem class="text-center">
-        <VCardTitle class="text-h5 mb-3">
-          Select Authentication Method
-        </VCardTitle>
+        <VCardTitle class="text-h5 mb-3"> Select Authentication Method </VCardTitle>
         <VCardSubtitle>
           <span class="text-base">
-            You also need to select a method by which the proxy authenticates to the directory serve.
+            You also need to select a method by which the proxy authenticates to the directory
+            serve.
           </span>
         </VCardSubtitle>
       </VCardItem>
@@ -87,10 +86,7 @@ const openSelectedMethodDialog = () => {
             :class="selectedMethod[0] === item.method && 'bg-light-primary text-primary'"
           >
             <template #prepend>
-              <VIcon
-                :icon="item.icon"
-                size="38"
-              />
+              <VIcon :icon="item.icon" size="38" />
             </template>
 
             <VListItemTitle class="mb-2">
@@ -105,14 +101,8 @@ const openSelectedMethodDialog = () => {
         </VList>
 
         <div class="d-flex gap-4 justify-center">
-          <VBtn @click="openSelectedMethodDialog">
-            submit
-          </VBtn>
-          <VBtn
-            color="secondary"
-            variant="tonal"
-            @click="$emit('update:isDialogVisible', false)"
-          >
+          <VBtn @click="openSelectedMethodDialog"> submit </VBtn>
+          <VBtn color="secondary" variant="tonal" @click="$emit('update:isDialogVisible', false)">
             Close
           </VBtn>
         </div>

@@ -16,5 +16,4 @@ export interface Country {
   google_map: string
   is_active: boolean
   areas_count: number
-
 }

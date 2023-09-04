@@ -85,8 +85,7 @@ const fileInfo = computed(() => {
       icon: fileIcon,
     }
   }
-  if (selectedFile.value)
-    return { ...selectedFile.value, type: fileType, icon: fileIcon }
+  if (selectedFile.value) return { ...selectedFile.value, type: fileType, icon: fileIcon }
 
   return null
 })
@@ -106,11 +105,16 @@ function dragEnd($event: any) {
 
 function startUploadFile(e: any) {
   const file = e.target.files[0]
-  if (!file)
-    return
+  if (!file) return
 
-  if ((!props.acceptedTypes.includes('*') && !props.acceptedTypes.includes(file.type)) || file.size > props.maxFileSize * 1024 * 1024) {
-    toast.error(props.uploadTip || t('upload_tip', { formats: 'jpg / png / gif / mp4 / webm', size: props.maxFileSize }))
+  if (
+    (!props.acceptedTypes.includes('*') && !props.acceptedTypes.includes(file.type)) ||
+    file.size > props.maxFileSize * 1024 * 1024
+  ) {
+    toast.error(
+      props.uploadTip ||
+        t('upload_tip', { formats: 'jpg / png / gif / mp4 / webm', size: props.maxFileSize }),
+    )
 
     return
   }
@@ -133,22 +137,24 @@ function uploadFile(file: any) {
 
   requestController = new AbortController()
   axios
-    .post('file', {
-      file,
-    }, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
+    .post(
+      'file',
+      {
+        file,
       },
-      signal: requestController.signal,
-      onUploadProgress: (progressEvent: any) => {
-        const progress = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total,
-        )
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        signal: requestController.signal,
+        onUploadProgress: (progressEvent: any) => {
+          const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
 
-        percentage.value = progress
+          percentage.value = progress
+        },
       },
-    })
-    .then(res => {
+    )
+    .then((res) => {
       selectedFile.value = res.data.data[0]
       toast.success(res.data.message)
     })
@@ -161,12 +167,11 @@ function uploadFile(file: any) {
 function removeFile() {
   isLoading.delete = true
   if (fileInfo.value?.id) {
-    axios.delete(`file/${fileInfo.value?.id}`).then(res => {
+    axios.delete(`file/${fileInfo.value?.id}`).then((res) => {
       resetData()
       toast.success(res.data.message)
     })
-  }
-  else {
+  } else {
     resetData()
   }
 }
@@ -191,14 +196,10 @@ function cancelUpload() {
     :label="label"
     :rules="rules"
   >
-    <VLabel
-      v-if="label && !hideLabel"
-      class="mb-1 text-body-2 text-high-emphasis"
-      :text="label"
-    />
+    <VLabel v-if="label && !hideLabel" class="mb-1 text-body-2 text-high-emphasis" :text="label" />
     <div class="upload-container" :style="{ width, height }">
       <div v-if="fileInfo" class="preview-box">
-        <img v-if="fileInfo.type === FILES_TYPES.image" :src="fileInfo.path">
+        <img v-if="fileInfo.type === FILES_TYPES.image" :src="fileInfo.path" />
         <video v-else-if="fileInfo.type === FILES_TYPES.video" :src="fileInfo.path" controls />
         <a
           v-else
@@ -208,7 +209,7 @@ function cancelUpload() {
           rel="noopener noreferrer"
           class="preview-box__details"
         >
-          <img v-if="fileInfo.icon" :src="fileInfo.icon" width="30" height="30">
+          <img v-if="fileInfo.icon" :src="fileInfo.icon" width="30" height="30" />
           <span>
             {{ fileInfo.name }}
           </span>
@@ -259,7 +260,7 @@ function cancelUpload() {
           type="file"
           :accept="props.acceptedTypes.join(',')"
           @change="startUploadFile"
-        >
+        />
         <span class="upload-label__content">
           <VIcon icon="tabler-cloud-upload" />
           {{ $t('click_or_drag_to_add_file') }}

@@ -66,11 +66,15 @@ const formData = reactive<RateItem>({
 const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة تقييم'
-    : props.formAction === 'edit' ? 'تعديل تقييم' : 'عرض تقييم'
+    : props.formAction === 'edit'
+    ? 'تعديل تقييم'
+    : 'عرض تقييم'
 })
 
 const isDisabled = computed(() => {
-  return isLoading.submit || isLoading.data || (formData.way === 'question' && !formData.answers?.length)
+  return (
+    isLoading.submit || isLoading.data || (formData.way === 'question' && !formData.answers?.length)
+  )
 })
 
 // #endregion
@@ -92,11 +96,14 @@ if (props.activeItem?.id) {
 // #region Functions
 function getItemDetails(id: any) {
   isLoading.data = true
-  rateItemsService.getSingleItem(id).then(res => {
-    Object.assign(formData, res.data.data)
-  }).finally(() => {
-    isLoading.data = false
-  })
+  rateItemsService
+    .getSingleItem(id)
+    .then((res) => {
+      Object.assign(formData, res.data.data)
+    })
+    .finally(() => {
+      isLoading.data = false
+    })
 }
 
 function initAnswers() {
@@ -105,37 +112,40 @@ function initAnswers() {
 }
 
 function edit() {
-  rateItemsService.editItem(formData).then(res => {
-    toast.success(res.data.message)
+  rateItemsService
+    .editItem(formData)
+    .then((res) => {
+      toast.success(res.data.message)
 
-    // emit('editItem', res.data)
-    emit('editItem', formData)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.submit = false
-  })
+      // emit('editItem', res.data)
+      emit('editItem', formData)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.submit = false
+    })
 }
 
 function create() {
-  rateItemsService.createItem(formData).then(res => {
-    toast.success(res.data.message)
-    emit('createItem', res.data)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.submit = false
-  })
+  rateItemsService
+    .createItem(formData)
+    .then((res) => {
+      toast.success(res.data.message)
+      emit('createItem', res.data)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.submit = false
+    })
 }
 
 const submit = () => {
   formRef.value.validate().then(({ valid }: any) => {
-    if (!valid)
-      return
+    if (!valid) return
 
     isLoading.submit = true
-    if (formData.way === 'straight')
-      delete formData.answers
-    else
-      delete formData.points
+    if (formData.way === 'straight') delete formData.answers
+    else delete formData.points
 
     props.formAction === 'create' ? create() : edit()
   })
@@ -145,13 +155,7 @@ const submit = () => {
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="800"
-    persistent
-    scrollable
-    class="form-modal"
-  >
+  <VDialog v-model="showModal" max-width="800" persistent scrollable class="form-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -215,11 +219,7 @@ const submit = () => {
                 />
               </VCol>
               <VCol cols="12" sm="6" class="pb-0">
-                <AppSwitch
-                  v-model="formData.is_active"
-                  label="الحالة"
-                  name="is_active"
-                />
+                <AppSwitch v-model="formData.is_active" label="الحالة" name="is_active" />
               </VCol>
               <VCol v-if="formData.way === 'straight'" cols="12">
                 <AppTextField
@@ -233,7 +233,11 @@ const submit = () => {
               </VCol>
               <VCol v-else-if="formData.way === 'question'" cols="12">
                 <label class="v-label text-body-2 text-high-emphasis mb-5 d-block">الاجابات</label>
-                <VRow v-for="(answer, index) in formData.answers" :key="index" class="border mx-0 answer-card py-1 px-2">
+                <VRow
+                  v-for="(answer, index) in formData.answers"
+                  :key="index"
+                  class="border mx-0 answer-card py-1 px-2"
+                >
                   <VCol cols="12" md="4" class="px-1">
                     <AppTextField
                       v-model="answer.answer.ar"
@@ -286,11 +290,7 @@ const submit = () => {
           </VCardText>
 
           <VCardText v-if="formAction !== 'view'" class="d-flex justify-end flex-wrap gap-3">
-            <VBtn
-              variant="outlined"
-              color="error"
-              @click="showModal = false"
-            >
+            <VBtn variant="outlined" color="error" @click="showModal = false">
               {{ t('actions.cancel') }}
             </VBtn>
             <VBtn :loading="isLoading.submit" :disabled="isDisabled || !meta.valid" @click="submit">

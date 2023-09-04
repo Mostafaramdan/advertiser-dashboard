@@ -66,8 +66,7 @@ export const useLayouts = () => {
 
       // If Navbar type is hidden while switching to horizontal nav => Reset it to sticky
       if (val === AppContentLayoutNav.Horizontal) {
-        if (navbarType.value === NavbarType.Hidden)
-          navbarType.value = NavbarType.Sticky
+        if (navbarType.value === NavbarType.Hidden) navbarType.value = NavbarType.Sticky
 
         isVerticalNavCollapsed.value = false
       }
@@ -84,29 +83,34 @@ export const useLayouts = () => {
   })
 
   const isLessThanOverlayNavBreakpoint = computed(() => {
-    return (windowWidth: MaybeRef<number>) => unref(windowWidth) < config.app.overlayNavFromBreakpoint
+    return (windowWidth: MaybeRef<number>) =>
+      unref(windowWidth) < config.app.overlayNavFromBreakpoint
   })
 
-  const _layoutClasses = computed(() => (windowWidth: MaybeRef<number>, windowScrollY: MaybeRef<number>) => {
-    const route = useRoute()
+  const _layoutClasses = computed(
+    () => (windowWidth: MaybeRef<number>, windowScrollY: MaybeRef<number>) => {
+      const route = useRoute()
 
-    return [
-      `layout-nav-type-${appContentLayoutNav.value}`,
-      `layout-navbar-${navbarType.value}`,
-      `layout-footer-${footerType.value}`,
-      {
-        'layout-vertical-nav-collapsed':
-          isVerticalNavCollapsed.value
-          && appContentLayoutNav.value === 'vertical'
-          && !isLessThanOverlayNavBreakpoint.value(windowWidth),
-      },
-      { [`horizontal-nav-${horizontalNavType.value}`]: appContentLayoutNav.value === 'horizontal' },
-      `layout-content-width-${appContentWidth.value}`,
-      { 'layout-overlay-nav': isLessThanOverlayNavBreakpoint.value(windowWidth) },
-      { 'window-scrolled': unref(windowScrollY) },
-      route.meta.layoutWrapperClasses ? route.meta.layoutWrapperClasses : null,
-    ]
-  })
+      return [
+        `layout-nav-type-${appContentLayoutNav.value}`,
+        `layout-navbar-${navbarType.value}`,
+        `layout-footer-${footerType.value}`,
+        {
+          'layout-vertical-nav-collapsed':
+            isVerticalNavCollapsed.value &&
+            appContentLayoutNav.value === 'vertical' &&
+            !isLessThanOverlayNavBreakpoint.value(windowWidth),
+        },
+        {
+          [`horizontal-nav-${horizontalNavType.value}`]: appContentLayoutNav.value === 'horizontal',
+        },
+        `layout-content-width-${appContentWidth.value}`,
+        { 'layout-overlay-nav': isLessThanOverlayNavBreakpoint.value(windowWidth) },
+        { 'window-scrolled': unref(windowScrollY) },
+        route.meta.layoutWrapperClasses ? route.meta.layoutWrapperClasses : null,
+      ]
+    },
+  )
 
   const switchToVerticalNavOnLtOverlayNavBreakpoint = (windowWidth: MaybeRef<number>) => {
     /*
@@ -130,9 +134,8 @@ export const useLayouts = () => {
       So when user comes back from `mdAndDown` to `lgAndUp` we can set updated nav type
       For this we need to update the `lgAndUpNav` value if screen is `lgAndUp`
     */
-    watch(appContentLayoutNav, value => {
-      if (!isLessThanOverlayNavBreakpoint.value(windowWidth))
-        lgAndUpNav.value = value
+    watch(appContentLayoutNav, (value) => {
+      if (!isLessThanOverlayNavBreakpoint.value(windowWidth)) lgAndUpNav.value = value
     })
 
     /*
@@ -140,12 +143,14 @@ export const useLayouts = () => {
       If it's `mdAndDown` => We will use vertical nav no matter what previous nav type was
       Or if it's `lgAndUp` we need to switch back to `lgAndUp` nav type. For this we will tracker property `lgAndUpNav`
     */
-    watch(() => isLessThanOverlayNavBreakpoint.value(windowWidth), val => {
-      if (!val)
-        appContentLayoutNav.value = lgAndUpNav.value
-      else
-        appContentLayoutNav.value = AppContentLayoutNav.Vertical
-    }, { immediate: true })
+    watch(
+      () => isLessThanOverlayNavBreakpoint.value(windowWidth),
+      (val) => {
+        if (!val) appContentLayoutNav.value = lgAndUpNav.value
+        else appContentLayoutNav.value = AppContentLayoutNav.Vertical
+      },
+      { immediate: true },
+    )
   }
 
   /*
@@ -158,10 +163,19 @@ export const useLayouts = () => {
         we are using this in `VerticalNav.vue` component which provide it and I guess because
         same component is providing & injecting we are getting undefined error
   */
-  const isVerticalNavMini = (windowWidth: MaybeRef<number>, isVerticalNavHovered: Ref<boolean> | null = null) => {
-    const isVerticalNavHoveredLocal = isVerticalNavHovered || inject(injectionKeyIsVerticalNavHovered) || ref(false)
+  const isVerticalNavMini = (
+    windowWidth: MaybeRef<number>,
+    isVerticalNavHovered: Ref<boolean> | null = null,
+  ) => {
+    const isVerticalNavHoveredLocal =
+      isVerticalNavHovered || inject(injectionKeyIsVerticalNavHovered) || ref(false)
 
-    return computed(() => isVerticalNavCollapsed.value && !isVerticalNavHoveredLocal.value && !isLessThanOverlayNavBreakpoint.value(unref(windowWidth)))
+    return computed(
+      () =>
+        isVerticalNavCollapsed.value &&
+        !isVerticalNavHoveredLocal.value &&
+        !isLessThanOverlayNavBreakpoint.value(unref(windowWidth)),
+    )
   }
 
   const dynamicI18nProps = computed(() => (key: string, tag = 'span') => {

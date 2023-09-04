@@ -78,43 +78,54 @@ function resetFilter() {
 
 function getCountries() {
   isLoading.countries = true
-  listService.getCountries().then((res: any) => {
-    countriesList.value = res.data.data
-  }).finally(() => {
-    isLoading.countries = false
-  })
+  listService
+    .getCountries()
+    .then((res: any) => {
+      countriesList.value = res.data.data
+    })
+    .finally(() => {
+      isLoading.countries = false
+    })
 }
 
 function getAreas() {
   filters.area_id = null
   if (!filters.country_id) return
   isLoading.areas = true
-  listService.getAreas(filters.country_id).then((res: any) => {
-    areasList.value = res.data.data
-  }).finally(() => {
-    isLoading.areas = false
-  })
+  listService
+    .getAreas(filters.country_id)
+    .then((res: any) => {
+      areasList.value = res.data.data
+    })
+    .finally(() => {
+      isLoading.areas = false
+    })
 }
 
 function getPackages() {
   isLoading.packages = true
-  listService.getPackagesLists().then((res: any) => {
-    packagesList.value = res.data.data
-  }).finally(() => {
-    isLoading.packages = false
-  })
+  listService
+    .getPackagesLists()
+    .then((res: any) => {
+      packagesList.value = res.data.data
+    })
+    .finally(() => {
+      isLoading.packages = false
+    })
 }
 
 // #endregion
 </script>
 
 <template>
-  <FilterSideBar v-model:showFilter="showFilter" @apply-filter="applyFilter" @reset-filter="resetFilter">
+  <FilterSideBar
+    v-model:showFilter="showFilter"
+    @apply-filter="applyFilter"
+    @reset-filter="resetFilter"
+  >
     <VExpansionPanels :model-value="0" multiple>
       <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>
-          عرض حسب التاريخ
-        </VExpansionPanelTitle>
+        <VExpansionPanelTitle> عرض حسب التاريخ </VExpansionPanelTitle>
         <VExpansionPanelText>
           <AppDateTimePicker
             v-model="filters.from_date"
@@ -134,9 +145,7 @@ function getPackages() {
         </VExpansionPanelText>
       </VExpansionPanel>
       <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>
-          البحث بالجنس
-        </VExpansionPanelTitle>
+        <VExpansionPanelTitle> البحث بالجنس </VExpansionPanelTitle>
         <VExpansionPanelText>
           <AppRadio
             v-model="filters.gender"
@@ -150,9 +159,7 @@ function getPackages() {
         </VExpansionPanelText>
       </VExpansionPanel>
       <VExpansionPanel v-loading="isLoading.packages" elevation="0">
-        <VExpansionPanelTitle>
-          بحث بنوع / فئة الاشتراك
-        </VExpansionPanelTitle>
+        <VExpansionPanelTitle> بحث بنوع / فئة الاشتراك </VExpansionPanelTitle>
         <VExpansionPanelText>
           <AppCheckbox
             v-model="filters.packages"
@@ -166,9 +173,7 @@ function getPackages() {
         </VExpansionPanelText>
       </VExpansionPanel>
       <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>
-          عرض النتائج بحسب
-        </VExpansionPanelTitle>
+        <VExpansionPanelTitle> عرض النتائج بحسب </VExpansionPanelTitle>
         <VExpansionPanelText>
           <AppRadio
             v-model="filters.sort_by"
@@ -182,9 +187,7 @@ function getPackages() {
         </VExpansionPanelText>
       </VExpansionPanel>
       <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>
-          البحث بالدول - المدن
-        </VExpansionPanelTitle>
+        <VExpansionPanelTitle> البحث بالدول - المدن </VExpansionPanelTitle>
         <VExpansionPanelText>
           <VSelect
             v-model="filters.country_id"

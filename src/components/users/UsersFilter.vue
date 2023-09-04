@@ -73,34 +73,42 @@ function resetFilter() {
 
 function getCountries() {
   isLoading.countries = true
-  listService.getCountries().then((res: any) => {
-    countriesList.value = res.data.data
-  }).finally(() => {
-    isLoading.countries = false
-  })
+  listService
+    .getCountries()
+    .then((res: any) => {
+      countriesList.value = res.data.data
+    })
+    .finally(() => {
+      isLoading.countries = false
+    })
 }
 
 function getAreas() {
   filters.area_id = null
   if (!filters.country_id) return
   isLoading.areas = true
-  listService.getAreas(filters.country_id).then((res: any) => {
-    areasList.value = res.data.data
-  }).finally(() => {
-    isLoading.areas = false
-  })
+  listService
+    .getAreas(filters.country_id)
+    .then((res: any) => {
+      areasList.value = res.data.data
+    })
+    .finally(() => {
+      isLoading.areas = false
+    })
 }
 
 // #endregion
 </script>
 
 <template>
-  <FilterSideBar v-model:showFilter="showFilter" @apply-filter="applyFilter" @reset-filter="resetFilter">
+  <FilterSideBar
+    v-model:showFilter="showFilter"
+    @apply-filter="applyFilter"
+    @reset-filter="resetFilter"
+  >
     <VExpansionPanels :model-value="0" multiple>
       <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>
-          عرض حسب التاريخ
-        </VExpansionPanelTitle>
+        <VExpansionPanelTitle> عرض حسب التاريخ </VExpansionPanelTitle>
         <VExpansionPanelText>
           <AppDateTimePicker
             v-model="filters.from_date"
@@ -120,9 +128,7 @@ function getAreas() {
         </VExpansionPanelText>
       </VExpansionPanel>
       <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>
-          البحث بالجنس
-        </VExpansionPanelTitle>
+        <VExpansionPanelTitle> البحث بالجنس </VExpansionPanelTitle>
         <VExpansionPanelText>
           <AppRadio
             v-model="filters.gender"
@@ -136,9 +142,7 @@ function getAreas() {
         </VExpansionPanelText>
       </VExpansionPanel>
       <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>
-          البحث بالدول - المدن
-        </VExpansionPanelTitle>
+        <VExpansionPanelTitle> البحث بالدول - المدن </VExpansionPanelTitle>
         <VExpansionPanelText>
           <VSelect
             v-model="filters.country_id"

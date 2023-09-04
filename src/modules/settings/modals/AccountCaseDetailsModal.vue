@@ -46,12 +46,7 @@ const showModal = useVModel(props, 'showModal', emit)
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="600"
-    scrollable
-    class="details-modal"
-  >
+  <VDialog v-model="showModal" max-width="600" scrollable class="details-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -86,11 +81,7 @@ const showModal = useVModel(props, 'showModal', emit)
                 border
               />
             </VList>
-            <AppSwitch
-              :model-value="activeItem.is_active"
-              label="الحالة"
-              name="is_active"
-            />
+            <AppSwitch :model-value="activeItem.is_active" label="الحالة" name="is_active" />
           </VCardText>
         </VCard>
       </div>

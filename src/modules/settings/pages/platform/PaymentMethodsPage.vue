@@ -17,14 +17,8 @@ const { mdAndDown } = useDisplay()
 const { getImageUrl } = UseGeneralHelpers()
 const { hasPermission } = useAuthStore()
 
-const {
-  showFormModal,
-  FormAction,
-  activeItem,
-  confirmModal,
-  showCrateModal,
-  showEditModal,
-} = UseCrudHelpers<PaymentMethod>(null, null, '')
+const { showFormModal, FormAction, activeItem, confirmModal, showCrateModal, showEditModal } =
+  UseCrudHelpers<PaymentMethod>(null, null, '')
 
 const selectedGetWay = ref<PaymentGetWay>('bank')
 
@@ -66,31 +60,34 @@ getPageData()
 // #region Functions
 function getPageData() {
   isLoading.data = true
-  platformService.getPaymentMethodsData().then(res => {
-    Object.assign(data, res.data.data)
-  }).finally(() => {
-    isLoading.data = false
-  })
+  platformService
+    .getPaymentMethodsData()
+    .then((res) => {
+      Object.assign(data, res.data.data)
+    })
+    .finally(() => {
+      isLoading.data = false
+    })
 }
 
 function deleteItem(item: PaymentMethod) {
   if (!item.id) return
   isLoading.data = true
-  platformService.deletePaymentMethod(item.id).then(() => {
-    if (!item.gateway) return
-    const index = data[item.gateway].findIndex((i: PaymentMethod) => i.id === item.id)
-    if (index === -1) return
-    data[item.gateway].splice(index, 1)
-  }).finally(() => {
-    isLoading.data = false
-  })
+  platformService
+    .deletePaymentMethod(item.id)
+    .then(() => {
+      if (!item.gateway) return
+      const index = data[item.gateway].findIndex((i: PaymentMethod) => i.id === item.id)
+      if (index === -1) return
+      data[item.gateway].splice(index, 1)
+    })
+    .finally(() => {
+      isLoading.data = false
+    })
 }
 
 async function showConfirmDeleteItem(item: PaymentMethod): Promise<void> {
-  const confirm = await confirmModal.value.open(
-    'يرجي التاكيد',
-    'هل انت متاكد من الحذف',
-  )
+  const confirm = await confirmModal.value.open('يرجي التاكيد', 'هل انت متاكد من الحذف')
 
   if (confirm) deleteItem(item)
 }
@@ -130,12 +127,9 @@ function onEditItem(item: PaymentMethod) {
     />
     <VBtn v-if="permissions.create" class="mb-6" variant="outlined" @click="showCrateModal">
       اضافة طريقة دفع
-      <VIcon
-        end
-        icon="tabler-plus"
-      />
+      <VIcon end icon="tabler-plus" />
     </VBtn>
-    <div class=" d-flex" :class="mdAndDown ? 'flex-column' : 'flex-row'">
+    <div class="d-flex" :class="mdAndDown ? 'flex-column' : 'flex-row'">
       <div>
         <VTabs
           v-model="selectedGetWay"
@@ -151,23 +145,20 @@ function onEditItem(item: PaymentMethod) {
         </VTabs>
       </div>
 
-      <VWindow
-        v-model="selectedGetWay"
-        class="ms-md-3 mt-3 mt-lg-0 flex-grow-1"
-      >
+      <VWindow v-model="selectedGetWay" class="ms-md-3 mt-3 mt-lg-0 flex-grow-1">
         <VWindowItem v-for="(payments, key) in data" :key="key" :value="key">
           <VRow v-if="payments.length">
-            <VCol
-              v-for="payment in payments"
-              :key="payment.id"
-              cols="12"
-              md="6"
-            >
-              <PaymentMethodCard :payment="payment" :gateway="(key) as any" @confirm-delete="showConfirmDeleteItem" @show-edit-modal="onShowEditModal" />
+            <VCol v-for="payment in payments" :key="payment.id" cols="12" md="6">
+              <PaymentMethodCard
+                :payment="payment"
+                :gateway="key as any"
+                @confirm-delete="showConfirmDeleteItem"
+                @show-edit-modal="onShowEditModal"
+              />
             </VCol>
           </VRow>
           <div v-else class="text-h6">
-            {{ t("general.no_data") }}
+            {{ t('general.no_data') }}
           </div>
         </VWindowItem>
       </VWindow>

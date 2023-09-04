@@ -12,9 +12,10 @@ export const useSkins = () => {
       wrapper: h(VThemeProvider, { tag: 'aside' }),
       wrapperProps: {
         withBackground: true,
-        theme: (isVerticalNavSemiDark.value && appContentLayoutNav.value === AppContentLayoutNav.Vertical)
-          ? 'dark'
-          : undefined,
+        theme:
+          isVerticalNavSemiDark.value && appContentLayoutNav.value === AppContentLayoutNav.Vertical
+            ? 'dark'
+            : undefined,
       },
     },
   }))
@@ -23,10 +24,14 @@ export const useSkins = () => {
     const bodyClasses = document.body.classList
     const genSkinClass = (_skin?: string) => `skin--${_skin}`
 
-    watch(skin, (val, oldVal) => {
-      bodyClasses.remove(genSkinClass(oldVal))
-      bodyClasses.add(genSkinClass(val))
-    }, { immediate: true })
+    watch(
+      skin,
+      (val, oldVal) => {
+        bodyClasses.remove(genSkinClass(oldVal))
+        bodyClasses.add(genSkinClass(val))
+      },
+      { immediate: true },
+    )
   }
 
   return {

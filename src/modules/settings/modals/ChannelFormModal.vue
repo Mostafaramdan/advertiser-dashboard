@@ -61,7 +61,9 @@ const formData = reactive<Channel>({
 const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة قناة'
-    : props.formAction === 'edit' ? 'تعديل قناة' : 'عرض قناة'
+    : props.formAction === 'edit'
+    ? 'تعديل قناة'
+    : 'عرض قناة'
 })
 
 // #endregion
@@ -72,30 +74,36 @@ const formTitle = computed(() => {
 // #region Lifecycle Hooks
 if (props.activeItem) {
   Object.assign(formData, cloneItem(props.activeItem))
-  formData.channel_type = formData.channel_type?.toString() as any || null
+  formData.channel_type = (formData.channel_type?.toString() as any) || null
 }
 
 // #endregion
 function edit() {
-  channelsService.editItem(formData).then(res => {
-    toast.success(res.data.message)
+  channelsService
+    .editItem(formData)
+    .then((res) => {
+      toast.success(res.data.message)
 
-    // emit('editItem', res.data)
-    emit('editItem', formData)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.value = false
-  })
+      // emit('editItem', res.data)
+      emit('editItem', formData)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 function create() {
-  channelsService.createItem(formData).then(res => {
-    toast.success(res.data.message)
-    emit('createItem', res.data)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.value = false
-  })
+  channelsService
+    .createItem(formData)
+    .then((res) => {
+      toast.success(res.data.message)
+      emit('createItem', res.data)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 function updateImageId(image: File) {
@@ -104,8 +112,7 @@ function updateImageId(image: File) {
 
 const submit = () => {
   formRef.value.validate().then(({ valid }: any) => {
-    if (!valid)
-      return
+    if (!valid) return
 
     isLoading.value = true
     props.formAction === 'create' ? create() : edit()
@@ -114,13 +121,7 @@ const submit = () => {
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="600"
-    persistent
-    scrollable
-    class="form-modal"
-  >
+  <VDialog v-model="showModal" max-width="600" persistent scrollable class="form-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -181,21 +182,13 @@ const submit = () => {
                 />
               </VCol>
               <VCol cols="12" class="pt-0">
-                <AppSwitch
-                  v-model="formData.is_active"
-                  label="الحالة"
-                  name="is_active"
-                />
+                <AppSwitch v-model="formData.is_active" label="الحالة" name="is_active" />
               </VCol>
             </VRow>
           </VCardText>
 
           <VCardText v-if="formAction !== 'view'" class="d-flex justify-end flex-wrap gap-3">
-            <VBtn
-              variant="outlined"
-              color="error"
-              @click="showModal = false"
-            >
+            <VBtn variant="outlined" color="error" @click="showModal = false">
               {{ t('actions.cancel') }}
             </VBtn>
             <VBtn :loading="isLoading" :disabled="isLoading || !meta.valid" @click="submit">

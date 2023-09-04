@@ -41,16 +41,19 @@ const toast = useToast()
 const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
-const paymentsGetWays = Object.entries(PAYMENT_GET_WAYS).map(([key, value]) => ({ value: key, label: t(`payment_methods.${value}`) }))
+const paymentsGetWays = Object.entries(PAYMENT_GET_WAYS).map(([key, value]) => ({
+  value: key,
+  label: t(`payment_methods.${value}`),
+}))
 
 const platPickerConfig = {
   minDate: new Date(),
-  plugins: ([
+  plugins: [
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     // eslint-disable-next-line new-cap
     new monthSelectPlugin({ shorthand: true, dateFormat: 'y/m' }),
-  ]),
+  ],
 }
 
 const formData = reactive<PaymentMethod>({
@@ -76,7 +79,9 @@ const formData = reactive<PaymentMethod>({
 const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة طريقة دفع'
-    : props.formAction === 'edit' ? 'تعديل طريقة دفع' : 'عرض طريقة دفع'
+    : props.formAction === 'edit'
+    ? 'تعديل طريقة دفع'
+    : 'عرض طريقة دفع'
 })
 
 // #endregion
@@ -85,8 +90,7 @@ const formTitle = computed(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-if (props.activeItem)
-  Object.assign(formData, cloneItem(props.activeItem))
+if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 
 // #endregion
 
@@ -95,31 +99,36 @@ if (props.activeItem)
  **************************************/
 // #region Functions
 function edit() {
-  platformService.editPaymentMethod(formData).then(res => {
-    toast.success(res.data.message)
+  platformService
+    .editPaymentMethod(formData)
+    .then((res) => {
+      toast.success(res.data.message)
 
-    // emit('editItem', res.data)
-    emit('editItem', formData)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.value = false
-  })
+      // emit('editItem', res.data)
+      emit('editItem', formData)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 function create() {
-  platformService.createPaymentMethod(formData).then(res => {
-    toast.success(res.data.message)
-    emit('createItem', res.data.data)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.value = false
-  })
+  platformService
+    .createPaymentMethod(formData)
+    .then((res) => {
+      toast.success(res.data.message)
+      emit('createItem', res.data.data)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 const submit = () => {
   formRef.value.validate().then(({ valid }: any) => {
-    if (!valid)
-      return
+    if (!valid) return
 
     isLoading.value = true
     props.formAction === 'create' ? create() : edit()
@@ -130,13 +139,7 @@ const submit = () => {
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="600"
-    persistent
-    scrollable
-    class="form-modal"
-  >
+  <VDialog v-model="showModal" max-width="600" persistent scrollable class="form-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -163,7 +166,11 @@ const submit = () => {
                   <AppTextField
                     v-model="formData.card_username"
                     name="card_username"
-                    :label="formData.gateway === PAYMENT_GET_WAYS.card ? 'اسم مستخدم البطاقة' : 'اسم المستخدم'"
+                    :label="
+                      formData.gateway === PAYMENT_GET_WAYS.card
+                        ? 'اسم مستخدم البطاقة'
+                        : 'اسم المستخدم'
+                    "
                     rules="required|minWords:2"
                   />
                 </VCol>
@@ -258,11 +265,7 @@ const submit = () => {
           </VCardText>
 
           <VCardText v-if="formAction !== 'view'" class="d-flex justify-end flex-wrap gap-3">
-            <VBtn
-              variant="outlined"
-              color="error"
-              @click="showModal = false"
-            >
+            <VBtn variant="outlined" color="error" @click="showModal = false">
               {{ t('actions.cancel') }}
             </VBtn>
             <VBtn :loading="isLoading" :disabled="isLoading || !meta.valid" @click="submit">
@@ -275,6 +278,4 @@ const submit = () => {
   </VDialog>
 </template>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

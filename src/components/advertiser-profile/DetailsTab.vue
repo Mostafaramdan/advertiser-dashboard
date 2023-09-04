@@ -31,124 +31,124 @@ const procedures = ref([
   {
     label: 'التحقق من الاعدادات',
     key: 'trustes_settings',
-    loading: false
+    loading: false,
   },
   {
     label: 'مرخص في موثوق',
     key: 'licensed_at_mawthoq',
-    loading: false
+    loading: false,
   },
   {
     label: 'معتمد في المنصة',
     key: 'verified',
-    loading: false
+    loading: false,
   },
   {
     label: 'موثق في معروف',
     key: 'ma3roof_verified',
-    loading: false
-  }
+    loading: false,
+  },
 ])
 
 const statsData = ref([
   {
     label: 'عدد المتابعين',
-    key: 'followers_count'
+    key: 'followers_count',
   },
   {
     label: 'عدد الاعلانات',
-    key: 'ads_count'
+    key: 'ads_count',
   },
   {
     label: 'التقييم',
-    key: 'rate'
+    key: 'rate',
   },
   {
     label: 'المحفظة',
-    key: 'wallet'
+    key: 'wallet',
   },
   {
     label: 'النقاط',
-    key: 'points_balance'
+    key: 'points_balance',
   },
   {
     label: 'حالة الاشتراك',
-    key: 'subscription_status'
+    key: 'subscription_status',
   },
   {
     label: 'الإعدادات',
-    key: 'profile_completion'
-  }
+    key: 'profile_completion',
+  },
 ])
 
 const advertiserDetails = ref([
   {
     label: 'البريد الإلكتروني',
-    key: 'email'
+    key: 'email',
   },
   {
     label: 'الهاتف',
-    key: 'phone'
+    key: 'phone',
   },
   {
     label: 'اسم المستخدم',
-    key: 'username'
+    key: 'username',
   },
   {
     label: 'اسم صاحب الحساب',
-    key: 'account_name'
+    key: 'account_name',
   },
   {
     label: 'الدولة',
-    key: 'country_name'
+    key: 'country_name',
   },
   {
     label: 'المدينة',
-    key: 'area_name'
+    key: 'area_name',
   },
   {
     label: 'حالة الحساب',
-    key: 'profile_completion'
+    key: 'profile_completion',
   },
   {
     label: 'نوع الكيان',
-    key: 'type'
+    key: 'type',
   },
   {
     label: 'باقة الاشتراك',
-    key: 'subscription_name'
+    key: 'subscription_name',
   },
   {
     label: 'بيانات موثوق',
-    key: 'mawthooq'
+    key: 'mawthooq',
   },
   {
     label: 'بيانات معروف',
-    key: 'ma3roof'
-  }
+    key: 'ma3roof',
+  },
 ])
 
 const advertiserBankAccountData = ref([
   {
     label: 'اسم الحساب',
-    key: 'account_name'
+    key: 'account_name',
   },
   {
     label: 'رقم الحساب',
-    key: 'account_number'
+    key: 'account_number',
   },
   {
     label: 'اسم البنك',
-    key: 'name'
+    key: 'name',
   },
   {
     label: 'رمز السويفت',
-    key: 'swift_code'
+    key: 'swift_code',
   },
   {
     label: 'نوع الحساب',
-    key: 'type'
-  }
+    key: 'type',
+  },
 ])
 
 // #endregion
@@ -159,7 +159,7 @@ const advertiserBankAccountData = ref([
 // #region Computed
 const permissions = computed(() => ({
   takeProcedure: hasPermission('take_procedure'),
-  sendNotification: hasPermission('notify_user')
+  sendNotification: hasPermission('notify_user'),
 }))
 
 // #endregion

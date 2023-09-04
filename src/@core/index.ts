@@ -6,18 +6,20 @@ export const defineThemeConfig = (
   userConfig: UserThemeConfig,
 ): { themeConfig: ThemeConfig; layoutConfig: LayoutConfig } => {
   const localStorageTheme = localStorage.getItem(`${userConfig.app.title}-theme`)
-  const localStorageIsVerticalNavSemiDark = localStorage.getItem(`${userConfig.app.title}-isVerticalNavSemiDark`)
+  const localStorageIsVerticalNavSemiDark = localStorage.getItem(
+    `${userConfig.app.title}-isVerticalNavSemiDark`,
+  )
 
   const localStorageSkin = (() => {
     const storageValue = localStorage.getItem(`${userConfig.app.title}-skin`)
 
-    return Object.values(Skins).find(v => v === storageValue)
+    return Object.values(Skins).find((v) => v === storageValue)
   })()
 
   const localStorageTransition = (() => {
     const storageValue = localStorage.getItem(`${userConfig.app.title}-transition`)
 
-    return Object.values(RouteTransitions).find(v => v === storageValue)
+    return Object.values(RouteTransitions).find((v) => v === storageValue)
   })()
 
   return {
@@ -43,7 +45,11 @@ export const defineThemeConfig = (
       verticalNav: {
         isVerticalNavCollapsed: ref(userConfig.verticalNav.isVerticalNavCollapsed),
         defaultNavItemIconProps: userConfig.verticalNav.defaultNavItemIconProps,
-        isVerticalNavSemiDark: ref(localStorageIsVerticalNavSemiDark ? JSON.parse(localStorageIsVerticalNavSemiDark) : userConfig.verticalNav.isVerticalNavSemiDark),
+        isVerticalNavSemiDark: ref(
+          localStorageIsVerticalNavSemiDark
+            ? JSON.parse(localStorageIsVerticalNavSemiDark)
+            : userConfig.verticalNav.isVerticalNavSemiDark,
+        ),
       },
       horizontalNav: {
         type: ref(userConfig.horizontalNav.type),

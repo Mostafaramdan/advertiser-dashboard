@@ -71,12 +71,12 @@ export const axiosConf = {
         const errorResponse = error.response
         switch (errorResponse?.status) {
           case 400:
-          // Bad Request
+            // Bad Request
             toast.error(errorResponse?.data?.message)
             break
           case 401:
-          // Unauthorized
-          // clear user data
+            // Unauthorized
+            // clear user data
             toast.error(errorResponse?.data?.message || errorResponse?.data?.error)
             authStore.clearAuthUser()
 
@@ -90,7 +90,7 @@ export const axiosConf = {
             }
             break
           case 403:
-          // Forbidden
+            // Forbidden
             toast.error(errorResponse?.data?.message)
             router.push({
               name: 'error-page',

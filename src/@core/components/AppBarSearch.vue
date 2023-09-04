@@ -36,8 +36,7 @@ const emit = defineEmits<Emit>()
 const { ctrl_k, meta_k } = useMagicKeys({
   passive: false,
   onEventFired(e) {
-    if (e.ctrlKey && e.key === 'k' && e.type === 'keydown')
-      e.preventDefault()
+    if (e.ctrlKey && e.key === 'k' && e.type === 'keydown') e.preventDefault()
   },
 })
 
@@ -67,8 +66,7 @@ const clearSearchAndCloseDialog = () => {
 }
 
 watchEffect(() => {
-  if (!searchQuery.value.length)
-    searchResults.value = []
+  if (!searchQuery.value.length) searchResults.value = []
 })
 
 // 👉 get fucus on search list
@@ -76,8 +74,7 @@ const getFocusOnSearchList = (e: KeyboardEvent) => {
   if (e.key === 'ArrowDown') {
     e.preventDefault()
     refSearchList.value?.focus('next')
-  }
-  else if (e.key === 'ArrowUp') {
+  } else if (e.key === 'ArrowUp') {
     e.preventDefault()
     refSearchList.value?.focus('prev')
   }
@@ -90,20 +87,15 @@ const dialogModelValueUpdate = (val: boolean) => {
 
 // 👉 resolve categories name
 const resolveCategories = (val: string) => {
-  if (val === 'dashboards')
-    return 'Dashboards'
+  if (val === 'dashboards') return 'Dashboards'
 
-  if (val === 'appsPages')
-    return 'Apps & Pages'
+  if (val === 'appsPages') return 'Apps & Pages'
 
-  if (val === 'userInterface')
-    return 'User Interface'
+  if (val === 'userInterface') return 'User Interface'
 
-  if (val === 'formsTables')
-    return 'Forms Tables'
+  if (val === 'formsTables') return 'Forms Tables'
 
-  if (val === 'chartsMisc')
-    return 'Charts Misc'
+  if (val === 'chartsMisc') return 'Charts Misc'
 
   return 'Misc'
 }
@@ -119,15 +111,8 @@ const resolveCategories = (val: string) => {
     @update:model-value="dialogModelValueUpdate"
     @keyup.esc="clearSearchAndCloseDialog"
   >
-    <VCard
-      height="100%"
-      width="100%"
-      class="position-relative"
-    >
-      <VCardText
-        class="pt-1"
-        style="min-block-size: 65px;"
-      >
+    <VCard height="100%" width="100%" class="position-relative">
+      <VCardText class="pt-1" style="min-block-size: 65px">
         <!-- 👉 Search Input -->
         <VTextField
           ref="refSearchInput"
@@ -143,12 +128,7 @@ const resolveCategories = (val: string) => {
           <!-- 👉 Prepend Inner -->
           <template #prepend-inner>
             <div class="d-flex align-center text-high-emphasis me-1">
-              <VIcon
-                size="22"
-                icon="tabler-search"
-                class="mt-1"
-                style="opacity: 1;"
-              />
+              <VIcon size="22" icon="tabler-search" class="mt-1" style="opacity: 1" />
             </div>
           </template>
 
@@ -162,10 +142,7 @@ const resolveCategories = (val: string) => {
                 [esc]
               </div>
 
-              <IconBtn
-                size="small"
-                @click="clearSearchAndCloseDialog"
-              >
+              <IconBtn size="small" @click="clearSearchAndCloseDialog">
                 <VIcon icon="tabler-x" />
               </IconBtn>
             </div>
@@ -177,10 +154,7 @@ const resolveCategories = (val: string) => {
       <VDivider />
 
       <!-- 👉 Perfect Scrollbar -->
-      <PerfectScrollbar
-        :options="{ wheelPropagation: false, suppressScrollX: true }"
-        class="h-100"
-      >
+      <PerfectScrollbar :options="{ wheelPropagation: false, suppressScrollX: true }" class="h-100">
         <!-- 👉 Search List -->
         <VList
           v-show="searchQuery.length && !!searchResults.length"
@@ -189,32 +163,16 @@ const resolveCategories = (val: string) => {
           class="app-bar-search-list"
         >
           <!-- 👉 list Item /List Sub header -->
-          <template
-            v-for="item in searchResults"
-            :key="item.title"
-          >
-            <VListSubheader
-              v-if="'header' in item"
-              class="text-disabled"
-            >
+          <template v-for="item in searchResults" :key="item.title">
+            <VListSubheader v-if="'header' in item" class="text-disabled">
               {{ resolveCategories(item.title) }}
             </VListSubheader>
 
             <template v-else>
-              <slot
-                name="searchResult"
-                :item="item"
-              >
-                <VListItem
-                  link
-                  @click="$emit('itemSelected', item)"
-                >
+              <slot name="searchResult" :item="item">
+                <VListItem link @click="$emit('itemSelected', item)">
                   <template #prepend>
-                    <VIcon
-                      size="20"
-                      :icon="item.icon"
-                      class="me-3"
-                    />
+                    <VIcon size="20" :icon="item.icon" class="me-3" />
                   </template>
 
                   <template #append>
@@ -235,16 +193,10 @@ const resolveCategories = (val: string) => {
         </VList>
 
         <!-- 👉 Suggestions -->
-        <div
-          v-show="!!searchResults && !searchQuery"
-          class="h-100"
-        >
+        <div v-show="!!searchResults && !searchQuery" class="h-100">
           <slot name="suggestions">
             <VCardText class="app-bar-search-suggestions h-100 pa-10">
-              <VRow
-                v-if="props.suggestions"
-                class="gap-y-4"
-              >
+              <VRow v-if="props.suggestions" class="gap-y-4">
                 <VCol
                   v-for="suggestion in props.suggestions"
                   :key="suggestion.title"
@@ -266,11 +218,7 @@ const resolveCategories = (val: string) => {
                       @click="$emit('itemSelected', item)"
                     >
                       <template #prepend>
-                        <VIcon
-                          :icon="item.icon"
-                          size="20"
-                          class="me-2"
-                        />
+                        <VIcon :icon="item.icon" size="20" class="me-2" />
                       </template>
                     </VListItem>
                   </VList>
@@ -281,25 +229,18 @@ const resolveCategories = (val: string) => {
         </div>
 
         <!-- 👉 No Data found -->
-        <div
-          v-show="!searchResults.length && searchQuery.length"
-          class="h-100"
-        >
+        <div v-show="!searchResults.length && searchQuery.length" class="h-100">
           <slot name="noData">
             <VCardText class="h-100">
-              <div class="app-bar-search-suggestions d-flex flex-column align-center justify-center text-high-emphasis h-100">
-                <VIcon
-                  size="75"
-                  icon="tabler-file-x"
-                />
+              <div
+                class="app-bar-search-suggestions d-flex flex-column align-center justify-center text-high-emphasis h-100"
+              >
+                <VIcon size="75" icon="tabler-file-x" />
                 <div class="d-flex align-center flex-wrap justify-center gap-2 text-h6 my-3">
                   <span>No Result For </span>
                   <span>"{{ searchQuery }}"</span>
                 </div>
-                <div
-                  v-if="props.noDataSuggestion"
-                  class="mt-8"
-                >
+                <div v-if="props.noDataSuggestion" class="mt-8">
                   <span class="d-flex justify-center text-disabled">Try searching for</span>
                   <h6
                     v-for="suggestion in props.noDataSuggestion"
@@ -307,11 +248,7 @@ const resolveCategories = (val: string) => {
                     class="app-bar-search-suggestion text-sm font-weight-regular cursor-pointer mt-3"
                     @click="$emit('itemSelected', suggestion)"
                   >
-                    <VIcon
-                      size="20"
-                      :icon="suggestion.icon"
-                      class="me-3"
-                    />
+                    <VIcon size="20" :icon="suggestion.icon" class="me-3" />
                     <span class="text-sm">{{ suggestion.title }}</span>
                   </h6>
                 </div>

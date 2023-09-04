@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
 import { settingsRoutes } from '@/modules/settings/settingsRoutes'
 import HomePage from '@/pages/HomePage.vue'
 import { useAuthStore } from '@/stores/AuthStore'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -103,7 +103,11 @@ router.beforeEach(async (to, from, next) => {
   if (isAuthUser && to.meta.requiredAccess && !canAccessPage(to.meta.requiredAccess as string))
     next({ name: 'error-page', query: { message: 'errors.you_are_not_authorized' } })
 
-  if (isAuthUser && to.meta.requireAtLeastOneAccess && !canAccessAtLeastOnePage(to.meta.requireAtLeastOneAccess as string[]))
+  if (
+    isAuthUser &&
+    to.meta.requireAtLeastOneAccess &&
+    !canAccessAtLeastOnePage(to.meta.requireAtLeastOneAccess as string[])
+  )
     next({ name: 'error-page', query: { message: 'errors.you_are_not_authorized' } })
 
   next()

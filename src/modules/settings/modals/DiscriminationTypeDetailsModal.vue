@@ -46,12 +46,7 @@ const showModal = useVModel(props, 'showModal', emit)
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="600"
-    scrollable
-    class="details-modal"
-  >
+  <VDialog v-model="showModal" max-width="600" scrollable class="details-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -61,17 +56,8 @@ const showModal = useVModel(props, 'showModal', emit)
         <VCard v-if="activeItem" title="عرض تمييز">
           <VCardText>
             <VList :lines="false">
-              <VListItem
-                v-if="activeItem.image"
-                class="px-2 py-2"
-                title="صورة التمييز"
-                border
-              >
-                <VImg
-                  :src="activeItem.image.path"
-                  max-width="100"
-                  class="my-2"
-                />
+              <VListItem v-if="activeItem.image" class="px-2 py-2" title="صورة التمييز" border>
+                <VImg :src="activeItem.image.path" max-width="100" class="my-2" />
               </VListItem>
               <VListItem
                 class="px-2 py-2"
@@ -98,11 +84,7 @@ const showModal = useVModel(props, 'showModal', emit)
                 border
               />
             </VList>
-            <AppSwitch
-              :model-value="activeItem.is_active"
-              label="الحالة"
-              name="is_active"
-            />
+            <AppSwitch :model-value="activeItem.is_active" label="الحالة" name="is_active" />
           </VCardText>
         </VCard>
       </div>

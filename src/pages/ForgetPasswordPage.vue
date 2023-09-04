@@ -25,10 +25,7 @@ const form = ref({
       />
 
       <!-- 👉 Auth card -->
-      <VCard
-        class="auth-card pa-4"
-        max-width="448"
-      >
+      <VCard class="auth-card pa-4" max-width="448">
         <VCardItem>
           <template #prepend>
             <div class="d-flex">
@@ -42,12 +39,8 @@ const form = ref({
         </VCardItem>
 
         <VCardText class="pt-2">
-          <h5 class="text-h5 mb-1">
-            نسيت كلمة المرور؟ 🔒
-          </h5>
-          <p class="mb-0">
-            الرجاء إدخال البريد الإلكتروني الخاص بك لإعادة تعيين كلمة المرور
-          </p>
+          <h5 class="text-h5 mb-1">نسيت كلمة المرور؟ 🔒</h5>
+          <p class="mb-0">الرجاء إدخال البريد الإلكتروني الخاص بك لإعادة تعيين كلمة المرور</p>
         </VCardText>
 
         <VCardText>
@@ -65,27 +58,14 @@ const form = ref({
 
               <!-- reset password -->
               <VCol cols="12">
-                <VBtn
-                  block
-                  type="submit"
-                >
-                  إعادة تعيين كلمة المرور
-                </VBtn>
+                <VBtn block type="submit"> إعادة تعيين كلمة المرور </VBtn>
               </VCol>
 
               <!-- back to login -->
               <VCol cols="12">
-                <RouterLink
-                  class="d-flex align-center justify-center"
-                  :to="{ name: 'login-page' }"
-                >
-                  <VIcon
-                    icon="tabler-chevron-left"
-                    class="flip-in-rtl"
-                  />
-                  <span>
-                    العودة إلى تسجيل الدخول
-                  </span>
+                <RouterLink class="d-flex align-center justify-center" :to="{ name: 'login-page' }">
+                  <VIcon icon="tabler-chevron-left" class="flip-in-rtl" />
+                  <span> العودة إلى تسجيل الدخول </span>
                 </RouterLink>
               </VCol>
             </VRow>
@@ -97,5 +77,5 @@ const form = ref({
 </template>
 
 <style lang="scss">
-@use "@core/scss/template/pages/page-auth.scss";
+@use '@core/scss/template/pages/page-auth.scss';
 </style>

@@ -98,15 +98,18 @@ function getLocationName(lat: number, lng: number): void {
   const geocoder = new google.maps.Geocoder()
   const latLng = new google.maps.LatLng(lat, lng)
 
-  geocoder.geocode({
-    location: latLng,
-  }, (results: any, status) => {
-    if (status === 'OK' && results[0]) {
-      const locationName = results[0].formatted_address
+  geocoder.geocode(
+    {
+      location: latLng,
+    },
+    (results: any, status) => {
+      if (status === 'OK' && results[0]) {
+        const locationName = results[0].formatted_address
 
-      location.name = locationName
-    }
-  })
+        location.name = locationName
+      }
+    },
+  )
 }
 
 /**
@@ -140,7 +143,9 @@ function initGoogle(): void {
     getLocationName(location.lat, location.lng)
   })
 
-  autoComplete.value = new google.maps.places.Autocomplete(document.getElementById('autoCompleteRef') as HTMLInputElement)
+  autoComplete.value = new google.maps.places.Autocomplete(
+    document.getElementById('autoCompleteRef') as HTMLInputElement,
+  )
   autoComplete.value.addListener('place_changed', onPlaceChanged)
 }
 
@@ -172,8 +177,7 @@ async function getUserLocation() {
       lng: longitude,
     })
     getLocationName(latitude, longitude)
-  }
-  catch (error: any) {
+  } catch (error: any) {
     toast.error(error.message)
   }
 }
@@ -188,14 +192,7 @@ function save() {
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="700"
-    scrollable
-    persistent
-    eager
-    class="map-modal"
-  >
+  <VDialog v-model="showModal" max-width="700" scrollable persistent eager class="map-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -207,20 +204,13 @@ function save() {
             <VTextField id="autoCompleteRef" v-model="location.name" placeholder="بحث">
               <template #append>
                 <VBtn size="38" variant="outlined" @click="getUserLocation">
-                  <VIcon
-                    icon=" tabler-current-location "
-                    size="22"
-                  />
+                  <VIcon icon=" tabler-current-location " size="22" />
                 </VBtn>
               </template>
             </VTextField>
             <div ref="mapRef" class="map-container mt-3 mb-6" />
             <div class="d-flex justify-end flex-wrap gap-3">
-              <VBtn
-                variant="outlined"
-                color="error"
-                @click="showModal = false"
-              >
+              <VBtn variant="outlined" color="error" @click="showModal = false">
                 {{ t('actions.cancel') }}
               </VBtn>
               <VBtn @click="save">

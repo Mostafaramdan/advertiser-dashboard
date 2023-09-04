@@ -94,13 +94,14 @@ const vuetifyThemesName = Object.keys(vuetifyTheme.themes.value)
 // Themes class added to flat-picker component for light and dark support
 const updateThemeClassInCalendar = () => {
   // ℹ️ Flatpickr don't render it's instance in mobile and device simulator
-  if (!refFlatPicker.value.fp.calendarContainer)
-    return
+  if (!refFlatPicker.value.fp.calendarContainer) return
 
-  vuetifyThemesName.forEach(t => {
+  vuetifyThemesName.forEach((t) => {
     refFlatPicker.value.fp.calendarContainer.classList.remove(`v-theme--${t}`)
   })
-  refFlatPicker.value.fp.calendarContainer.classList.add(`v-theme--${vuetifyTheme.global.name.value}`)
+  refFlatPicker.value.fp.calendarContainer.classList.add(
+    `v-theme--${vuetifyTheme.global.name.value}`,
+  )
 }
 
 watch(theme, updateThemeClassInCalendar)
@@ -116,7 +117,9 @@ const emitModelValue = (val: string) => {
 const elementId = computed(() => {
   const _elementIdToken = fieldProps.id || fieldProps.label
 
-  return _elementIdToken ? `app-picker-field-${_elementIdToken}-${Math.random().toString(36).slice(2, 7)}` : undefined
+  return _elementIdToken
+    ? `app-picker-field-${_elementIdToken}-${Math.random().toString(36).slice(2, 7)}`
+    : undefined
 })
 </script>
 
@@ -134,11 +137,14 @@ const elementId = computed(() => {
       v-bind="{ ...inputProps, ...rootAttrs }"
       :model-value="modelValue"
       :hide-details="props.hideDetails"
-      :class="[{
-        'v-text-field--prefixed': props.prefix,
-        'v-text-field--suffixed': props.suffix,
-        'v-text-field--flush-details': ['plain', 'underlined'].includes(props.variant),
-      }, props.class]"
+      :class="[
+        {
+          'v-text-field--prefixed': props.prefix,
+          'v-text-field--suffixed': props.suffix,
+          'v-text-field--flush-details': ['plain', 'underlined'].includes(props.variant),
+        },
+        props.class,
+      ]"
       class="position-relative v-text-field"
       :style="props.style"
       :error-messages="props.errorMsg"
@@ -181,7 +187,7 @@ const elementId = computed(() => {
                 :placeholder="props.placeholder"
                 class="flat-picker-custom-style"
                 type="text"
-              >
+              />
             </div>
           </template>
         </VField>
@@ -203,8 +209,8 @@ const elementId = computed(() => {
 
 <style lang="scss">
 /* stylelint-disable no-descending-specificity */
-@use "flatpickr/dist/flatpickr.css";
-@use "@core/scss/base/mixins";
+@use 'flatpickr/dist/flatpickr.css';
+@use '@core/scss/base/mixins';
 
 .flat-picker-custom-style {
   position: absolute;
@@ -221,7 +227,7 @@ $body-color: rgba(var(--v-theme-on-background), var(--v-medium-emphasis-opacity)
 $disabled-color: rgba(var(--v-theme-on-background), var(--v-disabled-opacity));
 
 // hide the input when your picker is inline
-input[altinputclass="inlinePicker"] {
+input[altinputclass='inlinePicker'] {
   display: none;
 }
 
@@ -313,8 +319,8 @@ input[altinputclass="inlinePicker"] {
     }
 
     &.flatpickr-disabled,
-    &.prevMonthDay:not(.startRange,.inRange),
-    &.nextMonthDay:not(.endRange,.inRange) {
+    &.prevMonthDay:not(.startRange, .inRange),
+    &.nextMonthDay:not(.endRange, .inRange) {
       opacity: var(--v-disabled-opacity);
     }
 

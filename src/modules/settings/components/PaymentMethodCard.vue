@@ -62,11 +62,13 @@ const permissions = computed(() => ({
         class="me-auto ms-2"
         :disabled="!permissions.changeStatus"
       />
-      <VBtn v-if="permissions.edit" size="33" variant="outlined" @click="emit('showEditModal', payment)">
-        <VIcon
-          icon="tabler-edit"
-          size="18"
-        />
+      <VBtn
+        v-if="permissions.edit"
+        size="33"
+        variant="outlined"
+        @click="emit('showEditModal', payment)"
+      >
+        <VIcon icon="tabler-edit" size="18" />
       </VBtn>
       <VBtn
         v-if="permissions.delete"
@@ -75,10 +77,7 @@ const permissions = computed(() => ({
         color="error"
         @click="emit('confirmDelete', payment)"
       >
-        <VIcon
-          icon="tabler-trash"
-          size="18"
-        />
+        <VIcon icon="tabler-trash" size="18" />
       </VBtn>
     </div>
     <div class="payment-card__row">
@@ -96,17 +95,13 @@ const permissions = computed(() => ({
         </template>
         <template v-else-if="gateway === PAYMENT_GET_WAYS.card">
           <div class="d-flex flex-wrap justify-between">
-            <h2 class="text-h6 me-3 min-w-80">
-              رقم البطاقة
-            </h2>
+            <h2 class="text-h6 me-3 min-w-80">رقم البطاقة</h2>
             <p class="text-body-2 mb-0">
               {{ payment.card_number }}
             </p>
           </div>
           <div class="d-flex flex-wrap justify-between">
-            <h2 class="text-h6 me-3 min-w-80">
-              تاريخ الإنتهاء
-            </h2>
+            <h2 class="text-h6 me-3 min-w-80">تاريخ الإنتهاء</h2>
             <p class="text-body-2 mb-0">
               {{ payment.expiration_date }}
             </p>
@@ -114,17 +109,13 @@ const permissions = computed(() => ({
         </template>
         <template v-else-if="gateway === PAYMENT_GET_WAYS.apple_pay">
           <div class="d-flex flex-wrap justify-between">
-            <h2 class="text-h6 me-3 min-w-80">
-              اسم المستخدم
-            </h2>
+            <h2 class="text-h6 me-3 min-w-80">اسم المستخدم</h2>
             <p class="text-body-2 mb-0">
               {{ payment.card_username }}
             </p>
           </div>
           <div class="d-flex flex-wrap justify-between">
-            <h2 class="text-h6 me-3 min-w-80">
-              رقم كلود
-            </h2>
+            <h2 class="text-h6 me-3 min-w-80">رقم كلود</h2>
             <p class="text-body-2 mb-0">
               {{ payment.icloud }}
             </p>
@@ -132,17 +123,13 @@ const permissions = computed(() => ({
         </template>
         <template v-else-if="gateway === PAYMENT_GET_WAYS.stc_pay">
           <div class="d-flex flex-wrap justify-between">
-            <h2 class="text-h6 me-3 min-w-80">
-              اسم المستخدم
-            </h2>
+            <h2 class="text-h6 me-3 min-w-80">اسم المستخدم</h2>
             <p class="text-body-2 mb-0">
               {{ payment.card_username }}
             </p>
           </div>
           <div class="d-flex flex-wrap justify-between">
-            <h2 class="text-h6 me-3 min-w-80">
-              رقم الجوال
-            </h2>
+            <h2 class="text-h6 me-3 min-w-80">رقم الجوال</h2>
             <p class="text-body-2 mb-0">
               {{ payment.phone }}
             </p>

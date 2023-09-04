@@ -47,20 +47,16 @@ watch(props, () => {
           {{ props.permissionName ? 'Edit' : 'Add' }} Permission
         </VCardTitle>
         <VCardSubtitle>
-          {{ props.permissionName ? 'Edit' : 'Add' }}  permission as per your requirements.
+          {{ props.permissionName ? 'Edit' : 'Add' }} permission as per your requirements.
         </VCardSubtitle>
       </VCardItem>
 
       <VCardText class="mt-1">
         <!-- 👉 Form -->
         <VForm>
-          <VAlert
-            type="warning"
-            title="Warning!"
-            variant="tonal"
-            class="mb-6"
-          >
-            By editing the permission name, you might break the system permissions functionality. Please ensure you're absolutely certain before proceeding.
+          <VAlert type="warning" title="Warning!" variant="tonal" class="mb-6">
+            By editing the permission name, you might break the system permissions functionality.
+            Please ensure you're absolutely certain before proceeding.
           </VAlert>
 
           <!-- 👉 Role name -->
@@ -72,9 +68,7 @@ watch(props, () => {
               placeholder="Enter Permission Name"
             />
 
-            <VBtn @click="onSubmit">
-              Update
-            </VBtn>
+            <VBtn @click="onSubmit"> Update </VBtn>
           </div>
 
           <VCheckbox label="Set as core permission" />

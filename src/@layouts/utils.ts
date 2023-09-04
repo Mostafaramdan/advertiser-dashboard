@@ -15,8 +15,7 @@ export const getComputedNavLinkToProp = computed(() => (link: NavLink) => {
 
   // If route is string => it assumes string is route name => Create route object from route name
   // If route is not string => It assumes it's route object => returns passed route object
-  if (link.to)
-    props.to = typeof link.to === 'string' ? { name: link.to } : link.to
+  if (link.to) props.to = typeof link.to === 'string' ? { name: link.to } : link.to
   else props.href = link.href
 
   return props
@@ -29,11 +28,9 @@ export const getComputedNavLinkToProp = computed(() => (link: NavLink) => {
  * @param {Object, String} link navigation link object/string
  */
 export const resolveNavLinkRouteName = (link: NavLink, router: Router) => {
-  if (!link.to)
-    return null
+  if (!link.to) return null
 
-  if (typeof link.to === 'string')
-    return link.to
+  if (typeof link.to === 'string') return link.to
 
   return router.resolve(link.to).name
 }
@@ -49,10 +46,9 @@ export const isNavLinkActive = (link: NavLink, router: Router) => {
   // Check if provided route matches route's matched route
   const resolveRoutedName = resolveNavLinkRouteName(link, router)
 
-  if (!resolveRoutedName)
-    return false
+  if (!resolveRoutedName) return false
 
-  return matchedRoutes.some(route => {
+  return matchedRoutes.some((route) => {
     return route.name === resolveRoutedName || route.meta.navActiveLink === resolveRoutedName
   })
 }
@@ -62,10 +58,9 @@ export const isNavLinkActive = (link: NavLink, router: Router) => {
  * @param {Array} children Group children
  */
 export const isNavGroupActive = (children: (NavLink | NavGroup)[], router: Router): boolean =>
-  children.some(child => {
+  children.some((child) => {
     // If child have children => It's group => Go deeper(recursive)
-    if ('children' in child)
-      return isNavGroupActive(child.children, router)
+    if ('children' in child) return isNavGroupActive(child.children, router)
 
     // else it's link => Check for matched Route
     return isNavLinkActive(child, router)
@@ -77,7 +72,7 @@ export const isNavGroupActive = (children: (NavLink | NavGroup)[], router: Route
  */
 
 export const hexToRgb = (hex: string) => {
-// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
 
   hex = hex.replace(shorthandRegex, (m: string, r: string, g: string, b: string) => {
@@ -86,23 +81,22 @@ export const hexToRgb = (hex: string) => {
 
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 
-  return result ? `${parseInt(result[1], 16)},${parseInt(result[2], 16)},${parseInt(result[3], 16)}` : null
+  return result
+    ? `${parseInt(result[1], 16)},${parseInt(result[2], 16)},${parseInt(result[3], 16)}`
+    : null
 }
 
 /**
  ** RGBA color to Hex color with / without opacity
  */
 export const rgbaToHex = (rgba: string, forceRemoveAlpha = false) => {
-  return (
-    `#${
-      rgba
-        .replace(/^rgba?\(|\s+|\)$/g, '') // Get's rgba / rgb string values
-        .split(',') // splits them at ","
-        .filter((string, index) => !forceRemoveAlpha || index !== 3)
-        .map(string => parseFloat(string)) // Converts them to numbers
-        .map((number, index) => (index === 3 ? Math.round(number * 255) : number)) // Converts alpha to 255 number
-        .map(number => number.toString(16)) // Converts numbers to hex
-        .map(string => (string.length === 1 ? `0${string}` : string)) // Adds 0 when length of one number is 1
-        .join('')}`
-  )
+  return `#${rgba
+    .replace(/^rgba?\(|\s+|\)$/g, '') // Get's rgba / rgb string values
+    .split(',') // splits them at ","
+    .filter((string, index) => !forceRemoveAlpha || index !== 3)
+    .map((string) => parseFloat(string)) // Converts them to numbers
+    .map((number, index) => (index === 3 ? Math.round(number * 255) : number)) // Converts alpha to 255 number
+    .map((number) => number.toString(16)) // Converts numbers to hex
+    .map((string) => (string.length === 1 ? `0${string}` : string)) // Adds 0 when length of one number is 1
+    .join('')}`
 }

@@ -8,10 +8,10 @@ import { useAuthStore } from '@/stores/AuthStore'
  **************************************/
 // #region Variables
 const DetailsTab = defineAsyncComponent(
-  () => import('@/components/advertiser-profile/DetailsTab.vue')
+  () => import('@/components/advertiser-profile/DetailsTab.vue'),
 )
 const LicensesDocumentsTab = defineAsyncComponent(
-  () => import('@/components/advertiser-profile/licenses-documents-tab/Index.vue')
+  () => import('@/components/advertiser-profile/licenses-documents-tab/Index.vue'),
 )
 const route = useRoute()
 const router = useRouter()
@@ -31,14 +31,14 @@ const tabs = computed(() => {
       title: 'بيانات التاجر',
       value: 'details',
       component: DetailsTab,
-      show: hasPermission('view_advertiser_details')
+      show: hasPermission('view_advertiser_details'),
     },
     {
       title: 'التراخيص والوثائق',
       value: 'licenses-documents',
       component: LicensesDocumentsTab,
-      show: hasPermission('view_attachments')
-    }
+      show: hasPermission('view_attachments'),
+    },
   ]
 })
 

@@ -15,10 +15,7 @@ const isConfirmPasswordVisible = ref(false)
 
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
-    <div
-      class="position-relative my-sm-16"
-      style="width: 500px;"
-    >
+    <div class="position-relative my-sm-16" style="width: 500px">
       <!-- 👉 Top shape -->
       <VNodeRenderer
         :nodes="h('div', { innerHTML: authV1TopShape })"
@@ -46,9 +43,7 @@ const isConfirmPasswordVisible = ref(false)
         </VCardItem>
 
         <VCardText class="pt-1">
-          <h5 class="text-h5 mb-1">
-            اعادة تعيين كلمة المرور 🔒
-          </h5>
+          <h5 class="text-h5 mb-1">اعادة تعيين كلمة المرور 🔒</h5>
         </VCardText>
 
         <VCardText>
@@ -76,21 +71,13 @@ const isConfirmPasswordVisible = ref(false)
                 />
 
                 <div class="d-flex align-center justify-space-between flex-wrap mt-2 mb-4">
-                  <RouterLink
-                    :to="{ name: 'forget-password-page' }"
-                    class="text-primary ms-2 mb-1"
-                  >
+                  <RouterLink :to="{ name: 'forget-password-page' }" class="text-primary ms-2 mb-1">
                     نسيت كلمة المرور؟
                   </RouterLink>
                 </div>
 
                 <!-- login button -->
-                <VBtn
-                  block
-                  type="submit"
-                >
-                  اعادة تعيين كلمة المرور
-                </VBtn>
+                <VBtn block type="submit"> اعادة تعيين كلمة المرور </VBtn>
               </VCol>
             </VRow>
           </VForm>
@@ -101,5 +88,5 @@ const isConfirmPasswordVisible = ref(false)
 </template>
 
 <style lang="scss">
-@use "@core/scss/template/pages/page-auth.scss";
+@use '@core/scss/template/pages/page-auth.scss';
 </style>

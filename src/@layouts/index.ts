@@ -10,12 +10,14 @@ const { _setAppDir } = useLayouts()
 // 🔌 Plugin
 export const createLayouts = (userConfig: UserConfig): Plugin => {
   const localStorageIsRtl = localStorage.getItem(`${userConfig.app.title}-isRtl`)
-  const localStorageIsVerticalNavCollapsed = localStorage.getItem(`${userConfig.app.title}-isVerticalNavCollapsed`)
+  const localStorageIsVerticalNavCollapsed = localStorage.getItem(
+    `${userConfig.app.title}-isVerticalNavCollapsed`,
+  )
 
   const localStorageContentWidth = (() => {
     const storageValue = localStorage.getItem(`${userConfig.app.title}-contentWidth`)
 
-    return Object.values(ContentWidth).find(v => v === storageValue)
+    return Object.values(ContentWidth).find((v) => v === storageValue)
   })()
 
   const localStorageNavbarBlur = localStorage.getItem(`${userConfig.app.title}-navbarBlur`)
@@ -30,14 +32,15 @@ export const createLayouts = (userConfig: UserConfig): Plugin => {
   config.app.iconRenderer = userConfig.app.iconRenderer
 
   config.navbar.type.value = userConfig.navbar.type
-  config.navbar.navbarBlur.value = localStorageNavbarBlur ? JSON.parse(localStorageNavbarBlur) : userConfig.navbar.navbarBlur
+  config.navbar.navbarBlur.value = localStorageNavbarBlur
+    ? JSON.parse(localStorageNavbarBlur)
+    : userConfig.navbar.navbarBlur
 
   config.footer.type.value = userConfig.footer.type
 
-  config.verticalNav.isVerticalNavCollapsed.value
-    = localStorageIsVerticalNavCollapsed
-      ? JSON.parse(localStorageIsVerticalNavCollapsed)
-      : userConfig.verticalNav.isVerticalNavCollapsed
+  config.verticalNav.isVerticalNavCollapsed.value = localStorageIsVerticalNavCollapsed
+    ? JSON.parse(localStorageIsVerticalNavCollapsed)
+    : userConfig.verticalNav.isVerticalNavCollapsed
 
   config.verticalNav.defaultNavItemIconProps = userConfig.verticalNav.defaultNavItemIconProps
 
@@ -57,7 +60,8 @@ export const createLayouts = (userConfig: UserConfig): Plugin => {
   }
 }
 
-export const injectionKeyIsVerticalNavHovered: InjectionKey<Ref<boolean>> = Symbol('isVerticalNavHovered')
+export const injectionKeyIsVerticalNavHovered: InjectionKey<Ref<boolean>> =
+  Symbol('isVerticalNavHovered')
 
 export * from './components'
 export { useLayouts } from './composable/useLayouts'

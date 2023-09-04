@@ -58,7 +58,9 @@ const formData = reactive<Partner>({
 const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة شريك'
-    : props.formAction === 'edit' ? 'تعديل شريك' : 'عرض شريك'
+    : props.formAction === 'edit'
+    ? 'تعديل شريك'
+    : 'عرض شريك'
 })
 
 // #endregion
@@ -80,40 +82,48 @@ if (props.activeItem?.id) {
 // #region Functions
 function getItemDetails(id: any) {
   isLoading.data = true
-  partnerService.getSingleItem(id).then(res => {
-    const response = res.data.data
+  partnerService
+    .getSingleItem(id)
+    .then((res) => {
+      const response = res.data.data
 
-    Object.assign(formData, { ...response })
-  }).finally(() => {
-    isLoading.data = false
-  })
+      Object.assign(formData, { ...response })
+    })
+    .finally(() => {
+      isLoading.data = false
+    })
 }
 function edit() {
-  partnerService.editItem(formData).then(res => {
-    toast.success(res.data.message)
+  partnerService
+    .editItem(formData)
+    .then((res) => {
+      toast.success(res.data.message)
 
-    // emit('editItem', res.data)
-    emit('editItem', formData)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.submit = false
-  })
+      // emit('editItem', res.data)
+      emit('editItem', formData)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.submit = false
+    })
 }
 
 function create() {
-  partnerService.createItem(formData).then(res => {
-    toast.success(res.data.message)
-    emit('createItem', res.data)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.submit = false
-  })
+  partnerService
+    .createItem(formData)
+    .then((res) => {
+      toast.success(res.data.message)
+      emit('createItem', res.data)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.submit = false
+    })
 }
 
 const submit = () => {
   formRef.value.validate().then(({ valid }: any) => {
-    if (!valid)
-      return
+    if (!valid) return
 
     isLoading.submit = true
     props.formAction === 'create' ? create() : edit()
@@ -124,13 +134,7 @@ const submit = () => {
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="1000"
-    persistent
-    scrollable
-    class="form-modal"
-  >
+  <VDialog v-model="showModal" max-width="1000" persistent scrollable class="form-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -157,24 +161,20 @@ const submit = () => {
                 />
               </VCol>
               <VCol cols="12">
-                <AppSwitch
-                  v-model="formData.is_active"
-                  label="الحالة"
-                  name="is_active"
-                />
+                <AppSwitch v-model="formData.is_active" label="الحالة" name="is_active" />
               </VCol>
             </VRow>
           </VCardText>
 
           <VCardText v-if="formAction !== 'view'" class="d-flex justify-end flex-wrap gap-3">
-            <VBtn
-              variant="outlined"
-              color="error"
-              @click="showModal = false"
-            >
+            <VBtn variant="outlined" color="error" @click="showModal = false">
               {{ t('actions.cancel') }}
             </VBtn>
-            <VBtn :loading="isLoading.submit" :disabled="isLoading.data || isLoading.submit || !meta.valid" @click="submit">
+            <VBtn
+              :loading="isLoading.submit"
+              :disabled="isLoading.data || isLoading.submit || !meta.valid"
+              @click="submit"
+            >
               {{ formAction === 'edit' ? t('actions.save') : t('actions.create') }}
             </VBtn>
           </VCardText>

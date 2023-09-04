@@ -51,7 +51,7 @@ const onCancel = () => {
           variant="outlined"
           color="warning"
           class="my-4"
-          style=" block-size: 88px;inline-size: 88px; pointer-events: none;"
+          style="block-size: 88px; inline-size: 88px; pointer-events: none"
         >
           <span class="text-5xl">!</span>
         </VBtn>
@@ -62,29 +62,15 @@ const onCancel = () => {
       </VCardText>
 
       <VCardText class="d-flex align-center justify-center gap-2">
-        <VBtn
-          variant="elevated"
-          @click="onConfirmation"
-        >
-          Confirm
-        </VBtn>
+        <VBtn variant="elevated" @click="onConfirmation"> Confirm </VBtn>
 
-        <VBtn
-          color="secondary"
-          variant="tonal"
-          @click="onCancel"
-        >
-          Cancel
-        </VBtn>
+        <VBtn color="secondary" variant="tonal" @click="onCancel"> Cancel </VBtn>
       </VCardText>
     </VCard>
   </VDialog>
 
   <!-- Unsubscribed -->
-  <VDialog
-    v-model="unsubscribed"
-    max-width="500"
-  >
+  <VDialog v-model="unsubscribed" max-width="500">
     <VCard>
       <VCardText class="text-center px-10 py-6">
         <VBtn
@@ -92,7 +78,7 @@ const onCancel = () => {
           variant="outlined"
           color="success"
           class="my-4"
-          style=" block-size: 88px;inline-size: 88px; pointer-events: none;"
+          style="block-size: 88px; inline-size: 88px; pointer-events: none"
         >
           <span class="text-3xl">
             <VIcon icon="tabler-check" />
@@ -105,21 +91,13 @@ const onCancel = () => {
 
         <p>{{ props.confirmMsg }}</p>
 
-        <VBtn
-          color="success"
-          @click="unsubscribed = false"
-        >
-          Ok
-        </VBtn>
+        <VBtn color="success" @click="unsubscribed = false"> Ok </VBtn>
       </VCardText>
     </VCard>
   </VDialog>
 
   <!-- Cancelled -->
-  <VDialog
-    v-model="cancelled"
-    max-width="500"
-  >
+  <VDialog v-model="cancelled" max-width="500">
     <VCard>
       <VCardText class="text-center px-10 py-6">
         <VBtn
@@ -127,7 +105,7 @@ const onCancel = () => {
           variant="outlined"
           color="error"
           class="my-4"
-          style=" block-size: 88px;inline-size: 88px; pointer-events: none;"
+          style="block-size: 88px; inline-size: 88px; pointer-events: none"
         >
           <span class="text-5xl font-weight-light">X</span>
         </VBtn>
@@ -138,12 +116,7 @@ const onCancel = () => {
 
         <p>{{ props.cancelMsg }}</p>
 
-        <VBtn
-          color="success"
-          @click="cancelled = false"
-        >
-          Ok
-        </VBtn>
+        <VBtn color="success" @click="cancelled = false"> Ok </VBtn>
       </VCardText>
     </VCard>
   </VDialog>

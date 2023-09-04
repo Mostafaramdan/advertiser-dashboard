@@ -34,10 +34,6 @@ const props = withDefaults(defineProps<Props>(), {
       <span class="text-sm">{{ props.title }}</span>
     </VCardText>
 
-    <VueApexCharts
-      :series="props.series"
-      :options="props.chartOptions"
-      :height="props.height"
-    />
+    <VueApexCharts :series="props.series" :options="props.chartOptions" :height="props.height" />
   </VCard>
 </template>

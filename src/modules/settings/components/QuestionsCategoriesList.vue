@@ -148,7 +148,7 @@ getPageData()
       <template #item.for="{ item }">
         <div class="d-flex gap-2">
           <VChip
-            v-for="type in (item.raw.for as unknown)"
+            v-for="type in item.raw.for as unknown"
             :key="type"
             variant="outlined"
             color="primary"
@@ -178,16 +178,8 @@ getPageData()
             <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
           </IconBtn>
 
-          <VBtn
-            icon
-            variant="text"
-            size="small"
-            color="medium-emphasis"
-          >
-            <VIcon
-              size="24"
-              icon="tabler-dots-vertical"
-            />
+          <VBtn icon variant="text" size="small" color="medium-emphasis">
+            <VIcon size="24" icon="tabler-dots-vertical" />
 
             <VMenu activator="parent">
               <VList>
@@ -199,7 +191,11 @@ getPageData()
                   <VListItemTitle>عرض</VListItemTitle>
                 </VListItem>
 
-                <VListItem v-if="permissions.sort" :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="sortItems(item.raw.id)">
+                <VListItem
+                  v-if="permissions.sort"
+                  :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
+                  @click="sortItems(item.raw.id)"
+                >
                   <template #prepend>
                     <VIcon icon="tabler-transfer-in" />
                   </template>

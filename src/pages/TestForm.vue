@@ -48,11 +48,7 @@ const submit = (values: any) => {
 
 <template>
   <VCard class="pa-5">
-    <VeeForm
-      v-slot="{ resetForm }"
-      :initial-values="{ ...initialValues }"
-      @submit="submit"
-    >
+    <VeeForm v-slot="{ resetForm }" :initial-values="{ ...initialValues }" @submit="submit">
       <VRow>
         <VCol cols="12">
           <AppTextEditor
@@ -66,12 +62,7 @@ const submit = (values: any) => {
           <AppUploadFile v-model="formData.file" name="file" label="File" rules="required" />
         </VCol>
         <VCol cols="12" md="6">
-          <AppTextField
-            v-model="formData.name"
-            name="name"
-            label="Name"
-            rules="required|min:3"
-          />
+          <AppTextField v-model="formData.name" name="name" label="Name" rules="required|min:3" />
         </VCol>
 
         <VCol cols="12" md="6">
@@ -216,26 +207,13 @@ const submit = (values: any) => {
         </VCol>
 
         <VCol cols="12">
-          <AppSwitch
-            v-model="formData.status"
-            label="الحالة"
-            name="status"
-            rules="required"
-          />
+          <AppSwitch v-model="formData.status" label="الحالة" name="status" rules="required" />
         </VCol>
 
         <VCol cols="12">
           <!-- :disabled="!meta.valid" -->
-          <VBtn type="submit">
-            Submit
-          </VBtn>
-          <VBtn
-            class="mx-2"
-            variant="outlined"
-            @click="resetForm"
-          >
-            reset
-          </VBtn>
+          <VBtn type="submit"> Submit </VBtn>
+          <VBtn class="mx-2" variant="outlined" @click="resetForm"> reset </VBtn>
         </VCol>
       </VRow>
     </VeeForm>

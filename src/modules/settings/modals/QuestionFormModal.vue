@@ -63,7 +63,9 @@ const formData = reactive({
 const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة سؤال'
-    : props.formAction === 'edit' ? 'تعديل سؤال' : 'عرض سؤال'
+    : props.formAction === 'edit'
+    ? 'تعديل سؤال'
+    : 'عرض سؤال'
 })
 
 // #endregion
@@ -74,7 +76,10 @@ const formTitle = computed(() => {
 // #region Lifecycle Hooks
 
 if (props.activeItem?.id) {
-  Object.assign(formData, { ...cloneItem(props.activeItem), category_id: props.activeItem.category.id })
+  Object.assign(formData, {
+    ...cloneItem(props.activeItem),
+    category_id: props.activeItem.category.id,
+  })
   getItemDetails(props.activeItem.id)
 }
 
@@ -86,41 +91,49 @@ if (props.activeItem?.id) {
 // #region Functions
 function getItemDetails(id: any) {
   isLoading.data = true
-  questionsService.getSingleItem(id).then(res => {
-    const response = res.data.data
+  questionsService
+    .getSingleItem(id)
+    .then((res) => {
+      const response = res.data.data
 
-    Object.assign(formData, { ...response, category_id: props.activeItem.category.id })
-  }).finally(() => {
-    isLoading.data = false
-  })
+      Object.assign(formData, { ...response, category_id: props.activeItem.category.id })
+    })
+    .finally(() => {
+      isLoading.data = false
+    })
 }
 
 function edit() {
-  questionsService.editItem(formData).then(res => {
-    toast.success(res.data.message)
+  questionsService
+    .editItem(formData)
+    .then((res) => {
+      toast.success(res.data.message)
 
-    // emit('editItem', res.data)
-    emit('editItem', res.data.data)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.submit = false
-  })
+      // emit('editItem', res.data)
+      emit('editItem', res.data.data)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.submit = false
+    })
 }
 
 function create() {
-  questionsService.createItem(formData).then(res => {
-    toast.success(res.data.message)
-    emit('createItem', res.data)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.submit = false
-  })
+  questionsService
+    .createItem(formData)
+    .then((res) => {
+      toast.success(res.data.message)
+      emit('createItem', res.data)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.submit = false
+    })
 }
 
 const submit = () => {
   formRef.value.validate().then(({ valid }: any) => {
-    if (!valid)
-      return
+    if (!valid) return
 
     isLoading.submit = true
     props.formAction === 'create' ? create() : edit()
@@ -131,13 +144,7 @@ const submit = () => {
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="1000"
-    persistent
-    scrollable
-    class="form-modal"
-  >
+  <VDialog v-model="showModal" max-width="1000" persistent scrollable class="form-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -163,7 +170,7 @@ const submit = () => {
                     name="category_id"
                     rules="required"
                     :menu-props="{
-                      'attach': categoriesSelectRef,
+                      attach: categoriesSelectRef,
                       'location-strategy': 'static',
                     }"
                   />
@@ -189,24 +196,20 @@ const submit = () => {
                 />
               </VCol>
               <VCol cols="12">
-                <AppSwitch
-                  v-model="formData.is_active"
-                  label="الحالة"
-                  name="is_active"
-                />
+                <AppSwitch v-model="formData.is_active" label="الحالة" name="is_active" />
               </VCol>
             </VRow>
           </VCardText>
 
           <VCardText v-if="formAction !== 'view'" class="d-flex justify-end flex-wrap gap-3">
-            <VBtn
-              variant="outlined"
-              color="error"
-              @click="showModal = false"
-            >
+            <VBtn variant="outlined" color="error" @click="showModal = false">
               {{ t('actions.cancel') }}
             </VBtn>
-            <VBtn :loading="isLoading.submit" :disabled="isLoading.submit || isLoading.data || !meta.valid" @click="submit">
+            <VBtn
+              :loading="isLoading.submit"
+              :disabled="isLoading.submit || isLoading.data || !meta.valid"
+              @click="submit"
+            >
               {{ formAction === 'edit' ? t('actions.save') : t('actions.create') }}
             </VBtn>
           </VCardText>

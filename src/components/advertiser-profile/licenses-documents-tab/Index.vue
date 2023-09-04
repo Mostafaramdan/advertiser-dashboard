@@ -42,54 +42,54 @@ const activeItemId = ref<number | null>(null)
 const headers: any = [
   {
     title: 'اسم الوثيقة',
-    key: 'name'
+    key: 'name',
   },
   {
     title: 'رقم الوثيقة',
-    key: 'number'
+    key: 'number',
   },
   {
     title: 'تاريخ الانتهاء',
-    key: 'ended_at'
+    key: 'ended_at',
   },
   {
     title: 'المدة المتبقية',
     key: 'remaining_days',
-    align: 'center'
+    align: 'center',
   },
   {
     title: 'تاريخ التحديث',
-    key: 'updated_at'
+    key: 'updated_at',
   },
   {
     title: 'تاريخ اخر تواصل',
-    key: 'last_notified_at'
+    key: 'last_notified_at',
   },
   {
     title: 'صورة المرفق',
     key: 'file_path',
-    align: 'center'
+    align: 'center',
   },
   {
     title: 'الموافقة',
     key: 'is_active',
-    align: 'center'
+    align: 'center',
   },
   {
     title: 'ارسال تنبيه',
     key: 'notification',
-    align: 'center'
+    align: 'center',
   },
   {
     title: 'اضافة ملاحظة',
     key: 'note',
-    align: 'center'
+    align: 'center',
   },
   {
     title: 'السجل',
     key: 'history',
-    align: 'center'
-  }
+    align: 'center',
+  },
 ]
 
 //#endregion
@@ -102,7 +102,7 @@ const permissions = computed(() => ({
   sendNotification: hasPermission('send_notification_attachments'),
   sendNote: hasPermission('send_note_attachments'),
   viewHistory: hasPermission('view_attachments_logs'),
-  confirmLicenseDocument: hasPermission('confirm_attachments')
+  confirmLicenseDocument: hasPermission('confirm_attachments'),
 }))
 
 // #endregion

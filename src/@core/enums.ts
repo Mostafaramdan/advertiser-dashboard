@@ -11,5 +11,4 @@ export const RouteTransitions = {
   // 'Fade Bottom': 'app-transition-fade-bottom',
   // 'Slide Fade': 'app-transition-slide-fade',
   // 'Zoom out': 'app-transition-zoom-out',
-
 } as const

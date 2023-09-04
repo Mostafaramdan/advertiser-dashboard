@@ -49,7 +49,7 @@ function getPageData() {
   isLoading.data = true
   platformService
     .getSocialsData()
-    .then(res => {
+    .then((res) => {
       data.value = res.data.data
       oldData.value = cloneItem(res.data.data)
     })
@@ -62,7 +62,7 @@ function saveData(modifiedData: SocialAccount[]) {
   isLoading.submit = true
   platformService
     .editSocialsData({ data: modifiedData })
-    .then(res => {
+    .then((res) => {
       toast.success(res.data.message)
       oldData.value = cloneItem(data.value)
     })
@@ -85,26 +85,14 @@ function submit() {
 </script>
 
 <template>
-  <VCard
-    v-loading="isLoading.data"
-    min-height="60vh"
-    variant="flat"
-    :disabled="!permissions.edit"
-  >
+  <VCard v-loading="isLoading.data" min-height="60vh" variant="flat" :disabled="!permissions.edit">
     <VeeForm ref="formRef" v-slot="{ meta }" @submit="submit">
       <div v-if="data" class="setting-list pt-4">
-        <VRow
-          v-for="item in data"
-          :key="item.id"
-          class="setting-list__item"
-        >
+        <VRow v-for="item in data" :key="item.id" class="setting-list__item">
           <div class="py-0 mb-4 mb-md-0 v-col-12 v-col-md-4">
             <div class="setting-list__item__title">
               <VAvatar size="38" variant="tonal" class="me-3">
-                <VImg
-                  cover
-                  :src="item.image"
-                />
+                <VImg cover :src="item.image" />
               </VAvatar>
               {{ item.name }}
             </div>
@@ -132,12 +120,7 @@ function submit() {
           </div>
 
           <div class="py-0 v-col-12 v-col-md-2 d-flex justify-md-center">
-            <VSwitch
-              v-model="item.is_active"
-              hide-details
-              density="comfortable"
-              :inset="false"
-            />
+            <VSwitch v-model="item.is_active" hide-details density="comfortable" :inset="false" />
           </div>
         </VRow>
 
@@ -148,7 +131,7 @@ function submit() {
           :loading="isLoading.submit"
           @click="submit"
         >
-          {{ t("actions.save") }}
+          {{ t('actions.save') }}
         </VBtn>
       </div>
     </VeeForm>

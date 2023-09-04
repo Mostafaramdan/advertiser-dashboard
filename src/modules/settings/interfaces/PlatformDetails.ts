@@ -14,7 +14,10 @@ export interface PlatformInfo {
   logo: string | null
 }
 
-export interface platformFormItem { value: string; show: boolean }
+export interface platformFormItem {
+  value: string
+  show: boolean
+}
 
 export interface PlatformFormData {
   name_ar: platformFormItem

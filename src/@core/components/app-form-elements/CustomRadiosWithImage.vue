@@ -22,25 +22,14 @@ watch(selectedOption, () => {
 </script>
 
 <template>
-  <VRadioGroup
-    v-if="props.radioContent"
-    v-model="selectedOption"
-  >
+  <VRadioGroup v-if="props.radioContent" v-model="selectedOption">
     <VRow>
-      <VCol
-        v-for="item in props.radioContent"
-        :key="item.bgImage"
-        v-bind="gridColumn"
-      >
+      <VCol v-for="item in props.radioContent" :key="item.bgImage" v-bind="gridColumn">
         <VLabel
           class="custom-input custom-radio rounded cursor-pointer w-100"
           :class="selectedOption === item.value ? 'active' : ''"
         >
-          <img
-            :src="item.bgImage"
-            alt="bg-img"
-            class="custom-radio-image"
-          >
+          <img :src="item.bgImage" alt="bg-img" class="custom-radio-image" />
           <VRadio :value="item.value" />
         </VLabel>
       </VCol>

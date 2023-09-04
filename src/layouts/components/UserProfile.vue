@@ -30,12 +30,15 @@ const userData = computed(() => authUser)
  */
 function logout() {
   isLoading.value = true
-  authService.logout().then(() => {
-    clearAuthUser()
-    router.push({ name: 'login-page' })
-  }).finally(() => {
-    isLoading.value = false
-  })
+  authService
+    .logout()
+    .then(() => {
+      clearAuthUser()
+      router.push({ name: 'login-page' })
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 // #endregion
@@ -51,36 +54,18 @@ function logout() {
     bordered
     color="success"
   >
-    <VAvatar
-      class="cursor-pointer"
-      color="primary"
-      variant="tonal"
-    >
+    <VAvatar class="cursor-pointer" color="primary" variant="tonal">
       <VImg :src="userData.image" />
 
       <!-- SECTION Menu -->
-      <VMenu
-        activator="parent"
-        width="230"
-        location="bottom end"
-        offset="14px"
-      >
+      <VMenu activator="parent" width="230" location="bottom end" offset="14px">
         <VList>
           <!-- 👉 User Avatar & Name -->
           <VListItem>
             <template #prepend>
               <VListItemAction start>
-                <VBadge
-                  dot
-                  location="bottom right"
-                  offset-x="3"
-                  offset-y="3"
-                  color="success"
-                >
-                  <VAvatar
-                    color="primary"
-                    variant="tonal"
-                  >
+                <VBadge dot location="bottom right" offset-x="3" offset-y="3" color="success">
+                  <VAvatar color="primary" variant="tonal">
                     <VImg :src="userData.image" />
                   </VAvatar>
                 </VBadge>
@@ -98,16 +83,10 @@ function logout() {
           <!-- 👉 Profile -->
           <VListItem link>
             <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="tabler-user"
-                size="22"
-              />
+              <VIcon class="me-2" icon="tabler-user" size="22" />
             </template>
 
-            <VListItemTitle>
-              الملف الشخصي
-            </VListItemTitle>
+            <VListItemTitle> الملف الشخصي </VListItemTitle>
           </VListItem>
 
           <!-- Divider -->
@@ -116,16 +95,10 @@ function logout() {
           <!-- 👉 Logout -->
           <VListItem :disabled="isLoading" @click="logout">
             <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="tabler-logout"
-                size="22"
-              />
+              <VIcon class="me-2" icon="tabler-logout" size="22" />
             </template>
 
-            <VListItemTitle>
-              تسجيل الخروج
-            </VListItemTitle>
+            <VListItemTitle> تسجيل الخروج </VListItemTitle>
           </VListItem>
         </VList>
       </VMenu>

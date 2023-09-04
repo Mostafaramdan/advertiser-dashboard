@@ -30,12 +30,9 @@ const showFilter = useVModel(props, 'showFilter', emit)
 
 watch(
   () => showFilter.value,
-  value => {
-    if (value)
-      document.documentElement.classList.add('overflow-hidden')
-
-    else
-      document.documentElement.classList.remove('overflow-hidden')
+  (value) => {
+    if (value) document.documentElement.classList.add('overflow-hidden')
+    else document.documentElement.classList.remove('overflow-hidden')
   },
 )
 
@@ -63,16 +60,12 @@ function applyFilter() {
 
 <template>
   <div class="app-filter">
-    <VNavigationDrawer
-      v-model="showFilter"
-      temporary
-      width="290"
-    >
+    <VNavigationDrawer v-model="showFilter" temporary width="290">
       <div class="app-filter__row">
         <div class="app-filter__header pa-3 bg-grey-50 d-flex align-center gap-3">
           <VIcon icon="tabler-filter" />
           <h3 class="me-auto">
-            {{ t("filter_results") }}
+            {{ t('filter_results') }}
           </h3>
           <VBtn size="33" icon="mdi-close" variant="outlined" @click="hideFilter" />
         </div>
@@ -80,16 +73,11 @@ function applyFilter() {
           <slot />
         </div>
         <div class="app-filter__footer d-flex pa-3">
-          <VBtn
-            size="small"
-            variant="outlined"
-            color="error"
-            @click="resetFilter"
-          >
-            {{ t("actions.reset_filter") }}
+          <VBtn size="small" variant="outlined" color="error" @click="resetFilter">
+            {{ t('actions.reset_filter') }}
           </VBtn>
           <VBtn size="small" @click="applyFilter">
-            {{ t("actions.apply_filter") }}
+            {{ t('actions.apply_filter') }}
           </VBtn>
         </div>
       </div>

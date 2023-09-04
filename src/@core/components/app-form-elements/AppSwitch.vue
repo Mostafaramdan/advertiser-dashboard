@@ -45,11 +45,7 @@ const value = computed({
     :rules="rules"
     class="app-checkbox flex-grow-1"
   >
-    <VLabel
-      v-if="!hideLabel"
-      class="mb-1 text-body-2 text-high-emphasis"
-      :text="label"
-    />
+    <VLabel v-if="!hideLabel" class="mb-1 text-body-2 text-high-emphasis" :text="label" />
     <VSwitch
       v-bind="$attrs"
       :inset="false"

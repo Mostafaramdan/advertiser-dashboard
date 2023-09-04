@@ -57,11 +57,14 @@ getQuestionsCategoriesList()
 // #region Functions
 function getQuestionsCategoriesList() {
   isLoading.value = true
-  listService.getQuestionsCategories().then(res => {
-    questionsCategories.value = res.data.data
-  }).finally(() => {
-    isLoading.value = false
-  })
+  listService
+    .getQuestionsCategories()
+    .then((res) => {
+      questionsCategories.value = res.data.data
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 // #endregion

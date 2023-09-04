@@ -5,7 +5,7 @@ const props = withDefaults(defineProps<Props>(), {
   location: 'bottom end',
 })
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'change', id: string): void
 }>()
 
@@ -15,21 +15,19 @@ interface Props {
 }
 
 const { locale } = useI18n()
+
+function changeLanguage(lang: string) {
+  locale.value = lang
+  emit('change', lang)
+}
 </script>
 
 <template>
   <IconBtn>
-    <VIcon
-      size="26"
-      icon="tabler-language"
-    />
+    <VIcon size="26" icon="tabler-language" />
 
     <!-- Menu -->
-    <VMenu
-      activator="parent"
-      :location="props.location"
-      offset="14px"
-    >
+    <VMenu activator="parent" :location="props.location" offset="14px">
       <!-- List -->
       <VList min-width="175px">
         <!-- List item -->
@@ -38,7 +36,7 @@ const { locale } = useI18n()
           :key="lang.i18nLang"
           :value="lang.i18nLang"
           :active="locale === lang.i18nLang"
-          @click="locale = lang.i18nLang; $emit('change', lang.i18nLang)"
+          @click="changeLanguage(lang.i18nLang)"
         >
           <!-- Language label -->
           <VListItemTitle>{{ lang.label }}</VListItemTitle>

@@ -67,7 +67,9 @@ const formData = reactive<Video>({
 const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة فيديو'
-    : props.formAction === 'edit' ? 'تعديل فيديو' : 'عرض فيديو'
+    : props.formAction === 'edit'
+    ? 'تعديل فيديو'
+    : 'عرض فيديو'
 })
 
 // #endregion
@@ -77,8 +79,7 @@ const formTitle = computed(() => {
  **************************************/
 // #region Lifecycle Hooks
 getVideosLists()
-if (props.activeItem)
-  Object.assign(formData, cloneItem(props.activeItem))
+if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 
 // #endregion
 
@@ -88,32 +89,41 @@ if (props.activeItem)
 // #region Functions
 function getVideosLists() {
   isLoading.videosLists = true
-  listService.getVideosLists().then(res => {
-    videosLists.value = res.data
-  }).finally(() => {
-    isLoading.videosLists = false
-  })
+  listService
+    .getVideosLists()
+    .then((res) => {
+      videosLists.value = res.data
+    })
+    .finally(() => {
+      isLoading.videosLists = false
+    })
 }
 
 function edit() {
-  videosService.editItem(formData).then(res => {
-    toast.success(res.data.message)
+  videosService
+    .editItem(formData)
+    .then((res) => {
+      toast.success(res.data.message)
 
-    emit('editItem', res.data.data)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.submit = false
-  })
+      emit('editItem', res.data.data)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.submit = false
+    })
 }
 
 function create() {
-  videosService.createItem(formData).then(res => {
-    toast.success(res.data.message)
-    emit('createItem', res.data)
-    showModal.value = false
-  }).finally(() => {
-    isLoading.submit = false
-  })
+  videosService
+    .createItem(formData)
+    .then((res) => {
+      toast.success(res.data.message)
+      emit('createItem', res.data)
+      showModal.value = false
+    })
+    .finally(() => {
+      isLoading.submit = false
+    })
 }
 
 function updateVideoId(video: File) {
@@ -122,11 +132,11 @@ function updateVideoId(video: File) {
 
 const submit = () => {
   formRef.value.validate().then(({ valid }: any) => {
-    if (!valid)
-      return
+    if (!valid) return
 
     isLoading.submit = true
-    if (typeof formData.show_in === 'object' && formData.show_in?.id) formData.show_in = formData.show_in.id
+    if (typeof formData.show_in === 'object' && formData.show_in?.id)
+      formData.show_in = formData.show_in.id
     props.formAction === 'create' ? create() : edit()
   })
 }
@@ -135,13 +145,7 @@ const submit = () => {
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="700"
-    persistent
-    scrollable
-    class="form-modal"
-  >
+  <VDialog v-model="showModal" max-width="700" persistent scrollable class="form-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -187,7 +191,7 @@ const submit = () => {
                     :loading="isLoading.videosLists"
                     :disabled="isLoading.videosLists"
                     :menu-props="{
-                      'attach': categoriesSelectRef,
+                      attach: categoriesSelectRef,
                       'location-strategy': 'static',
                       'max-height': 200,
                     }"
@@ -206,24 +210,20 @@ const submit = () => {
                 />
               </VCol>
               <VCol cols="12" class="pt-0">
-                <AppSwitch
-                  v-model="formData.is_active"
-                  label="الحالة"
-                  name="is_active"
-                />
+                <AppSwitch v-model="formData.is_active" label="الحالة" name="is_active" />
               </VCol>
             </VRow>
           </VCardText>
 
           <VCardText v-if="formAction !== 'view'" class="d-flex justify-end flex-wrap gap-3">
-            <VBtn
-              variant="outlined"
-              color="error"
-              @click="showModal = false"
-            >
+            <VBtn variant="outlined" color="error" @click="showModal = false">
               {{ t('actions.cancel') }}
             </VBtn>
-            <VBtn :loading="isLoading.submit" :disabled="isLoading.submit || !meta.valid" @click="submit">
+            <VBtn
+              :loading="isLoading.submit"
+              :disabled="isLoading.submit || !meta.valid"
+              @click="submit"
+            >
               {{ formAction === 'edit' ? t('actions.save') : t('actions.create') }}
             </VBtn>
           </VCardText>

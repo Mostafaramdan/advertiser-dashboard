@@ -152,17 +152,8 @@ getPageData()
       >
         <template #item.name.ar="{ item }">
           <div class="d-flex align-center">
-            <VAvatar
-              size="38"
-              variant="tonal"
-              class="me-3"
-              cover
-            >
-              <VImg
-                v-if="item.raw.image"
-                :src="item.raw.image.path"
-                cover
-              />
+            <VAvatar size="38" variant="tonal" class="me-3" cover>
+              <VImg v-if="item.raw.image" :src="item.raw.image.path" cover />
               <span v-else>!</span>
             </VAvatar>
             <span>
@@ -177,11 +168,7 @@ getPageData()
         </template>
 
         <template #item.channel_type="{ item }">
-          <VChip
-            variant="outlined"
-            color="primary"
-            label
-          >
+          <VChip variant="outlined" color="primary" label>
             {{ CHANNEL_TYPES[item.raw.channel_type as 1 | 2] }}
           </VChip>
         </template>
@@ -205,16 +192,8 @@ getPageData()
               <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
             </IconBtn>
 
-            <VBtn
-              icon
-              variant="text"
-              size="small"
-              color="medium-emphasis"
-            >
-              <VIcon
-                size="24"
-                icon="tabler-dots-vertical"
-              />
+            <VBtn icon variant="text" size="small" color="medium-emphasis">
+              <VIcon size="24" icon="tabler-dots-vertical" />
 
               <VMenu activator="parent">
                 <VList>
@@ -226,7 +205,11 @@ getPageData()
                     <VListItemTitle>عرض</VListItemTitle>
                   </VListItem>
 
-                  <VListItem v-if="permissions.sort" :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="sortItems(item.raw.id)">
+                  <VListItem
+                    v-if="permissions.sort"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
+                    @click="sortItems(item.raw.id)"
+                  >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />
                     </template>

@@ -28,7 +28,11 @@ const popperContentStyles = ref({
 
 const updatePopper = async () => {
   const { x, y } = await computePosition(refPopperContainer.value, refPopper.value, {
-    placement: props.popperInlineEnd ? (props.isRtl ? 'left-start' : 'right-start') : 'bottom-start',
+    placement: props.popperInlineEnd
+      ? props.isRtl
+        ? 'left-start'
+        : 'right-start'
+      : 'bottom-start',
     middleware: [
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       flip({ boundary: document.querySelector('body')! }),
@@ -61,8 +65,10 @@ const updatePopper = async () => {
   We don't want to update position every time user scrolls when horizontal nav is sticky
 */
 until(config.horizontalNav.type)
-  .toMatch(type => type === 'static')
-  .then(() => { useEventListener('scroll', updatePopper) })
+  .toMatch((type) => type === 'static')
+  .then(() => {
+    useEventListener('scroll', updatePopper)
+  })
 
 const isContentShown = ref(false)
 
@@ -92,10 +98,12 @@ watch(() => route.fullPath, hideContent)
 <template>
   <div
     class="nav-popper"
-    :class="[{
-      'popper-inline-end': popperInlineEnd,
-      'show-content': isContentShown,
-    }]"
+    :class="[
+      {
+        'popper-inline-end': popperInlineEnd,
+        'show-content': isContentShown,
+      },
+    ]"
   >
     <div
       ref="refPopperContainer"

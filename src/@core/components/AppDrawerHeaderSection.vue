@@ -20,10 +20,7 @@ defineEmits<Emit>()
     <slot name="beforeClose" />
 
     <IconBtn @click="$emit('cancel')">
-      <VIcon
-        size="18"
-        icon="tabler-x"
-      />
+      <VIcon size="18" icon="tabler-x" />
     </IconBtn>
   </div>
 </template>

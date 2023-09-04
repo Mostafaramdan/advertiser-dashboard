@@ -26,15 +26,18 @@ const isHovered = useElementHover(refNav)
 
 provide(injectionKeyIsVerticalNavHovered, isHovered)
 
-const { isVerticalNavCollapsed: isCollapsed, isLessThanOverlayNavBreakpoint, isVerticalNavMini, isAppRtl } = useLayouts()
+const {
+  isVerticalNavCollapsed: isCollapsed,
+  isLessThanOverlayNavBreakpoint,
+  isVerticalNavMini,
+  isAppRtl,
+} = useLayouts()
 
 const hideTitleAndIcon = isVerticalNavMini(windowWidth, isHovered)
 
 const resolveNavItemComponent = (item: NavLink | NavSectionTitle | NavGroup) => {
-  if ('heading' in item)
-    return VerticalNavSectionTitle
-  if ('children' in item)
-    return VerticalNavGroup
+  if ('heading' in item) return VerticalNavSectionTitle
+  if ('children' in item) return VerticalNavGroup
 
   return VerticalNavLink
 }
@@ -45,12 +48,15 @@ const resolveNavItemComponent = (item: NavLink | NavSectionTitle | NavGroup) => 
 */
 const route = useRoute()
 
-watch(() => route.name, () => {
-  props.toggleIsOverlayNavActive(false)
-})
+watch(
+  () => route.name,
+  () => {
+    props.toggleIsOverlayNavActive(false)
+  },
+)
 
 const isVerticalNavScrolled = ref(false)
-const updateIsVerticalNavScrolled = (val: boolean) => isVerticalNavScrolled.value = val
+const updateIsVerticalNavScrolled = (val: boolean) => (isVerticalNavScrolled.value = val)
 
 const handleNavScroll = (evt: Event) => {
   isVerticalNavScrolled.value = (evt.target as HTMLElement).scrollTop > 0
@@ -65,19 +71,16 @@ const handleNavScroll = (evt: Event) => {
     :class="[
       {
         'overlay-nav': isLessThanOverlayNavBreakpoint(windowWidth),
-        'hovered': isHovered,
-        'visible': isOverlayNavActive,
-        'scrolled': isVerticalNavScrolled,
+        hovered: isHovered,
+        visible: isOverlayNavActive,
+        scrolled: isVerticalNavScrolled,
       },
     ]"
   >
     <!-- 👉 Header -->
     <div class="nav-header">
       <slot name="nav-header">
-        <RouterLink
-          to="/"
-          class="app-logo d-flex align-center gap-x-3 app-title-wrapper"
-        >
+        <RouterLink to="/" class="app-logo d-flex align-center gap-x-3 app-title-wrapper">
           <VNodeRenderer :nodes="config.app.logo" />
 
           <Transition name="vertical-nav-app-title">
@@ -120,10 +123,7 @@ const handleNavScroll = (evt: Event) => {
     <slot name="before-nav-items">
       <div class="vertical-nav-items-shadow" />
     </slot>
-    <slot
-      name="nav-items"
-      :update-is-vertical-nav-scrolled="updateIsVerticalNavScrolled"
-    >
+    <slot name="nav-items" :update-is-vertical-nav-scrolled="updateIsVerticalNavScrolled">
       <PerfectScrollbar
         :key="isAppRtl"
         tag="ul"
@@ -131,15 +131,8 @@ const handleNavScroll = (evt: Event) => {
         :options="{ wheelPropagation: false }"
         @ps-scroll-y="handleNavScroll"
       >
-        <template
-          v-for="(item, index) in navItems"
-          :key="index"
-        >
-          <Component
-            :is="resolveNavItemComponent(item)"
-            v-if="item.show"
-            :item="item"
-          />
+        <template v-for="(item, index) in navItems" :key="index">
+          <Component :is="resolveNavItemComponent(item)" v-if="item.show" :item="item" />
         </template>
       </PerfectScrollbar>
     </slot>
@@ -147,8 +140,8 @@ const handleNavScroll = (evt: Event) => {
 </template>
 
 <style lang="scss">
-@use "@configured-variables" as variables;
-@use "@layouts/styles/mixins";
+@use '@configured-variables' as variables;
+@use '@layouts/styles/mixins';
 
 // 👉 Vertical Nav
 .layout-vertical-nav {
@@ -160,7 +153,10 @@ const handleNavScroll = (evt: Event) => {
   inline-size: variables.$layout-vertical-nav-width;
   inset-block-start: 0;
   inset-inline-start: 0;
-  transition: transform 0.25s ease-in-out, inline-size 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+  transition:
+    transform 0.25s ease-in-out,
+    inline-size 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out;
   will-change: transform, inline-size;
 
   .nav-header {

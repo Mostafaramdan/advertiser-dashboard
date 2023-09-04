@@ -47,28 +47,33 @@ getPageData()
 // #region Functions
 function getPageData() {
   isLoading.data = true
-  ticketsService.getData().then(res => {
-    data.value = res.data.data
-    oldData.value = cloneItem(res.data.data)
-  }).finally(() => {
-    isLoading.data = false
-  })
+  ticketsService
+    .getData()
+    .then((res) => {
+      data.value = res.data.data
+      oldData.value = cloneItem(res.data.data)
+    })
+    .finally(() => {
+      isLoading.data = false
+    })
 }
 
 function saveData(modifiedData: SettingsListItem[]) {
   isLoading.submit = true
-  ticketsService.editData({ data: modifiedData }).then(res => {
-    toast.success(res.data.message)
-    oldData.value = cloneItem(data.value)
-  }).finally(() => {
-    isLoading.submit = false
-  })
+  ticketsService
+    .editData({ data: modifiedData })
+    .then((res) => {
+      toast.success(res.data.message)
+      oldData.value = cloneItem(data.value)
+    })
+    .finally(() => {
+      isLoading.submit = false
+    })
 }
 
 function submit() {
   formRef.value.validate().then(({ valid }: any) => {
-    if (!valid)
-      return
+    if (!valid) return
 
     const { modified } = getChangesOfArray(data.value, oldData.value)
 
@@ -80,16 +85,20 @@ function submit() {
 </script>
 
 <template>
-  <VCard v-loading="isLoading.data" title="إعدادات التذاكر" class="page-card" :disabled="!permissions.edit">
+  <VCard
+    v-loading="isLoading.data"
+    title="إعدادات التذاكر"
+    class="page-card"
+    :disabled="!permissions.edit"
+  >
     <VCardText>
       <VeeForm ref="formRef" v-slot="{ meta }" @submit="submit">
         <div v-if="data" class="setting-list pt-4">
-          <VRow
-            v-for="item in data"
-            :key="item.id"
-            class="setting-list__item"
-          >
-            <div class="py-0 mb-4 mb-md-0 v-col-12" :class="item.has_input && !item.has_radio ? 'v-col-md-8' : 'v-col-md-12'">
+          <VRow v-for="item in data" :key="item.id" class="setting-list__item">
+            <div
+              class="py-0 mb-4 mb-md-0 v-col-12"
+              :class="item.has_input && !item.has_radio ? 'v-col-md-8' : 'v-col-md-12'"
+            >
               <div class="setting-list__item__title">
                 <span>{{ item.id }}</span>
                 {{ item.name }}
@@ -102,7 +111,12 @@ function submit() {
                 type="number"
                 :min="0"
                 class="text-center"
-                :rules="{ required: true, numeric: true, min_value: item.min_value, max_value: item.max_value }"
+                :rules="{
+                  required: true,
+                  numeric: true,
+                  min_value: item.min_value,
+                  max_value: item.max_value,
+                }"
                 label="هذ الحقل"
               >
                 <template v-if="item.value_key" #append>

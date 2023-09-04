@@ -117,7 +117,11 @@ getPageData()
       @edit-item="onEditItem"
       @create-item="onCreateItem"
     />
-    <QuestionDetailsModal v-if="showDetailsModal" v-model:showModal="showDetailsModal" :active-item="activeItem" />
+    <QuestionDetailsModal
+      v-if="showDetailsModal"
+      v-model:showModal="showDetailsModal"
+      :active-item="activeItem"
+    />
     <PageActions
       :page-actions-buttons="pageActionsButtons"
       :items-per-page="params.itemPerPage"
@@ -150,12 +154,12 @@ getPageData()
       :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
     >
       <template #item.question="{ item }">
-        <span style="min-width: 200px;">
+        <span style="min-width: 200px">
           {{ item.raw.question }}
         </span>
       </template>
       <template #item.category="{ item }">
-        <span style="min-width: 150px;">
+        <span style="min-width: 150px">
           {{ item.raw.category.name }}
         </span>
       </template>
@@ -179,16 +183,8 @@ getPageData()
             <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
           </IconBtn>
 
-          <VBtn
-            icon
-            variant="text"
-            size="small"
-            color="medium-emphasis"
-          >
-            <VIcon
-              size="24"
-              icon="tabler-dots-vertical"
-            />
+          <VBtn icon variant="text" size="small" color="medium-emphasis">
+            <VIcon size="24" icon="tabler-dots-vertical" />
 
             <VMenu activator="parent">
               <VList>
@@ -200,7 +196,11 @@ getPageData()
                   <VListItemTitle>عرض</VListItemTitle>
                 </VListItem>
 
-                <VListItem v-if="permissions.sort" :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)" @click="sortItems(item.raw.id)">
+                <VListItem
+                  v-if="permissions.sort"
+                  :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
+                  @click="sortItems(item.raw.id)"
+                >
                   <template #prepend>
                     <VIcon icon="tabler-transfer-in" />
                   </template>

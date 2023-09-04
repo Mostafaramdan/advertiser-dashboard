@@ -22,16 +22,9 @@ watch(selectedOption, () => {
 </script>
 
 <template>
-  <VRadioGroup
-    v-if="props.radioContent"
-    v-model="selectedOption"
-  >
+  <VRadioGroup v-if="props.radioContent" v-model="selectedOption">
     <VRow>
-      <VCol
-        v-for="item in props.radioContent"
-        :key="item.title"
-        v-bind="gridColumn"
-      >
+      <VCol v-for="item in props.radioContent" :key="item.title" v-bind="gridColumn">
         <VLabel
           class="custom-input custom-radio rounded cursor-pointer"
           :class="selectedOption === item.value ? 'active' : ''"
@@ -46,10 +39,9 @@ watch(selectedOption, () => {
                   {{ item.title }}
                 </h6>
                 <VSpacer />
-                <span
-                  v-if="item.subtitle"
-                  class="text-disabled text-base"
-                >{{ item.subtitle }}</span>
+                <span v-if="item.subtitle" class="text-disabled text-base">{{
+                  item.subtitle
+                }}</span>
               </div>
               <p class="text-sm mb-0">
                 {{ item.desc }}

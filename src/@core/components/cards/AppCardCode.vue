@@ -21,11 +21,15 @@ const props = withDefaults(defineProps<Props>(), {
   noPadding: false,
 })
 
-const preferredCodeLanguage = useStorage('preferredCodeLanguage', 'ts') as unknown as Ref<keyof CodeProp>
+const preferredCodeLanguage = useStorage('preferredCodeLanguage', 'ts') as unknown as Ref<
+  keyof CodeProp
+>
 
 const isCodeShown = ref(false)
 
-const { copy, copied } = useClipboard({ source: computed(() => props.code[preferredCodeLanguage.value]) })
+const { copy, copied } = useClipboard({
+  source: computed(() => props.code[preferredCodeLanguage.value]),
+})
 </script>
 
 <template>
@@ -39,10 +43,7 @@ const { copy, copied } = useClipboard({ source: computed(() => props.code[prefer
           :class="isCodeShown ? '' : 'text-disabled'"
           @click="isCodeShown = !isCodeShown"
         >
-          <VIcon
-            size="20"
-            icon="tabler-code"
-          />
+          <VIcon size="20" icon="tabler-code" />
         </IconBtn>
       </template>
     </VCardItem>
@@ -98,12 +99,13 @@ const { copy, copied } = useClipboard({ source: computed(() => props.code[prefer
             <IconBtn
               class="position-absolute app-card-code-copy-icon"
               color="white"
-              @click="() => { copy() }"
+              @click="
+                () => {
+                  copy()
+                }
+              "
             >
-              <VIcon
-                :icon="copied ? 'tabler-check' : 'tabler-copy'"
-                size="20"
-              />
+              <VIcon :icon="copied ? 'tabler-check' : 'tabler-copy'" size="20" />
             </IconBtn>
           </div>
         </VCardText>
@@ -113,10 +115,10 @@ const { copy, copied } = useClipboard({ source: computed(() => props.code[prefer
 </template>
 
 <style lang="scss">
-@use "@styles/variables/_vuetify.scss";
+@use '@styles/variables/_vuetify.scss';
 
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
+:not(pre) > code[class*='language-'],
+pre[class*='language-'] {
   border-radius: vuetify.$card-border-radius;
 }
 

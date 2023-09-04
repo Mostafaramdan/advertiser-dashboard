@@ -55,23 +55,21 @@ getItemDetails(props.activeItem.id)
 // #region Functions
 function getItemDetails(id: any) {
   isLoading.value = true
-  platformNewsService.getSingleItem(id).then(res => {
-    data.value = res.data.data
-  }).finally(() => {
-    isLoading.value = false
-  })
+  platformNewsService
+    .getSingleItem(id)
+    .then((res) => {
+      data.value = res.data.data
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 // #endregion
 </script>
 
 <template>
-  <VDialog
-    v-model="showModal"
-    max-width="1000"
-    scrollable
-    class="details-modal"
-  >
+  <VDialog v-model="showModal" max-width="1000" scrollable class="details-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
@@ -81,19 +79,10 @@ function getItemDetails(id: any) {
         <VCard v-if="data" title="عرض خبر">
           <VCardText>
             <VList :lines="false">
-              <VListItem
-                class="px-2 py-2"
-                title="العنوان"
-                :subtitle="data.name"
-                border
-              />
-              <VListItem
-                class="px-2 py-2"
-                title="نوع المستخدمين"
-                border
-              >
+              <VListItem class="px-2 py-2" title="العنوان" :subtitle="data.name" border />
+              <VListItem class="px-2 py-2" title="نوع المستخدمين" border>
                 <VChip
-                  v-for="type in (data.for as unknown)"
+                  v-for="type in data.for as unknown"
                   :key="type"
                   class="my-2 me-2 text-center"
                   color="primary"
@@ -103,11 +92,7 @@ function getItemDetails(id: any) {
                   {{ USERS_TYPES[type] }}
                 </VChip>
               </VListItem>
-              <VListItem
-                class="px-2 py-2"
-                title="الوصف"
-                border
-              >
+              <VListItem class="px-2 py-2" title="الوصف" border>
                 <AppTextEditor
                   v-model="data.description"
                   name="description"
@@ -117,11 +102,7 @@ function getItemDetails(id: any) {
                 />
               </VListItem>
             </VList>
-            <AppSwitch
-              :model-value="data.is_active"
-              label="الحالة"
-              name="is_active"
-            />
+            <AppSwitch :model-value="data.is_active" label="الحالة" name="is_active" />
           </VCardText>
         </VCard>
       </div>

@@ -23,10 +23,12 @@ const { dynamicI18nProps } = useLayouts()
   <li
     v-if="can(item.action, item.subject)"
     class="nav-link"
-    :class="[{
-      'sub-item': props.isSubItem,
-      'disabled': item.disable,
-    }]"
+    :class="[
+      {
+        'sub-item': props.isSubItem,
+        disabled: item.disable,
+      },
+    ]"
   >
     <Component
       :is="item.to ? 'RouterLink' : 'a'"

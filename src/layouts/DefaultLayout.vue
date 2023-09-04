@@ -21,7 +21,8 @@ import { VerticalNavLayout } from '@layouts'
 // #region Variables
 // const AppLoader = defineAsyncComponent(() => import('./components/AppLoader.vue'))
 const { width: windowWidth } = useWindowSize()
-const { switchToVerticalNavOnLtOverlayNavBreakpoint, isLessThanOverlayNavBreakpoint } = useThemeConfig()
+const { switchToVerticalNavOnLtOverlayNavBreakpoint, isLessThanOverlayNavBreakpoint } =
+  useThemeConfig()
 
 // ℹ️ This will switch to vertical nav when define breakpoint is reached when in horizontal nav layout
 // Remove below composable usage if you are not using horizontal nav layout in your app
@@ -35,8 +36,8 @@ const { canAccessPage, canAccessAtLeastOnePage } = useAuthStore()
 // #endregion
 
 /***************************************
-   **** Section Computed Declaration ****
-   **************************************/
+ **** Section Computed Declaration ****
+ **************************************/
 // #region Computed
 const navItems = computed(() => {
   return [
@@ -54,7 +55,12 @@ const navItems = computed(() => {
       children: [
         {
           title: 'اعدادات حساب المنصة',
-          show: canAccessAtLeastOnePage(['general_settings', 'social_settings', 'schedule_settings', 'billing_cards']),
+          show: canAccessAtLeastOnePage([
+            'general_settings',
+            'social_settings',
+            'schedule_settings',
+            'billing_cards',
+          ]),
           to: null,
           children: [
             {
@@ -106,7 +112,12 @@ const navItems = computed(() => {
         },
         {
           title: 'الإعدادات المالية',
-          show: canAccessAtLeastOnePage(['financial_settings', 'payment_commissions', 'point_settings', 'tax_settings']),
+          show: canAccessAtLeastOnePage([
+            'financial_settings',
+            'payment_commissions',
+            'point_settings',
+            'tax_settings',
+          ]),
           to: null,
           children: [
             {
@@ -138,7 +149,12 @@ const navItems = computed(() => {
         },
         {
           title: 'حسابات المعلنين',
-          show: canAccessAtLeastOnePage(['ads_types', 'discrimination_types', 'account_cases', 'subscription_settings']),
+          show: canAccessAtLeastOnePage([
+            'ads_types',
+            'discrimination_types',
+            'account_cases',
+            'subscription_settings',
+          ]),
           to: null,
           children: [
             {
@@ -248,11 +264,14 @@ getPermissions()
 // #region Functions
 function getPermissions() {
   isLoading.value = true
-  authService.getPermissions().then((res: any) => {
-    setUserPermissions(res.data.data)
-  }).finally(() => {
-    isLoading.value = false
-  })
+  authService
+    .getPermissions()
+    .then((res: any) => {
+      setUserPermissions(res.data.data)
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 // #endregion
@@ -270,10 +289,7 @@ function getPermissions() {
           class="ms-n3"
           @click="toggleVerticalOverlayNavActive(true)"
         >
-          <VIcon
-            size="26"
-            icon="tabler-menu-2"
-          />
+          <VIcon size="26" icon="tabler-menu-2" />
         </IconBtn>
 
         <NavBarI18n />
@@ -313,5 +329,5 @@ function getPermissions() {
 
 <style lang="scss">
 // As we are using `layouts` plugin we need its styles to be imported
-@use "@layouts/styles/default-layout";
+@use '@layouts/styles/default-layout';
 </style>
