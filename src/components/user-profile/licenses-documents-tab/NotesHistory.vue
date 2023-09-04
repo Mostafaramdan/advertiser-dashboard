@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
-import { NOTIFICATIONS_TYPES } from '@/constants'
-import { LicenseDocumentNotification } from '@/interfaces/Advertiser'
 import { MetaData } from '@/interfaces/Shared'
+import type { LicenseDocumentNote } from '@/interfaces/User'
 import { usersService } from '@/services/UsersService'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
@@ -25,7 +24,7 @@ const props = defineProps({
 const { t } = useI18n()
 const { formatDateTime } = UseGeneralHelpers()
 const isLoading = ref<boolean>(false)
-const tableData = ref<LicenseDocumentNotification[]>([])
+const tableData = ref<LicenseDocumentNote[]>([])
 const metaData = ref<MetaData | null>(null)
 const params = ref({
   page: 1,
@@ -37,21 +36,16 @@ const headers: any = [
     key: 'id',
   },
   {
-    title: 'المرسل',
+    title: 'مدون الملاحظة',
     key: 'admin_name',
   },
   {
-    title: 'تاريخ الاسال',
+    title: 'تاريخ التدوين',
     key: 'created_at',
   },
   {
-    title: 'قنوات الارسال',
-    key: 'channels',
-    align: 'center',
-  },
-  {
-    title: 'الرسالة / التنبيه',
-    key: 'message',
+    title: 'بيان الملاحظة',
+    key: 'note',
   },
 ]
 
@@ -72,7 +66,7 @@ getPageData()
 function getPageData() {
   isLoading.value = true
   usersService
-    .getLicenseDocumentNotifications(props.activeId, params.value)
+    .getLicenseDocumentNotes(props.activeId, params.value)
     .then((res) => {
       const { data, meta } = res.data
       tableData.value = data
@@ -105,25 +99,9 @@ function getPageData() {
           {{ formatDateTime(item.raw.created_at) }}
         </div>
       </template>
-      <template #item.channels="{ item }">
-        <div class="d-flex gap-2">
-          <VChip
-            :color="item.raw.channels.includes(type.value) ? 'primary' : 'secondary'"
-            v-for="type in NOTIFICATIONS_TYPES"
-            :key="type.value"
-            style="height: auto"
-            class="pa-1"
-            label
-          >
-            <VIcon size="24">
-              {{ type.icon }}
-            </VIcon>
-          </VChip>
-        </div>
-      </template>
-      <template #item.message="{ item }">
+      <template #item.note="{ item }">
         <div style="min-width: 300px">
-          {{ item.raw.message }}
+          {{ item.raw.note }}
         </div>
       </template>
 

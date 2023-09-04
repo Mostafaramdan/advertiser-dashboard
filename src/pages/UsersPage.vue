@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useToast } from 'vue-toastification'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { GENDER_TYPES } from '@/constants/index'
@@ -8,6 +6,8 @@ import type { pageAction } from '@/interfaces/Shared'
 import type { User } from '@/interfaces/User'
 import { usersService } from '@/services/UsersService'
 import { useAuthStore } from '@/stores/AuthStore'
+import { useToast } from 'vue-toastification'
+import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -233,7 +233,10 @@ async function showConfirmDeleteItem(item: User): Promise<void> {
 
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <IconBtn :disabled="!permissions.viewUserDetails">
+              <IconBtn
+                :disabled="!permissions.viewUserDetails"
+                :to="{ name: 'user-profile-page', params: { id: item.raw.id } }"
+              >
                 <VIcon icon="tabler-eye" />
               </IconBtn>
               <VBtn icon variant="text" size="small" color="medium-emphasis">

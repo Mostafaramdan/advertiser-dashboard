@@ -8,6 +8,14 @@ class UsersService {
     return axios.get(`${contextPath}/users`, { params })
   }
 
+  getBasicInfo(id: number): AxiosPromise {
+    return axios.get(`${contextPath}/users/${id}/basic_data`)
+  }
+
+  getDetails(id: number): AxiosPromise {
+    return axios.get(`${contextPath}/users/${id}/details`)
+  }
+
   getLicensesDocuments(id: number): AxiosPromise {
     return axios.get(`${contextPath}/${id}/attachments`)
   }

@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import ProfileBasicInfo from '@/components/advertiser-profile/ProfileBasicInfo.vue'
-import type { AdvertiserBasicData } from '@/interfaces/Advertiser'
+import ProfileBasicInfo from '@/components/user-profile/ProfileBasicInfo.vue'
+import type { UserBasicData } from '@/interfaces/User'
 import { useAuthStore } from '@/stores/AuthStore'
 
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
-const DetailsTab = defineAsyncComponent(
-  () => import('@/components/advertiser-profile/DetailsTab.vue'),
-)
+const DetailsTab = defineAsyncComponent(() => import('@/components/user-profile/DetailsTab.vue'))
 const LicensesDocumentsTab = defineAsyncComponent(
   () => import('@/components/user-profile/licenses-documents-tab/Index.vue'),
 )
@@ -17,7 +15,7 @@ const route = useRoute()
 const router = useRouter()
 const { hasPermission } = useAuthStore()
 const currentTab = ref<any>()
-const user = ref<AdvertiserBasicData | null>(null)
+const user = ref<UserBasicData | null>(null)
 
 // #endregion
 
@@ -31,7 +29,7 @@ const tabs = computed(() => {
       title: 'بيانات التاجر',
       value: 'details',
       component: DetailsTab,
-      show: hasPermission('view_advertiser_details'),
+      show: hasPermission('view_user_details'),
     },
     {
       title: 'التراخيص والوثائق',
@@ -81,19 +79,13 @@ function updateRouteQuery() {
 </script>
 
 <template>
-  <section class="advertiser-profile">
+  <section class="user-profile">
     <div class="d-flex overflow-auto text-nowrap mb-3 align-center">
-      <PageBackBtn :link="{ name: 'advertisers-page' }" />
+      <PageBackBtn :link="{ name: 'users-page' }" />
       <!-- TODO: ADD permissions -->
       <VBtn variant="outlined" class="me-3">
         سجل النشاطات
         <VIcon end icon="tabler-history" />
-      </VBtn>
-      <VBtn variant="outlined" class="me-3">
-        استعراض الإعلانات <VIcon end icon="tabler-ad-2" />
-      </VBtn>
-      <VBtn variant="outlined" class="me-3">
-        استعراض الطلبات <VIcon end icon="tabler-file-check" />
       </VBtn>
     </div>
     <ProfileBasicInfo @update:user="($event) => (user = $event)" />

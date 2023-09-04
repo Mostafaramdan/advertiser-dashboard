@@ -63,6 +63,7 @@ const tabs = [
           title="السجل"
           style="position: sticky; z-index: 1; top: 0; width: 100%"
           elevation="2"
+          color="grey-200"
         >
           <VBtn icon @click="showModal = false" color="dark" size="40">
             <VIcon icon="tabler-x" size="24" />

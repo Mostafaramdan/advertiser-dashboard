@@ -63,29 +63,3 @@ export interface AdvertiserDetails {
     type: string
   } | null
 }
-export interface LicenseDocument {
-  id: number
-  name: string
-  number: number
-  ended_at: string | null
-  remaining_days: number
-  updated_at: string | null
-  last_notified_at: string | null
-  file_path: string | null
-  is_active: boolean
-}
-
-export interface LicenseDocumentNotification {
-  id: number
-  admin_name: string
-  created_at: string
-  channels: string[]
-  message: string
-}
-
-export interface LicenseDocumentNote {
-  id: number
-  admin_name: string
-  created_at: string
-  note: string
-}

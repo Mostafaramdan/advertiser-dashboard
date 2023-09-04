@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
-import type { AdvertiserBasicData, LicenseDocument } from '@/interfaces/Advertiser'
+import type { LicenseDocument, UserBasicData } from '@/interfaces/User'
 import { API_SEND_ATTACHMENT_NOTIFICATION, usersService } from '@/services/UsersService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
@@ -11,7 +11,7 @@ import { VDataTableServer } from 'vuetify/labs/VDataTable'
  **************************************/
 // #region Props
 interface LicensesDocumentsTabProps {
-  user: AdvertiserBasicData | null
+  user: UserBasicData | null
 }
 const props = withDefaults(defineProps<LicensesDocumentsTabProps>(), {})
 

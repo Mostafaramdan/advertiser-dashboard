@@ -84,6 +84,15 @@ const router = createRouter({
       },
     },
     {
+      path: '/users/:id',
+      name: 'user-profile-page',
+      component: () => import('@/pages/UserProfilePage.vue'),
+      meta: {
+        layout: 'default',
+        requireAccess: 'advertiser_details',
+      },
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'error-page',
       component: () => import('@/pages/ErrorPage.vue'),
