@@ -159,7 +159,7 @@ const advertiserBankAccountData = ref([
 // #region Computed
 const permissions = computed(() => ({
   takeProcedure: hasPermission('take_procedure'),
-  sendNotification: hasPermission('notify_user'),
+  sendNotification: hasPermission('notify_users'),
 }))
 
 // #endregion

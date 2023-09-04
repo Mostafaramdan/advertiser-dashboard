@@ -72,6 +72,7 @@ export interface LicenseDocument {
   updated_at: string | null
   last_notified_at: string | null
   file_path: string | null
+  is_active: boolean
 }
 
 export interface LicenseDocumentNotification {

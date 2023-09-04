@@ -28,8 +28,7 @@ const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const HistoryModal = defineAsyncComponent(() => import('./HistoryModal.vue'))
 const NoteModal = defineAsyncComponent(() => import('./NoteModal.vue'))
-// TODO: ADD correct model name
-const MODEL_NAME = 'entities'
+const MODEL_NAME = 'user_attachments'
 const advertiserId: number = +route.params.id
 const isLoading = ref<boolean>(false)
 const showNotificationModal = ref<boolean>(false)
