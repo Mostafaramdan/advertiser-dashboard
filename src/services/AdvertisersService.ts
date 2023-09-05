@@ -17,6 +17,10 @@ class AdvertisersService {
     return axios.get(`${this.contextPath}/${id}/details`)
   }
 
+  getMarketingPresentationInfo(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/marketer_info`)
+  }
+
   /** **************** delete ******************/
   deleteItem(id: number): AxiosPromise {
     return axios.delete(`${this.contextPath}/${id}`)
@@ -27,6 +31,11 @@ class AdvertisersService {
     return axios.post(`${this.contextPath}/${payload.id}/take_procedure`, {
       type: payload.type,
     })
+  }
+
+  /** **************** put ******************/
+  updateMarketingPresentationInfo(payload: { id: number; data: object }): AxiosPromise {
+    return axios.put(`${this.contextPath}/${payload.id}/marketer_info`, payload.data)
   }
 }
 

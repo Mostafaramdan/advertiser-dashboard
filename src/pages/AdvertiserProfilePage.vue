@@ -13,6 +13,9 @@ const DetailsTab = defineAsyncComponent(
 const LicensesDocumentsTab = defineAsyncComponent(
   () => import('@/components/user-profile/licenses-documents-tab/Index.vue'),
 )
+const MarketingPresentationTab = defineAsyncComponent(
+  () => import('@/components/advertiser-profile/MarketingPresentationTab.vue'),
+)
 const route = useRoute()
 const router = useRouter()
 const { hasPermission } = useAuthStore()
@@ -38,6 +41,12 @@ const tabs = computed(() => {
       value: 'licenses-documents',
       component: LicensesDocumentsTab,
       show: hasPermission('view_attachments'),
+    },
+    {
+      title: 'العرض التسويقي',
+      value: 'marketing-presentation',
+      component: MarketingPresentationTab,
+      show: hasPermission('view_marketer_info'),
     },
   ]
 })

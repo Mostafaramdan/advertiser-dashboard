@@ -48,6 +48,11 @@ const procedures = ref([
     key: 'ma3roof_verified',
     loading: false,
   },
+  {
+    label: 'معلن موزع',
+    key: 'marketer',
+    loading: false,
+  },
 ])
 
 const statsData = ref([
@@ -279,7 +284,7 @@ function takeProcedure(procedure: any) {
                         ? 'tabler-circle-check'
                         : 'tabler-playstation-x'
                     "
-                    class="px-2 mt-1"
+                    class="px-2 mt-1 mb-3"
                   >
                     {{ data.profile_completion === 100 ? 'مكتمل' : 'غير مكتمل' }}
                   </VChip>
@@ -288,7 +293,7 @@ function takeProcedure(procedure: any) {
                     label
                     :color="data.mawthooq ? 'success' : 'error'"
                     :prepend-icon="data.mawthooq ? 'tabler-circle-check' : 'tabler-playstation-x'"
-                    class="px-2 mt-1"
+                    class="px-2 mt-1 mb-3"
                   >
                     {{ data.mawthooq ? 'تم الادخال' : 'لا يوجد بيانات' }}
                   </VChip>
@@ -297,7 +302,7 @@ function takeProcedure(procedure: any) {
                     label
                     :color="data.ma3roof ? 'success' : 'error'"
                     :prepend-icon="data.ma3roof ? 'tabler-circle-check' : 'tabler-playstation-x'"
-                    class="px-2 mt-1"
+                    class="px-2 mt-1 mb-3"
                   >
                     {{ data.ma3roof ? 'تم الادخال' : 'لا يوجد بيانات' }}
                   </VChip>
@@ -326,7 +331,7 @@ function takeProcedure(procedure: any) {
                 :readonly="!permissions.takeProcedure"
                 density="comfortable"
                 :inset="false"
-                class="mb-2"
+                class="mb-1"
                 @click="takeProcedure(procedure)"
               />
               <VBtn

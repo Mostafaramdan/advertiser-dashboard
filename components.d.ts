@@ -58,6 +58,7 @@ declare module '@vue/runtime-core' {
     HistoryModal: typeof import('./src/components/user-profile/licenses-documents-tab/HistoryModal.vue')['default']
     I18n: typeof import('./src/@core/components/I18n.vue')['default']
     Index: typeof import('./src/components/user-profile/licenses-documents-tab/Index.vue')['default']
+    MarketingPresentationTab: typeof import('./src/components/advertiser-profile/MarketingPresentationTab.vue')['default']
     MoreBtn: typeof import('./src/@core/components/MoreBtn.vue')['default']
     NoteModal: typeof import('./src/components/user-profile/licenses-documents-tab/NoteModal.vue')['default']
     NotesHistory: typeof import('./src/components/user-profile/licenses-documents-tab/NotesHistory.vue')['default']

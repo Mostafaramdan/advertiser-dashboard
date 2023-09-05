@@ -63,3 +63,10 @@ export interface AdvertiserDetails {
     type: string
   } | null
 }
+
+export interface MarketingPresentationInfo {
+  code: string
+  time_in_months: number | null
+  end_date: string
+  points: number | null
+}
