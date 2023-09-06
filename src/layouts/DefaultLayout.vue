@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import AppLoader from './components/AppLoader.vue'
 import { authService } from '@/services/AuthService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useSkins } from '@core/composable/useSkins'
 import { useThemeConfig } from '@core/composable/useThemeConfig'
+import AppLoader from './components/AppLoader.vue'
 
 import NavBarI18n from '@/layouts/components/NavBarI18n.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
@@ -228,6 +228,24 @@ const navItems = computed(() => {
           title: 'إعدادات الشات',
           to: { name: 'chat-settings' },
           show: canAccessPage('chat_settings'),
+        },
+      ],
+    },
+    {
+      title: 'الاشتراكات',
+      icon: { icon: 'tabler-package' },
+      show: canAccessAtLeastOnePage(['subscription_requests', 'subscription_requests_logs']),
+      to: null,
+      children: [
+        {
+          title: 'طلبات الاشتراكات',
+          to: { name: 'subscriptions-requests-page' },
+          show: canAccessPage('subscription_requests'),
+        },
+        {
+          title: 'سجل الاشتراكات',
+          to: { name: 'subscriptions-logs-page' },
+          show: canAccessPage('subscription_requests_logs'),
         },
       ],
     },

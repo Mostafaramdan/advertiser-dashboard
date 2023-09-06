@@ -1,4 +1,5 @@
 import { settingsRoutes } from '@/modules/settings/settingsRoutes'
+import { subscriptionsRoutes } from '@/modules/subscriptions/subscriptionsRoutes'
 import HomePage from '@/pages/HomePage.vue'
 import { useAuthStore } from '@/stores/AuthStore'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -55,6 +56,16 @@ const router = createRouter({
         requireAccess: 'settings',
       },
       children: settingsRoutes,
+    },
+    {
+      path: '/subscriptions',
+      name: 'subscriptions',
+      component: () => import('@/modules/subscriptions/subscriptionsModule.vue'),
+      meta: {
+        layout: 'default',
+        requireAtLeastOneAccess: ['subscription_requests', 'subscription_requests_logs'],
+      },
+      children: subscriptionsRoutes,
     },
     {
       path: '/advertisers',

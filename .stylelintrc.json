@@ -33,6 +33,7 @@
         "number-max-precision": null,
         "no-empty-source": null,
         "selector-pseudo-class-no-unknown": null,
-        "declaration-block-trailing-semicolon": null
+        "declaration-block-trailing-semicolon": null,
+        "string-quotes": null
     }
 }

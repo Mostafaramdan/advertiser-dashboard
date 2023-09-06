@@ -33,3 +33,13 @@ export const NOTIFICATIONS_TYPES = [
     icon: 'tabler-message',
   },
 ]
+
+export const USERS_TYPES: any = {
+  company: 'كيان',
+  client: 'عميل',
+}
+
+export const USERS_ROLES: any = {
+  user: 'تاجر',
+  advertiser: 'معلن',
+}

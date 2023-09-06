@@ -6,7 +6,10 @@ export function cloneItem(item: any): any {
 }
 
 export function getOptionsArrayFromObject(obj: any): any[] {
-  return Object.entries(obj).map(([key, value]) => ({ value: key, label: value }))
+  return Object.entries(obj).map(([key, value]) => ({
+    value: isNaN(+key) ? key : +key,
+    label: value,
+  }))
 }
 
 /**

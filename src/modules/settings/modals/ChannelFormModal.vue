@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useVModel } from '@vueuse/core'
-import { useToast } from 'vue-toastification'
-import type { Channel } from '../interfaces/Channel'
-import { channelsService } from '../services/ChannelsService'
 import { CHANNEL_TYPES } from '@/constants/settings'
 import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import type { File } from '@/interfaces/Shared'
+import { useVModel } from '@vueuse/core'
+import { useToast } from 'vue-toastification'
+import type { Channel } from '../interfaces/Channel'
+import { channelsService } from '../services/ChannelsService'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -74,7 +74,6 @@ const formTitle = computed(() => {
 // #region Lifecycle Hooks
 if (props.activeItem) {
   Object.assign(formData, cloneItem(props.activeItem))
-  formData.channel_type = (formData.channel_type?.toString() as any) || null
 }
 
 // #endregion
