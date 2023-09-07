@@ -234,9 +234,18 @@ const navItems = computed(() => {
     {
       title: 'الاشتراكات',
       icon: { icon: 'tabler-package' },
-      show: canAccessAtLeastOnePage(['subscription_requests', 'subscription_requests_logs']),
+      show: canAccessAtLeastOnePage([
+        'subscription_requests',
+        'subscription_requests_logs',
+        'packages',
+      ]),
       to: null,
       children: [
+        {
+          title: 'باقات الإشتراك',
+          to: { name: 'subscriptions-list-page' },
+          show: canAccessPage('packages'),
+        },
         {
           title: 'طلبات الاشتراكات',
           to: { name: 'subscriptions-requests-page' },

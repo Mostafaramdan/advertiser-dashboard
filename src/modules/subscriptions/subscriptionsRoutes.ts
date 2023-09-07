@@ -1,5 +1,13 @@
 export const subscriptionsRoutes = [
   {
+    path: 'list',
+    name: 'subscriptions-list-page',
+    component: () => import('./pages/SubscriptionsListPage.vue'),
+    meta: {
+      requireAccess: 'packages',
+    },
+  },
+  {
     path: 'requests',
     name: 'subscriptions-requests-page',
     component: () => import('./pages/SubscriptionsRequestsPage.vue'),

@@ -63,7 +63,11 @@ const router = createRouter({
       component: () => import('@/modules/subscriptions/subscriptionsModule.vue'),
       meta: {
         layout: 'default',
-        requireAtLeastOneAccess: ['subscription_requests', 'subscription_requests_logs'],
+        requireAtLeastOneAccess: [
+          'subscription_requests',
+          'subscription_requests_logs',
+          'packages',
+        ],
       },
       children: subscriptionsRoutes,
     },
