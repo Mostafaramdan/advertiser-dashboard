@@ -125,6 +125,16 @@ function applyFilter() {
         inline-size: 30px;
       }
     }
+
+    :deep(.demo-space-x) {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-block-start: 0;
+
+      * {
+        margin: 0;
+      }
+    }
   }
 
   &__footer {

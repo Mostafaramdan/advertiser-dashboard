@@ -4,10 +4,10 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { GENDER_TYPES, USERS_ROLES, USERS_TYPES } from '@/constants/index'
 import { PAYMENT_STATUSES, REQUEST_STATUSES } from '@/constants/subscriptions'
 import type { pageAction } from '@/interfaces/Shared'
-import type { User } from '@/interfaces/User'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
+import type { SubscriptionsRequestItem } from '../interfaces/SubscriptionsRequests'
 import SubscriptionsRequestDetailsModal from '../modals/SubscriptionsRequestDetailsModal.vue'
 import SubscriptionsRequestEditModal from '../modals/SubscriptionsRequestEditModal.vue'
 import { subscriptionsRequestsService } from '../services/SubscriptionsRequestsService'
@@ -21,7 +21,7 @@ const FilterComponent = defineAsyncComponent(
 )
 const { t } = useI18n()
 const toast = useToast()
-const { hasPermission, canAccessPage } = useAuthStore()
+const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'subscription_requests'
 const showFilter = ref<boolean>(false)
@@ -53,7 +53,7 @@ const {
   onChangeSearch,
   onEditItem,
   showConfirmDeleteItem,
-} = UseCrudHelpers<User>(subscriptionsRequestsService, params, MODEL_NAME)
+} = UseCrudHelpers<SubscriptionsRequestItem>(subscriptionsRequestsService, params, MODEL_NAME)
 
 const headers: any = [
   {

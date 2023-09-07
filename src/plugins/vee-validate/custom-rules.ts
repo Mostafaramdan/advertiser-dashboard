@@ -25,3 +25,9 @@ export function validIcloud(value: string) {
 
   return true
 }
+
+export function minDate(value: string, [min]: any) {
+  if (!value || !value.length) return true
+  else if (new Date(min) > new Date(value)) return false
+  return true
+}

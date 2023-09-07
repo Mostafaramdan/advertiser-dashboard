@@ -11,7 +11,7 @@ import {
   url,
 } from '@vee-validate/rules'
 import { Field, Form, configure, defineRule } from 'vee-validate'
-import { greaterThanTime, lessThanTime, minWords, validIcloud } from './custom-rules'
+import { greaterThanTime, lessThanTime, minDate, minWords, validIcloud } from './custom-rules'
 import arMessages from './messages/ar'
 import enMessages from './messages/en'
 
@@ -29,6 +29,7 @@ export default (app: any) => {
   defineRule('lessThanTime', lessThanTime)
   defineRule('minWords', minWords)
   defineRule('validIcloud', validIcloud)
+  defineRule('minDate', minDate)
 
   configure({
     generateMessage: localize({

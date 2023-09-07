@@ -13,6 +13,7 @@ const enMessages = {
   lessThanTime: 'the time should be less than 0:{time}',
   minWords: '{field} should have at least 0:{min} words',
   validIcloud: '{field} must be a valid iCloud email',
+  minDate: 'Date must greater than or equal to 0:{min}',
 }
 
 export default enMessages
