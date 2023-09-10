@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useToast } from 'vue-toastification'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { Advertiser } from '@/interfaces/Advertiser'
 import type { pageAction } from '@/interfaces/Shared'
 import { advertisersService } from '@/services/AdvertisersService'
 import { useAuthStore } from '@/stores/AuthStore'
+import { useToast } from 'vue-toastification'
+import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -17,16 +17,18 @@ const FilterComponent = defineAsyncComponent(
 )
 const { t } = useI18n()
 const toast = useToast()
+const route = useRoute()
 const { hasPermission, canAccessPage } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'advertisers'
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
 
-const params = reactive({
+const params: any = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
+  packages: [],
 })
 
 const {
@@ -102,6 +104,8 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
+const packageId = route.query?.packageId
+if (packageId) params.packages.push(+packageId)
 getPageData()
 
 // #endregion
@@ -153,6 +157,7 @@ async function showConfirmDeleteItem(item: Advertiser): Promise<void> {
       v-if="loadFilter"
       v-model:showFilter="showFilter"
       @apply-filter="onApplyFilter"
+      :init-filters="params"
     />
     <VCard title="المعلنين" class="page-card">
       <VCardText>

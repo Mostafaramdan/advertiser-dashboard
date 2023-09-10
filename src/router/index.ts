@@ -119,7 +119,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const { isAuthUser, canAccessPage, canAccessAtLeastOnePage } = useAuthStore()
+  const { isAuthUser, canAccessPage, canAccessAtLeastOnePage, hasPermission } = useAuthStore()
 
   if (to.meta.layout === 'default' && !isAuthUser)
     next({ name: 'login-page', query: { redirect: to.fullPath } })
@@ -131,6 +131,13 @@ router.beforeEach(async (to, from, next) => {
     isAuthUser &&
     to.meta.requireAtLeastOneAccess &&
     !canAccessAtLeastOnePage(to.meta.requireAtLeastOneAccess as string[])
+  )
+    next({ name: 'error-page', query: { message: 'errors.you_are_not_authorized' } })
+
+  if (
+    isAuthUser &&
+    to.meta.requiredPermission &&
+    !hasPermission(to.meta.requiredPermission as string)
   )
     next({ name: 'error-page', query: { message: 'errors.you_are_not_authorized' } })
 

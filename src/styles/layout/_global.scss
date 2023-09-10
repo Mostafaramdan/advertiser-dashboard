@@ -80,13 +80,9 @@ input[type="number"] {
 }
 
 // form modal
-.form-modal {
-  &.v-theme--dark {
-    .v-btn--disabled {
-      background-color: rgb(var(--v-theme-grey-200)) !important;
-      cursor: not-allowed;
-    }
-  }
+.form-modal.v-theme--dark .v-btn--disabled,
+.v-theme--dark .bg-primary.v-btn--disabled {
+  background-color: rgb(var(--v-theme-grey-200)) !important;
 }
 
 // details modal

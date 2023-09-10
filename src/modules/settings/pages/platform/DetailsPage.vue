@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import GeoLocationModal from '@/components/shared/GeoLocationModal.vue'
+import { listService } from '@/services/ListService'
+import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import PlatformDetailsCard from '../../components/PlatformDetailsCard.vue'
 import type { PlatformFormData, PlatformInfo } from '../../interfaces/PlatformDetails'
 import { platformService } from '../../services/PlatformService'
-import { useAuthStore } from '@/stores/AuthStore'
-import { listService } from '@/services/ListService'
-import GeoLocationModal from '@/components/shared/GeoLocationModal.vue'
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
@@ -28,10 +28,7 @@ const isLoading = reactive({
 const countries = ref([
   {
     id: SAUDI_ARABIA_ID,
-    name: {
-      ar: 'السعودية',
-      en: 'Saudi Arabia',
-    },
+    label: 'السعودية',
   },
 ])
 

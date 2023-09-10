@@ -5,21 +5,28 @@ import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { SubscriptionsListItem } from '../interfaces/SubscriptionsList'
-import { subscriptionsListService } from '../services/SubscriptionsListService'
+import { subscriptionsPackagesService } from '../services/SubscriptionsPackagesService'
 
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
 const { t } = useI18n()
-const { hasPermission } = useAuthStore()
+const router = useRouter()
+const { hasPermission, canAccessPage } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'packages'
+
+const packagesTypesOptions = [
+  { value: 0, label: 'كل الباقات' },
+  { value: 1, label: 'الباقة الاساسية' },
+]
 
 const params = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
+  is_default: 0,
 })
 
 const {
@@ -32,10 +39,9 @@ const {
   onReloadData,
   onChangeItemsPerPage,
   onChangeSearch,
-  showCrateModal,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<SubscriptionsListItem>(subscriptionsListService, params, MODEL_NAME)
+} = UseCrudHelpers<SubscriptionsListItem>(subscriptionsPackagesService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -83,8 +89,8 @@ const permissions = computed(() => ({
   delete: hasPermission('delete_package'),
   changeStatus: hasPermission('change_status_package'),
   sort: hasPermission('sort_package'),
-  // TODO: check permission for view details,
-  view: hasPermission('view_packages'),
+  viewDetails: hasPermission('view_package_details'),
+  viewAdvertisers: canAccessPage('advertisers'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -92,7 +98,7 @@ const pageActionsButtons = computed<pageAction[]>(() => {
     {
       icon: 'tabler-plus',
       show: permissions.value.create as boolean,
-      handler: showCrateModal,
+      handler: goToCreatePage,
     },
   ]
 })
@@ -104,13 +110,23 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **************************************/
 // #region Lifecycle Hooks
 getPageData()
-
 // #endregion
+function goToCreatePage(id: number) {
+  router.push({ name: 'subscriptions-create-package-page', params: { id } })
+}
+
+function goToEditPage(id: number) {
+  router.push({ name: 'subscriptions-edit-package-page', params: { id } })
+}
+
+function goToDetailsPage(id: number) {
+  router.push({ name: 'subscriptions-package-details-page', params: { id } })
+}
 </script>
 
 <template>
   <ConfirmModal ref="confirmModal" />
-  <VCard title="القنوات" class="page-card">
+  <VCard title="باقات الإشتراك" class="page-card">
     <VCardText>
       <PageActions
         :page-actions-buttons="pageActionsButtons"
@@ -122,7 +138,22 @@ getPageData()
         @update:items-per-page="onChangeItemsPerPage"
         @update:search="onChangeSearch"
         @reload-data="onReloadData"
-      />
+      >
+        <div class="v-col-md-4 pa-0">
+          <AppSelect
+            v-model="params.is_default"
+            name="type"
+            :items="packagesTypesOptions"
+            item-title="label"
+            item-value="value"
+            label="النوع"
+            hide-default-label
+            @update:model-value="onReloadData"
+          >
+          </AppSelect>
+        </div>
+        <span class="me-auto" />
+      </PageActions>
       <VDataTableServer
         v-model="selectedItems"
         v-loading="IsLoadingData"
@@ -172,7 +203,7 @@ getPageData()
               <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item.raw)" />
             </IconBtn>
 
-            <IconBtn :disabled="!permissions.edit">
+            <IconBtn :disabled="!permissions.edit" @click="goToEditPage(item.raw.id)">
               <VIcon icon="tabler-edit" />
             </IconBtn>
 
@@ -181,19 +212,25 @@ getPageData()
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem>
+                  <VListItem
+                    @click="goToDetailsPage(item.raw.id)"
+                    :disabled="!permissions.viewDetails"
+                  >
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
 
                     <VListItemTitle>عرض</VListItemTitle>
                   </VListItem>
-                  <VListItem>
+                  <VListItem
+                    :disabled="!permissions.viewAdvertisers"
+                    :to="{ name: 'advertisers-page', query: { packageId: item.raw.id } }"
+                  >
                     <template #prepend>
                       <VIcon icon="tabler-user-dollar" />
                     </template>
 
-                    <VListItemTitle>عرض المشتركين</VListItemTitle>
+                    <VListItemTitle>عرض المعلنين</VListItemTitle>
                   </VListItem>
 
                   <VListItem
@@ -225,6 +262,10 @@ getPageData()
 </template>
 
 <style lang="scss" scoped>
+:deep(.search-input) {
+  margin: 0 !important;
+}
+
 :deep(.v-data-table .v-table__wrapper > table td) {
   max-inline-size: 250px;
   word-wrap: break-word;

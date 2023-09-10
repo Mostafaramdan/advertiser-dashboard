@@ -4,6 +4,7 @@ const { locale } = useI18n()
 defineProps({
   link: {
     type: [String, Object],
+    default: null,
   },
 })
 </script>

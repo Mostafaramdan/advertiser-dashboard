@@ -173,7 +173,8 @@
     "save": "Save",
     "apply_filter": "Apply Filter",
     "reset_filter": "Reset Filter",
-    "send": "Send"
+    "send": "Send",
+    "back": "Back"
   },
   "general": {
     "no_data": "There is no data to display",

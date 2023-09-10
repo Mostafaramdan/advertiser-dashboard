@@ -1,7 +1,8 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
+import { SubscriptionPackageFormProps } from '../interfaces/SubscriptionPackage'
 
-class SubscriptionsListService {
+class SubscriptionsPackagesService {
   contextPath = 'packages'
 
   /** **************** get ******************/
@@ -9,13 +10,17 @@ class SubscriptionsListService {
     return axios.get(`${this.contextPath}`, { params })
   }
 
+  getSingleItem(id: number | 'create'): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}`)
+  }
+
   /** **************** post ******************/
-  createItem(data: any): AxiosPromise {
+  createItem(data: SubscriptionPackageFormProps): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 
   /** **************** put ******************/
-  editItem(data: any): AxiosPromise {
+  editItem(data: SubscriptionPackageFormProps): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
   }
 
@@ -25,4 +30,4 @@ class SubscriptionsListService {
   }
 }
 
-export const subscriptionsListService = new SubscriptionsListService()
+export const subscriptionsPackagesService = new SubscriptionsPackagesService()

@@ -11,6 +11,7 @@ import { listService } from '@/services/ListService'
 // #region Props
 const props = defineProps({
   showFilter: { type: Boolean, required: true },
+  initFilters: { type: Object, default: {} },
 })
 
 // #endregion
@@ -51,7 +52,7 @@ const initFilters = {
   packages: [],
 }
 
-const filters = reactive({ ...initFilters })
+const filters = reactive({ ...initFilters, ...props.initFilters })
 
 // #endregion
 

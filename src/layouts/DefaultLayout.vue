@@ -243,7 +243,7 @@ const navItems = computed(() => {
       children: [
         {
           title: 'باقات الإشتراك',
-          to: { name: 'subscriptions-list-page' },
+          to: { name: 'subscriptions-packages-page' },
           show: canAccessPage('packages'),
         },
         {
