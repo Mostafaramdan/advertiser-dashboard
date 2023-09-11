@@ -28,7 +28,7 @@ export const subscriptionsRoutes = [
     name: 'subscriptions-package-details-page',
     component: () => import('./pages/SubscriptionPackageDetailsPage.vue'),
     meta: {
-      requiredPermission: 'view_package_details',
+      requiredPermission: 'show_package_details',
     },
   },
   {

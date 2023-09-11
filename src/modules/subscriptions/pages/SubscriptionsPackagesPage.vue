@@ -89,7 +89,7 @@ const permissions = computed(() => ({
   delete: hasPermission('delete_package'),
   changeStatus: hasPermission('change_status_package'),
   sort: hasPermission('sort_package'),
-  viewDetails: hasPermission('view_package_details'),
+  viewDetails: hasPermission('show_package_details'),
   viewAdvertisers: canAccessPage('advertisers'),
 }))
 
