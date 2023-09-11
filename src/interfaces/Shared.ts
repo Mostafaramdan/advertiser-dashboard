@@ -79,7 +79,7 @@ export interface NotificationModalProps {
     email: string
     username: string
     phone: string
-    image: string | null
+    image_path: string | null
     id: number
   }
 }

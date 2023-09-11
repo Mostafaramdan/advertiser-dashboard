@@ -75,7 +75,7 @@ function getBasicInfo() {
       <VSkeletonLoader v-if="isLoading" type="list-item-avatar-two-line" />
       <div v-else-if="advertiser" class="profile-card d-flex align-md-center">
         <VAvatar variant="outlined" size="80" class="me-3" cover rounded="0">
-          <VImg v-if="advertiser.image" :src="advertiser.image" cover />
+          <VImg v-if="advertiser.image_path" :src="advertiser.image_path" cover />
           <span v-else>!</span>
         </VAvatar>
         <div class="profile-card__content flex-grow-1">

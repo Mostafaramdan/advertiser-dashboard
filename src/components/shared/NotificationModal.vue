@@ -101,7 +101,7 @@ function submit() {
           <VCardText>
             <div class="d-flex align-center">
               <VAvatar size="38" variant="tonal" class="me-3" cover>
-                <VImg v-if="user.image" :src="user.image" cover />
+                <VImg v-if="user.image_path" :src="user.image_path" cover />
                 <span v-else>!</span>
               </VAvatar>
               <span>

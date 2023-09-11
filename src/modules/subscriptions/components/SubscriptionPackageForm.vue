@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { PACKAGE_EDIT_TYPES } from '@/constants/subscriptions'
+import { getOptionsArrayFromObject } from '@/helpers/index'
 import { File } from '@/interfaces/Shared'
 import { useToast } from 'vue-toastification'
 import type {
@@ -42,6 +44,7 @@ const formData = reactive<SubscriptionPackageFormProps>({
   image_id: null,
   periods: [],
   features: [],
+  save_type: null,
 })
 
 // #endregion
@@ -403,6 +406,18 @@ function drop(event: DragEvent, listIndex: string, itemIndex: number, items: any
                   </div>
                 </VCol>
               </VRow>
+            </VCol>
+            <VCol cols="12" v-if="formAction === 'edit'">
+              <AppRadio
+                v-model="formData.save_type"
+                :options="getOptionsArrayFromObject(PACKAGE_EDIT_TYPES)"
+                name="save_type"
+                label="نوع التعديل"
+                rules="required"
+                option-label="label"
+                option-value="value"
+                inline
+              />
             </VCol>
             <VCol cols="12" v-if="formAction !== 'view'" class="d-flex flex-wrap gap-3">
               <VBtn class="px-8" variant="outlined" color="error" @click="goToPackagesPage">

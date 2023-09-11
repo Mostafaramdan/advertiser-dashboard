@@ -19,3 +19,8 @@ export const SORT_TYPES = {
   latest: 'الأحدث',
   oldest: 'الأقدم',
 }
+
+export const PACKAGE_EDIT_TYPES: any = {
+  save_only: 'حفظ التعديل فقط',
+  save_for_all_subscribers: 'حفظ التعديل مع جميع المشتركين أيضا',
+}

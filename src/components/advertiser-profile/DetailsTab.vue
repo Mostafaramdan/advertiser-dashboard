@@ -328,7 +328,10 @@ function takeProcedure(procedure: any) {
                 hide-details
                 :loading="procedure.loading"
                 :disabled="procedure.loading"
-                :readonly="!permissions.takeProcedure"
+                :readonly="
+                  !permissions.takeProcedure ||
+                  (procedure.key === 'marketer' && !data.can_be_marketer)
+                "
                 density="comfortable"
                 :inset="false"
                 class="mb-1"

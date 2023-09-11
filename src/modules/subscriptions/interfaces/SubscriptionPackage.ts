@@ -43,4 +43,5 @@ export interface SubscriptionPackageFormProps {
   extra_settings?: SubscriptionPackageFeature[]
   subscription_settings?: SubscriptionPackageFeature[]
   advertiser_settings?: SubscriptionPackageFeature[]
+  save_type?: null | 'save_only' | 'save_for_all_subscribers'
 }

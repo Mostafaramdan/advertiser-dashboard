@@ -18,7 +18,7 @@ export interface User {
 
 export interface UserBasicData {
   id: number
-  image: string | null
+  image_path: string | null
   username: string
   email: string
   phone: string

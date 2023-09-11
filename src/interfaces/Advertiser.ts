@@ -21,7 +21,7 @@ export interface Advertiser {
 export interface AdvertiserBasicData {
   id: number
   subscription_end_date: string | null
-  image: string | null
+  image_path: string | null
   username: string
   email: string
   phone: string
@@ -49,6 +49,7 @@ export interface AdvertiserDetails {
   subscription_name: string
   mawthooq: boolean
   ma3roof: boolean
+  can_be_marketer: boolean
   procedures: {
     ma3roof_verified: boolean
     verified: boolean

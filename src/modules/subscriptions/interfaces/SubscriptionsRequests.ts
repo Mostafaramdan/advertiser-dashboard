@@ -31,7 +31,7 @@ export interface SubscriptionsRequestItem {
     account_name: string
     email: string
     phone: string
-    image: string
+    image_path: string
     role: string
     type: string
     gender: string

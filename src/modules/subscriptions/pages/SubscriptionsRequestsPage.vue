@@ -191,7 +191,7 @@ function openNotificationModal(user: any) {
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg v-if="item.raw.user.image" :src="item.raw.user.image" cover />
+                  <VImg v-if="item.raw.user.image_path" :src="item.raw.user.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
