@@ -270,6 +270,12 @@ const navItems = computed(() => {
       icon: { icon: 'tabler-user' },
       show: canAccessPage('users'),
     },
+    {
+      title: 'طلبات الاعلان',
+      to: { name: 'ads-requests-page' },
+      icon: { icon: 'tabler-ad-2' },
+      show: canAccessPage('ads_requests'),
+    },
   ]
 })
 

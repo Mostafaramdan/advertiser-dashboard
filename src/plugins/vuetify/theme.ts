@@ -1,6 +1,6 @@
-import type { VuetifyOptions } from 'vuetify'
 import { resolveVuetifyTheme } from '@core/utils/vuetify'
 import { themeConfig } from '@themeConfig'
+import type { VuetifyOptions } from 'vuetify'
 
 export const staticPrimaryColor = '#51a1b2'
 
@@ -39,6 +39,7 @@ const theme: VuetifyOptions['theme'] = {
         'perfect-scrollbar-thumb': '#DBDADE',
         'skin-bordered-background': '#fff',
         'skin-bordered-surface': '#fff',
+        white: '#fff',
       },
 
       variables: {
@@ -99,6 +100,7 @@ const theme: VuetifyOptions['theme'] = {
         'perfect-scrollbar-thumb': '#4A5072',
         'skin-bordered-background': '#2f3349',
         'skin-bordered-surface': '#2f3349',
+        white: '#25293C',
       },
       variables: {
         'code-color': '#d400ff',
@@ -120,7 +122,6 @@ const theme: VuetifyOptions['theme'] = {
         'switch-disabled-track-opacity': 0.4,
         'switch-disabled-thumb-opacity': 0.8,
         'switch-checked-disabled-opacity': 0.3,
-
         // Shadows
         'shadow-key-umbra-color': '#0F1422',
       },

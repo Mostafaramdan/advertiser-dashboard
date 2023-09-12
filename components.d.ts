@@ -13,6 +13,8 @@ declare module '@vue/runtime-core' {
     AddEditAddressDialog: typeof import('./src/components/dialogs/AddEditAddressDialog.vue')['default']
     AddEditPermissionDialog: typeof import('./src/components/dialogs/AddEditPermissionDialog.vue')['default']
     AddEditRoleDialog: typeof import('./src/components/dialogs/AddEditRoleDialog.vue')['default']
+    AdsRequestDetailsModal: typeof import('./src/components/ads-requests/AdsRequestDetailsModal.vue')['default']
+    AdsRequestsFilter: typeof import('./src/components/ads-requests/AdsRequestsFilter.vue')['default']
     AdvertisersFilter: typeof import('./src/components/advertisers/AdvertisersFilter.vue')['default']
     AppAutocomplete: typeof import('./src/@core/components/app-form-elements/AppAutocomplete.vue')['default']
     AppBarSearch: typeof import('./src/@core/components/AppBarSearch.vue')['default']
@@ -82,7 +84,9 @@ declare module '@vue/runtime-core' {
     ToggleActivationSwitch: typeof import('./src/components/shared/ToggleActivationSwitch.vue')['default']
     TwoFactorAuthDialog: typeof import('./src/components/dialogs/TwoFactorAuthDialog.vue')['default']
     UserInfoEditDialog: typeof import('./src/components/dialogs/UserInfoEditDialog.vue')['default']
+    UsersAutoCompleteFilter: typeof import('./src/components/filters/UsersAutoCompleteFilter.vue')['default']
     UsersFilter: typeof import('./src/components/users/UsersFilter.vue')['default']
+    UsersSelectFilter: typeof import('./src/components/filters/UsersSelectFilter.vue')['default']
     UserUpgradePlanDialog: typeof import('./src/components/dialogs/UserUpgradePlanDialog.vue')['default']
   }
 }

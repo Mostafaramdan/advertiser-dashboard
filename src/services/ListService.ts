@@ -32,6 +32,14 @@ class ListService {
   getPackagePeriods(package_id: number): AxiosPromise {
     return axios.get(`${this.contextPath}/get_periods_of_packages?package_id=${package_id}`)
   }
+
+  getCategories(): AxiosPromise {
+    return axios.get(`${this.contextPath}/categories`)
+  }
+
+  getUsers(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/get_users`, { params })
+  }
 }
 
 export const listService = new ListService()

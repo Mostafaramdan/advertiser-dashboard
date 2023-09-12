@@ -108,6 +108,24 @@ const router = createRouter({
       },
     },
     {
+      path: '/ads-requests',
+      name: 'ads-requests-page',
+      component: () => import('@/pages/AdsRequestsPage.vue'),
+      meta: {
+        layout: 'default',
+        requireAccess: 'ads_requests',
+      },
+    },
+    {
+      path: '/ads-requests/:id',
+      name: 'ads-request-details-page',
+      component: () => import('@/pages/AdsRequestDetailsPage.vue'),
+      meta: {
+        layout: 'default',
+        requireAccess: 'ads_requests_details',
+      },
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'error-page',
       component: () => import('@/pages/ErrorPage.vue'),

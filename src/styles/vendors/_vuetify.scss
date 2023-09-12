@@ -33,6 +33,11 @@
   color: rgb(var(--v-theme-on-primary)) !important;
 }
 
+.v-textarea .v-field__input {
+  max-block-size: 200px;
+  padding-block: 8px !important;
+}
+
 // pagination
 .v-pagination button.v-btn {
   block-size: auto;

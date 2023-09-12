@@ -134,6 +134,14 @@ function applyFilter() {
       * {
         margin: 0;
       }
+
+      .v-selection-control {
+        align-items: flex-start;
+      }
+    }
+
+    :global(.filter-select .v-list-item-title) {
+      font-size: 13px;
     }
   }
 

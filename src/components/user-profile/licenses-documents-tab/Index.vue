@@ -100,7 +100,7 @@ const headers: any = [
 const permissions = computed(() => ({
   sendNotification: hasPermission('send_notification_attachments'),
   sendNote: hasPermission('send_note_attachments'),
-  viewHistory: hasPermission('view_attachments_logs'),
+  viewHistory: hasPermission('show_attachments_logs'),
   confirmLicenseDocument: hasPermission('confirm_attachments'),
 }))
 

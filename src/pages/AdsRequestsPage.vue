@@ -1,29 +1,24 @@
 <script setup lang="ts">
+import AdsRequestDetailsModal from '@/components/ads-requests/AdsRequestDetailsModal.vue'
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
-import { GENDER_TYPES, USERS_ROLES, USERS_TYPES } from '@/constants/index'
-import { PAYMENT_STATUSES, REQUEST_STATUSES } from '@/constants/subscriptions'
+import type { AdsRequestsItem } from '@/interfaces/AdsRequest'
 import type { pageAction } from '@/interfaces/Shared'
+import { adsRequestsService } from '@/services/AdsRequestsService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { SubscriptionsRequestItem } from '../interfaces/SubscriptionsRequests'
-import SubscriptionsRequestDetailsModal from '../modals/SubscriptionsRequestDetailsModal.vue'
-import SubscriptionsRequestEditModal from '../modals/SubscriptionsRequestEditModal.vue'
-import { subscriptionsRequestsService } from '../services/SubscriptionsRequestsService'
 
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
 const FilterComponent = defineAsyncComponent(
-  () => import('../components/SubscriptionsRequestsFilter.vue'),
+  () => import('@/components/ads-requests/AdsRequestsFilter.vue'),
 )
 const { t } = useI18n()
-const toast = useToast()
-const { hasPermission } = useAuthStore()
+const { hasPermission, canAccessPage } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
-const MODEL_NAME = 'subscription_requests'
+const MODEL_NAME = 'ads_requests'
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
 const showNotificationModal = ref<boolean>(false)
@@ -39,42 +34,39 @@ const {
   selectedItems,
   tableData,
   metaData,
-  showFormModal,
-  showDetailsModal,
-  FormAction,
-  activeItem,
   confirmModal,
   IsLoadingData,
+  showDetailsModal,
+  activeItem,
   showViewModal,
-  showEditModal,
   getPageData,
   onReloadData,
   onChangeItemsPerPage,
   onChangeSearch,
-  onEditItem,
   showConfirmDeleteItem,
-} = UseCrudHelpers<SubscriptionsRequestItem>(subscriptionsRequestsService, params, MODEL_NAME)
+} = UseCrudHelpers<AdsRequestsItem>(adsRequestsService, params, MODEL_NAME)
 
 const headers: any = [
   {
-    title: 'الاسم/البريد الالكتروني',
-    key: 'account_name',
+    title: 'اسم المعلن/اسم العميل',
+    key: 'advertiser',
   },
   {
-    title: 'وقت الطلب/رقم الجوال',
+    title: 'تاريخ الطلب/رقم الطلب',
     key: 'created_at',
   },
   {
-    title: 'تاريخ الانتهاء/اسم الباقة',
-    key: 'ended_at',
+    title: 'قيمة الطلب/عمولة المنصة',
+    key: 'price',
   },
   {
-    title: 'حالة الطلب/حالة الدفع',
+    title: 'طريقة الدفع/حالة الدفع',
     key: 'payment_status',
   },
   {
-    title: 'نوع المشترك/الجنس',
-    key: 'user_type',
+    title: 'حالة الطلب',
+    key: 'ads_request_status',
+    align: 'center',
   },
   {
     title: 'العمليات',
@@ -91,8 +83,8 @@ const headers: any = [
 // #region Computed
 const permissions = computed(() => ({
   sendNotification: hasPermission('notify_users'),
-  delete: hasPermission('delete_subscription_request'),
-  edit: hasPermission('update_subscription_request'),
+  delete: hasPermission('delete_ads_request'),
+  viewAdsRequestDetails: canAccessPage('ads_requests_details'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -139,31 +131,20 @@ function openNotificationModal(user: any) {
 
 <template>
   <section>
-    <SubscriptionsRequestEditModal
-      v-if="showFormModal"
-      v-model:showModal="showFormModal"
-      :form-action="FormAction"
-      :active-item="activeItem"
-      @edit-item="onEditItem"
-    />
-    <SubscriptionsRequestDetailsModal
-      v-model:showModal="showDetailsModal"
-      :active-item="activeItem"
-    />
     <NotificationModal
       v-if="activeUser && showNotificationModal"
       v-model:showModal="showNotificationModal"
       :user="activeUser"
     />
     <ConfirmModal ref="confirmModal" />
+    <AdsRequestDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
     <Component
       :is="FilterComponent"
       v-if="loadFilter"
       v-model:showFilter="showFilter"
       @apply-filter="onApplyFilter"
     />
-    <VCard class="page-card">
-      <template #title> طلبات الاشتراكات {{ metaData && `(${metaData.total})` }} </template>
+    <VCard title="طلبات الاعلان" class="page-card">
       <VCardText>
         <PageActions
           :page-actions-buttons="pageActionsButtons"
@@ -187,63 +168,58 @@ function openNotificationModal(user: any) {
           class="app-table"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
-          <template #item.account_name="{ item }">
+          <template #item.advertiser="{ item }">
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg v-if="item.raw.user.image_path" :src="item.raw.user.image_path" cover />
+                  <VImg
+                    v-if="item.raw.advertiser.image_path"
+                    :src="item.raw.advertiser.image_path"
+                    cover
+                  />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
               <div style="min-width: 205px">
-                {{ item.raw.user.account_name }}
-                <span class="text-sm text-disabled d-block">{{ item.raw.user.email }}</span>
+                {{ item.raw.advertiser.username }}
+                <span class="text-sm text-disabled d-block">{{ item.raw.user.username }}</span>
               </div>
-            </div>
-          </template>
-          <template #item.country_name="{ item }">
-            <div style="min-width: 150px">
-              {{ item.raw.country_name }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.area_name }}</span>
             </div>
           </template>
           <template #item.created_at="{ item }">
             <div class="text-no-wrap">
               {{ formatDateTime(item.raw.created_at) }}
-              <span class="text-sm text-disabled d-block"> {{ item.raw.user.phone }}</span>
+              <span class="text-sm text-disabled d-block">{{ item.raw.id }} </span>
             </div>
           </template>
-          <template #item.ended_at="{ item }">
-            <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.ended_at) }}
-              <span class="text-sm text-disabled d-block"> {{ item.raw.package_name }}</span>
+          <template #item.price="{ item }">
+            <div class="text-no-wrap" style="min-width: 80px">
+              {{ item.raw.price }}
+              <span class="text-sm text-disabled d-block"> {{ item.raw.commission }}</span>
             </div>
           </template>
           <template #item.payment_status="{ item }">
             <div style="min-width: 100px">
-              {{ REQUEST_STATUSES[item.raw.request_status] }}
-              <span class="text-sm text-disabled d-block">{{
-                PAYMENT_STATUSES[item.raw.payment_status]
-              }}</span>
+              {{ item.raw.payment_method }}
+              <span class="text-sm text-disabled d-block">{{ item.raw.payment_status }}</span>
             </div>
           </template>
-
-          <template #item.user_type="{ item }">
-            <div style="min-width: 100px">
-              {{ USERS_ROLES[item.raw.user.role] + ' ' + USERS_TYPES[item.raw.user.type] }}
-              <span class="text-sm text-disabled d-block">{{
-                GENDER_TYPES[item.raw.user.gender as 'male' | 'female']
-              }}</span>
+          <template #item.ads_request_status="{ item }">
+            <div style="min-width: 80px">
+              {{ item.raw.ads_request_status }}
             </div>
           </template>
 
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <IconBtn :disabled="!permissions.delete">
-                <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item.raw)" />
+              <IconBtn
+                :disabled="!permissions.viewAdsRequestDetails"
+                :to="{ name: 'ads-request-details-page', params: { id: item.raw.id } }"
+              >
+                <VIcon icon="tabler-eye" />
               </IconBtn>
-              <IconBtn :disabled="!permissions.edit">
-                <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
+              <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+                <VIcon icon="tabler-trash" />
               </IconBtn>
               <VBtn icon variant="text" size="small" color="medium-emphasis">
                 <VIcon size="24" icon="tabler-dots-vertical" />
@@ -254,8 +230,17 @@ function openNotificationModal(user: any) {
                       <template #prepend>
                         <VIcon icon="tabler-eye" />
                       </template>
+                      <VListItemTitle>عرض المزيد</VListItemTitle>
+                    </VListItem>
 
-                      <VListItemTitle>عرض</VListItemTitle>
+                    <VListItem
+                      v-if="permissions.sendNotification"
+                      @click="openNotificationModal(item.raw.advertiser)"
+                    >
+                      <template #prepend>
+                        <VIcon icon="tabler-mail" />
+                      </template>
+                      <VListItemTitle>ارسال اشعار للمعلن</VListItemTitle>
                     </VListItem>
                     <VListItem
                       v-if="permissions.sendNotification"
@@ -264,8 +249,7 @@ function openNotificationModal(user: any) {
                       <template #prepend>
                         <VIcon icon="tabler-mail" />
                       </template>
-
-                      <VListItemTitle>إرسال تنبيه</VListItemTitle>
+                      <VListItemTitle>ارسال اشعار للعميل</VListItemTitle>
                     </VListItem>
                   </VList>
                 </VMenu>

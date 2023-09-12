@@ -29,13 +29,13 @@ const tabs = computed(() => {
       title: 'بيانات التاجر',
       value: 'details',
       component: DetailsTab,
-      show: hasPermission('view_user_details'),
+      show: hasPermission('show_user_details'),
     },
     {
       title: 'التراخيص والوثائق',
       value: 'licenses-documents',
       component: LicensesDocumentsTab,
-      show: hasPermission('view_attachments'),
+      show: hasPermission('show_attachments'),
     },
   ]
 })

@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { USERS_TYPES } from '@/constants/settings'
+import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import type { PlatformNewsItem } from '../interfaces/PlatformNewsItem'
 import { platformNewsService } from '../services/PlatformNewsService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
-import { USERS_TYPES } from '@/constants/settings'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -151,7 +151,7 @@ const submit = () => {
                   v-model="formData.name"
                   label="العنوان"
                   name="name"
-                  rules="required|min:3|max:50"
+                  rules="required|min:3|max:120"
                 />
               </VCol>
               <VCol cols="12" class="pb-0">

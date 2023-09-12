@@ -34,19 +34,19 @@ const tabs = computed(() => {
       title: 'بيانات التاجر',
       value: 'details',
       component: DetailsTab,
-      show: hasPermission('view_advertiser_details'),
+      show: hasPermission('show_advertiser_details'),
     },
     {
       title: 'التراخيص والوثائق',
       value: 'licenses-documents',
       component: LicensesDocumentsTab,
-      show: hasPermission('view_attachments'),
+      show: hasPermission('show_attachments'),
     },
     {
       title: 'العرض التسويقي',
       value: 'marketing-presentation',
       component: MarketingPresentationTab,
-      show: hasPermission('view_marketer_info'),
+      show: hasPermission('show_marketer_info'),
     },
   ]
 })

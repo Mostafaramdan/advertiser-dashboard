@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { cloneItem } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import type { ReportReason } from '../interfaces/ReportReason'
 import { reportsReasonsService } from '../services/ReportsReasonsService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem } from '@/helpers/index'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -123,7 +123,7 @@ const submit = () => {
                   v-model="formData.name.ar"
                   label="اسم البلاغ بالعربي"
                   name="name.ar"
-                  rules="required|min:5"
+                  rules="required|min:3|max:120"
                 />
               </VCol>
               <VCol cols="12">
@@ -131,7 +131,7 @@ const submit = () => {
                   v-model="formData.name.en"
                   label="اسم البلاغ بالانجليزي"
                   name="name.en"
-                  rules="required|min:5"
+                  rules="required|min:3|max:120"
                 />
               </VCol>
               <VCol cols="12" class="pt-0">

@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { RATE_ITEM_TARGETS, RATE_ITEM_TYPES, RATE_ITEM_WAYS } from '@/constants/settings'
+import { getOptionsArrayFromObject } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import type { RateItem } from '../interfaces/RateItem'
 import { rateItemsService } from '../services/RateItemsService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { getOptionsArrayFromObject } from '@/helpers/index'
-import { RATE_ITEM_TARGETS, RATE_ITEM_TYPES, RATE_ITEM_WAYS } from '@/constants/settings'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -111,6 +111,30 @@ function initAnswers() {
     formData.answers = [{ answer: { ar: '', en: '' }, points: null }]
 }
 
+async function validateLastAnswer() {
+  if (formData.way === 'question' && formData.answers?.length) {
+    const lastIndex = formData.answers.length - 1
+    const validationResults = await Promise.all([
+      formRef.value.validateField(`answers-ar-${lastIndex}`),
+      formRef.value.validateField(`answers-en-${lastIndex}`),
+      formRef.value.validateField('points-' + lastIndex),
+    ])
+
+    return validationResults.every((result) => result.valid)
+  }
+  return true
+}
+
+async function addNewAnswer() {
+  const isValidAnswer = await validateLastAnswer()
+  if (!isValidAnswer) return
+  if (formData.answers && formData.answers.length < 5) {
+    formData.answers?.push({ answer: { ar: '', en: '' }, points: null })
+  } else {
+    toast.error('لا يمكن اضافة اكثر من 5 اجابات')
+  }
+}
+
 function edit() {
   rateItemsService
     .editItem(formData)
@@ -170,7 +194,7 @@ const submit = () => {
                   v-model="formData.name.ar"
                   label="اسم التقييم بالعربي"
                   name="name.ar"
-                  rules="required|min:3"
+                  rules="required|min:3|max:120"
                 />
               </VCol>
               <VCol cols="12" sm="6">
@@ -178,7 +202,7 @@ const submit = () => {
                   v-model="formData.name.en"
                   label="اسم التقييم بالانجليزي"
                   name="name.en"
-                  rules="required|min:3"
+                  rules="required|min:3|max:120"
                 />
               </VCol>
               <VCol cols="12" sm="6" class="pb-0">
@@ -243,8 +267,8 @@ const submit = () => {
                       v-model="answer.answer.ar"
                       label="الإجابة بالعربي"
                       hide-default-label
-                      :name="`answers-ar-[${index}]`"
-                      rules="required|min:3"
+                      :name="`answers-ar-${index}`"
+                      rules="required|min:3|max:120"
                     />
                   </VCol>
                   <VCol cols="12" md="4" class="px-1">
@@ -252,8 +276,8 @@ const submit = () => {
                       v-model="answer.answer.en"
                       label="الإجابة بالانجليزي"
                       hide-default-label
-                      :name="`answers-en-[${index}]`"
-                      rules="required|min:3"
+                      :name="`answers-en-${index}`"
+                      rules="required|min:3|max:120"
                     />
                   </VCol>
                   <VCol cols="12" md="4" class="px-1">
@@ -261,7 +285,7 @@ const submit = () => {
                       v-model="answer.points"
                       label="النقاط"
                       hide-default-label
-                      :name="`points-[${index}]`"
+                      :name="`points-${index}`"
                       type="number"
                       :max="5"
                       rules="required|min_value:1|max_value:5"
@@ -277,11 +301,7 @@ const submit = () => {
                     <VIcon icon="tabler-trash" />
                   </VBtn>
                 </VRow>
-                <VBtn
-                  v-if="formData.answers && formData.answers.length < 5"
-                  variant="outlined"
-                  @click="formData.answers.push({ answer: { ar: '', en: '' }, points: null })"
-                >
+                <VBtn v-if="formData.answers" variant="outlined" @click="addNewAnswer">
                   اضافة اجابة
                   <VIcon end icon="tabler-plus" />
                 </VBtn>

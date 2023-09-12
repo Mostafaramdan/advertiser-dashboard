@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { cloneItem } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import type { AccountCase } from '../interfaces/AccountCase'
 import { accountCaseService } from '../services/AccountCaseService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem } from '@/helpers/index'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -144,7 +144,7 @@ const submit = () => {
                   label="الرسالة بالعربي"
                   name="message.ar"
                   rules="required|min:3|max:120"
-                  rows="2"
+                  rows="3"
                 />
               </VCol>
               <VCol cols="12">
@@ -153,7 +153,7 @@ const submit = () => {
                   label="الرسالة بالانجليزي"
                   name="message.en"
                   rules="required|min:3|max:120"
-                  rows="2"
+                  rows="3"
                 />
               </VCol>
               <VCol cols="12" class="pt-0">

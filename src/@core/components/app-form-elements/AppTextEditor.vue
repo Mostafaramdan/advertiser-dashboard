@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import ImageUploader from 'quill-image-uploader'
 import type { FormTextEditor } from '@/interfaces/Forms'
 import type { File } from '@/interfaces/Shared'
 import { sharedService } from '@/services/SharedService'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
+// @ts-expect-error
+import ImageUploader from 'quill-image-uploader'
 import 'quill-image-uploader/dist/quill.imageUploader.min.css'
 
 /***************************************
@@ -148,6 +147,12 @@ function uploadImage(file: File) {
 
     :deep(.ql-container.ql-snow) {
       border: none;
+    }
+  }
+
+  &:not(.read-only) {
+    :deep(.ql-editor) {
+      max-block-size: 300px;
     }
   }
 
