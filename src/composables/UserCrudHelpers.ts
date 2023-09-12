@@ -1,7 +1,7 @@
-import { useToast } from 'vue-toastification'
 import type { FormActionType } from '@/interfaces/Forms'
 import type { MetaData } from '@/interfaces/Shared'
 import { sharedService } from '@/services/SharedService'
+import { useToast } from 'vue-toastification'
 
 export function UseCrudHelpers<ItemType>(ItemService: any, params: any, modelName: string) {
   /***************************************
@@ -111,6 +111,7 @@ export function UseCrudHelpers<ItemType>(ItemService: any, params: any, modelNam
    */
   function onChangeSearch(value: string): void {
     params.keyword = value
+    params.page = 1
     getPageData()
   }
 
