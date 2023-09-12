@@ -1,9 +1,9 @@
 /* eslint-disable indent */
+import { useAuthStore } from '@/stores/AuthStore'
+import { useSharedStore } from '@/stores/SharedStore'
 import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import { useToast } from 'vue-toastification'
-import { useSharedStore } from '@/stores/SharedStore'
-import { useAuthStore } from '@/stores/AuthStore'
 
 export const axiosConf = {
   install: (app: any) => {
@@ -96,6 +96,10 @@ export const axiosConf = {
               name: 'error-page',
               query: { message: 'This url is invalid' },
             })
+            break
+          case 405:
+            // Method Not Allowed
+            toast.error(errorResponse?.data?.error)
             break
           case 500:
             router.push({
