@@ -9,6 +9,10 @@ class AdsRequestsService {
     return axios.get(`${this.contextPath}`, { params })
   }
 
+  getDetails(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}`)
+  }
+
   /** **************** delete ******************/
   deleteItem(id: number): AxiosPromise {
     return axios.delete(`${this.contextPath}/${id}`)

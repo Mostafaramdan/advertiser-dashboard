@@ -63,22 +63,23 @@ const { formatDateTime } = UseGeneralHelpers()
                 v-for="(user, index) in [activeItem.advertiser, activeItem.user]"
                 :key="index"
               >
-                <div class="d-flex align-center">
+                <div class="d-flex align-start">
                   <div class="d-flex flex-column align-center me-3 py-1">
                     <VAvatar size="38" variant="tonal" cover>
                       <VImg v-if="user.image_path" :src="user.image_path" cover />
                       <span v-else>!</span>
                     </VAvatar>
+                    <span class="d-flex align-center text-sm">
+                      <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
+                      {{ user.rate }}
+                    </span>
                   </div>
-                  <div style="min-width: 205px">
+                  <div style="word-wrap: break-word">
                     {{ user.account_name }}
                     <span class="text-sm text-disabled d-block">{{ user.email }}</span>
+                    <span class="text-sm text-disabled d-block">{{ user.phone }}</span>
                   </div>
                 </div>
-                <span class="d-flex align-center text-sm">
-                  <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
-                  {{ user.rate }}
-                </span>
               </VListItem>
 
               <VListItem class="px-2 py-2" title="رقم الطلب" :subtitle="activeItem.id" border />
