@@ -1,7 +1,8 @@
+import type { AdsRequestsDetails } from '@/interfaces/AdsRequest'
 import { defineStore } from 'pinia'
 
 interface State {
-  adsRequestDetails: any
+  adsRequestDetails: AdsRequestsDetails | any
 }
 export const useAdsRequestsStore = defineStore('adsRequests', {
   state: (): State => {

@@ -296,6 +296,7 @@ const commissionInfo = computed(() => {
                     target="_blank"
                     rel="noopener noreferrer"
                     variant="outlined"
+                    size="small"
                   >
                     <VIcon start icon="tabler-file-text" />
                     فاتورة الطلب

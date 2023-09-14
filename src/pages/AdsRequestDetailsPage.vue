@@ -11,6 +11,9 @@ const DetailsTab = defineAsyncComponent(
 const AdsRequestHistoryTab = defineAsyncComponent(
   () => import('@/components/ads-requests/AdsRequestHistoryTab.vue'),
 )
+const AdsRequestContentTab = defineAsyncComponent(
+  () => import('@/components/ads-requests/AdsRequestContentTab.vue'),
+)
 const route = useRoute()
 const router = useRouter()
 const adsRequestsStore = useAdsRequestsStore()
@@ -31,11 +34,11 @@ const tabs = computed(() => {
       value: 'details',
       component: DetailsTab,
     },
-    // {
-    //   title: 'محتوي الطلب',
-    //   value: 'licenses-documents',
-    //   component: DetailsTab,
-    // },
+    {
+      title: 'محتوي الطلب',
+      value: 'content',
+      component: AdsRequestContentTab,
+    },
     {
       title: 'سجل حركة الطلب',
       value: 'history',
