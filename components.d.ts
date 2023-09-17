@@ -9,11 +9,13 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AdBasicData: typeof import('./src/components/ads/AdBasicData.vue')['default']
     AddAuthenticatorAppDialog: typeof import('./src/components/dialogs/AddAuthenticatorAppDialog.vue')['default']
     AddEditAddressDialog: typeof import('./src/components/dialogs/AddEditAddressDialog.vue')['default']
     AddEditPermissionDialog: typeof import('./src/components/dialogs/AddEditPermissionDialog.vue')['default']
     AddEditRoleDialog: typeof import('./src/components/dialogs/AddEditRoleDialog.vue')['default']
     AdDetailsModal: typeof import('./src/components/ads/AdDetailsModal.vue')['default']
+    AdDetailsTab: typeof import('./src/components/ads/AdDetailsTab.vue')['default']
     AdsFilter: typeof import('./src/components/ads/AdsFilter.vue')['default']
     AdsRequestAttachmentsModal: typeof import('./src/components/ads-requests/AdsRequestAttachmentsModal.vue')['default']
     AdsRequestBasicData: typeof import('./src/components/ads-requests/AdsRequestBasicData.vue')['default']

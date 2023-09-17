@@ -47,8 +47,10 @@ export interface AdvertiserDetails {
   area_name: string
   type: string
   subscription_name: string
-  mawthooq: boolean
-  ma3roof: boolean
+  ma3roof_data: {
+    link: string
+    name: string
+  } | null
   can_be_marketer: boolean
   procedures: {
     ma3roof_verified: boolean
@@ -62,6 +64,11 @@ export interface AdvertiserDetails {
     name: string
     swift_code: string
     type: string
+  } | null
+  tax_settings: {
+    tax_enabled: boolean
+    tax_number: string
+    tax_percentage: number
   } | null
 }
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AdsRequestBasicData from '@/components/ads-requests/AdsRequestBasicData.vue'
 import { adsRequestsService } from '@/services/AdsRequestsService'
 import { useAdsRequestsStore } from '@/stores/AdsRequestsStore'
 /***************************************

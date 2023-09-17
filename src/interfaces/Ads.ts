@@ -12,7 +12,7 @@ export interface AdsListItem {
   ads_locations: {
     show_app: boolean
     show_profile: boolean
-  }
+  } | null
   advertiser: User
   user: User | null
   ads_type: string
@@ -24,4 +24,17 @@ export interface AdsListItem {
   is_active: boolean
   rate: number
   image_path: string
+}
+
+export interface AdDetails extends AdsListItem {
+  updated_count: number | null
+  dislikes_count: number
+  likes_count: number
+  attachments: {
+    id: number
+    type: string
+    path: string
+    thumbnail: string
+  }
+  country_name: string
 }

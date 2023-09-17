@@ -42,6 +42,12 @@ const tabs = computed(() => {
       component: LicensesDocumentsTab,
       show: hasPermission('show_attachments'),
     },
+    // {
+    //   title: 'إعدادات الحساب',
+    //   value: 'settings',
+    //   component: ProfileBasicInfo,
+    //   show: hasPermission('show_account_settings'),
+    // },
     {
       title: 'العرض التسويقي',
       value: 'marketing-presentation',

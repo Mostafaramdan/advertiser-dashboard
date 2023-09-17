@@ -123,14 +123,6 @@ const advertiserDetails = ref([
     label: 'باقة الاشتراك',
     key: 'subscription_name',
   },
-  {
-    label: 'بيانات موثوق',
-    key: 'mawthooq',
-  },
-  {
-    label: 'بيانات معروف',
-    key: 'ma3roof',
-  },
 ])
 
 const advertiserBankAccountData = ref([
@@ -153,6 +145,32 @@ const advertiserBankAccountData = ref([
   {
     label: 'نوع الحساب',
     key: 'type',
+  },
+])
+
+const maroofData = ref([
+  {
+    label: 'الاسم',
+    key: 'name',
+  },
+  {
+    label: 'الرابط',
+    key: 'link',
+  },
+])
+
+const taxSettings = ref([
+  {
+    label: 'الرقم الضريبي',
+    key: 'tax_number',
+  },
+  {
+    label: 'ضريبة القيمة المضافة',
+    key: 'tax_percentage',
+  },
+  {
+    label: 'الحالة',
+    key: 'tax_enabled',
   },
 ])
 
@@ -289,15 +307,6 @@ function takeProcedure(procedure: any) {
                     {{ data.profile_completion === 100 ? 'مكتمل' : 'غير مكتمل' }}
                   </VChip>
                   <VChip
-                    v-else-if="item.key === 'mawthooq'"
-                    label
-                    :color="data.mawthooq ? 'success' : 'error'"
-                    :prepend-icon="data.mawthooq ? 'tabler-circle-check' : 'tabler-playstation-x'"
-                    class="px-2 mt-1 mb-3"
-                  >
-                    {{ data.mawthooq ? 'تم الادخال' : 'لا يوجد بيانات' }}
-                  </VChip>
-                  <VChip
                     v-else-if="item.key === 'ma3roof'"
                     label
                     :color="data.ma3roof ? 'success' : 'error'"
@@ -311,6 +320,38 @@ function takeProcedure(procedure: any) {
                   </p>
                 </VCol>
               </VRow>
+            </VExpansionPanelText>
+          </VExpansionPanel>
+        </VExpansionPanels>
+
+        <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
+          <VExpansionPanel elevation="0">
+            <VExpansionPanelTitle> عرض بيانات معروف </VExpansionPanelTitle>
+            <VExpansionPanelText>
+              <VRow v-if="data.ma3roof_data">
+                <VCol
+                  v-for="item in maroofData"
+                  :key="item.key"
+                  class="py-2"
+                  cols="12"
+                  sm="6"
+                  lg="4"
+                >
+                  <h5 class="text-primary text-subtitle-2">
+                    {{ item.label }}
+                  </h5>
+                  <p class="text-body-2 mb-0 mt-1">
+                    <a
+                      :href="data.ma3roof_data[item.key]"
+                      target="_blank"
+                      v-if="item.key === 'link'"
+                      >{{ data.ma3roof_data[item.key] }}</a
+                    >
+                    <span v-else>{{ data.ma3roof_data[item.key] }}</span>
+                  </p>
+                </VCol>
+              </VRow>
+              <p v-else class="text-body-1 mb-0">لا يوجد بيانات</p>
             </VExpansionPanelText>
           </VExpansionPanel>
         </VExpansionPanels>
@@ -334,12 +375,12 @@ function takeProcedure(procedure: any) {
                 "
                 density="comfortable"
                 :inset="false"
-                class="mb-1"
+                class="mb-3"
                 @click="takeProcedure(procedure)"
               />
               <VBtn
                 variant="outlined"
-                class="mt-2"
+                class="mt-2 mb-1"
                 @click="showNotificationModal = true"
                 :disabled="!permissions.sendNotification"
               >
@@ -369,6 +410,37 @@ function takeProcedure(procedure: any) {
               </h5>
               <p class="text-body-2 mb-0">
                 {{ data.bank_account[item.key] }}
+              </p>
+            </VCol>
+          </VRow>
+          <p v-else class="text-body-1 mb-0">لا يوجد بيانات</p>
+        </VExpansionPanelText>
+      </VExpansionPanel>
+    </VExpansionPanels>
+
+    <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
+      <VExpansionPanel elevation="0">
+        <VExpansionPanelTitle> عرض اعدادات الضريبة </VExpansionPanelTitle>
+        <VExpansionPanelText>
+          <VRow v-if="data.tax_settings">
+            <VCol v-for="item in taxSettings" :key="item.key" class="py-2" cols="12" sm="6" lg="4">
+              <h5 class="text-primary text-subtitle-2">
+                {{ item.label }}
+              </h5>
+              <p class="text-body-2 mb-0">
+                <span v-if="item.key === 'tax_percentage'"
+                  >{{ data.tax_settings.tax_percentage }} %</span
+                >
+                <VChip
+                  v-else-if="item.key === 'tax_enabled'"
+                  label
+                  :color="data.tax_enabled ? 'success' : 'error'"
+                  :prepend-icon="data.tax_enabled ? 'tabler-circle-check' : 'tabler-playstation-x'"
+                  class="px-2 mt-1"
+                >
+                  {{ data.tax_enabled ? 'مفعل' : 'غير مفعل' }}
+                </VChip>
+                <span v-else>{{ data.tax_settings[item.key] }}</span>
               </p>
             </VCol>
           </VRow>
