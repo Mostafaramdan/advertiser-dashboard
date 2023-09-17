@@ -196,7 +196,7 @@ const data = computed(() => {
                       label
                       v-if="data.ads_locations.show_profile"
                     >
-                      الروفايل
+                      البروفايل
                     </VChip>
                   </div>
                 </div>

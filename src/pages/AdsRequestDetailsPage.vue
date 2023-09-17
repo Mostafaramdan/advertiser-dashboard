@@ -84,6 +84,7 @@ function updateRouteQuery() {
 }
 
 function getPageData() {
+  adsRequestsStore.setAdsRequestDetails(null)
   isLoading.value = true
   adsRequestsService
     .getDetails(adRequestId)

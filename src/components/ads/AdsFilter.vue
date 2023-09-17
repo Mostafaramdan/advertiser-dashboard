@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import UsersSelectFilter from '@/components/filters/UsersSelectFilter.vue'
 import FilterSideBar from '@/components/shared/FilterSideBar.vue'
-import { ADS_REQUEST_STATUSES, SORT_TYPES } from '@/constants/ads-requests'
+import { SORT_TYPES, STATUSES_TYPES } from '@/constants/ads'
 import { getOptionsArrayFromObject } from '@/helpers/index'
 import { listService } from '@/services/ListService'
 
@@ -46,12 +46,11 @@ const initFilters = {
   from_date: null,
   to_date: null,
   categories: [],
-  statuses: [],
   sort_by: null,
   country_id: null,
   area_id: null,
   advertiser_id: null,
-  user_id: null,
+  is_active: null,
 }
 
 const filters = reactive({ ...initFilters, ...props.initFilters })
@@ -155,7 +154,6 @@ function getCategories() {
             id="advertisers-select-filter"
             class="mt-2"
           />
-          <UsersSelectFilter class="mt-3" v-model="filters.user_id" id="users-select-filter" />
           <VSelect
             v-model="filters.country_id"
             :items="countriesList"
@@ -178,20 +176,6 @@ function getCategories() {
             :loading="isLoading.areas"
             :disabled="isLoading.areas || !filters.country_id"
             clearable
-          />
-        </VExpansionPanelText>
-      </VExpansionPanel>
-      <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle> عرض حسب حالة الطلب</VExpansionPanelTitle>
-        <VExpansionPanelText>
-          <AppCheckbox
-            v-model="filters.statuses"
-            :options="ADS_REQUEST_STATUSES"
-            hide-label
-            name="statuses"
-            label="حالة الطلب"
-            option-label="label"
-            option-value="id"
           />
         </VExpansionPanelText>
       </VExpansionPanel>
@@ -226,6 +210,20 @@ function getCategories() {
             hide-label
             name="sort_by"
             label="الترتيب"
+            option-label="label"
+            option-value="value"
+          />
+        </VExpansionPanelText>
+      </VExpansionPanel>
+      <VExpansionPanel elevation="0">
+        <VExpansionPanelTitle>عرض حسب الحالة </VExpansionPanelTitle>
+        <VExpansionPanelText>
+          <AppRadio
+            v-model="filters.is_active"
+            :options="getOptionsArrayFromObject(STATUSES_TYPES)"
+            hide-label
+            name="is_active"
+            label="الحالة"
             option-label="label"
             option-value="value"
           />

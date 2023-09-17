@@ -13,6 +13,8 @@ declare module '@vue/runtime-core' {
     AddEditAddressDialog: typeof import('./src/components/dialogs/AddEditAddressDialog.vue')['default']
     AddEditPermissionDialog: typeof import('./src/components/dialogs/AddEditPermissionDialog.vue')['default']
     AddEditRoleDialog: typeof import('./src/components/dialogs/AddEditRoleDialog.vue')['default']
+    AdDetailsModal: typeof import('./src/components/ads/AdDetailsModal.vue')['default']
+    AdsFilter: typeof import('./src/components/ads/AdsFilter.vue')['default']
     AdsRequestAttachmentsModal: typeof import('./src/components/ads-requests/AdsRequestAttachmentsModal.vue')['default']
     AdsRequestBasicData: typeof import('./src/components/ads-requests/AdsRequestBasicData.vue')['default']
     AdsRequestContentTab: typeof import('./src/components/ads-requests/AdsRequestContentTab.vue')['default']
