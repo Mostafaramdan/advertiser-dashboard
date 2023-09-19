@@ -188,7 +188,8 @@ function openHistoryModal(id: number) {
       </template>
       <template #item.remaining_days="{ item }">
         <span class="text-no-wrap" v-if="item.raw.remaining_days !== null">
-          {{ item.raw.remaining_days }} يوم
+          <span v-if="item.raw.remaining_days > 0"> {{ item.raw.remaining_days }} يوم </span>
+          <span class="text-error" v-else>منتهي</span>
         </span>
         <span v-else>-</span>
       </template>

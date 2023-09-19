@@ -72,7 +72,6 @@ export interface LicenseDocumentNote {
 export interface LogsHistoryItem {
   id: number
   created_at: string
-  confirmed_at: string | null
-  confirmed_by: string | null
+  action_by: string | null
   action: string
 }

@@ -45,11 +45,7 @@ const headers: any = [
   },
   {
     title: 'صاحب الحركة',
-    key: 'confirmed_by',
-  },
-  {
-    title: 'تاريخ الموافقة',
-    key: 'confirmed_at',
+    key: 'action_by',
   },
 ]
 
@@ -98,19 +94,14 @@ function getPageData() {
           {{ item.raw.action }}
         </div>
       </template>
-      <template #item.confirmed_by="{ item }">
+      <template #item.action_by="{ item }">
         <div style="min-width: 200px">
-          {{ item.raw.confirmed_by || '-' }}
+          {{ item.raw.action_by || '-' }}
         </div>
       </template>
       <template #item.created_at="{ item }">
         <div class="text-no-wrap">
           {{ formatDateTime(item.raw.created_at) }}
-        </div>
-      </template>
-      <template #item.confirmed_at="{ item }">
-        <div class="text-no-wrap">
-          {{ formatDateTime(item.raw.confirmed_at) }}
         </div>
       </template>
 

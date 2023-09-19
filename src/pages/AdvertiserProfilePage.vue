@@ -21,10 +21,10 @@ const AccountSettingsTab = defineAsyncComponent(
 )
 const route = useRoute()
 const router = useRouter()
-const { hasPermission } = useAuthStore()
+const { hasPermission, canAccessPage } = useAuthStore()
 const currentTab = ref<any>()
 const user = ref<AdvertiserBasicData | null>(null)
-
+const advertiserId: number = +route.params.id
 // #endregion
 
 /***************************************
@@ -59,6 +59,10 @@ const tabs = computed(() => {
     },
   ]
 })
+
+const permissions = computed(() => ({
+  viewAds: canAccessPage('ads'),
+}))
 
 // #endregion
 
@@ -107,7 +111,12 @@ function updateRouteQuery() {
         سجل النشاطات
         <VIcon end icon="tabler-history" />
       </VBtn>
-      <VBtn variant="outlined" class="me-3">
+      <VBtn
+        variant="outlined"
+        class="me-3"
+        :to="{ name: 'ads-page', query: { advertiser_id: advertiserId } }"
+        :disabled="!permissions.viewAds"
+      >
         استعراض الإعلانات <VIcon end icon="tabler-ad-2" />
       </VBtn>
       <VBtn variant="outlined" class="me-3">

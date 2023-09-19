@@ -31,11 +31,12 @@ const emit = defineEmits<{ (e: 'update:modelValue', value: any): void }>()
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
+const route = useRoute()
 const usersSelectRef = ref()
 const isLoading = ref<boolean>(false)
 const usersList = ref([])
 const metaData = ref<MetaData | null>(null)
-const params = reactive({
+const params: any = reactive({
   page: 1,
   itemPerPage: 20,
   keyword: '',
@@ -61,7 +62,10 @@ const value = computed({
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
+const advertiser_id = route.query?.advertiser_id
+if (advertiser_id) params.keyword = +advertiser_id
 getData()
+
 onMounted(() => {
   console.log(document.querySelector(`.${props.id} > .v-list`))
 
@@ -139,6 +143,7 @@ const handleDebounceSearch = debounce((value: any) => {
           <VTextField
             placeholder="بحث"
             @update:model-value="handleDebounceSearch"
+            :model-value="params.keyword"
             clearable
           ></VTextField>
         </div>
