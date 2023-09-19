@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { AdsRequestCoupon } from '@/interfaces/AdsRequest'
+import { useAuthStore } from '@/stores/AuthStore'
 import { useVModel } from '@vueuse/core'
 
 /***************************************
@@ -27,8 +28,19 @@ const emit = defineEmits<{
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
+const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
+const MODEL_NAME = 'coupons'
 const showModal = useVModel(props, 'showModal', emit)
+// #endregion
+
+/***************************************
+ **** Section Computed Variables  ******
+ **************************************/
+// #region Computed
+const permissions = computed(() => ({
+  changeStatus: hasPermission('change_status_ads_request_coupon'),
+}))
 // #endregion
 </script>
 
@@ -43,7 +55,7 @@ const showModal = useVModel(props, 'showModal', emit)
         <div class="coupon">
           <div class="d-flex gap-2 flex-wrap flex-sm-nowrap">
             <VAvatar size="80" rounded="0" variant="outlined" cover>
-              <VImg v-if="coupon.store.image" :src="coupon.store.image" cover />
+              <VImg v-if="coupon.image_path" :src="coupon.image_path" cover />
               <span v-else>!</span>
             </VAvatar>
             <div class="flex-grow-1">
@@ -55,19 +67,19 @@ const showModal = useVModel(props, 'showModal', emit)
                 </span>
               </div>
               <div class="d-flex">
-                <VSwitch
-                  :inset="false"
+                <ToggleActivationSwitch
+                  :id="coupon.id"
                   v-model="coupon.is_active"
+                  :model="MODEL_NAME"
+                  :disabled="!permissions.changeStatus"
                   :label="coupon.is_active ? 'نشط' : 'غير نشط'"
-                  name="is_active"
-                  readonly
                 />
               </div>
             </div>
           </div>
           <div class="rounded border pa-1 mt-2">
             <h4 class="mb-1">عدد مرات الاستخدام</h4>
-            {{ coupon.uses_count }}
+            {{ coupon.uses }}
           </div>
           <div class="rounded border pa-1 mt-2">
             <h4 class="mb-1">تاريخ الانتهاء</h4>
@@ -100,8 +112,8 @@ const showModal = useVModel(props, 'showModal', emit)
           </div>
           <div class="rounded border pa-1 mt-2">
             <h4 class="mb-1">المتجر</h4>
-            <a :href="coupon.store_url" target="_blank" class="content-list__link">
-              الذهاب لمتجر {{ coupon.store.name }}
+            <a :href="coupon.link" target="_blank" class="content-list__link">
+              الذهاب لمتجر {{ coupon.store_name }}
             </a>
             <span class="d-block">عدد مرات الذهاب {{ coupon.goes_count }}</span>
           </div>

@@ -104,7 +104,7 @@ const data = computed(() => {
             <VExpansionPanelText>
               <div class="rounded border pa-2 d-flex align-center" v-if="data.coupon">
                 <VAvatar size="38" variant="outlined" cover class="me-3">
-                  <VImg v-if="data.coupon.store.image" :src="data.coupon.store.image" cover />
+                  <VImg v-if="data.coupon.image_path" :src="data.coupon.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
                 <a href="#" @click.prevent="showCouponModal = true" class="content-list__link"

@@ -23,14 +23,12 @@ export interface AdsRequestsItem {
 export interface AdsRequestCoupon {
   id: number
   discount: number
-  store: {
-    name: string
-    image: string
-  }
-  store_url: string
+  store_name: string
+  image_path: string
+  link: string
   code: string
   ended_at: string
-  uses_count: number
+  uses: number
   goes_count: number
   views_count: number
   shares_count: number
