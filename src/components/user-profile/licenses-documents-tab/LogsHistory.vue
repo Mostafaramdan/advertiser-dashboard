@@ -44,7 +44,7 @@ const headers: any = [
     key: 'created_at',
   },
   {
-    title: 'تمت الموافقة بواسطة',
+    title: 'صاحب الحركة',
     key: 'confirmed_by',
   },
   {
