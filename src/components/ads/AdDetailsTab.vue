@@ -1,258 +1,127 @@
 <script setup lang="ts">
-import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
-import { useAdsRequestsStore } from '@/stores/AdsRequestsStore'
+import { useAdsStore } from '@/stores/AdsStore'
+import AdAttachmentsModal from './AdAttachmentsModal.vue'
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
-const { t } = useI18n()
-const adsRequestsStore = useAdsRequestsStore()
-const { formatDate } = UseGeneralHelpers()
+const adsStore = useAdsStore()
+const showAttachmentsModal = ref<boolean>(false)
 // #endregion
 
 /***************************************
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-const orderInfo = computed(() => {
-  const { order_info, advertiser, user, id, created_at } = adsRequestsStore.adsRequestDetails
+const data = computed(() => {
+  if (!adsStore.adDetails) return []
+  const {
+    ads_type,
+    country_name,
+    likes_count,
+    dislikes_count,
+    updated_count,
+    seen_count,
+    category_name,
+    ads_locations,
+    rate,
+    description,
+    location,
+    ads_request_id,
+    reports_count,
+    reports_percentage,
+    attachments,
+  } = adsStore.adDetails
   return [
     {
-      label: 'اسم المعلن',
-      value: advertiser.username,
+      label: 'نوع الاعلان',
+      value: ads_type,
     },
     {
-      label: 'اسم العميل',
-      value: user.username,
+      label: 'الدولة',
+      value: country_name,
+    },
+    {
+      label: 'مرات الاعجاب',
+      value: likes_count,
+    },
+    {
+      label: 'عدم الاعجاب',
+      value: dislikes_count,
+    },
+    {
+      label: 'مرات التحديث',
+      value: updated_count,
+    },
+    {
+      label: 'المشاهدات',
+      value: seen_count,
     },
     {
       label: 'رقم الطلب',
-      value: id,
+      value: ads_request_id,
+      key: 'ads_request_id',
     },
     {
-      label: 'تاريخ الطلب',
-      value: formatDate(created_at),
-    },
-    {
-      label: 'عدد الاعلانات الطلب',
-      value: order_info.ads_count,
-    },
-    {
-      label: 'طريقة الاعلان',
-      value: order_info.ads_method,
-    },
-    {
-      label: 'قسم الاعلان',
-      value: order_info.ads_category,
-    },
-    {
-      label: 'عدد مرات التكرار',
-      value: order_info.repeat_count,
-    },
-    {
-      label: 'فترة الاعلان',
-      value: order_info.range_date,
-    },
-    {
-      label: 'تقييم المعلن',
-      value: advertiser.rate,
-    },
-    {
-      label: 'تقييم العميل',
-      value: user.rate,
+      label: 'القسم',
+      value: category_name,
     },
     {
       label: 'تقييم الاعلان',
-      value: order_info.rate,
+      value: rate,
+      key: 'rate',
     },
     {
-      label: 'نوع الاعلان',
-      value: order_info.ads_type,
+      label: 'اماكن العرض',
+      value: ads_locations,
+      key: 'ads_locations',
     },
     {
-      label: 'اسم الاعلان المقترح',
-      value: order_info.title,
+      label: 'عدد البلاغات',
+      value: reports_count,
     },
     {
-      label: 'وصف الطلب',
-      value: order_info.description,
+      label: 'نسبة البلاغات',
+      value: reports_percentage,
+    },
+    {
+      label: 'المرفقات',
+      value: attachments,
+      key: 'attachments',
+    },
+    {
+      label: 'العنوان',
+      value: location,
+      key: 'location',
+    },
+    {
+      label: 'وصف الاعلان',
+      value: description,
     },
   ]
 })
 
-const advertiserPaymentInfo = computed(() => {
-  const { payment_info } = adsRequestsStore.adsRequestDetails
-  if (!payment_info) return []
-  return [
-    {
-      label: 'رقم الفاتورة',
-      value: payment_info.id,
-    },
-    {
-      label: 'تاريخ الفاتورة',
-      value: formatDate(payment_info.created_at),
-    },
-    {
-      label: 'فاتورة الطلب',
-      value: payment_info.pdf,
-      key: 'pdf',
-    },
-    {
-      label: 'نوع الدفع ',
-      value: payment_info.payment_method,
-    },
-    {
-      label: 'مهلة الدفع',
-      value:
-        new Date(payment_info.payment_deadline) < new Date()
-          ? 'منتهية'
-          : 'حتي ' + formatDate(payment_info.payment_deadline),
-    },
-    {
-      label: 'حالة الدفع',
-      value: payment_info.payment_status,
-    },
-    {
-      label: 'حالة التأكيد',
-      value: payment_info.confirm_transfer,
-    },
-    {
-      label: 'قيمة الطلب',
-      value: payment_info.order_price,
-    },
-    {
-      label: 'عمولة المنصة',
-      value: payment_info.total_commission,
-    },
-    {
-      label: 'المفرج عنه',
-      value: payment_info.release_total,
-    },
-    {
-      label: 'المكافات',
-      value: payment_info.prizes,
-    },
-    {
-      label: 'مجموع التكاليف',
-      value: payment_info.total_costs,
-    },
-    {
-      label: 'القيمة الاساسية',
-      value: payment_info.main_cost,
-    },
-    {
-      label: 'التكاليف الأخري',
-      value: payment_info.other_costs,
-    },
-    {
-      label: 'مجموع الخصومات',
-      value: payment_info.total_discounts,
-    },
-    {
-      label: 'خصم خاص',
-      value: payment_info.special_discounts,
-    },
-    {
-      label: 'خصم كوبون المنصة',
-      value: payment_info.coupon_discount,
-    },
-    {
-      label: 'الضريبة',
-      value: payment_info.tax,
-    },
-    {
-      label: 'إجمالي قيمة الطلب',
-      value: payment_info.total_costs,
-    },
-    {
-      label: 'نقاط المعلن',
-      value: payment_info.advertiser_points,
-    },
-    {
-      label: 'نقاط التاجر',
-      value: payment_info.user_points,
-    },
-    {
-      label: 'نقاط المسوق',
-      value: payment_info.marketer_points,
-    },
-    {
-      label: 'قيمة نقاط المعلن',
-      value: payment_info.advertiser_points_value,
-    },
-    {
-      label: 'قيمة نقاط التاجر',
-      value: payment_info.user_points_value,
-    },
-    {
-      label: 'قيمة نقاط المسوق',
-      value: payment_info.marketer_points_value,
-    },
-  ]
-})
-
-const bankTransferInfo = computed(() => {
-  const { transfer_info_out_platforms } = adsRequestsStore.adsRequestDetails
-  if (!transfer_info_out_platforms) return []
-  return [
-    {
-      label: 'البنك المحول منه',
-      value: transfer_info_out_platforms.bank_name,
-    },
-    {
-      label: 'قيمة التحويل',
-      value: transfer_info_out_platforms.total_transfer,
-    },
-    {
-      label: 'تاريخ التحويل',
-      value: formatDate(transfer_info_out_platforms.transferred_at),
-    },
-    {
-      label: 'صورة التحويل',
-      value: transfer_info_out_platforms.transfer_image,
-      key: 'transfer_image',
-    },
-  ]
-})
-
-const commissionInfo = computed(() => {
-  const { platform_commission } = adsRequestsStore.adsRequestDetails
-  if (!platform_commission) return []
-  return [
-    {
-      label: 'معدل العمولة',
-      value: platform_commission.commission_percent + '%',
-    },
-    {
-      label: 'قيمة العمولة',
-      value: platform_commission.commission_value,
-    },
-    {
-      label: 'رقم المرجع',
-      value: adsRequestsStore.adsRequestDetails.payment_info?.id,
-    },
-    {
-      label: 'حالة الدفع',
-      value: platform_commission.confirm_transfer,
-    },
-  ]
-})
 // #endregion
 </script>
 
 <template>
-  <div class="order-details-tab">
-    <!-- orderInfo info -->
+  <div class="details-tab" v-loading="!adsStore.adDetails">
+    <AdAttachmentsModal
+      v-model:show-modal="showAttachmentsModal"
+      v-if="adsStore.adDetails?.attachments.length"
+      :attachments="adsStore.adDetails.attachments"
+    />
+    <!-- ad details info -->
     <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
       <VExpansionPanel elevation="0">
         <VExpansionPanelTitle>بيانات الطلب</VExpansionPanelTitle>
         <VExpansionPanelText>
-          <div class="order-info">
+          <div class="card-info">
             <VRow>
               <VCol
-                v-for="(item, index) in orderInfo"
+                v-for="(item, index) in data"
                 :key="index"
-                class="py-2 order-info__item"
+                class="py-2 card-info__item"
                 cols="12"
                 sm="6"
                 lg="4"
@@ -260,138 +129,69 @@ const commissionInfo = computed(() => {
                 <h5 class="text-primary text-subtitle-2">
                   {{ item.label }}
                 </h5>
-                <p class="text-body-2 mb-0">
-                  {{ item.value ?? '-' }}
-                </p>
-              </VCol>
-            </VRow>
-          </div>
-        </VExpansionPanelText>
-      </VExpansionPanel>
-    </VExpansionPanels>
-    <!-- end order info -->
-
-    <!-- advertiser payment info -->
-    <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
-      <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>بيانات الدفع للمعلن</VExpansionPanelTitle>
-        <VExpansionPanelText>
-          <div class="order-info" v-if="advertiserPaymentInfo.length">
-            <VRow>
-              <VCol
-                v-for="(item, index) in advertiserPaymentInfo"
-                :key="index"
-                class="py-2 order-info__item"
-                cols="12"
-                sm="6"
-                lg="4"
-              >
-                <h5 class="text-primary text-subtitle-2">
-                  {{ item.label }}
-                </h5>
-                <div v-if="item.key === 'pdf'">
-                  <VBtn
-                    :href="item.value"
-                    :disabled="!item.value"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variant="outlined"
-                    size="small"
-                  >
-                    <VIcon start icon="tabler-file-text" />
-                    فاتورة الطلب
-                  </VBtn>
+                <div class="text-body-2 mb-0">
+                  <div v-if="item.key === 'rate'">
+                    <span class="d-flex align-center text-sm">
+                      <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
+                      {{ item.value }}
+                    </span>
+                  </div>
+                  <div v-else-if="item.key === 'location'">
+                    <a
+                      class="content-list__link"
+                      v-if="item.value"
+                      :href="`https://www.google.com/maps/search/?api=1&query=${item.value.lat},${item.value.lng}`"
+                      target="_blank"
+                      ><u>{{ item.value.address }}</u></a
+                    >
+                    <span v-else> لا يوجد </span>
+                  </div>
+                  <div v-else-if="item.key === 'ads_request_id'">
+                    <router-link
+                      class="content-list__link"
+                      v-if="item.value"
+                      :to="{ name: 'ads-request-details-page', params: { id: item.value } }"
+                      ><u>{{ item.value }}</u></router-link
+                    >
+                    <span v-else> لا يوجد </span>
+                  </div>
+                  <div v-else-if="item.key === 'attachments'">
+                    <VBtn
+                      variant="outlined"
+                      size="small"
+                      v-if="item.value.length"
+                      @click="showAttachmentsModal = true"
+                    >
+                      <VIcon start icon="tabler-paperclip" />
+                      عرض المرفقات
+                    </VBtn>
+                    <span v-else> لا يوجد </span>
+                  </div>
+                  <div v-else-if="item.key === 'ads_locations'">
+                    <div class="d-flex gap-2" v-if="item.value">
+                      <VChip label color="primary" v-if="item.value.show_app"> المنصة </VChip>
+                      <VChip label color="primary" v-if="item.value.show_profile">
+                        البروفايل
+                      </VChip>
+                    </div>
+                    <span v-else> لا يوجد </span>
+                  </div>
+                  <span v-else>
+                    {{ item.value ?? '-' }}
+                  </span>
                 </div>
-                <p class="text-body-2 mb-0" v-else>
-                  {{ item.value ?? '-' }}
-                </p>
               </VCol>
             </VRow>
-          </div>
-          <div v-else class="text-h6">
-            {{ t('general.no_data') }}
           </div>
         </VExpansionPanelText>
       </VExpansionPanel>
     </VExpansionPanels>
-    <!-- end advertiser payment info -->
-
-    <!-- bank transfer info info -->
-    <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
-      <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>بيانات التحويل خارج المنصة</VExpansionPanelTitle>
-        <VExpansionPanelText>
-          <div class="order-info" v-if="bankTransferInfo.length">
-            <VRow>
-              <VCol
-                v-for="(item, index) in bankTransferInfo"
-                :key="index"
-                class="py-2 order-info__item"
-                cols="12"
-                sm="6"
-                lg="4"
-              >
-                <h5 class="text-primary text-subtitle-2">
-                  {{ item.label }}
-                </h5>
-                <div v-if="item.key === 'transfer_image'">
-                  <a :href="item.value" target="_blank" v-if="item.value" class="mt-2 d-block">
-                    <VAvatar variant="outlined" size="80" cover rounded="0">
-                      <VImg :src="item.value" />
-                    </VAvatar>
-                  </a>
-                  <span v-else>-</span>
-                </div>
-                <p class="text-body-2 mb-0" v-else>
-                  {{ item.value ?? '-' }}
-                </p>
-              </VCol>
-            </VRow>
-          </div>
-          <div v-else class="text-h6">
-            {{ t('general.no_data') }}
-          </div>
-        </VExpansionPanelText>
-      </VExpansionPanel>
-    </VExpansionPanels>
-    <!-- end bank transfer info -->
-
-    <!-- bank transfer info -->
-    <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
-      <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle>بيانات عمولة المنصة</VExpansionPanelTitle>
-        <VExpansionPanelText>
-          <div class="order-info" v-if="commissionInfo.length">
-            <VRow>
-              <VCol
-                v-for="(item, index) in commissionInfo"
-                :key="index"
-                class="py-2 order-info__item"
-                cols="12"
-                sm="6"
-                lg="4"
-              >
-                <h5 class="text-primary text-subtitle-2">
-                  {{ item.label }}
-                </h5>
-                <p class="text-body-2 mb-0">
-                  {{ item.value ?? '-' }}
-                </p>
-              </VCol>
-            </VRow>
-          </div>
-          <div v-else class="text-h6">
-            {{ t('general.no_data') }}
-          </div>
-        </VExpansionPanelText>
-      </VExpansionPanel>
-    </VExpansionPanels>
-    <!-- end bank transfer info -->
+    <!-- end ad details info -->
   </div>
 </template>
 
 <style lang="scss" scoped>
-.order-info {
+.card-info {
   &__item {
     display: flex;
     flex-wrap: wrap;

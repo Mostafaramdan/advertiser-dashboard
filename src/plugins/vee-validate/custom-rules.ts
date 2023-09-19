@@ -31,3 +31,9 @@ export function minDate(value: string, [min]: any) {
   else if (new Date(min) > new Date(value)) return false
   return true
 }
+
+export function lessThanValue(value: string, [max]: any) {
+  if (!value || !value.length || !max) return true
+  else if (Number(value) >= Number(max)) return false
+  return true
+}

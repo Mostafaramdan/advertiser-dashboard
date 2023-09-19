@@ -16,6 +16,9 @@ const LicensesDocumentsTab = defineAsyncComponent(
 const MarketingPresentationTab = defineAsyncComponent(
   () => import('@/components/advertiser-profile/MarketingPresentationTab.vue'),
 )
+const AccountSettingsTab = defineAsyncComponent(
+  () => import('@/components/advertiser-profile/AccountSettingsTab.vue'),
+)
 const route = useRoute()
 const router = useRouter()
 const { hasPermission } = useAuthStore()
@@ -31,7 +34,7 @@ const user = ref<AdvertiserBasicData | null>(null)
 const tabs = computed(() => {
   return [
     {
-      title: 'بيانات التاجر',
+      title: 'بيانات المعلن',
       value: 'details',
       component: DetailsTab,
       show: hasPermission('show_advertiser_details'),
@@ -42,12 +45,12 @@ const tabs = computed(() => {
       component: LicensesDocumentsTab,
       show: hasPermission('show_attachments'),
     },
-    // {
-    //   title: 'إعدادات الحساب',
-    //   value: 'settings',
-    //   component: ProfileBasicInfo,
-    //   show: hasPermission('show_account_settings'),
-    // },
+    {
+      title: 'إعدادات الحساب',
+      value: 'account-settings',
+      component: AccountSettingsTab,
+      show: hasPermission('show_account_settings'),
+    },
     {
       title: 'العرض التسويقي',
       value: 'marketing-presentation',

@@ -166,6 +166,7 @@ function openHistoryModal(id: number) {
       :user="user"
       :default-message="defaultNotificationMsg"
       :url="notificationApiUrl"
+      @notification:sent="getPageData"
     />
     <VDataTableServer
       v-loading="isLoading"

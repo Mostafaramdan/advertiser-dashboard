@@ -26,6 +26,7 @@ const props = withDefaults(defineProps<NotificationModalProps>(), {
 // #region Emits
 const emit = defineEmits<{
   (e: 'update:showModal', value: boolean): void
+  (e: 'notification:sent', value: boolean): void
 }>()
 
 // #endregion
@@ -75,6 +76,7 @@ function sendNotification() {
     .then((res) => {
       toast.success(res.data.message)
       showModal.value = false
+      emit('notification:sent', true)
     })
     .finally(() => {
       isLoading.value = false

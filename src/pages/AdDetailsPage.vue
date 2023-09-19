@@ -2,14 +2,18 @@
 import AdBasicData from '@/components/ads/AdBasicData.vue'
 import { adsService } from '@/services/AdsService'
 import { useAdsStore } from '@/stores/AdsStore'
+import { useAuthStore } from '@/stores/AuthStore'
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
 const DetailsTab = defineAsyncComponent(() => import('@/components/ads/AdDetailsTab.vue'))
+const CommentsTab = defineAsyncComponent(() => import('@/components/ads/AdCommentsTab.vue'))
+const ReportsTab = defineAsyncComponent(() => import('@/components/ads/AdReportsTab.vue'))
 const route = useRoute()
 const router = useRouter()
 const adsStore = useAdsStore()
+const { hasPermission } = useAuthStore()
 const isLoading = ref<boolean>(false)
 const currentTab = ref<any>()
 const adRequestId = +route.params.id
@@ -28,16 +32,18 @@ const tabs = computed(() => {
       component: DetailsTab,
       show: true,
     },
-    // {
-    //   title: 'التعليقات',
-    //   value: 'comments',
-    //   component: AdsRequestContentTab,
-    // },
-    // {
-    //   title: 'البلاغات',
-    //   value: 'reports',
-    //   component: AdsRequestHistoryTab,
-    // },
+    {
+      title: 'التعليقات',
+      value: 'comments',
+      component: CommentsTab,
+      show: hasPermission('view_ads_comments'),
+    },
+    {
+      title: 'البلاغات',
+      value: 'reports',
+      component: ReportsTab,
+      show: hasPermission('view_ads_reports'),
+    },
   ]
 })
 // #endregion
@@ -95,7 +101,7 @@ function getPageData() {
 
 <template>
   <section class="ad-order-details">
-    <VCard class="page-card" v-loading="isLoading">
+    <VCard class="page-card">
       <template #title>
         <div class="d-flex align-center">
           <PageBackBtn :link="{ name: 'ads-page' }" />
@@ -111,10 +117,8 @@ function getPageData() {
             </VTab>
           </template>
         </VTabs>
-        <template>
-          <div v-for="tab in tabs" :key="tab.value">
-            <Component :is="tab.component" v-if="currentTab === tab.value && tab.show" />
-          </div>
+        <template v-for="tab in tabs" :key="tab.value">
+          <Component :is="tab.component" v-if="currentTab === tab.value && tab.show" />
         </template>
       </VCardText>
     </VCard>

@@ -14,6 +14,7 @@ const arMessages = {
   minWords: '{field} يجب أن يحتوي على 0:{min} كلمات على الأقل',
   validIcloud: 'الرجاء إدخال حساب iCloud صالح',
   minDate: 'يجب أن يكون التاريخ أكبر من أو يساوي 0:{min}',
+  lessThanValue: 'يجب أن يكون القيمة أقل من 0:{max}',
 }
 
 export default arMessages

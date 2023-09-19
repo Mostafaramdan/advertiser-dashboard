@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { PACKAGE_EDIT_TYPES } from '@/constants/subscriptions'
 import { getOptionsArrayFromObject } from '@/helpers/index'
+import type { FormActionType } from '@/interfaces/Forms'
 import { File } from '@/interfaces/Shared'
 import { useToast } from 'vue-toastification'
 import type {
@@ -13,7 +14,7 @@ import { subscriptionsPackagesService } from '../services/SubscriptionsPackagesS
  **** Section Props Declaration  ******
  **************************************/
 // #region Props
-const props = withDefaults(defineProps<SubscriptionPackageFormProps>(), {
+const props = withDefaults(defineProps<{ formAction: FormActionType }>(), {
   formAction: 'view',
 })
 
@@ -121,6 +122,7 @@ function edit(payload: SubscriptionPackageFormProps) {
     .editItem(payload)
     .then((res) => {
       toast.success(res.data.message)
+      goToPackagesPage()
     })
     .finally(() => {
       isLoading.submit = false
@@ -132,6 +134,7 @@ function create(payload: SubscriptionPackageFormProps) {
     .createItem(payload)
     .then((res) => {
       toast.success(res.data.message)
+      goToPackagesPage()
     })
     .finally(() => {
       isLoading.submit = false
@@ -279,7 +282,7 @@ function drop(event: DragEvent, listIndex: string, itemIndex: number, items: any
                     label="السعر قبل"
                     :name="`price-${index}`"
                     type="number"
-                    rules="numeric"
+                    :rules="{ required: period.is_active, numeric: true }"
                     hide-default-label
                   />
                 </VCol>
@@ -289,14 +292,14 @@ function drop(event: DragEvent, listIndex: string, itemIndex: number, items: any
                     label="السعر بعد"
                     :name="`price_after_discount-${index}`"
                     type="number"
-                    rules="numeric"
+                    :rules="{ lessThanValue: period.price, numeric: true }"
                     hide-default-label
                   />
                 </VCol>
-                <VCol class="pa-1" cols="12" md="2">
+                <VCol class="pa-1" cols="12" md="3">
                   <AppTextField
                     v-model="period.free_days"
-                    label="مدة مجانية"
+                    label="مدة مجانية لكل شهر"
                     :name="`free_days-${index}`"
                     type="number"
                     rules="numeric|min_value:0|max_value:15"

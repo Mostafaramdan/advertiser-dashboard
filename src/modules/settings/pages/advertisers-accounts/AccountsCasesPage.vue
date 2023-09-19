@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import type { pageAction } from '@/interfaces/Shared'
+import { useAuthStore } from '@/stores/AuthStore'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { AccountCase } from '../../interfaces/AccountCase'
 import AccountCaseDetailsModal from '../../modals/AccountCaseDetailsModal.vue'
 import AccountCaseFormModal from '../../modals/AccountCaseFormModal.vue'
 import { accountCaseService } from '../../services/AccountCaseService'
-import { useAuthStore } from '@/stores/AuthStore'
-import type { pageAction } from '@/interfaces/Shared'
-import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -83,7 +83,6 @@ const headers: any = [
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-// TODO: ADD permissions
 const permissions = computed(() => ({
   create: hasPermission('create_account_case'),
   edit: hasPermission('update_account_case'),

@@ -104,7 +104,7 @@ function submit() {
               {{ t('actions.cancel') }}
             </VBtn>
             <VBtn :loading="isLoading" :disabled="isLoading || !meta.valid" @click="submit">
-              {{ t('actions.send') }}
+              {{ t('actions.save') }}
             </VBtn>
           </VCardText>
         </VCard>

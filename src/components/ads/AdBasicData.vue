@@ -132,7 +132,6 @@ async function showConfirmDeleteRequest(): Promise<void> {
                         </VListItem>
                       </VList>
                     </VMenu>
-
                     <VBtn
                       variant="outlined"
                       color="error"
@@ -141,7 +140,7 @@ async function showConfirmDeleteRequest(): Promise<void> {
                       :loading="isDeleting"
                       :disabled="isDeleting || !permissions.delete"
                     >
-                      حذف الطلب<VIcon end icon="tabler-trash" />
+                      حذف الاعلان<VIcon end icon="tabler-trash" />
                     </VBtn>
                   </div>
                 </div>

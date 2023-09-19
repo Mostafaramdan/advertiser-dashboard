@@ -37,4 +37,29 @@ export interface AdDetails extends AdsListItem {
     thumbnail: string
   }
   country_name: string
+  reports_count: number
+  reports_percentage: number
+  ads_request_id: number | null
+  location: {
+    lat: number
+    lng: number
+    address: string
+  } | null
+  description: string
+}
+
+export interface AdComment {
+  id: number
+  comment: string
+  commenter: User
+  created_at: string
+  likes_count: number
+}
+
+export interface AdReport {
+  id: number
+  user: User | null
+  advertiser: User
+  created_at: string
+  report_content: string
 }

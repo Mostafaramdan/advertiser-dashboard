@@ -78,3 +78,31 @@ export interface MarketingPresentationInfo {
   end_date: string
   points: number | null
 }
+
+export interface AccountSettingsData {
+  channels: {
+    id: number
+    type: string
+    is_active: boolean
+    name: string
+    link: string
+    followers_count: number
+    channel: {
+      id: number
+      name: string
+      image_path: string
+    }
+  }[]
+  categories: {
+    id: number
+    name: string
+  }[]
+  countries: {
+    id: number
+    name: string
+  }[]
+  areas: {
+    id: number
+    name: string
+  }[]
+}
