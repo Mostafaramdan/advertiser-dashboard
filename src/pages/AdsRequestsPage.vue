@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AdsRequestDetailsModal from '@/components/ads-requests/AdsRequestDetailsModal.vue'
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { AdsRequestsItem } from '@/interfaces/AdsRequest'
@@ -36,9 +35,6 @@ const {
   metaData,
   confirmModal,
   IsLoadingData,
-  showDetailsModal,
-  activeItem,
-  showViewModal,
   getPageData,
   onReloadData,
   onChangeItemsPerPage,
@@ -137,7 +133,6 @@ function openNotificationModal(user: any) {
       :user="activeUser"
     />
     <ConfirmModal ref="confirmModal" />
-    <AdsRequestDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
     <Component
       :is="FilterComponent"
       v-if="loadFilter"
@@ -194,7 +189,7 @@ function openNotificationModal(user: any) {
           </template>
           <template #item.price="{ item }">
             <div class="text-no-wrap" style="min-width: 80px">
-              {{ item.raw.price }}
+              TODO
               <span class="text-sm text-disabled d-block"> {{ item.raw.commission }}</span>
             </div>
           </template>
@@ -226,13 +221,6 @@ function openNotificationModal(user: any) {
 
                 <VMenu activator="parent">
                   <VList>
-                    <VListItem @click="showViewModal(item.raw)">
-                      <template #prepend>
-                        <VIcon icon="tabler-eye" />
-                      </template>
-                      <VListItemTitle>عرض المزيد</VListItemTitle>
-                    </VListItem>
-
                     <VListItem
                       v-if="permissions.sendNotification"
                       @click="openNotificationModal(item.raw.advertiser)"

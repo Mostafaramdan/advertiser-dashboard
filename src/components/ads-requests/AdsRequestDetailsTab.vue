@@ -98,10 +98,6 @@ const advertiserPaymentInfo = computed(() => {
       key: 'pdf',
     },
     {
-      label: 'نوع الدفع ',
-      value: payment_info.payment_method,
-    },
-    {
       label: 'مهلة الدفع',
       value:
         new Date(payment_info.payment_deadline) < new Date()
@@ -109,16 +105,20 @@ const advertiserPaymentInfo = computed(() => {
           : 'حتي ' + formatDate(payment_info.payment_deadline),
     },
     {
+      label: 'نوع الدفع ',
+      value: payment_info.payment_method,
+    },
+    {
       label: 'حالة الدفع',
       value: payment_info.payment_status,
     },
     {
-      label: 'حالة التأكيد',
+      label: 'حالة التحويل',
       value: payment_info.confirm_transfer,
     },
     {
       label: 'قيمة الطلب',
-      value: payment_info.order_price,
+      value: 'TODO',
     },
     {
       label: 'عمولة المنصة',
@@ -127,6 +127,10 @@ const advertiserPaymentInfo = computed(() => {
     {
       label: 'المفرج عنه',
       value: payment_info.release_total,
+    },
+    {
+      label: 'المعلق',
+      value: 'TODO',
     },
     {
       label: 'المكافات',
@@ -162,7 +166,7 @@ const advertiserPaymentInfo = computed(() => {
     },
     {
       label: 'إجمالي قيمة الطلب',
-      value: payment_info.total_costs,
+      value: 'TODO',
     },
     {
       label: 'نقاط المعلن',
