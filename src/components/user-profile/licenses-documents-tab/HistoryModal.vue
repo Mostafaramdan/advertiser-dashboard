@@ -41,6 +41,11 @@ const tabs = [
     value: 'notes',
     component: defineAsyncComponent(() => import('./NotesHistory.vue')),
   },
+  {
+    title: 'سجل الحركة',
+    value: 'logs',
+    component: defineAsyncComponent(() => import('./LogsHistory.vue')),
+  },
 ]
 
 // #endregion

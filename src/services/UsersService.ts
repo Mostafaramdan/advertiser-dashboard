@@ -28,6 +28,10 @@ class UsersService {
     return axios.get(`${contextPath}/attachments/${id}/note_logs`, { params })
   }
 
+  getLogsHistory(id: number, params: any): AxiosPromise {
+    return axios.get(`${contextPath}/attachments/${id}/logs`, { params })
+  }
+
   /** **************** delete ******************/
   deleteItem(id: number): AxiosPromise {
     return axios.delete(`${contextPath}/users/${id}`)

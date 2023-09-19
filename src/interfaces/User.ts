@@ -69,3 +69,10 @@ export interface LicenseDocumentNote {
   created_at: string
   note: string
 }
+export interface LogsHistoryItem {
+  id: number
+  created_at: string
+  confirmed_at: string | null
+  confirmed_by: string | null
+  action: string
+}
