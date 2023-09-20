@@ -16,15 +16,17 @@ const FilterComponent = defineAsyncComponent(
   () => import('../components/SubscriptionsRequestsFilter.vue'),
 )
 const { t } = useI18n()
+const route = useRoute()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'subscription_requests_logs'
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
 
-const params = reactive({
+const params: any = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
+  advertiser_id: null,
 })
 
 const {
@@ -88,6 +90,8 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
+const advertiser_id = route.query?.advertiser_id
+if (advertiser_id) params.advertiser_id = +advertiser_id
 getPageData()
 
 // #endregion
@@ -115,6 +119,7 @@ function onApplyFilter(filters: any) {
       v-if="loadFilter"
       v-model:showFilter="showFilter"
       @apply-filter="onApplyFilter"
+      :init-filters="params"
     />
     <VCard class="page-card" title="سجل الاشتراكات">
       <VCardText>

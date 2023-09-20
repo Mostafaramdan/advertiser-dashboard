@@ -117,7 +117,6 @@ const handleDebounceSearch = debounce((value: any) => {
 <template>
   <div ref="usersSelectRef" class="position-relative">
     <VSelect
-      v-model="value"
       :items="usersList"
       class="mt-2"
       item-value="id"
@@ -126,10 +125,13 @@ const handleDebounceSearch = debounce((value: any) => {
       :disabled="isLoading && !usersList.length"
       :loading="isLoading && !usersList.length"
       eager
+      :model-value="isLoading ? '' : value"
+      @update:model-value="(val: any) => (value = val)"
       :menu-props="{
         contentClass: `filter-select users-select-menu ${id}`,
         attach: usersSelectRef,
         locationStrategy: 'static',
+        maxHeight: '250px',
       }"
     >
       <template #prepend-item>

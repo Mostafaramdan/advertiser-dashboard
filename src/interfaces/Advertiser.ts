@@ -60,7 +60,7 @@ export interface AdvertiserDetails {
   }
   bank_account: {
     account_name: string
-    account_number: string
+    iban: string
     name: string
     swift_code: string
     type: string

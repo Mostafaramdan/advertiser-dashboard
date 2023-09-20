@@ -25,7 +25,7 @@ const toast = useToast()
 const { t } = useI18n()
 const route = useRoute()
 const { hasPermission } = useAuthStore()
-const { formatDateTime } = UseGeneralHelpers()
+const { formatDateTime, formatDate } = UseGeneralHelpers()
 const HistoryModal = defineAsyncComponent(() => import('./HistoryModal.vue'))
 const NoteModal = defineAsyncComponent(() => import('./NoteModal.vue'))
 const MODEL_NAME = 'user_attachments'
@@ -183,7 +183,7 @@ function openHistoryModal(id: number) {
       </template>
       <template #item.ended_at="{ item }">
         <span class="text-no-wrap">
-          {{ formatDateTime(item.raw.ended_at) }}
+          {{ formatDate(item.raw.ended_at) }}
         </span>
       </template>
       <template #item.remaining_days="{ item }">

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AdDetailsModal from '@/components/ads/AdDetailsModal.vue'
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { AdsListItem } from '@/interfaces/Ads'
@@ -36,9 +35,6 @@ const {
   metaData,
   confirmModal,
   IsLoadingData,
-  showDetailsModal,
-  activeItem,
-  showViewModal,
   getPageData,
   onReloadData,
   onChangeItemsPerPage,
@@ -144,7 +140,6 @@ function openNotificationModal(user: any) {
       :user="activeUser"
     />
     <ConfirmModal ref="confirmModal" />
-    <AdDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
     <Component
       :is="FilterComponent"
       v-if="loadFilter"
@@ -258,7 +253,11 @@ function openNotificationModal(user: any) {
             <div class="d-flex justify-center">
               <IconBtn
                 :disabled="!permissions.viewAdsRequestDetails"
-                :to="{ name: 'ad-details-page', params: { id: item.raw.id } }"
+                :to="{
+                  name: 'ad-details-page',
+                  params: { id: item.raw.id },
+                  query: { tab: 'details' },
+                }"
               >
                 <VIcon icon="tabler-eye" />
               </IconBtn>
@@ -270,13 +269,6 @@ function openNotificationModal(user: any) {
 
                 <VMenu activator="parent">
                   <VList>
-                    <VListItem @click="showViewModal(item.raw)">
-                      <template #prepend>
-                        <VIcon icon="tabler-eye" />
-                      </template>
-                      <VListItemTitle>عرض المزيد</VListItemTitle>
-                    </VListItem>
-
                     <VListItem
                       v-if="permissions.sendNotification"
                       @click="openNotificationModal(item.raw.advertiser)"

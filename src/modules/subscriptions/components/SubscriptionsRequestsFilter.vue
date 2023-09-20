@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import UsersSelectFilter from '@/components/filters/UsersSelectFilter.vue'
 import FilterSideBar from '@/components/shared/FilterSideBar.vue'
 import { GENDER_TYPES } from '@/constants/index'
 import { SORT_TYPES } from '@/constants/subscriptions'
@@ -11,6 +12,7 @@ import { listService } from '@/services/ListService'
 // #region Props
 const props = defineProps({
   showFilter: { type: Boolean, required: true },
+  initFilters: { type: Object, default: {} },
 })
 
 // #endregion
@@ -49,9 +51,10 @@ const initFilters = {
   country_id: null,
   area_id: null,
   packages: [],
+  advertiser_id: null,
 }
 
-const filters = reactive({ ...initFilters })
+const filters = reactive({ ...initFilters, ...props.initFilters })
 
 // #endregion
 
@@ -145,6 +148,41 @@ function getPackages() {
         </VExpansionPanelText>
       </VExpansionPanel>
       <VExpansionPanel elevation="0">
+        <VExpansionPanelTitle> البحث حسب </VExpansionPanelTitle>
+        <VExpansionPanelText>
+          <UsersSelectFilter
+            label="اختر معلن"
+            userRole="advertiser"
+            v-model="filters.advertiser_id"
+            id="advertisers-select-filter"
+            class="mt-2"
+          />
+          <VSelect
+            v-model="filters.country_id"
+            :items="countriesList"
+            class="mt-2"
+            item-value="id"
+            item-title="label"
+            label="الدولة"
+            :loading="isLoading.countries"
+            :disabled="isLoading.countries"
+            clearable
+            @update:model-value="getAreas"
+          />
+          <VSelect
+            v-model="filters.area_id"
+            class="mt-3"
+            :items="areasList"
+            item-value="id"
+            item-title="label"
+            label="المدينة"
+            :loading="isLoading.areas"
+            :disabled="isLoading.areas || !filters.country_id"
+            clearable
+          />
+        </VExpansionPanelText>
+      </VExpansionPanel>
+      <VExpansionPanel elevation="0">
         <VExpansionPanelTitle> البحث بالجنس </VExpansionPanelTitle>
         <VExpansionPanelText>
           <AppRadio
@@ -183,34 +221,6 @@ function getPackages() {
             label="الترتيب"
             option-label="label"
             option-value="value"
-          />
-        </VExpansionPanelText>
-      </VExpansionPanel>
-      <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle> البحث بالدول - المدن </VExpansionPanelTitle>
-        <VExpansionPanelText>
-          <VSelect
-            v-model="filters.country_id"
-            :items="countriesList"
-            class="mt-2"
-            item-value="id"
-            item-title="label"
-            label="الدولة"
-            :loading="isLoading.countries"
-            :disabled="isLoading.countries"
-            clearable
-            @update:model-value="getAreas"
-          />
-          <VSelect
-            v-model="filters.area_id"
-            class="mt-3"
-            :items="areasList"
-            item-value="id"
-            item-title="label"
-            label="المدينة"
-            :loading="isLoading.areas"
-            :disabled="isLoading.areas || !filters.country_id"
-            clearable
           />
         </VExpansionPanelText>
       </VExpansionPanel>

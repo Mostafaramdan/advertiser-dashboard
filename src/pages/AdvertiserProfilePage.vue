@@ -62,6 +62,8 @@ const tabs = computed(() => {
 
 const permissions = computed(() => ({
   viewAds: canAccessPage('ads'),
+  viewAdsRequests: canAccessPage('ads_requests'),
+  viewSubscriptionsLogs: canAccessPage('subscription_requests_logs'),
 }))
 
 // #endregion
@@ -106,9 +108,13 @@ function updateRouteQuery() {
   <section class="advertiser-profile">
     <div class="d-flex overflow-auto text-nowrap mb-3 align-center">
       <PageBackBtn :link="{ name: 'advertisers-page' }" />
-      <!-- TODO: ADD permissions -->
-      <VBtn variant="outlined" class="me-3">
-        سجل النشاطات
+      <VBtn
+        variant="outlined"
+        class="me-3"
+        :to="{ name: 'subscriptions-logs-page', query: { advertiser_id: advertiserId } }"
+        :disabled="!permissions.viewSubscriptionsLogs"
+      >
+        سجل الاشنراكات
         <VIcon end icon="tabler-history" />
       </VBtn>
       <VBtn
@@ -119,7 +125,12 @@ function updateRouteQuery() {
       >
         استعراض الإعلانات <VIcon end icon="tabler-ad-2" />
       </VBtn>
-      <VBtn variant="outlined" class="me-3">
+      <VBtn
+        variant="outlined"
+        class="me-3"
+        :to="{ name: 'ads-requests-page', query: { advertiser_id: advertiserId } }"
+        :disabled="!permissions.viewAdsRequests"
+      >
         استعراض الطلبات <VIcon end icon="tabler-file-check" />
       </VBtn>
     </div>

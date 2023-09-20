@@ -241,7 +241,11 @@ async function showConfirmDeleteItem(item: Advertiser): Promise<void> {
             <div class="d-flex justify-center">
               <IconBtn
                 :disabled="!permissions.viewAdvertiserDetails"
-                :to="{ name: 'advertisers-profile-page', params: { id: item.raw.id } }"
+                :to="{
+                  name: 'advertisers-profile-page',
+                  params: { id: item.raw.id },
+                  query: { tab: 'details' },
+                }"
               >
                 <VIcon icon="tabler-eye" />
               </IconBtn>

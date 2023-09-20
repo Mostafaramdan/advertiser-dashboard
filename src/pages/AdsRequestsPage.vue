@@ -15,6 +15,7 @@ const FilterComponent = defineAsyncComponent(
   () => import('@/components/ads-requests/AdsRequestsFilter.vue'),
 )
 const { t } = useI18n()
+const route = useRoute()
 const { hasPermission, canAccessPage } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'ads_requests'
@@ -23,10 +24,11 @@ const loadFilter = ref<boolean>(false)
 const showNotificationModal = ref<boolean>(false)
 const activeUser = ref(null)
 
-const params = reactive({
+const params: any = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
+  advertiser_id: null,
 })
 
 const {
@@ -99,6 +101,8 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
+const advertiser_id = route.query?.advertiser_id
+if (advertiser_id) params.advertiser_id = +advertiser_id
 getPageData()
 
 // #endregion
@@ -138,6 +142,7 @@ function openNotificationModal(user: any) {
       v-if="loadFilter"
       v-model:showFilter="showFilter"
       @apply-filter="onApplyFilter"
+      :init-filters="params"
     />
     <VCard title="طلبات الاعلان" class="page-card">
       <VCardText>
@@ -209,7 +214,11 @@ function openNotificationModal(user: any) {
             <div class="d-flex justify-center">
               <IconBtn
                 :disabled="!permissions.viewAdsRequestDetails"
-                :to="{ name: 'ads-request-details-page', params: { id: item.raw.id } }"
+                :to="{
+                  name: 'ads-request-details-page',
+                  params: { id: item.raw.id },
+                  query: { tab: 'details' },
+                }"
               >
                 <VIcon icon="tabler-eye" />
               </IconBtn>

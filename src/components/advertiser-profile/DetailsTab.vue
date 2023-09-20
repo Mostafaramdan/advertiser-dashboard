@@ -131,8 +131,8 @@ const advertiserBankAccountData = ref([
     key: 'account_name',
   },
   {
-    label: 'رقم الحساب',
-    key: 'account_number',
+    label: 'رقم IBAN',
+    key: 'iban',
   },
   {
     label: 'اسم البنك',
