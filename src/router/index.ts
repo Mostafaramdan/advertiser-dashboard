@@ -1,3 +1,4 @@
+import { couponsRoutes } from '@/modules/coupons/couponsRoutes'
 import { settingsRoutes } from '@/modules/settings/settingsRoutes'
 import { subscriptionsRoutes } from '@/modules/subscriptions/subscriptionsRoutes'
 import HomePage from '@/pages/HomePage.vue'
@@ -144,6 +145,16 @@ const router = createRouter({
       },
     },
     {
+      path: '/coupons',
+      name: 'coupons',
+      component: () => import('@/modules/coupons/CouponsModule.vue'),
+      meta: {
+        layout: 'default',
+        requireAtLeastOnePermission: ['view_advertiser_coupons'],
+      },
+      children: couponsRoutes,
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'error-page',
       component: () => import('@/pages/ErrorPage.vue'),
@@ -155,7 +166,13 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const { isAuthUser, canAccessPage, canAccessAtLeastOnePage, hasPermission } = useAuthStore()
+  const {
+    isAuthUser,
+    canAccessPage,
+    canAccessAtLeastOnePage,
+    hasPermission,
+    hasAtLeaseOnePermission,
+  } = useAuthStore()
 
   if (to.meta.layout === 'default' && !isAuthUser)
     next({ name: 'login-page', query: { redirect: to.fullPath } })
@@ -167,6 +184,13 @@ router.beforeEach(async (to, from, next) => {
     isAuthUser &&
     to.meta.requireAtLeastOneAccess &&
     !canAccessAtLeastOnePage(to.meta.requireAtLeastOneAccess as string[])
+  )
+    next({ name: 'error-page', query: { message: 'errors.you_are_not_authorized' } })
+
+  if (
+    isAuthUser &&
+    to.meta.requireAtLeastOnePermission &&
+    !hasAtLeaseOnePermission(to.meta.requireAtLeastOnePermission as string[])
   )
     next({ name: 'error-page', query: { message: 'errors.you_are_not_authorized' } })
 

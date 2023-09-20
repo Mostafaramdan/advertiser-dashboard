@@ -31,7 +31,8 @@ const { layoutAttrs, injectSkinClasses } = useSkins()
 const { setUserPermissions } = useAuthStore()
 const isLoading = ref<boolean>(false)
 
-const { canAccessPage, canAccessAtLeastOnePage } = useAuthStore()
+const { canAccessPage, canAccessAtLeastOnePage, hasAtLeaseOnePermission, hasPermission } =
+  useAuthStore()
 
 // #endregion
 
@@ -281,6 +282,19 @@ const navItems = computed(() => {
       to: { name: 'ads-requests-page' },
       icon: { icon: 'tabler-file-check' },
       show: canAccessPage('ads_requests'),
+    },
+    {
+      title: 'الكوبونات',
+      icon: { icon: 'tabler-discount-2' },
+      show: hasAtLeaseOnePermission(['view_advertiser_coupons']),
+      to: null,
+      children: [
+        {
+          title: 'كوبونات المنصة',
+          to: { name: 'platform-coupons-page' },
+          show: hasPermission('view_advertiser_coupons'),
+        },
+      ],
     },
   ]
 })

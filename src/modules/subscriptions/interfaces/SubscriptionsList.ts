@@ -10,4 +10,5 @@ export interface SubscriptionsListItem {
   subscribers_count: number
   subscriptions_total: number
   is_active: boolean
+  is_default: boolean
 }

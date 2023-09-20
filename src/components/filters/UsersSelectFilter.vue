@@ -13,10 +13,12 @@ interface Props {
   label?: string
   userRole?: string
   id: string
+  keyword?: string
 }
 const props = withDefaults(defineProps<Props>(), {
   label: 'اختر مستخدم',
   userRole: 'user',
+  keyword: '',
 })
 // #endregion
 
@@ -39,7 +41,7 @@ const metaData = ref<MetaData | null>(null)
 const params: any = reactive({
   page: 1,
   itemPerPage: 20,
-  keyword: '',
+  keyword: props.keyword,
   role: props.userRole,
 })
 // #endregion
@@ -62,8 +64,6 @@ const value = computed({
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-const advertiser_id = route.query?.advertiser_id
-if (advertiser_id) params.keyword = +advertiser_id
 getData()
 
 onMounted(() => {

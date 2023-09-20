@@ -1,47 +1,54 @@
+a
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { COUPONS_TYPES } from '@/constants/coupons'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { SubscriptionsListItem } from '../interfaces/SubscriptionsList'
-import { subscriptionsPackagesService } from '../services/SubscriptionsPackagesService'
+import type { PlatformCoupon } from '../interfaces/PlatformCoupon'
+import PlatformCouponDetailsModal from '../modals/PlatformCouponDetailsModal.vue'
+import PlatformCouponFormModal from '../modals/PlatformCouponFormModal.vue'
+import { couponsService } from '../services/CouponsService'
 
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
 const { t } = useI18n()
-const router = useRouter()
-const { hasPermission, canAccessPage } = useAuthStore()
-const { formatDateTime } = UseGeneralHelpers()
-const MODEL_NAME = 'packages'
-
-const packagesTypesOptions = [
-  { value: 0, label: 'كل الباقات' },
-  { value: 1, label: 'الباقة الاساسية' },
-]
+const { hasPermission } = useAuthStore()
+const { formatDate } = UseGeneralHelpers()
+const MODEL_NAME = 'coupons'
 
 const params = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
-  is_default: 0,
+  type: COUPONS_TYPES.platform,
 })
 
 const {
   selectedItems,
   tableData,
   metaData,
+  showFormModal,
+  showDetailsModal,
+  FormAction,
+  activeItem,
   confirmModal,
   IsLoadingData,
   getPageData,
   onReloadData,
   onChangeItemsPerPage,
   onChangeSearch,
+  showCrateModal,
+  showEditModal,
+  showViewModal,
+  onEditItem,
+  onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<SubscriptionsListItem>(subscriptionsPackagesService, params, MODEL_NAME)
+} = UseCrudHelpers<PlatformCoupon>(couponsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -49,21 +56,26 @@ const headers: any = [
     key: 'sort',
   },
   {
-    title: 'الاسم',
-    key: 'name',
+    title: 'كود الكوبون',
+    key: 'code',
   },
   {
-    title: 'تاريخ الانشاء',
-    key: 'created_at',
+    title: 'تاريخ البداية/تاريخ النهاية',
+    key: 'started_at',
   },
   {
-    title: 'عدد المشتركين',
-    key: 'subscribers_count',
+    title: 'نسبة الخصم',
+    key: 'discount',
     align: 'center',
   },
   {
-    title: 'مجموع قيمة الاشتراكات',
-    key: 'subscriptions_total',
+    title: 'مرات الاستخدام',
+    key: 'uses',
+    align: 'center',
+  },
+  {
+    title: 'نسبة تحمل المسوق',
+    key: 'marketer_ratio',
     align: 'center',
   },
   {
@@ -84,13 +96,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_package'),
-  edit: hasPermission('update_package'),
-  delete: hasPermission('delete_package'),
-  changeStatus: hasPermission('change_status_package'),
-  sort: hasPermission('sort_package'),
-  viewDetails: hasPermission('show_package_details'),
-  viewAdvertisers: canAccessPage('advertisers'),
+  create: hasPermission('create_platform_coupon'),
+  edit: hasPermission('update_platform_coupon'),
+  delete: hasPermission('delete_platform_coupon'),
+  changeStatus: hasPermission('change_status_platform_coupon'),
+  sort: hasPermission('sort_platform_coupon'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -98,7 +108,7 @@ const pageActionsButtons = computed<pageAction[]>(() => {
     {
       icon: 'tabler-plus',
       show: permissions.value.create as boolean,
-      handler: goToCreatePage,
+      handler: showCrateModal,
     },
   ]
 })
@@ -110,23 +120,22 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **************************************/
 // #region Lifecycle Hooks
 getPageData()
+
 // #endregion
-function goToCreatePage(id: number) {
-  router.push({ name: 'subscriptions-create-package-page', params: { id } })
-}
-
-function goToEditPage(id: number) {
-  router.push({ name: 'subscriptions-edit-package-page', params: { id } })
-}
-
-function goToDetailsPage(id: number) {
-  router.push({ name: 'subscriptions-package-details-page', params: { id } })
-}
 </script>
 
 <template>
   <ConfirmModal ref="confirmModal" />
-  <VCard title="باقات الإشتراك" class="page-card">
+  <PlatformCouponFormModal
+    v-if="showFormModal"
+    v-model:showModal="showFormModal"
+    :form-action="FormAction"
+    :active-item="activeItem"
+    @edit-item="onEditItem"
+    @create-item="onCreateItem"
+  />
+  <PlatformCouponDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+  <VCard title="كوبونات المنصة" class="page-card">
     <VCardText>
       <PageActions
         :page-actions-buttons="pageActionsButtons"
@@ -138,22 +147,7 @@ function goToDetailsPage(id: number) {
         @update:items-per-page="onChangeItemsPerPage"
         @update:search="onChangeSearch"
         @reload-data="onReloadData"
-      >
-        <div class="v-col-md-4 pa-0">
-          <AppSelect
-            v-model="params.is_default"
-            name="type"
-            :items="packagesTypesOptions"
-            item-title="label"
-            item-value="value"
-            label="النوع"
-            hide-default-label
-            @update:model-value="onReloadData"
-          >
-          </AppSelect>
-        </div>
-        <span class="me-auto" />
-      </PageActions>
+      />
       <VDataTableServer
         v-model="selectedItems"
         v-loading="IsLoadingData"
@@ -162,31 +156,33 @@ function goToDetailsPage(id: number) {
         show-select
         :items-length="metaData?.total || 0"
         item-value="id"
-        :item-selectable="(item) => !item.is_default"
         class="app-table"
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
-        <template #item.name="{ item }">
-          <div class="d-flex align-center">
+        <template #item.code="{ item }">
+          <div class="d-flex align-center" style="min-width: 150px">
             <VAvatar size="38" variant="tonal" class="me-3" cover>
-              <VImg v-if="item.raw.image_path" :src="item.raw.image_path" cover />
+              <VImg v-if="item.raw.image" :src="item.raw.image.path" cover />
               <span v-else>!</span>
             </VAvatar>
             <span>
-              {{ item.raw.name }}
+              {{ item.raw.code }}
             </span>
           </div>
         </template>
-        <template #item.created_at="{ item }">
-          <div class="text-no-wrap">
-            {{ formatDateTime(item.raw.created_at) }}
+
+        <template #item.started_at="{ item }">
+          <div class="text-no-wrap" style="min-width: 80px">
+            {{ formatDate(item.raw.started_at) }}
+            <span class="text-sm text-disabled d-block"> {{ formatDate(item.raw.ended_at) }}</span>
           </div>
         </template>
-        <template #item.subscribers_count="{ item }">
-          <div class="text-no-wrap">500</div>
+        <template #item.discount="{ item }">
+          <div class="text-no-wrap">{{ item.raw.discount }}%</div>
         </template>
-        <template #item.subscriptions_total="{ item }">
-          <div class="text-no-wrap">500</div>
+
+        <template #item.marketer_ratio="{ item }">
+          <div style="min-width: 80px">{{ item.raw.marketer_ratio }}%</div>
         </template>
 
         <template #item.is_active="{ item }">
@@ -200,12 +196,12 @@ function goToDetailsPage(id: number) {
 
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete || item.raw.is_default">
+            <IconBtn :disabled="!permissions.delete">
               <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item.raw)" />
             </IconBtn>
 
-            <IconBtn :disabled="!permissions.edit" @click="goToEditPage(item.raw.id)">
-              <VIcon icon="tabler-edit" />
+            <IconBtn :disabled="!permissions.edit">
+              <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
             </IconBtn>
 
             <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -213,25 +209,12 @@ function goToDetailsPage(id: number) {
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem
-                    @click="goToDetailsPage(item.raw.id)"
-                    :disabled="!permissions.viewDetails"
-                  >
+                  <VListItem @click="showViewModal(item.raw)">
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
 
                     <VListItemTitle>عرض</VListItemTitle>
-                  </VListItem>
-                  <VListItem
-                    :disabled="!permissions.viewAdvertisers"
-                    :to="{ name: 'advertisers-page', query: { packageId: item.raw.id } }"
-                  >
-                    <template #prepend>
-                      <VIcon icon="tabler-user-dollar" />
-                    </template>
-
-                    <VListItemTitle>عرض المعلنين</VListItemTitle>
                   </VListItem>
 
                   <VListItem
@@ -263,10 +246,6 @@ function goToDetailsPage(id: number) {
 </template>
 
 <style lang="scss" scoped>
-:deep(.search-input) {
-  margin: 0 !important;
-}
-
 :deep(.v-data-table .v-table__wrapper > table td) {
   max-inline-size: 250px;
   word-wrap: break-word;

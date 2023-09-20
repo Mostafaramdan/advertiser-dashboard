@@ -111,7 +111,7 @@ function updateRouteQuery() {
       <VBtn
         variant="outlined"
         class="me-3"
-        :to="{ name: 'subscriptions-logs-page', query: { advertiser_id: advertiserId } }"
+        :to="{ name: 'subscriptions-logs-page', query: { user_id: advertiserId } }"
         :disabled="!permissions.viewSubscriptionsLogs"
       >
         سجل الاشنراكات

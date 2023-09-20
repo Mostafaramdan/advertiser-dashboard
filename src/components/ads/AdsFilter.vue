@@ -42,7 +42,7 @@ const isLoading = reactive({
   categories: false,
 })
 
-const initFilters = {
+const initFilters: any = {
   from_date: null,
   to_date: null,
   categories: [],
@@ -106,7 +106,7 @@ function getAreas() {
 function getCategories() {
   isLoading.categories = true
   listService
-    .getCategories()
+    .getCategories({ type: 'ads' })
     .then((res: any) => {
       categoriesList.value = res.data.data
     })
@@ -153,6 +153,7 @@ function getCategories() {
             v-model="filters.advertiser_id"
             id="advertisers-select-filter"
             class="mt-2"
+            :keyword="filters.advertiser_id"
           />
           <VSelect
             v-model="filters.country_id"

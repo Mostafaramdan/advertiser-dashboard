@@ -43,7 +43,7 @@ const isLoading = reactive({
   packages: false,
 })
 
-const initFilters = {
+const initFilters: any = {
   from_date: null,
   to_date: null,
   gender: null,
@@ -51,11 +51,10 @@ const initFilters = {
   country_id: null,
   area_id: null,
   packages: [],
-  advertiser_id: null,
+  user_id: null,
 }
 
 const filters = reactive({ ...initFilters, ...props.initFilters })
-
 // #endregion
 
 /***************************************
@@ -153,9 +152,10 @@ function getPackages() {
           <UsersSelectFilter
             label="اختر معلن"
             userRole="advertiser"
-            v-model="filters.advertiser_id"
+            v-model="filters.user_id"
             id="advertisers-select-filter"
             class="mt-2"
+            :keyword="filters.user_id"
           />
           <VSelect
             v-model="filters.country_id"
