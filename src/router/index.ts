@@ -150,7 +150,7 @@ const router = createRouter({
       component: () => import('@/modules/coupons/CouponsModule.vue'),
       meta: {
         layout: 'default',
-        requireAtLeastOnePermission: ['view_advertiser_coupons'],
+        requireAtLeastOnePermission: ['view_advertiser_coupons', 'view_stores'],
       },
       children: couponsRoutes,
     },

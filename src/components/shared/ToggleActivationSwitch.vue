@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useToast } from 'vue-toastification'
 import { sharedService } from '@/services/SharedService'
+import { useToast } from 'vue-toastification'
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
@@ -10,9 +10,12 @@ interface ToggleActivationSwitchProps {
   model: string
   id: number
   disabled?: boolean
+  column?: string | null
 }
 
-const props = withDefaults(defineProps<ToggleActivationSwitchProps>(), {})
+const props = withDefaults(defineProps<ToggleActivationSwitchProps>(), {
+  column: null,
+})
 
 // #endregion
 
@@ -54,10 +57,11 @@ const switchValue = computed({
 function toggleActivation() {
   isLoading.value = true
 
-  const payload = {
+  const payload: any = {
     id: props.id,
     model: props.model,
   }
+  if (props.column) payload.column = props.column
 
   sharedService
     .toggleActivation(payload)

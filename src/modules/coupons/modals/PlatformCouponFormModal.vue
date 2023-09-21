@@ -84,8 +84,7 @@ function edit() {
     .editItem(formData)
     .then((res) => {
       toast.success(res.data.message)
-
-      emit('editItem', formData)
+      emit('editItem', res.data.data)
       showModal.value = false
     })
     .finally(() => {

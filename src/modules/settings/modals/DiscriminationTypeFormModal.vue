@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { cloneItem } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
+import type { File } from '@/interfaces/Shared'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import type { DiscriminationType } from '../interfaces/DiscriminationType'
 import { discriminationTypeService } from '../services/DiscriminationTypeService'
-import type { File } from '@/interfaces/Shared'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem } from '@/helpers/index'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -79,9 +79,7 @@ function edit() {
     .editItem(formData)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', res.data.data)
       showModal.value = false
     })
     .finally(() => {

@@ -196,12 +196,12 @@ getPageData()
 
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete">
-              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item.raw)" />
+            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+              <VIcon icon="tabler-trash" />
             </IconBtn>
 
-            <IconBtn :disabled="!permissions.edit">
-              <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
+            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item.raw)">
+              <VIcon icon="tabler-edit" />
             </IconBtn>
 
             <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -244,18 +244,3 @@ getPageData()
     </VCardText>
   </VCard>
 </template>
-
-<style lang="scss" scoped>
-:deep(.v-data-table .v-table__wrapper > table td) {
-  max-inline-size: 250px;
-  word-wrap: break-word;
-
-  span {
-    @include max-lines(2);
-  }
-
-  .v-img__img--contain {
-    object-fit: cover;
-  }
-}
-</style>

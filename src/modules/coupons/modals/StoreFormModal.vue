@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { CHANNEL_TYPES } from '@/constants/settings'
-import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
+import { cloneItem } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import type { File } from '@/interfaces/Shared'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { Channel } from '../interfaces/Channel'
-import { channelsService } from '../services/ChannelsService'
+import type { Store } from '../interfaces/Store'
+import { storesService } from '../services/StoresService'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -24,8 +23,8 @@ const props = withDefaults(defineProps<FormModalProps>(), {
 // #region Emits
 const emit = defineEmits<{
   (e: 'update:showModal', value: boolean): void
-  (e: 'createItem', value: Channel): void
-  (e: 'editItem', value: Channel): void
+  (e: 'createItem', value: Store): void
+  (e: 'editItem', value: Store): void
 }>()
 
 // #endregion
@@ -40,16 +39,15 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<Channel>({
+const formData = reactive<Store>({
+  is_active: true,
+  from_app: true,
+  image: null,
+  image_id: null,
   name: {
     ar: '',
     en: '',
   },
-  is_active: true,
-  channel_type: null,
-  image: null,
-  image_id: null,
-  followers_percentage: null,
 })
 
 // #endregion
@@ -60,10 +58,10 @@ const formData = reactive<Channel>({
 // #region Computed
 const formTitle = computed(() => {
   return props.formAction === 'create'
-    ? 'اضافة قناة'
+    ? 'اضافة متجر'
     : props.formAction === 'edit'
-    ? 'تعديل قناة'
-    : 'عرض قناة'
+    ? 'تعديل متجر'
+    : 'عرض متجر'
 })
 
 // #endregion
@@ -78,7 +76,7 @@ if (props.activeItem) {
 
 // #endregion
 function edit() {
-  channelsService
+  storesService
     .editItem(formData)
     .then((res) => {
       toast.success(res.data.message)
@@ -91,7 +89,7 @@ function edit() {
 }
 
 function create() {
-  channelsService
+  storesService
     .createItem(formData)
     .then((res) => {
       toast.success(res.data.message)
@@ -132,7 +130,7 @@ const submit = () => {
                 <AppUploadFile
                   v-model="formData.image"
                   name="image"
-                  label="صورة القناة"
+                  label="صورة المتجر"
                   rules="required"
                   :accepted-types="['image/jpeg', 'image/png', 'image/svg+xml']"
                   width="150px"
@@ -143,7 +141,7 @@ const submit = () => {
               <VCol cols="12" md="6">
                 <AppTextField
                   v-model="formData.name.ar"
-                  label="اسم القناة بالعربي"
+                  label="اسم المتجر بالعربي"
                   name="name.ar"
                   rules="required|min:3|max:50"
                 />
@@ -151,34 +149,15 @@ const submit = () => {
               <VCol cols="12" md="6">
                 <AppTextField
                   v-model="formData.name.en"
-                  label="اسم القناة بالانجليزي"
+                  label="اسم المتجر بالانجليزي"
                   name="name.en"
                   rules="required|min:3|max:50"
                 />
               </VCol>
-              <VCol cols="12">
-                <AppTextField
-                  v-model="formData.followers_percentage"
-                  label="نسبة المتابعين"
-                  name="followers_percentage"
-                  type="number"
-                  :max="100"
-                  rules="required|min_value:0|max_value:100"
-                />
+              <VCol cols="12" md="6" class="pt-0">
+                <AppSwitch v-model="formData.from_app" label="معتمد من المنصة" name="from_app" />
               </VCol>
-              <VCol>
-                <AppRadio
-                  v-model="formData.channel_type"
-                  :options="getOptionsArrayFromObject(CHANNEL_TYPES)"
-                  name="channel_type"
-                  label="النوع"
-                  rules="required"
-                  option-label="label"
-                  option-value="value"
-                  inline
-                />
-              </VCol>
-              <VCol cols="12" class="pt-0">
+              <VCol cols="12" md="6" class="pt-0">
                 <AppSwitch v-model="formData.is_active" label="الحالة" name="is_active" />
               </VCol>
             </VRow>
