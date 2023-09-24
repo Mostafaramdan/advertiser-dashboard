@@ -33,7 +33,6 @@ const emit = defineEmits<{ (e: 'update:modelValue', value: any): void }>()
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
-const route = useRoute()
 const usersSelectRef = ref()
 const isLoading = ref<boolean>(false)
 const usersList = ref([])
@@ -50,7 +49,7 @@ const params: any = reactive({
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-const value = computed({
+const selectedValue = computed({
   get() {
     return props.modelValue
   },
@@ -67,8 +66,6 @@ const value = computed({
 getData()
 
 onMounted(() => {
-  console.log(document.querySelector(`.${props.id} > .v-list`))
-
   document.querySelector(`.${props.id} > .v-list`)?.addEventListener('scroll', handleScroll)
 })
 // #endregion
@@ -106,6 +103,7 @@ async function handleScroll(event: any) {
 }
 
 const handleDebounceSearch = debounce((value: any) => {
+  selectedValue.value = null
   params.keyword = value
   params.page = 1
   getData()
@@ -125,8 +123,8 @@ const handleDebounceSearch = debounce((value: any) => {
       :disabled="isLoading && !usersList.length"
       :loading="isLoading && !usersList.length"
       eager
-      :model-value="isLoading ? '' : value"
-      @update:model-value="(val: any) => (value = val)"
+      v-bind="$attrs"
+      v-model="selectedValue"
       :menu-props="{
         contentClass: `filter-select users-select-menu ${id}`,
         attach: usersSelectRef,
@@ -134,6 +132,9 @@ const handleDebounceSearch = debounce((value: any) => {
         maxHeight: '250px',
       }"
     >
+      <template #selection="{ item }">
+        <span v-if="item.raw.label">{{ item.raw.label }}</span>
+      </template>
       <template #prepend-item>
         <div class="search-input pa-1">
           <v-progress-linear

@@ -40,6 +40,10 @@ class ListService {
   getUsers(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/get_users`, { params })
   }
+
+  getStores(): AxiosPromise {
+    return axios.get(`${this.contextPath}/stores`)
+  }
 }
 
 export const listService = new ListService()

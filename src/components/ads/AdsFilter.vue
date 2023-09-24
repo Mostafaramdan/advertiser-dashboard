@@ -12,6 +12,7 @@ import { listService } from '@/services/ListService'
 const props = defineProps({
   showFilter: { type: Boolean, required: true },
   initFilters: { type: Object, default: {} },
+  extraData: { type: Object, default: { advertiser_name: '' } },
 })
 
 // #endregion
@@ -153,7 +154,7 @@ function getCategories() {
             v-model="filters.advertiser_id"
             id="advertisers-select-filter"
             class="mt-2"
-            :keyword="filters.advertiser_id"
+            :keyword="extraData.advertiser_name"
           />
           <VSelect
             v-model="filters.country_id"

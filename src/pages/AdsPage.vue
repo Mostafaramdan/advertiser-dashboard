@@ -19,6 +19,7 @@ const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'ads'
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
+const filterExtraData = ref<any>({})
 const showNotificationModal = ref<boolean>(false)
 const activeUser = ref(null)
 
@@ -104,8 +105,9 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-const advertiser_id = route.query?.advertiser_id
+const { advertiser_id, advertiser_name } = route.query
 if (advertiser_id) params.advertiser_id = +advertiser_id
+if (advertiser_name) filterExtraData.value.advertiser_name = advertiser_name
 getPageData()
 
 // #endregion
@@ -146,6 +148,7 @@ function openNotificationModal(user: any) {
       v-model:showFilter="showFilter"
       @apply-filter="onApplyFilter"
       :init-filters="params"
+      :extra-data="filterExtraData"
     />
     <VCard title="الاعلانات" class="page-card">
       <VCardText>

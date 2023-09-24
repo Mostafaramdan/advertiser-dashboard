@@ -21,6 +21,7 @@ const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'subscription_requests_logs'
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
+const filterExtraData = ref<any>({})
 
 const params: any = reactive({
   page: 1,
@@ -90,8 +91,10 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-const user_id = route.query?.user_id
+const { user_id, advertiser_name } = route.query
 if (user_id) params.user_id = +user_id
+if (advertiser_name) filterExtraData.value.advertiser_name = advertiser_name
+
 getPageData()
 
 // #endregion
@@ -120,6 +123,7 @@ function onApplyFilter(filters: any) {
       v-model:showFilter="showFilter"
       @apply-filter="onApplyFilter"
       :init-filters="params"
+      :extra-data="filterExtraData"
     />
     <VCard class="page-card" title="سجل الاشتراكات">
       <VCardText>

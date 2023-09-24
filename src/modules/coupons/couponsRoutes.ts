@@ -15,4 +15,20 @@ export const couponsRoutes = [
       requiredPermission: 'view_stores',
     },
   },
+  {
+    path: 'advertisers',
+    name: 'advertisers-coupons-page',
+    component: () => import('./pages/AdvertisersCouponsPage.vue'),
+    meta: {
+      requiredPermission: 'view_advertiser_coupons',
+    },
+  },
+  {
+    path: 'users',
+    name: 'users-coupons-page',
+    component: () => import('./pages/UsersCouponsPage.vue'),
+    meta: {
+      requiredPermission: 'view_ads_request_coupons',
+    },
+  },
 ]

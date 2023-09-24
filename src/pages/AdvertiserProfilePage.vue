@@ -108,31 +108,42 @@ function updateRouteQuery() {
   <section class="advertiser-profile">
     <div class="d-flex overflow-auto text-nowrap mb-3 align-center">
       <PageBackBtn :link="{ name: 'advertisers-page' }" />
-      <VBtn
-        variant="outlined"
-        class="me-3"
-        :to="{ name: 'subscriptions-logs-page', query: { user_id: advertiserId } }"
-        :disabled="!permissions.viewSubscriptionsLogs"
-      >
-        سجل الاشنراكات
-        <VIcon end icon="tabler-history" />
-      </VBtn>
-      <VBtn
-        variant="outlined"
-        class="me-3"
-        :to="{ name: 'ads-page', query: { advertiser_id: advertiserId } }"
-        :disabled="!permissions.viewAds"
-      >
-        استعراض الإعلانات <VIcon end icon="tabler-ad-2" />
-      </VBtn>
-      <VBtn
-        variant="outlined"
-        class="me-3"
-        :to="{ name: 'ads-requests-page', query: { advertiser_id: advertiserId } }"
-        :disabled="!permissions.viewAdsRequests"
-      >
-        استعراض الطلبات <VIcon end icon="tabler-file-check" />
-      </VBtn>
+      <template v-if="user">
+        <VBtn
+          variant="outlined"
+          class="me-3"
+          :to="{
+            name: 'subscriptions-logs-page',
+            query: { user_id: advertiserId, advertiser_name: user.username },
+          }"
+          :disabled="!permissions.viewSubscriptionsLogs"
+        >
+          سجل الاشنراكات
+          <VIcon end icon="tabler-history" />
+        </VBtn>
+        <VBtn
+          variant="outlined"
+          class="me-3"
+          :to="{
+            name: 'ads-page',
+            query: { advertiser_id: advertiserId, advertiser_name: user.username },
+          }"
+          :disabled="!permissions.viewAds"
+        >
+          استعراض الإعلانات <VIcon end icon="tabler-ad-2" />
+        </VBtn>
+        <VBtn
+          variant="outlined"
+          class="me-3"
+          :to="{
+            name: 'ads-requests-page',
+            query: { advertiser_id: advertiserId, advertiser_name: user.username },
+          }"
+          :disabled="!permissions.viewAdsRequests"
+        >
+          استعراض الطلبات <VIcon end icon="tabler-file-check" />
+        </VBtn>
+      </template>
     </div>
     <ProfileBasicInfo @update:user="($event) => (user = $event)" />
     <VCard>

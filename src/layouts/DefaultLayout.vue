@@ -286,13 +286,28 @@ const navItems = computed(() => {
     {
       title: 'الكوبونات',
       icon: { icon: 'tabler-discount-2' },
-      show: hasAtLeaseOnePermission(['view_advertiser_coupons', 'view_stores']),
+      show: hasAtLeaseOnePermission([
+        'view_platform_coupons',
+        'view_advertiser_coupons',
+        'view_ads_request_coupons',
+        'view_stores',
+      ]),
       to: null,
       children: [
         {
           title: 'كوبونات المنصة',
           to: { name: 'platform-coupons-page' },
+          show: hasPermission('view_platform_coupons'),
+        },
+        {
+          title: 'كوبونات المعلنين',
+          to: { name: 'advertisers-coupons-page' },
           show: hasPermission('view_advertiser_coupons'),
+        },
+        {
+          title: 'كوبونات التجار',
+          to: { name: 'users-coupons-page' },
+          show: hasPermission('view_ads_request_coupons'),
         },
         {
           title: 'المتاجر',

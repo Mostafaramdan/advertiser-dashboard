@@ -147,7 +147,7 @@ const submit = () => {
                   v-model="formData.code"
                   label="كود الكوبون"
                   name="code"
-                  rules="required|min:3|max:10"
+                  rules="required|min:3|max:20"
                 />
               </VCol>
               <VCol cols="12" md="6">
