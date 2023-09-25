@@ -12,6 +12,14 @@ class CouponsService {
     return axios.get(`${this.contextPath}`, { params })
   }
 
+  getSubscribersHistory({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/subscriber_logs`, { params })
+  }
+
+  getOperationsHistory({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/transactions_history`, { params })
+  }
+
   /** **************** post ******************/
   createItem(data: PlatformCoupon | AdvertiserCouponFormProps | UserCoupon): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)

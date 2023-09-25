@@ -8,6 +8,17 @@ export const couponsRoutes = [
     },
   },
   {
+    path: 'platform/:id',
+    name: 'platform-coupons-history-page',
+    component: () => import('./pages/PlatformCouponsHistoryPage.vue'),
+    meta: {
+      requireAtLeastOnePermission: [
+        'view_coupon_subscriber_logs',
+        'view_coupon_transactions_history',
+      ],
+    },
+  },
+  {
     path: 'stores',
     name: 'stores-page',
     component: () => import('./pages/StoresPage.vue'),

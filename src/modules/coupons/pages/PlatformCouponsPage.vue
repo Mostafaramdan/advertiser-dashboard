@@ -16,7 +16,7 @@ import { couponsService } from '../services/CouponsService'
  **************************************/
 // #region Variables
 const { t } = useI18n()
-const { hasPermission } = useAuthStore()
+const { hasPermission, hasAtLeaseOnePermission } = useAuthStore()
 const { formatDate } = UseGeneralHelpers()
 const MODEL_NAME = 'coupons'
 
@@ -101,6 +101,10 @@ const permissions = computed(() => ({
   delete: hasPermission('delete_platform_coupon'),
   changeStatus: hasPermission('change_status_platform_coupon'),
   sort: hasPermission('sort_platform_coupon'),
+  viewHistory: hasAtLeaseOnePermission([
+    'view_coupon_subscriber_logs',
+    'view_coupon_transactions_history',
+  ]),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -215,6 +219,20 @@ getPageData()
                     </template>
 
                     <VListItemTitle>عرض</VListItemTitle>
+                  </VListItem>
+                  <VListItem
+                    v-if="permissions.viewHistory"
+                    :to="{
+                      name: 'platform-coupons-history-page',
+                      params: { id: item.raw.id },
+                      query: { tab: 'subscribers-history' },
+                    }"
+                  >
+                    <template #prepend>
+                      <VIcon icon="tabler-history" />
+                    </template>
+
+                    <VListItemTitle>السجل</VListItemTitle>
                   </VListItem>
 
                   <VListItem
