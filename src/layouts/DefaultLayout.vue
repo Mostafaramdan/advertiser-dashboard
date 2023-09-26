@@ -316,6 +316,12 @@ const navItems = computed(() => {
         },
       ],
     },
+    {
+      title: 'الاشعارات',
+      to: { name: 'notifications-page' },
+      icon: { icon: 'tabler-bell' },
+      show: hasPermission('view_notifications'),
+    },
   ]
 })
 

@@ -160,6 +160,15 @@ const router = createRouter({
       children: couponsRoutes,
     },
     {
+      path: '/notifications',
+      name: 'notifications-page',
+      component: () => import('@/pages/NotificationsPage.vue'),
+      meta: {
+        layout: 'default',
+        hasPermission: 'view_notifications',
+      },
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'error-page',
       component: () => import('@/pages/ErrorPage.vue'),

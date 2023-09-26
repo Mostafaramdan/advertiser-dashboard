@@ -44,6 +44,10 @@ class ListService {
   getStores(): AxiosPromise {
     return axios.get(`${this.contextPath}/stores`)
   }
+
+  getEntitiesLists(): AxiosPromise {
+    return axios.get(`${this.contextPath}/entities`)
+  }
 }
 
 export const listService = new ListService()
