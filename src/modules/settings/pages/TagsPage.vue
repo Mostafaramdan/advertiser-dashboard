@@ -4,10 +4,10 @@ import type { pageAction } from '@/interfaces/Shared'
 import { listService } from '@/services/ListService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { Category } from '../interfaces/Category'
-import CategoryDetailsModal from '../modals/CategoryDetailsModal.vue'
-import CategoryFormModal from '../modals/CategoryFormModal.vue'
-import { categoriesService } from '../services/CategoriesService'
+import type { Tag } from '../interfaces/Tag'
+import TagDetailsModal from '../modals/TagDetailsModal.vue'
+import TagFormModal from '../modals/TagFormModal.vue'
+import { tagsService } from '../services/TagsService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -15,15 +15,15 @@ import { categoriesService } from '../services/CategoriesService'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'categories'
-const isLoadingTags = ref<boolean>(false)
-const tagsList = ref<{ id: string; label: string }[]>([])
+const MODEL_NAME = 'tags'
+const isLoadingCategories = ref<boolean>(false)
+const categoriesList = ref<any>([])
 
 const params = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
-  tag_id: null,
+  category_id: null,
 })
 
 const {
@@ -47,7 +47,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<Category>(categoriesService, params, MODEL_NAME)
+} = UseCrudHelpers<Tag>(tagsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -80,11 +80,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_category'),
-  edit: hasPermission('update_category'),
-  delete: hasPermission('delete_category'),
-  changeStatus: hasPermission('change_status_category'),
-  sort: hasPermission('sort_category'),
+  create: hasPermission('create_tag'),
+  edit: hasPermission('update_tag'),
+  delete: hasPermission('delete_tag'),
+  changeStatus: hasPermission('change_status_tag'),
+  sort: hasPermission('sort_tag'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -104,22 +104,22 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **************************************/
 // #region Lifecycle Hooks
 getPageData()
-getTags()
+getCategories()
 // #endregion
 
 /***************************************
  **** Section Functions  *********
  **************************************/
 // #region Functions
-function getTags() {
-  isLoadingTags.value = true
+function getCategories() {
+  isLoadingCategories.value = true
   listService
-    .getTags()
+    .getCategories()
     .then((res: any) => {
-      tagsList.value = res.data.data
+      categoriesList.value = res.data.data
     })
     .finally(() => {
-      isLoadingTags.value = false
+      isLoadingCategories.value = false
     })
 }
 
@@ -128,18 +128,16 @@ function getTags() {
 
 <template>
   <ConfirmModal ref="confirmModal" />
-  <CategoryFormModal
+  <TagFormModal
     v-if="showFormModal"
     v-model:showModal="showFormModal"
     :form-action="FormAction"
     :active-item="activeItem"
     @edit-item="onEditItem"
     @create-item="onCreateItem"
-    :is-loading-tags="isLoadingTags"
-    :tags-list="tagsList"
   />
-  <CategoryDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
-  <VCard title="الاقسام" class="page-card">
+  <TagDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+  <VCard title="التصنيفات" class="page-card">
     <VCardText>
       <PageActions
         :page-actions-buttons="pageActionsButtons"
@@ -153,22 +151,20 @@ function getTags() {
         @reload-data="onReloadData"
       >
         <div class="v-col-md-4 pa-0">
-          <VSelect
-            v-model="params.tag_id"
-            :items="tagsList"
+          <AppSelect
+            v-model="params.category_id"
+            name="category_id"
+            :items="categoriesList"
+            :loading="isLoadingCategories"
+            :disabled="isLoadingCategories"
             item-title="label"
             item-value="id"
-            name="tag_id"
-            label="التصنيف"
-            clearable
-            :disabled="isLoadingTags"
-            :loading="isLoadingTags"
+            label="القسم"
+            hide-default-label
             @update:model-value="onReloadData"
+            clearable
           >
-            <template #selection="{ item, index }">
-              <span>{{ item.raw.label }}</span>
-            </template>
-          </VSelect>
+          </AppSelect>
         </div>
         <span class="me-auto" />
       </PageActions>
@@ -180,6 +176,7 @@ function getTags() {
         show-select
         :items-length="metaData?.total || 0"
         item-value="id"
+        :item-selectable="(item) => item.can_control"
         class="app-table"
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
@@ -200,11 +197,12 @@ function getTags() {
             v-model="item.raw.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
+            :readonly="!item.raw.can_control"
           />
         </template>
 
         <template #item.actions="{ item }">
-          <div class="d-flex justify-center">
+          <div class="d-flex justify-center" v-if="item.raw.can_control">
             <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
               <VIcon icon="tabler-trash" />
             </IconBtn>
@@ -240,6 +238,7 @@ function getTags() {
               </VMenu>
             </VBtn>
           </div>
+          <span v-else>-</span>
         </template>
 
         <template #bottom>

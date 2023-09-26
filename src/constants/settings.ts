@@ -53,3 +53,8 @@ export const RATE_ITEM_TARGETS: any = {
   advertiser: 'المعلن',
   user: 'التاجر',
 }
+
+export const MAIN_TAGS_IDS = {
+  ads: 1,
+  coupons: 2,
+}

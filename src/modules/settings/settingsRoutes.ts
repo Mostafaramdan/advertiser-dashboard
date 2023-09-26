@@ -24,6 +24,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'tags',
+    name: 'tags-settings',
+    component: () => import('./pages/TagsPage.vue'),
+    meta: {
+      requiredAccess: 'tags',
+    },
+  },
+  {
     path: 'categories',
     name: 'categories-settings',
     component: () => import('./pages/CategoriesPage.vue'),

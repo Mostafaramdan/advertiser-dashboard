@@ -53,33 +53,21 @@ const showModal = useVModel(props, 'showModal', emit)
     <!-- Dialog Content -->
     <VCard>
       <div>
-        <VCard v-if="activeItem" title="عرض قسم">
+        <VCard v-if="activeItem" title="عرض تصنيف">
           <VCardText>
             <VList :lines="false">
               <VListItem
                 class="px-2 py-2"
-                title="اسم القسم بالعربي"
+                title="اسم التصنيف بالعربي"
                 :subtitle="activeItem.name.ar"
                 border
               />
               <VListItem
                 class="px-2 py-2"
-                title="اسم القسم بالانجليزي"
+                title="اسم التصنيف بالانجليزي"
                 :subtitle="activeItem.name.en"
                 border
               />
-              <VListItem class="px-2 py-2" title="التصنيفات" border>
-                <VChip
-                  v-for="tag in activeItem.tags"
-                  :key="tag.id"
-                  class="my-2 me-2 text-center"
-                  color="primary"
-                  variant="outlined"
-                  label
-                >
-                  {{ tag.label }}
-                </VChip>
-              </VListItem>
             </VList>
             <AppSwitch :model-value="activeItem.is_active" label="الحالة" name="is_active" />
           </VCardText>

@@ -2,6 +2,7 @@
 import UsersSelectFilter from '@/components/filters/UsersSelectFilter.vue'
 import FilterSideBar from '@/components/shared/FilterSideBar.vue'
 import { ADS_REQUEST_STATUSES, SORT_TYPES } from '@/constants/ads-requests'
+import { MAIN_TAGS_IDS } from '@/constants/settings'
 import { getOptionsArrayFromObject } from '@/helpers/index'
 import { listService } from '@/services/ListService'
 
@@ -108,7 +109,7 @@ function getAreas() {
 function getCategories() {
   isLoading.categories = true
   listService
-    .getCategories({ type: 'ads' })
+    .getCategories({ tag_id: MAIN_TAGS_IDS.ads })
     .then((res: any) => {
       categoriesList.value = res.data.data
     })

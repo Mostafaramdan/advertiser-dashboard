@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { COUPONS_TYPES } from '@/constants/coupons'
+import { MAIN_TAGS_IDS } from '@/constants/settings'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { listService } from '@/services/ListService'
 import { useCouponsStore } from '@/stores/CouponsStore'
@@ -84,7 +85,7 @@ function getCategories() {
   if (categoriesList.value.length) return
   isLoading.categories = true
   listService
-    .getCategories({ type: 'coupons' })
+    .getCategories({ tag_id: MAIN_TAGS_IDS.coupons })
     .then((res: any) => {
       couponsStore.setCategoriesList(res.data.data)
     })

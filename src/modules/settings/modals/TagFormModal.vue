@@ -3,19 +3,14 @@ import { cloneItem } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { Category } from '../interfaces/Category'
-import { categoriesService } from '../services/CategoriesService'
+import type { Tag } from '../interfaces/Tag'
+import { tagsService } from '../services/TagsService'
 
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
 // #region Props
-interface CategoryFormModalProps extends FormModalProps {
-  tagsList: { id: string; label: string }[]
-  isLoadingTags: boolean
-}
-
-const props = withDefaults(defineProps<CategoryFormModalProps>(), {
+const props = withDefaults(defineProps<FormModalProps>(), {
   showModal: false,
 })
 
@@ -27,8 +22,8 @@ const props = withDefaults(defineProps<CategoryFormModalProps>(), {
 // #region Emits
 const emit = defineEmits<{
   (e: 'update:showModal', value: boolean): void
-  (e: 'createItem', value: Category): void
-  (e: 'editItem', value: Category): void
+  (e: 'createItem', value: Tag): void
+  (e: 'editItem', value: Tag): void
 }>()
 
 // #endregion
@@ -48,7 +43,6 @@ const formData = reactive({
     ar: '',
     en: '',
   },
-  tags: [],
   is_active: true,
 })
 
@@ -60,10 +54,10 @@ const formData = reactive({
 // #region Computed
 const formTitle = computed(() => {
   return props.formAction === 'create'
-    ? 'اضافة قسم'
+    ? 'اضافة تصنيف'
     : props.formAction === 'edit'
-    ? 'تعديل قسم'
-    : 'عرض قسم'
+    ? 'تعديل تصنيف'
+    : 'عرض تصنيف'
 })
 
 // #endregion
@@ -72,10 +66,7 @@ const formTitle = computed(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-if (props.activeItem) {
-  Object.assign(formData, cloneItem(props.activeItem))
-  formData.tags = props.activeItem.tags.map((tag: any) => tag.id)
-}
+if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 
 // #endregion
 
@@ -84,11 +75,13 @@ if (props.activeItem) {
  **************************************/
 // #region Functions
 function edit() {
-  categoriesService
+  tagsService
     .editItem(formData)
     .then((res) => {
       toast.success(res.data.message)
-      emit('editItem', res.data.data)
+
+      // emit('editItem', res.data)
+      emit('editItem', formData)
       showModal.value = false
     })
     .finally(() => {
@@ -97,7 +90,7 @@ function edit() {
 }
 
 function create() {
-  categoriesService
+  tagsService
     .createItem(formData)
     .then((res) => {
       toast.success(res.data.message)
@@ -117,6 +110,7 @@ const submit = () => {
     props.formAction === 'create' ? create() : edit()
   })
 }
+
 // #endregion
 </script>
 
@@ -131,45 +125,21 @@ const submit = () => {
         <VCard :title="formTitle">
           <VCardText>
             <VRow>
-              <VCol cols="12" md="6">
+              <VCol cols="12">
                 <AppTextField
                   v-model="formData.name.ar"
-                  label="اسم القسم بالعربي"
+                  label="اسم التصنيف بالعربي"
                   name="name.ar"
                   rules="required|min:3|max:50"
                 />
               </VCol>
-              <VCol cols="12" md="6">
+              <VCol cols="12">
                 <AppTextField
                   v-model="formData.name.en"
-                  label="اسم القسم بالانجليزي"
+                  label="اسم التصنيف بالانجليزي"
                   name="name.en"
                   rules="required|min:3|max:50"
                 />
-              </VCol>
-              <VCol cols="12">
-                <AppSelect
-                  v-model="formData.tags"
-                  :items="tagsList"
-                  item-title="label"
-                  item-value="id"
-                  name="tags"
-                  label="التصنيفات"
-                  clearable
-                  :disabled="isLoadingTags"
-                  :loading="isLoadingTags"
-                  multiple
-                  rules="required"
-                >
-                  <template #selection="{ item, index }">
-                    <VChip v-if="index < 1">
-                      <span>{{ item.raw.label }}</span>
-                    </VChip>
-                    <span v-if="index === 1" class="text-grey text-caption align-self-center">
-                      (+{{ formData.tags.length - 1 }} اخري)
-                    </span>
-                  </template>
-                </AppSelect>
               </VCol>
               <VCol cols="12">
                 <AppSwitch v-model="formData.is_active" label="الحالة" name="is_active" />

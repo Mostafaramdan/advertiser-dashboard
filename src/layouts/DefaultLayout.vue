@@ -97,6 +97,11 @@ const navItems = computed(() => {
           show: canAccessPage('entities'),
         },
         {
+          title: 'التصنيفات',
+          to: { name: 'tags-settings' },
+          show: canAccessPage('tags'),
+        },
+        {
           title: 'الاقسام',
           to: { name: 'categories-settings' },
           show: canAccessPage('categories'),

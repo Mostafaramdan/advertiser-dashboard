@@ -33,7 +33,7 @@ class ListService {
     return axios.get(`${this.contextPath}/get_periods_of_packages?package_id=${package_id}`)
   }
 
-  getCategories(params: any): AxiosPromise {
+  getCategories(params: any = {}): AxiosPromise {
     return axios.get(`${this.contextPath}/categories`, { params })
   }
 
@@ -47,6 +47,10 @@ class ListService {
 
   getEntitiesLists(): AxiosPromise {
     return axios.get(`${this.contextPath}/entities`)
+  }
+
+  getTags(): AxiosPromise {
+    return axios.get(`${this.contextPath}/tags`)
   }
 }
 

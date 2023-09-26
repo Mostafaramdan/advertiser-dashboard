@@ -1,7 +1,6 @@
-export interface Category {
+export interface Tag {
   id?: number
   sort?: number
   name: { en: string; ar: string }
-  tags: {id: number; label: string}[] || number[]
   is_active?: boolean
 }
