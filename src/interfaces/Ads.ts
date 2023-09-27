@@ -24,6 +24,7 @@ export interface AdsListItem {
   is_active: boolean
   rate: number
   image_path: string
+  is_deleted: boolean
 }
 
 export interface AdDetails extends AdsListItem {

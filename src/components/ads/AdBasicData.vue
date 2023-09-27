@@ -10,7 +10,6 @@ import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
-const router = useRouter()
 const toast = useToast()
 const { hasPermission } = useAuthStore()
 const adsStore = useAdsStore()
@@ -18,7 +17,10 @@ const { formatDateTime } = UseGeneralHelpers()
 const showNotificationModal = ref<boolean>(false)
 const activeUser = ref(null)
 const confirmModal = ref<any>()
-const isDeleting = ref<boolean>(false)
+const isLoading = reactive({
+  delete: false,
+  restore: false,
+})
 // #endregion
 
 /***************************************
@@ -28,6 +30,7 @@ const isDeleting = ref<boolean>(false)
 const permissions = computed(() => ({
   sendNotification: hasPermission('notify_users'),
   delete: hasPermission('delete_ads'),
+  restore: hasPermission('restore_ads'),
 }))
 
 const adData = computed(() => {
@@ -44,23 +47,42 @@ function openNotificationModal(user: any) {
   showNotificationModal.value = true
 }
 
-function deleteRequest() {
-  isDeleting.value = true
+function deleteItem() {
+  isLoading.delete = true
   adsService
     .deleteItem(adData.value.id)
     .then((res) => {
       toast.success(res.data.message)
-      router.push({ name: 'ads-page' })
+      adData.value.is_deleted = true
     })
     .finally(() => {
-      isDeleting.value = false
+      isLoading.delete = false
     })
 }
 
-async function showConfirmDeleteRequest(): Promise<void> {
-  const confirm = await confirmModal.value.open('يرجي التاكيد', 'هل انت متاكد من الحذف')
+function restoreItem() {
+  isLoading.restore = true
+  adsService
+    .restoreItem(adData.value.id)
+    .then((res) => {
+      toast.success(res.data.message)
+      adData.value.is_deleted = false
+    })
+    .finally(() => {
+      isLoading.restore = false
+    })
+}
 
-  if (confirm) deleteRequest()
+async function showConfirmModal(): Promise<void> {
+  const confirmDescription = adData.value.is_deleted
+    ? 'هل انت متاكد من استعادة الاعلان'
+    : 'هل انت متاكد من حذف الاعلان'
+  const confirm = await confirmModal.value.open('يرجي التاكيد', confirmDescription)
+
+  if (!confirm) return
+
+  if (!adData.value.is_deleted) deleteItem()
+  else restoreItem()
 }
 // #endregion
 </script>
@@ -136,9 +158,21 @@ async function showConfirmDeleteRequest(): Promise<void> {
                       variant="outlined"
                       color="error"
                       class="me-3"
-                      @click="showConfirmDeleteRequest"
-                      :loading="isDeleting"
-                      :disabled="isDeleting || !permissions.delete"
+                      @click="showConfirmModal"
+                      :loading="isLoading.restore"
+                      :disabled="isLoading.restore || !permissions.restore"
+                      v-if="adData.is_deleted"
+                    >
+                      استرجاع الاعلان<VIcon end icon="tabler-restore" />
+                    </VBtn>
+                    <VBtn
+                      variant="outlined"
+                      color="error"
+                      class="me-3"
+                      @click="showConfirmModal"
+                      :loading="isLoading.delete"
+                      :disabled="isLoading.delete || !permissions.delete"
+                      v-else
                     >
                       حذف الاعلان<VIcon end icon="tabler-trash" />
                     </VBtn>

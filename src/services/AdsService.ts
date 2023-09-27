@@ -33,6 +33,11 @@ class AdsService {
   deleteReport(id: number): AxiosPromise {
     return axios.delete(`reports/${id}`)
   }
+
+  /** **************** put ******************/
+  restoreItem(id: number): AxiosPromise {
+    return axios.put(`${this.contextPath}/${id}/restore`)
+  }
 }
 
 export const adsService = new AdsService()

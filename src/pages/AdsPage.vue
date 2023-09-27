@@ -5,6 +5,7 @@ import type { AdsListItem } from '@/interfaces/Ads'
 import type { pageAction } from '@/interfaces/Shared'
 import { adsService } from '@/services/AdsService'
 import { useAuthStore } from '@/stores/AuthStore'
+import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
@@ -12,6 +13,7 @@ import { VDataTableServer } from 'vuetify/labs/VDataTable'
  **************************************/
 // #region Variables
 const FilterComponent = defineAsyncComponent(() => import('@/components/ads/AdsFilter.vue'))
+const toast = useToast()
 const { t } = useI18n()
 const route = useRoute()
 const { hasPermission, canAccessPage } = useAuthStore()
@@ -40,7 +42,6 @@ const {
   onReloadData,
   onChangeItemsPerPage,
   onChangeSearch,
-  showConfirmDeleteItem,
 } = UseCrudHelpers<AdsListItem>(adsService, params, MODEL_NAME)
 
 const headers: any = [
@@ -87,6 +88,7 @@ const permissions = computed(() => ({
   delete: hasPermission('delete_ads'),
   changeStatus: hasPermission('change_status_ads'),
   viewAdsRequestDetails: canAccessPage('ads_details'),
+  restore: hasPermission('restore_ads'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -131,6 +133,43 @@ function openNotificationModal(user: any) {
   showNotificationModal.value = true
 }
 
+function deleteItem(item: AdsListItem) {
+  IsLoadingData.value = true
+  adsService
+    .deleteItem(item.id)
+    .then((res) => {
+      item.is_deleted = true
+      toast.success(res.data.message)
+    })
+    .finally(() => {
+      IsLoadingData.value = false
+    })
+}
+
+function restoreItem(item: AdsListItem) {
+  IsLoadingData.value = true
+  adsService
+    .restoreItem(item.id)
+    .then((res) => {
+      item.is_deleted = false
+      toast.success(res.data.message)
+    })
+    .finally(() => {
+      IsLoadingData.value = false
+    })
+}
+
+async function showConfirmModal(item: AdsListItem): Promise<void> {
+  const confirmDescription = item.is_deleted
+    ? 'هل انت متاكد من استعادة الاعلان'
+    : 'هل انت متاكد من حذف الاعلان'
+  const confirm = await confirmModal.value.open('يرجي التاكيد', confirmDescription)
+
+  if (!confirm) return
+
+  if (!item.is_deleted) deleteItem(item)
+  else restoreItem(item)
+}
 // #endregion
 </script>
 
@@ -181,6 +220,15 @@ function openNotificationModal(user: any) {
                   <VImg v-if="item.raw.image_path" :src="item.raw.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
+                <VChip
+                  v-if="item.raw.is_deleted"
+                  class="px-0 mt-1"
+                  color="error"
+                  label
+                  size="x-small"
+                >
+                  محذوف
+                </VChip>
               </div>
               <div style="min-width: 130px">
                 {{ item.raw.ads_type }}
@@ -264,8 +312,19 @@ function openNotificationModal(user: any) {
               >
                 <VIcon icon="tabler-eye" />
               </IconBtn>
-              <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+              <IconBtn
+                :disabled="!permissions.delete"
+                @click="showConfirmModal(item.raw)"
+                v-if="!item.raw.is_deleted"
+              >
                 <VIcon icon="tabler-trash" />
+              </IconBtn>
+              <IconBtn
+                @click="showConfirmModal(item.raw)"
+                v-else="!item.raw.is_deleted"
+                :disabled="!permissions.restore"
+              >
+                <VIcon icon="tabler-restore" />
               </IconBtn>
               <VBtn icon variant="text" size="small" color="medium-emphasis">
                 <VIcon size="24" icon="tabler-dots-vertical" />
