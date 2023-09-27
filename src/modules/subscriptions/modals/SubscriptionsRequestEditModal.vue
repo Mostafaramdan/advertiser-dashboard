@@ -73,7 +73,7 @@ const requestStatuses = computed((): SubscriptionsRequestStatus[] => {
     {
       value: 'Accept',
       label: 'قبول',
-      show: [1, 3, 4, 5].includes(formData.request_status),
+      show: [1, 3, 5].includes(formData.request_status),
     },
     {
       value: 'Reject',
@@ -274,9 +274,7 @@ function onChangeRequestStatus() {
                 </template>
                 <VCol
                   cols="12"
-                  v-if="
-                    ['ActiveTemp', 'ActiveOnce', 'StopTemp'].includes(formData.new_request_status)
-                  "
+                  v-if="['ActiveTemp', 'ActiveOnce'].includes(formData.new_request_status)"
                 >
                   <AppTextField
                     v-model="formData.free_days"
