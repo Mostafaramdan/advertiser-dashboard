@@ -242,7 +242,7 @@ function onChangeRequestStatus() {
                         :error-msg="errorMessage"
                         clearable
                         prepend-inner-icon="tabler-calendar"
-                        :config="{ minDate: tomorrowDate }"
+                        :config="{ disableMobile: true, minDate: tomorrowDate }"
                         @update:model-value="handleChange"
                       />
                     </VeeField>
@@ -263,6 +263,7 @@ function onChangeRequestStatus() {
                         clearable
                         prepend-inner-icon="tabler-calendar"
                         :config="{
+                          disableMobile: true,
                           minDate: formData.stopped_from
                             ? new Date(formData.stopped_from)
                             : tomorrowDate,

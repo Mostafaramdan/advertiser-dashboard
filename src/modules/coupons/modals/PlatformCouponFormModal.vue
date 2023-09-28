@@ -176,7 +176,10 @@ const submit = () => {
                     :error-msg="errorMessage"
                     clearable
                     prepend-inner-icon="tabler-calendar"
-                    :config="{ minDate: formAction === 'create' ? new Date() : null }"
+                    :config="{
+                      disableMobile: true,
+                      minDate: formAction === 'create' ? new Date() : null,
+                    }"
                     @update:model-value="handleChange"
                   />
                 </VeeField>
@@ -197,6 +200,7 @@ const submit = () => {
                     clearable
                     prepend-inner-icon="tabler-calendar"
                     :config="{
+                      disableMobile: true,
                       minDate: formData.started_at
                         ? new Date(formData.started_at)
                         : formAction === 'create'

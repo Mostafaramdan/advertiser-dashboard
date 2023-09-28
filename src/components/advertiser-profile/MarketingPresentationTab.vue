@@ -117,7 +117,7 @@ function submit() {
               :error-msg="errorMessage"
               clearable
               prepend-inner-icon="tabler-calendar"
-              :config="{ minDate: new Date() }"
+              :config="{ disableMobile: true, minDate: new Date() }"
               @update:model-value="handleChange"
             />
           </VeeField>

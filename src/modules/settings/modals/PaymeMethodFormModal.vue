@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { PAYMENT_GET_WAYS } from '@/constants/settings'
+import { cloneItem } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import monthSelectPlugin from 'flatpickr/dist/plugins/monthSelect/index'
 import { useToast } from 'vue-toastification'
 import type { PaymentMethod } from '../interfaces/PlatformDetails'
 import { platformService } from '../services/PlatformService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem } from '@/helpers/index'
-import { PAYMENT_GET_WAYS } from '@/constants/settings'
 
 import 'flatpickr/dist/plugins/monthSelect/style.css'
 
@@ -47,6 +47,7 @@ const paymentsGetWays = Object.entries(PAYMENT_GET_WAYS).map(([key, value]) => (
 }))
 
 const platPickerConfig = {
+  disableMobile: true,
   minDate: new Date(),
   plugins: [
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

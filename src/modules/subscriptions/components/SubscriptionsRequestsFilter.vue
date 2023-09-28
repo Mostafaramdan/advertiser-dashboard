@@ -135,7 +135,7 @@ function getPackages() {
             placeholder="من"
             clearable
             prepend-inner-icon="tabler-calendar"
-            :config="{ maxDate: new Date() }"
+            :config="{ disableMobile: true, maxDate: new Date() }"
             class="mb-3"
           />
           <AppDateTimePicker
@@ -143,7 +143,7 @@ function getPackages() {
             placeholder="الي"
             clearable
             prepend-inner-icon="tabler-calendar"
-            :config="{ maxDate: new Date() }"
+            :config="{ disableMobile: true, maxDate: new Date() }"
           />
         </VExpansionPanelText>
       </VExpansionPanel>

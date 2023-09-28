@@ -145,7 +145,7 @@ const submit = (values: any) => {
               :error-msg="errorMessage"
               clearable
               prepend-inner-icon="tabler-calendar"
-              :config="{ minDate: new Date() }"
+              :config="{ disableMobile: true, minDate: new Date() }"
               @update:model-value="handleChange"
             />
           </VeeField>
@@ -165,7 +165,12 @@ const submit = (values: any) => {
               :error-msg="errorMessage"
               clearable
               prepend-inner-icon="tabler-clock"
-              :config="{ enableTime: true, noCalendar: true, dateFormat: 'G:i:K' }"
+              :config="{
+                disableMobile: true,
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: 'G:i:K',
+              }"
               @update:model-value="handleChange"
             />
           </VeeField>
