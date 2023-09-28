@@ -75,7 +75,7 @@ function restoreItem() {
 
 async function showConfirmModal(): Promise<void> {
   const confirmDescription = adData.value.is_deleted
-    ? 'هل انت متاكد من استعادة الاعلان'
+    ? 'هل انت متاكد من استرجاع الاعلان'
     : 'هل انت متاكد من حذف الاعلان'
   const confirm = await confirmModal.value.open('يرجي التاكيد', confirmDescription)
 

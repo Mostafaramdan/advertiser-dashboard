@@ -3,7 +3,7 @@ export interface User {
   uuid: string
   name: string
   email: string
-  image: string
+  image_path: string
   token: string
   created_at: string
   permissions: { accessible_pages: string[]; actions: string[] }

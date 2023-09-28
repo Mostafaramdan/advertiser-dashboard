@@ -11,7 +11,7 @@ import { debounce } from 'lodash'
 interface Props {
   modelValue: any
   label?: string
-  userRole?: string
+  userRole?: string | null
   id: string
   keyword?: string
 }

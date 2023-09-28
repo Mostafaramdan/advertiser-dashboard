@@ -1,4 +1,5 @@
 import { couponsRoutes } from '@/modules/coupons/couponsRoutes'
+import { reportsRoutes } from '@/modules/reports/reportsRoutes'
 import { settingsRoutes } from '@/modules/settings/settingsRoutes'
 import { subscriptionsRoutes } from '@/modules/subscriptions/subscriptionsRoutes'
 import HomePage from '@/pages/HomePage.vue'
@@ -158,6 +159,16 @@ const router = createRouter({
         ],
       },
       children: couponsRoutes,
+    },
+    {
+      path: '/reports',
+      name: 'reports',
+      component: () => import('@/modules/reports/ReportsModule.vue'),
+      meta: {
+        layout: 'default',
+        requireAtLeastOnePermission: ['view_ads_reports'],
+      },
+      children: reportsRoutes,
     },
     {
       path: '/notifications',

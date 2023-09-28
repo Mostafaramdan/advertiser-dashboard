@@ -1,27 +1,25 @@
 <script setup lang="ts">
-import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
-import type { AdsListItem } from '@/interfaces/Ads'
 import type { pageAction } from '@/interfaces/Shared'
 import { adsService } from '@/services/AdsService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
+import type { AdsReport } from '../interfaces/AdsReport'
+import { adsReportsService } from '../services/AdsReportsService'
 
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
-const FilterComponent = defineAsyncComponent(() => import('@/components/ads/AdsFilter.vue'))
+const FilterComponent = defineAsyncComponent(() => import('../components/AdsReportsFilter.vue'))
 const toast = useToast()
 const { t } = useI18n()
-const route = useRoute()
 const { hasPermission, canAccessPage } = useAuthStore()
-const { formatDateTime } = UseGeneralHelpers()
-const MODEL_NAME = 'ads'
+const MODEL_NAME = 'reports'
+const ADS_MODEL_NAME = 'ads'
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
-const filterExtraData = ref<any>({})
 const showNotificationModal = ref<boolean>(false)
 const activeUser = ref(null)
 
@@ -29,11 +27,9 @@ const params: any = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
-  advertiser_id: null,
 })
 
 const {
-  selectedItems,
   tableData,
   metaData,
   confirmModal,
@@ -42,32 +38,28 @@ const {
   onReloadData,
   onChangeItemsPerPage,
   onChangeSearch,
-} = UseCrudHelpers<AdsListItem>(adsService, params, MODEL_NAME)
+} = UseCrudHelpers<AdsReport>(adsReportsService, params, MODEL_NAME)
 
 const headers: any = [
   {
-    title: 'صورة الاعلان/ طريقة الاعلان',
-    key: 'ads_type',
-  },
-  {
-    title: 'ناريخ البداية/تاريخ النهاية',
-    key: 'started_at',
-  },
-  {
-    title: 'اماكن العرض/القسم',
-    key: 'category_name',
-  },
-  {
-    title: 'حالة الاعلان/المشاهدات',
-    key: 'status_txt',
-  },
-  {
-    title: 'اسم المعلن',
+    title: 'المعلن',
     key: 'advertiser',
   },
   {
-    title: 'الحالة',
-    key: 'is_active',
+    title: 'عدد البلاغات/نسبة البلاغات',
+    key: 'reports_count',
+  },
+  {
+    title: 'المشاهدات/حالة الحذف',
+    key: 'seen_count',
+  },
+  {
+    title: 'وصف الاعلان',
+    key: 'ads_description',
+  },
+  {
+    title: 'حالة الاعلان',
+    key: 'is_active_ad',
     align: 'center',
   },
   {
@@ -85,10 +77,10 @@ const headers: any = [
 // #region Computed
 const permissions = computed(() => ({
   sendNotification: hasPermission('notify_users'),
-  delete: hasPermission('delete_ads'),
-  changeStatus: hasPermission('change_status_ads'),
+  changeAdStatus: hasPermission('change_status_ads'),
   viewAdDetails: canAccessPage('ads_details'),
-  restore: hasPermission('restore_ads'),
+  deleteAd: hasPermission('delete_ads'),
+  restoreAd: hasPermission('restore_ads'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -107,9 +99,6 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-const { advertiser_id, advertiser_name } = route.query
-if (advertiser_id) params.advertiser_id = +advertiser_id
-if (advertiser_name) filterExtraData.value.advertiser_name = advertiser_name
 getPageData()
 
 // #endregion
@@ -133,10 +122,10 @@ function openNotificationModal(user: any) {
   showNotificationModal.value = true
 }
 
-function deleteItem(item: AdsListItem) {
+function deleteItem(item: AdsReport) {
   IsLoadingData.value = true
   adsService
-    .deleteItem(item.id)
+    .deleteItem(item.ad_id)
     .then((res) => {
       item.is_deleted = true
       toast.success(res.data.message)
@@ -146,10 +135,10 @@ function deleteItem(item: AdsListItem) {
     })
 }
 
-function restoreItem(item: AdsListItem) {
+function restoreItem(item: AdsReport) {
   IsLoadingData.value = true
   adsService
-    .restoreItem(item.id)
+    .restoreItem(item.ad_id)
     .then((res) => {
       item.is_deleted = false
       toast.success(res.data.message)
@@ -159,7 +148,7 @@ function restoreItem(item: AdsListItem) {
     })
 }
 
-async function showConfirmModal(item: AdsListItem): Promise<void> {
+async function showConfirmModal(item: AdsReport): Promise<void> {
   const confirmDescription = item.is_deleted
     ? 'هل انت متاكد من استرجاع الاعلان'
     : 'هل انت متاكد من حذف الاعلان'
@@ -187,115 +176,82 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
       v-model:showFilter="showFilter"
       @apply-filter="onApplyFilter"
       :init-filters="params"
-      :extra-data="filterExtraData"
     />
-    <VCard title="الاعلانات" class="page-card">
+    <VCard title="بلاغات الاعلانات" class="page-card">
       <VCardText>
         <PageActions
           :page-actions-buttons="pageActionsButtons"
           :items-per-page="params.itemPerPage"
-          :show-multi-delete="permissions.delete"
-          :model="MODEL_NAME"
-          :selected-items="selectedItems"
           @update:items-per-page="onChangeItemsPerPage"
           @update:search="onChangeSearch"
           @reload-data="onReloadData"
         />
         <VDataTableServer
-          v-model="selectedItems"
           v-loading="IsLoadingData"
           :headers="headers"
           :items="tableData"
-          show-select
           :items-length="metaData?.total || 0"
-          item-value="id"
-          :item-selectable="(item) => !item.is_deleted"
           class="app-table"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
-          <template #item.ads_type="{ item }">
-            <div class="d-flex align-center">
+          <template #item.advertiser="{ item }">
+            <router-link
+              :to="{
+                name: 'advertisers-profile-page',
+                params: { id: item.raw.advertiser.id },
+                query: { tab: 'details' },
+              }"
+              class="d-flex align-center"
+            >
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg v-if="item.raw.image_path" :src="item.raw.image_path" cover />
+                  <VImg
+                    v-if="item.raw.advertiser.image_path"
+                    :src="item.raw.advertiser.image_path"
+                    cover
+                  />
                   <span v-else>!</span>
                 </VAvatar>
+              </div>
+              <div style="min-width: 205px">
+                <span>{{ item.raw.advertiser.username }}</span>
+                <span class="text-sm text-disabled d-block">{{ item.raw.advertiser.phone }}</span>
+              </div>
+            </router-link>
+          </template>
+          <template #item.reports_count="{ item }">
+            <div class="text-no-wrap" style="min-width: 80px">
+              {{ item.raw.reports_count }}
+              <span class="text-sm text-disabled d-block">{{ item.raw.report_rate }}%</span>
+            </div>
+          </template>
+          <template #item.seen_count="{ item }">
+            <div class="text-no-wrap" style="min-width: 80px">
+              {{ item.raw.seen_count }}
+              <div class="d-flex">
                 <VChip
-                  v-if="item.raw.is_deleted"
-                  class="px-0 mt-1"
-                  color="error"
+                  class="px-2 mt-1"
+                  :color="item.raw.is_deleted ? 'error' : 'success'"
                   label
                   size="x-small"
                 >
-                  محذوف
+                  {{ item.raw.is_deleted ? 'محذوف' : 'متواجد' }}
                 </VChip>
               </div>
-              <div style="min-width: 130px">
-                {{ item.raw.ads_type }}
-                <span class="d-flex align-center text-sm">
-                  <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
-                  {{ item.raw.rate }}
-                </span>
-              </div>
             </div>
           </template>
-
-          <template #item.started_at="{ item }">
-            <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.started_at) }}
-              <span class="text-sm text-disabled d-block">{{
-                item.raw.ended_at ? formatDateTime(item.raw.ended_at) : 'لا يوجد'
-              }}</span>
-            </div>
-          </template>
-
-          <template #item.category_name="{ item }">
-            <div style="min-width: 120px">
-              <div class="d-flex gap-2" v-if="item.raw.ads_locations">
-                <VChip
-                  variant="outlined"
-                  color="primary"
-                  label
-                  v-if="item.raw.ads_locations.show_app"
-                >
-                  المنصة
-                </VChip>
-                <VChip
-                  variant="outlined"
-                  color="primary"
-                  label
-                  v-if="item.raw.ads_locations.show_profile"
-                >
-                  البروفايل
-                </VChip>
-              </div>
-              <div v-else>لا يوجد</div>
-              <span class="text-sm text-disabled d-block">
-                {{ item.raw.category_name || 'لا يوجد' }}
-              </span>
-            </div>
-          </template>
-
-          <template #item.status_txt="{ item }">
-            <div style="min-width: 120px">
-              {{ item.raw.status_txt }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.seen_count }}</span>
-            </div>
-          </template>
-
-          <template #item.advertiser="{ item }">
-            <span style="width: 120px">
-              {{ item.raw.advertiser.username }}
+          <template #item.ads_description="{ item }">
+            <span style="width: 180px">
+              {{ item.raw.ads_description }}
             </span>
           </template>
-
-          <template #item.is_active="{ item }">
+          <template #item.is_active_ad="{ item }">
             <div class="d-flex justify-center">
               <ToggleActivationSwitch
-                :id="item.raw.id"
-                v-model="item.raw.is_active"
-                :model="MODEL_NAME"
-                :disabled="!permissions.changeStatus"
+                :id="item.raw.ad_id"
+                v-model="item.raw.is_active_ad"
+                :model="ADS_MODEL_NAME"
+                :disabled="!permissions.changeAdStatus"
               />
             </div>
           </template>
@@ -306,25 +262,11 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
                 :disabled="!permissions.viewAdDetails"
                 :to="{
                   name: 'ad-details-page',
-                  params: { id: item.raw.id },
-                  query: { tab: 'details' },
+                  params: { id: item.raw.ad_id },
+                  query: { tab: 'reports' },
                 }"
               >
                 <VIcon icon="tabler-eye" />
-              </IconBtn>
-              <IconBtn
-                :disabled="!permissions.delete"
-                @click="showConfirmModal(item.raw)"
-                v-if="!item.raw.is_deleted"
-              >
-                <VIcon icon="tabler-trash" />
-              </IconBtn>
-              <IconBtn
-                @click="showConfirmModal(item.raw)"
-                v-else="!item.raw.is_deleted"
-                :disabled="!permissions.restore"
-              >
-                <VIcon icon="tabler-restore" />
               </IconBtn>
               <VBtn icon variant="text" size="small" color="medium-emphasis">
                 <VIcon size="24" icon="tabler-dots-vertical" />
@@ -340,14 +282,26 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
                       </template>
                       <VListItemTitle>ارسال اشعار للمعلن</VListItemTitle>
                     </VListItem>
+
                     <VListItem
-                      v-if="permissions.sendNotification && item.raw.user"
-                      @click="openNotificationModal(item.raw.user)"
+                      :disabled="!permissions.deleteAd"
+                      @click="showConfirmModal(item.raw)"
+                      v-if="!item.raw.is_deleted"
                     >
                       <template #prepend>
-                        <VIcon icon="tabler-mail" />
+                        <VIcon icon="tabler-trash" />
                       </template>
-                      <VListItemTitle>ارسال اشعار للعميل</VListItemTitle>
+                      <VListItemTitle>حذف الاعلان</VListItemTitle>
+                    </VListItem>
+                    <VListItem
+                      @click="showConfirmModal(item.raw)"
+                      v-else="!item.raw.is_deleted"
+                      :disabled="!permissions.restoreAd"
+                    >
+                      <template #prepend>
+                        <VIcon icon="tabler-restore" />
+                      </template>
+                      <VListItemTitle>استرجاع الاعلان</VListItemTitle>
                     </VListItem>
                   </VList>
                 </VMenu>
@@ -375,10 +329,6 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
 
   span {
     @include max-lines(2);
-  }
-
-  .v-img__img--contain {
-    object-fit: cover;
   }
 }
 </style>

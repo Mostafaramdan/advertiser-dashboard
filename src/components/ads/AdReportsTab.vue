@@ -3,7 +3,6 @@ import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { AdReport } from '@/interfaces/Ads'
 import { adsService } from '@/services/AdsService'
-import { useAdsStore } from '@/stores/AdsStore'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
@@ -15,7 +14,6 @@ import { VDataTableServer } from 'vuetify/labs/VDataTable'
 const { t } = useI18n()
 const toast = useToast()
 const route = useRoute()
-const adsStore = useAdsStore()
 const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'reports'

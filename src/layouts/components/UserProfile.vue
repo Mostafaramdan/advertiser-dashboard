@@ -55,7 +55,7 @@ function logout() {
     color="success"
   >
     <VAvatar class="cursor-pointer" color="primary" variant="tonal">
-      <VImg :src="userData.image" />
+      <VImg :src="userData.image_path" />
 
       <!-- SECTION Menu -->
       <VMenu activator="parent" width="230" location="bottom end" offset="14px">
@@ -66,7 +66,7 @@ function logout() {
               <VListItemAction start>
                 <VBadge dot location="bottom right" offset-x="3" offset-y="3" color="success">
                   <VAvatar color="primary" variant="tonal">
-                    <VImg :src="userData.image" />
+                    <VImg :src="userData.image_path" />
                   </VAvatar>
                 </VBadge>
               </VListItemAction>

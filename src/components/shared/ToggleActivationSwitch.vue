@@ -88,6 +88,6 @@ function toggleActivation() {
     :disabled="isLoading || disabled"
     density="comfortable"
     :inset="false"
-    @click="toggleActivation"
+    @update:model-value="toggleActivation"
   />
 </template>

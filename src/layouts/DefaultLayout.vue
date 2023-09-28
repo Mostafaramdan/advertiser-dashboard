@@ -322,6 +322,19 @@ const navItems = computed(() => {
       ],
     },
     {
+      title: 'البلاغات',
+      icon: { icon: 'tabler-alert-hexagon' },
+      show: hasAtLeaseOnePermission(['view_ads_reports']),
+      to: null,
+      children: [
+        {
+          title: 'بلاغات الاعلانات',
+          to: { name: 'ads-reports-page' },
+          show: hasPermission('view_ads_reports'),
+        },
+      ],
+    },
+    {
       title: 'الاشعارات',
       to: { name: 'notifications-page' },
       icon: { icon: 'tabler-bell' },
