@@ -166,7 +166,7 @@ const router = createRouter({
       component: () => import('@/modules/reports/ReportsModule.vue'),
       meta: {
         layout: 'default',
-        requireAtLeastOnePermission: ['view_ads_reports'],
+        requireAtLeastOnePermission: ['view_ads_reports', 'view_advertiser_reports'],
       },
       children: reportsRoutes,
     },

@@ -1,5 +1,5 @@
 export interface AdsReport {
-  id?: number
+  id: number
   advertiser: {
     id: number
     username: string

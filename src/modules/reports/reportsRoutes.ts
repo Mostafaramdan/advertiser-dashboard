@@ -7,4 +7,12 @@ export const reportsRoutes = [
       requiredPermission: 'view_ads_reports',
     },
   },
+  {
+    path: 'advertisers',
+    name: 'advertisers-reports-page',
+    component: () => import('./pages/AdvertisersReportsPage.vue'),
+    meta: {
+      requiredPermission: 'view_advertiser_reports',
+    },
+  },
 ]

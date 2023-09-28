@@ -1,8 +1,8 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
 
-class AdsReportsService {
-  contextPath = 'reports/ads'
+class AdvertisersReportsService {
+  contextPath = 'reports/advertiser'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -10,4 +10,4 @@ class AdsReportsService {
   }
 }
 
-export const adsReportsService = new AdsReportsService()
+export const advertisersReportsService = new AdvertisersReportsService()
