@@ -1,35 +1,27 @@
 <script setup lang="ts">
-import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { MetaData } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { AdvertiserReport } from '../interfaces/AdvertiserReport'
-import { advertisersReportsService } from '../services/AdvertisersReportsService'
+import { reportsService } from '../services/ReportsService'
 
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
 const { t } = useI18n()
-const { hasPermission, canAccessPage } = useAuthStore()
-const MODEL_NAME = 'reports'
+const { hasPermission } = useAuthStore()
 const showNotificationModal = ref<boolean>(false)
 const activeUser = ref(null)
+const tableData = ref<AdvertiserReport[]>([])
+const metaData = ref<MetaData | null>(null)
+const isLoadingData = ref<boolean>(false)
 
 const params: any = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
 })
-
-const {
-  tableData,
-  metaData,
-  IsLoadingData,
-  getPageData,
-  onReloadData,
-  onChangeItemsPerPage,
-  onChangeSearch,
-} = UseCrudHelpers<AdvertiserReport>(advertisersReportsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -66,7 +58,7 @@ const headers: any = [
 // #region Computed
 const permissions = computed(() => ({
   sendNotification: hasPermission('notify_users'),
-  viewAdDetails: canAccessPage('ads_details'),
+  viewAdvertiserReports: hasPermission('view_advertiser_report_details'),
 }))
 
 // #endregion
@@ -83,6 +75,56 @@ getPageData()
  **** Section Functions Declaration ****
  **************************************/
 // #region Functions
+function getPageData(): void {
+  isLoadingData.value = true
+  reportsService
+    .getAdvertisersReports(params)
+    .then((res: any) => {
+      const { data, meta } = res.data
+      tableData.value = data
+      metaData.value = meta
+    })
+    .finally(() => {
+      isLoadingData.value = false
+    })
+}
+
+/**
+ * @description reload page data
+ * @return  {void}
+ */
+function reloadPageData(): void {
+  params.page = 1
+  getPageData()
+}
+
+/**
+ * @description update search keyword and reload page data
+ * @param  {string} value
+ * @return  {void}
+ */
+function onChangeSearch(value: string): void {
+  params.keyword = value
+  reloadPageData()
+}
+
+/**
+ * @description update items per page and reload page data
+ * @param  {number} value
+ * @return  {void}
+ */
+function onChangeItemsPerPage(value: number): void {
+  params.itemPerPage = value
+  reloadPageData()
+}
+
+/**
+ * @description reload page data and reset selected items
+ */
+function onReloadData(): void {
+  reloadPageData()
+}
+
 function openNotificationModal(user: any) {
   activeUser.value = user
   showNotificationModal.value = true
@@ -106,12 +148,12 @@ function openNotificationModal(user: any) {
           @reload-data="onReloadData"
         />
         <VDataTableServer
-          v-loading="IsLoadingData"
+          v-loading="isLoadingData"
           :headers="headers"
           :items="tableData"
           :items-length="metaData?.total || 0"
           class="app-table"
-          :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
+          :no-data-text="isLoadingData ? t('general.loading') : t('general.no_data')"
         >
           <template #item.advertiser="{ item }">
             <router-link
@@ -147,17 +189,16 @@ function openNotificationModal(user: any) {
 
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <!-- TODO: ADd link -->
-              <!-- <IconBtn
-                :disabled="!permissions.viewAdDetails"
+              <IconBtn
+                :disabled="!permissions.viewAdvertiserReports"
                 :to="{
-                  name: 'ad-details-page',
-                  params: { id: item.raw.id },
+                  name: 'advertisers-profile-page',
+                  params: { id: item.raw.advertiser.id },
                   query: { tab: 'reports' },
                 }"
               >
                 <VIcon icon="tabler-eye" />
-              </IconBtn> -->
+              </IconBtn>
               <IconBtn
                 :disabled="!permissions.sendNotification"
                 @click="openNotificationModal(item.raw.advertiser)"

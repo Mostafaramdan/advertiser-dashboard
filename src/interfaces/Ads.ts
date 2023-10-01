@@ -5,6 +5,7 @@ type User = {
   phone: string
   image_path: string
   rate: number
+  country_name?: string
 }
 
 export interface AdsListItem {
@@ -55,12 +56,4 @@ export interface AdComment {
   commenter: User
   created_at: string
   likes_count: number
-}
-
-export interface AdReport {
-  id: number
-  user: User | null
-  advertiser: User
-  created_at: string
-  report_content: string
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
-import type { AdReportItem } from '@/modules/reports/interfaces/AdsReport'
+import type { AdvertiserReportItem } from '@/modules/reports/interfaces/AdvertiserReport'
 import { reportsService } from '@/modules/reports/services/ReportsService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
@@ -36,7 +36,7 @@ const {
   IsLoadingData,
   deleteItemFromTableData,
   deleteItemFromSelectedItems,
-} = UseCrudHelpers<AdReportItem>(null, params, MODEL_NAME)
+} = UseCrudHelpers<AdvertiserReportItem>(null, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -98,7 +98,7 @@ getPageData()
 function getPageData(): void {
   IsLoadingData.value = true
   reportsService
-    .getAdsReportsDetails({ id: adId, params })
+    .getAdvertisersReportsDetails({ id: adId, params })
     .then((res: any) => {
       const { data, meta } = res.data
       tableData.value = data
@@ -151,12 +151,12 @@ function onReloadData(): void {
  * @param  {any} item
  * @return  {void}
  */
-function deleteItem(item: AdReportItem): void {
+function deleteItem(item: AdvertiserReportItem): void {
   deleteItemFromSelectedItems(item)
 
   IsLoadingData.value = true
   reportsService
-    .deleteAdsReport(item.id as number)
+    .deleteAdvertisersReport(item.id as number)
     .then((res: any) => {
       toast.success(res.data.message)
       deleteItemFromTableData(item)

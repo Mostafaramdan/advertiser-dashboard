@@ -19,6 +19,9 @@ const MarketingPresentationTab = defineAsyncComponent(
 const AccountSettingsTab = defineAsyncComponent(
   () => import('@/components/advertiser-profile/AccountSettingsTab.vue'),
 )
+const ReportsTab = defineAsyncComponent(
+  () => import('@/components/advertiser-profile/ReportsTab.vue'),
+)
 const route = useRoute()
 const router = useRouter()
 const { hasPermission, canAccessPage } = useAuthStore()
@@ -56,6 +59,12 @@ const tabs = computed(() => {
       value: 'marketing-presentation',
       component: MarketingPresentationTab,
       show: hasPermission('show_marketer_info'),
+    },
+    {
+      title: 'البلاغات',
+      value: 'reports',
+      component: ReportsTab,
+      show: hasPermission('view_advertiser_report_details'),
     },
   ]
 })

@@ -91,6 +91,7 @@ declare module '@vue/runtime-core' {
     PricingPlanDialog: typeof import('./src/components/dialogs/PricingPlanDialog.vue')['default']
     ProfileBasicInfo: typeof import('./src/components/advertiser-profile/ProfileBasicInfo.vue')['default']
     ReferAndEarnDialog: typeof import('./src/components/dialogs/ReferAndEarnDialog.vue')['default']
+    ReportsTab: typeof import('./src/components/advertiser-profile/ReportsTab.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ScrollToTop: typeof import('./src/@core/components/ScrollToTop.vue')['default']

@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
-import type { pageAction } from '@/interfaces/Shared'
+import type { MetaData, pageAction } from '@/interfaces/Shared'
 import { adsService } from '@/services/AdsService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { AdsReport } from '../interfaces/AdsReport'
-import { adsReportsService } from '../services/AdsReportsService'
+import { reportsService } from '../services/ReportsService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -16,29 +15,21 @@ const FilterComponent = defineAsyncComponent(() => import('../components/AdsRepo
 const toast = useToast()
 const { t } = useI18n()
 const { hasPermission, canAccessPage } = useAuthStore()
-const MODEL_NAME = 'reports'
 const ADS_MODEL_NAME = 'ads'
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
 const showNotificationModal = ref<boolean>(false)
 const activeUser = ref(null)
 
+const tableData = ref<AdsReport[]>([])
+const metaData = ref<MetaData | null>(null)
+const isLoadingData = ref<boolean>(false)
+const confirmModal = ref<any>()
 const params: any = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
 })
-
-const {
-  tableData,
-  metaData,
-  confirmModal,
-  IsLoadingData,
-  getPageData,
-  onReloadData,
-  onChangeItemsPerPage,
-  onChangeSearch,
-} = UseCrudHelpers<AdsReport>(adsReportsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -107,6 +98,56 @@ getPageData()
  **** Section Functions Declaration ****
  **************************************/
 // #region Functions
+function getPageData(): void {
+  isLoadingData.value = true
+  reportsService
+    .getAdsReports(params)
+    .then((res: any) => {
+      const { data, meta } = res.data
+      tableData.value = data
+      metaData.value = meta
+    })
+    .finally(() => {
+      isLoadingData.value = false
+    })
+}
+
+/**
+ * @description reload page data
+ * @return  {void}
+ */
+function reloadPageData(): void {
+  params.page = 1
+  getPageData()
+}
+
+/**
+ * @description update search keyword and reload page data
+ * @param  {string} value
+ * @return  {void}
+ */
+function onChangeSearch(value: string): void {
+  params.keyword = value
+  reloadPageData()
+}
+
+/**
+ * @description update items per page and reload page data
+ * @param  {number} value
+ * @return  {void}
+ */
+function onChangeItemsPerPage(value: number): void {
+  params.itemPerPage = value
+  reloadPageData()
+}
+
+/**
+ * @description reload page data and reset selected items
+ */
+function onReloadData(): void {
+  reloadPageData()
+}
+
 function handleShowFilter() {
   showFilter.value = !showFilter.value
   if (!loadFilter.value) loadFilter.value = true
@@ -123,7 +164,7 @@ function openNotificationModal(user: any) {
 }
 
 function deleteItem(item: AdsReport) {
-  IsLoadingData.value = true
+  isLoadingData.value = true
   adsService
     .deleteItem(item.ad_id)
     .then((res) => {
@@ -131,12 +172,12 @@ function deleteItem(item: AdsReport) {
       toast.success(res.data.message)
     })
     .finally(() => {
-      IsLoadingData.value = false
+      isLoadingData.value = false
     })
 }
 
 function restoreItem(item: AdsReport) {
-  IsLoadingData.value = true
+  isLoadingData.value = true
   adsService
     .restoreItem(item.ad_id)
     .then((res) => {
@@ -144,7 +185,7 @@ function restoreItem(item: AdsReport) {
       toast.success(res.data.message)
     })
     .finally(() => {
-      IsLoadingData.value = false
+      isLoadingData.value = false
     })
 }
 
@@ -187,12 +228,12 @@ async function showConfirmModal(item: AdsReport): Promise<void> {
           @reload-data="onReloadData"
         />
         <VDataTableServer
-          v-loading="IsLoadingData"
+          v-loading="isLoadingData"
           :headers="headers"
           :items="tableData"
           :items-length="metaData?.total || 0"
           class="app-table"
-          :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
+          :no-data-text="isLoadingData ? t('general.loading') : t('general.no_data')"
         >
           <template #item.advertiser="{ item }">
             <router-link

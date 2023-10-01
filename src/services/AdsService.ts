@@ -17,10 +17,6 @@ class AdsService {
     return axios.get(`comments/ads/${id}`, { params })
   }
 
-  getReports({ id, params }: { id: number; params: any }): AxiosPromise {
-    return axios.get(`reports/ads/${id}`, { params })
-  }
-
   /** **************** delete ******************/
   deleteItem(id: number): AxiosPromise {
     return axios.delete(`${this.contextPath}/${id}`)
@@ -28,10 +24,6 @@ class AdsService {
 
   deleteComment(id: number): AxiosPromise {
     return axios.delete(`comments/${id}`)
-  }
-
-  deleteReport(id: number): AxiosPromise {
-    return axios.delete(`reports/${id}`)
   }
 
   /** **************** put ******************/
