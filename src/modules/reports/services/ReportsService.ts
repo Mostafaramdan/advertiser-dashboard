@@ -21,6 +21,10 @@ class ReportsService {
     return axios.get(`reports/advertiser/${id}`, { params })
   }
 
+  getChatReports(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/chat`, { params })
+  }
+
   /** **************** delete ******************/
   deleteItem(id: number): AxiosPromise {
     return axios.delete(`${this.contextPath}/${id}`)
@@ -32,6 +36,10 @@ class ReportsService {
 
   deleteAdvertisersReport(id: number): AxiosPromise {
     return axios.delete(`reports/advertiser/${id}`)
+  }
+
+  deleteChatReport(id: number): AxiosPromise {
+    return axios.delete(`reports/chat/${id}`)
   }
 }
 

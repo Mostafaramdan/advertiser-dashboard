@@ -15,4 +15,12 @@ export const reportsRoutes = [
       requiredPermission: 'view_advertiser_reports',
     },
   },
+  {
+    path: 'chat',
+    name: 'chat-reports-page',
+    component: () => import('./pages/ChatReportsPage.vue'),
+    meta: {
+      requiredPermission: 'view_chat_reports',
+    },
+  },
 ]

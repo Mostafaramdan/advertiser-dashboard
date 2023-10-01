@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
-import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { MetaData } from '@/interfaces/Shared'
 import type { AdvertiserReportItem } from '@/modules/reports/interfaces/AdvertiserReport'
 import { reportsService } from '@/modules/reports/services/ReportsService'
 import { useAuthStore } from '@/stores/AuthStore'
@@ -20,23 +20,17 @@ const MODEL_NAME = 'reports'
 const showNotificationModal = ref<boolean>(false)
 const activeUser = ref(null)
 const adId = +route.params.id
-
+const selectedItems = ref<number[]>([])
+const tableData = ref<AdvertiserReportItem[]>([])
+const metaData = ref<MetaData | null>(null)
+const confirmModal = ref<any>()
+const isLoadingData = ref<boolean>(false)
 const params = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
   user_id: null,
 })
-
-const {
-  selectedItems,
-  tableData,
-  metaData,
-  confirmModal,
-  IsLoadingData,
-  deleteItemFromTableData,
-  deleteItemFromSelectedItems,
-} = UseCrudHelpers<AdvertiserReportItem>(null, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -77,7 +71,7 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  delete: hasPermission('delete_report'),
+  delete: hasPermission('delete_advertiser_report'),
   sendNotification: hasPermission('notify_users'),
 }))
 
@@ -96,7 +90,7 @@ getPageData()
  **************************************/
 // #region Functions
 function getPageData(): void {
-  IsLoadingData.value = true
+  isLoadingData.value = true
   reportsService
     .getAdvertisersReportsDetails({ id: adId, params })
     .then((res: any) => {
@@ -105,7 +99,7 @@ function getPageData(): void {
       metaData.value = meta
     })
     .finally(() => {
-      IsLoadingData.value = false
+      isLoadingData.value = false
     })
 }
 
@@ -147,6 +141,51 @@ function onReloadData(): void {
 }
 
 /**
+ * @description delete item from table data after delete from server and update meta data
+ * @param  {any} item
+ * @return  {void}
+ */
+function deleteItemFromTableData(item: any): void {
+  const targetIndex = tableData.value.findIndex((i: any) => i.id === item.id)
+
+  if (targetIndex === -1) return
+  tableData.value.splice(targetIndex, 1)
+
+  // update sort for table data
+  if (item.sort) {
+    for (let i = targetIndex; i < tableData.value.length; i++)
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      if (tableData.value[i].sort) tableData.value[i].sort -= 1
+  }
+
+  if (metaData.value) {
+    metaData.value.total -= 1
+    metaData.value.last_page = Math.ceil(metaData.value.total / params.itemPerPage)
+    if (tableData.value.length === 0 && metaData.value.current_page > 1) {
+      params.page = metaData.value.current_page - 1
+      getPageData()
+    }
+
+    // handle it for first page
+    else if (tableData.value.length === 0 && metaData.value.current_page === 1) {
+      getPageData()
+    }
+  }
+}
+
+/**
+ * @description delete item from selected items
+ * @param  {any} item
+ * @return  {void}
+ */
+function deleteItemFromSelectedItems(item: any): void {
+  const targetItemIndex = selectedItems.value.findIndex((i: number) => i === item.id)
+
+  if (targetItemIndex !== -1) selectedItems.value.splice(targetItemIndex, 1)
+}
+
+/**
  * @description delete item from server
  * @param  {any} item
  * @return  {void}
@@ -154,7 +193,7 @@ function onReloadData(): void {
 function deleteItem(item: AdvertiserReportItem): void {
   deleteItemFromSelectedItems(item)
 
-  IsLoadingData.value = true
+  isLoadingData.value = true
   reportsService
     .deleteAdvertisersReport(item.id as number)
     .then((res: any) => {
@@ -162,7 +201,7 @@ function deleteItem(item: AdvertiserReportItem): void {
       deleteItemFromTableData(item)
     })
     .finally(() => {
-      IsLoadingData.value = false
+      isLoadingData.value = false
     })
 }
 
@@ -206,14 +245,14 @@ function openNotificationModal(user: any) {
 
       <VDataTableServer
         v-model="selectedItems"
-        v-loading="IsLoadingData"
+        v-loading="isLoadingData"
         :headers="headers"
         :items="tableData"
         show-select
         :items-length="metaData?.total || 0"
         item-value="id"
         class="app-table"
-        :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
+        :no-data-text="isLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.reporter.username="{ item }">
           <div style="min-width: 150px">

@@ -112,6 +112,18 @@ const advertiserDetails = ref([
     key: 'area_name',
   },
   {
+    label: 'عدد البلاغات',
+    key: 'reported_count',
+  },
+  {
+    label: 'نسبة البلاغات',
+    key: 'reported_rate',
+  },
+  {
+    label: 'عدد الطلبات',
+    key: 'ads_request_count',
+  },
+  {
     label: 'حالة الحساب',
     key: 'profile_completion',
   },
@@ -375,12 +387,12 @@ function takeProcedure(procedure: any) {
                 "
                 density="comfortable"
                 :inset="false"
-                class="mb-3"
+                class="mb-5 mt-1"
                 @click="takeProcedure(procedure)"
               />
               <VBtn
                 variant="outlined"
-                class="mt-2 mb-1"
+                class="mt-3 mb-3"
                 @click="showNotificationModal = true"
                 :disabled="!permissions.sendNotification"
               >

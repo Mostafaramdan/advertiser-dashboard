@@ -337,6 +337,11 @@ const navItems = computed(() => {
           to: { name: 'advertisers-reports-page' },
           show: hasPermission('view_advertiser_reports'),
         },
+        {
+          title: 'بلاغات الشات',
+          to: { name: 'chat-reports-page' },
+          show: hasPermission('view_chat_reports'),
+        },
       ],
     },
     {

@@ -47,6 +47,9 @@ export interface AdvertiserDetails {
   area_name: string
   type: string
   subscription_name: string
+  ads_request_count: number
+  reported_count: number
+  reported_rate: string
   ma3roof_data: {
     link: string
     name: string
