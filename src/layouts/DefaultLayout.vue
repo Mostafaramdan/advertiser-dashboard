@@ -324,7 +324,12 @@ const navItems = computed(() => {
     {
       title: 'البلاغات',
       icon: { icon: 'tabler-alert-hexagon' },
-      show: hasAtLeaseOnePermission(['view_ads_reports', 'view_advertiser_reports']),
+      show: hasAtLeaseOnePermission([
+        'view_ads_reports',
+        'view_advertiser_reports',
+        'view_chat_reports',
+        'view_chat_rates',
+      ]),
       to: null,
       children: [
         {
@@ -341,6 +346,11 @@ const navItems = computed(() => {
           title: 'بلاغات الشات',
           to: { name: 'chat-reports-page' },
           show: hasPermission('view_chat_reports'),
+        },
+        {
+          title: 'تقييم الشات',
+          to: { name: 'chat-rates-page' },
+          show: hasPermission('view_chat_rates'),
         },
       ],
     },

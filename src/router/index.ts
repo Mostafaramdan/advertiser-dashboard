@@ -26,6 +26,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/test-page',
+      name: 'test-page',
+      component: () => import('@/pages/TestPage2.vue'),
+      meta: {
+        layout: 'default',
+      },
+    },
+    {
       path: '/login',
       name: 'login-page',
       component: () => import('@/pages/LoginPage.vue'),
@@ -170,6 +178,7 @@ const router = createRouter({
           'view_ads_reports',
           'view_advertiser_reports',
           'view_chat_reports',
+          'view_chat_rates',
         ],
       },
       children: reportsRoutes,

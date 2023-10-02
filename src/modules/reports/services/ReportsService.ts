@@ -10,7 +10,7 @@ class ReportsService {
   }
 
   getAdsReportsDetails({ id, params }: { id: number; params: any }): AxiosPromise {
-    return axios.get(`reports/ads/${id}`, { params })
+    return axios.get(`${this.contextPath}/ads/${id}`, { params })
   }
 
   getAdvertisersReports(params: any): AxiosPromise {
@@ -18,11 +18,15 @@ class ReportsService {
   }
 
   getAdvertisersReportsDetails({ id, params }: { id: number; params: any }): AxiosPromise {
-    return axios.get(`reports/advertiser/${id}`, { params })
+    return axios.get(`${this.contextPath}/advertiser/${id}`, { params })
   }
 
   getChatReports(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/chat`, { params })
+  }
+
+  getChatRates(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/chat_rates`, { params })
   }
 
   /** **************** delete ******************/
@@ -31,15 +35,15 @@ class ReportsService {
   }
 
   deleteAdsReport(id: number): AxiosPromise {
-    return axios.delete(`reports/ads/${id}`)
+    return axios.delete(`${this.contextPath}/ads/${id}`)
   }
 
   deleteAdvertisersReport(id: number): AxiosPromise {
-    return axios.delete(`reports/advertiser/${id}`)
+    return axios.delete(`${this.contextPath}/advertiser/${id}`)
   }
 
   deleteChatReport(id: number): AxiosPromise {
-    return axios.delete(`reports/chat/${id}`)
+    return axios.delete(`${this.contextPath}/chat/${id}`)
   }
 }
 

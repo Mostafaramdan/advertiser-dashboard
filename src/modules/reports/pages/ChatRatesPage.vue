@@ -2,9 +2,8 @@
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { MetaData } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
-import type { CharReport } from '../interfaces/ChatReport'
+import type { ChatRate } from '../interfaces/ChatRate'
 import { reportsService } from '../services/ReportsService'
 
 /***************************************
@@ -12,17 +11,14 @@ import { reportsService } from '../services/ReportsService'
  **************************************/
 // #region Variables
 const { t } = useI18n()
-const toast = useToast()
 const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const showNotificationModal = ref<boolean>(false)
 const activeUser = ref(null)
-const MODEL_NAME = 'reports'
-const selectedItems = ref<number[]>([])
-const tableData = ref<CharReport[]>([])
+const tableData = ref<ChatRate[]>([])
 const metaData = ref<MetaData | null>(null)
-const confirmModal = ref<any>()
 const isLoadingData = ref<boolean>(false)
+
 const params: any = reactive({
   page: 1,
   itemPerPage: 10,
@@ -31,24 +27,24 @@ const params: any = reactive({
 
 const headers: any = [
   {
-    title: 'صاحب الرسالة',
-    key: 'reported',
+    title: 'الموظف',
+    key: 'employee',
   },
   {
-    title: 'المبلغ',
-    key: 'reporter',
+    title: 'المُقيم',
+    key: 'rater',
   },
   {
-    title: 'تاريخ التبليغ',
-    key: 'report_date',
+    title: 'تاريخ التقييم',
+    key: 'created_at',
   },
   {
-    title: 'الرسالة المبلغ عنها',
-    key: 'message',
+    title: 'الدولة',
+    key: 'rater.country_name',
   },
   {
-    title: 'نص البلاغ',
-    key: 'report_content',
+    title: 'التعليق',
+    key: 'comment',
   },
   {
     title: 'العمليات',
@@ -65,7 +61,6 @@ const headers: any = [
 // #region Computed
 const permissions = computed(() => ({
   sendNotification: hasPermission('notify_users'),
-  delete: hasPermission('delete_chat_report'),
 }))
 
 // #endregion
@@ -85,7 +80,7 @@ getPageData()
 function getPageData(): void {
   isLoadingData.value = true
   reportsService
-    .getChatReports(params)
+    .getChatRates(params)
     .then((res: any) => {
       const { data, meta } = res.data
       tableData.value = data
@@ -130,75 +125,6 @@ function onChangeItemsPerPage(value: number): void {
  */
 function onReloadData(): void {
   reloadPageData()
-  selectedItems.value = []
-}
-
-/**
- * @description delete item from table data after delete from server and update meta data
- * @param  {CharReport} item
- * @return  {void}
- */
-function deleteItemFromTableData(item: CharReport): void {
-  const targetIndex = tableData.value.findIndex((i: any) => i.id === item.id)
-
-  if (targetIndex === -1) return
-  tableData.value.splice(targetIndex, 1)
-
-  if (metaData.value) {
-    metaData.value.total -= 1
-    metaData.value.last_page = Math.ceil(metaData.value.total / params.itemPerPage)
-    if (tableData.value.length === 0 && metaData.value.current_page > 1) {
-      params.page = metaData.value.current_page - 1
-      getPageData()
-    }
-
-    // handle it for first page
-    else if (tableData.value.length === 0 && metaData.value.current_page === 1) {
-      getPageData()
-    }
-  }
-}
-
-/**
- * @description delete item from selected items
- * @param  {CharReport} item
- * @return  {void}
- */
-function deleteItemFromSelectedItems(item: CharReport): void {
-  const targetItemIndex = selectedItems.value.findIndex((i: number) => i === item.id)
-
-  if (targetItemIndex !== -1) selectedItems.value.splice(targetItemIndex, 1)
-}
-
-/**
- * @description delete item from server
- * @param  {CharReport} item
- * @return  {void}
- */
-function deleteItem(item: CharReport): void {
-  deleteItemFromSelectedItems(item)
-
-  isLoadingData.value = true
-  reportsService
-    .deleteAdvertisersReport(item.id as number)
-    .then((res: any) => {
-      toast.success(res.data.message)
-      deleteItemFromTableData(item)
-    })
-    .finally(() => {
-      isLoadingData.value = false
-    })
-}
-
-/**
- * @description show confirm modal before delete item
- * @param  {CharReport} item
- * @return  {Promise<void>}
- */
-async function showConfirmDeleteItem(item: CharReport): Promise<void> {
-  const confirm = await confirmModal.value.open('يرجي التاكيد', 'هل انت متاكد من الحذف')
-
-  if (confirm) deleteItem(item)
 }
 
 function openNotificationModal(user: any) {
@@ -215,83 +141,72 @@ function openNotificationModal(user: any) {
       v-model:showModal="showNotificationModal"
       :user="activeUser"
     />
-    <ConfirmModal ref="confirmModal" />
-    <VCard title="بلاغات الشات" class="page-card">
+    <VCard title="تقييم الشات" class="page-card">
       <VCardText>
         <PageActions
           :items-per-page="params.itemPerPage"
           @update:items-per-page="onChangeItemsPerPage"
           @update:search="onChangeSearch"
           @reload-data="onReloadData"
-          :selected-items="selectedItems"
-          :show-multi-delete="permissions.delete"
-          :model="MODEL_NAME"
         />
         <VDataTableServer
-          v-model="selectedItems"
           v-loading="isLoadingData"
           :headers="headers"
           :items="tableData"
           :items-length="metaData?.total || 0"
-          item-value="id"
-          show-select
           class="app-table"
           :no-data-text="isLoadingData ? t('general.loading') : t('general.no_data')"
         >
-          <template #item.reported="{ item }">
+          <template #item.employee="{ item }">
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
                   <VImg
-                    v-if="item.raw.reported.image_path"
-                    :src="item.raw.reported.image_path"
+                    v-if="item.raw.employee.image_path"
+                    :src="item.raw.employee.image_path"
                     cover
                   />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
-              <div style="min-width: 80px">
-                <span>{{ item.raw.reported.username }}</span>
+              <div style="min-width: 205px">
+                <span>{{ item.raw.employee.username }}</span>
+                <span class="text-sm text-disabled d-block">{{ item.raw.employee.phone }}</span>
               </div>
             </div>
           </template>
-          <template #item.reporter="{ item }">
+          <template #item.rater="{ item }">
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg
-                    v-if="item.raw.reporter.image_path"
-                    :src="item.raw.reporter.image_path"
-                    cover
-                  />
+                  <VImg v-if="item.raw.rater.image_path" :src="item.raw.rater.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
-              <div style="min-width: 80px">
-                <span>{{ item.raw.reporter.username }}</span>
+              <div style="min-width: 205px">
+                <span>{{ item.raw.rater.username }}</span>
+                <span class="text-sm text-disabled d-block">{{ item.raw.rater.phone }}</span>
               </div>
             </div>
           </template>
-          <template #item.report_date="{ item }">
+          <template #item.created_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.report_date) }}
+              {{ formatDateTime(item.raw.created_at) }}
             </div>
           </template>
-          <template #item.message="{ item }">
+          <template #item.rater.country_name="{ item }">
+            <div style="min-width: 100px">
+              {{ item.raw.rater.country_name }}
+            </div>
+          </template>
+          <template #item.comment="{ item }">
             <div class="my-2" style="min-width: 150px; max-width: 280px">
-              {{ item.raw.message }}
+              {{ item.raw.comment }}
             </div>
           </template>
-          <template #item.report_content="{ item }">
-            <div class="my-2" style="min-width: 150px; max-width: 280px">
-              {{ item.raw.report_content }}
-            </div>
-          </template>
+
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
-                <VIcon icon="tabler-trash" />
-              </IconBtn>
               <VBtn icon variant="text" size="small" color="medium-emphasis">
                 <VIcon size="24" icon="tabler-dots-vertical" />
 
@@ -299,23 +214,23 @@ function openNotificationModal(user: any) {
                   <VList>
                     <VListItem
                       :disabled="!permissions.sendNotification"
-                      @click="openNotificationModal(item.raw.reported)"
+                      @click="openNotificationModal(item.raw.employee)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />
                       </template>
 
-                      <VListItemTitle>إرسال تنبيه لصاحب الرسالة</VListItemTitle>
+                      <VListItemTitle>إرسال تنبيه للموظف</VListItemTitle>
                     </VListItem>
                     <VListItem
                       :disabled="!permissions.sendNotification"
-                      @click="openNotificationModal(item.raw.reporter)"
+                      @click="openNotificationModal(item.raw.rater)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />
                       </template>
 
-                      <VListItemTitle>إرسال تنبيه للمبلغ</VListItemTitle>
+                      <VListItemTitle>إرسال تنبيه للمُقيم</VListItemTitle>
                     </VListItem>
                   </VList>
                 </VMenu>
@@ -338,7 +253,11 @@ function openNotificationModal(user: any) {
 
 <style lang="scss" scoped>
 :deep(.v-data-table .v-table__wrapper > table td) {
-  font-size: 13px;
-  word-break: break-word;
+  max-inline-size: 250px;
+  word-wrap: break-word;
+
+  span {
+    @include max-lines(2);
+  }
 }
 </style>

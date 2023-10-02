@@ -29,7 +29,6 @@ const params = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
-  user_id: null,
 })
 
 const headers: any = [
@@ -142,22 +141,14 @@ function onReloadData(): void {
 
 /**
  * @description delete item from table data after delete from server and update meta data
- * @param  {any} item
+ * @param  {AdReportItem} item
  * @return  {void}
  */
-function deleteItemFromTableData(item: any): void {
+function deleteItemFromTableData(item: AdReportItem): void {
   const targetIndex = tableData.value.findIndex((i: any) => i.id === item.id)
 
   if (targetIndex === -1) return
   tableData.value.splice(targetIndex, 1)
-
-  // update sort for table data
-  if (item.sort) {
-    for (let i = targetIndex; i < tableData.value.length; i++)
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      if (tableData.value[i].sort) tableData.value[i].sort -= 1
-  }
 
   if (metaData.value) {
     metaData.value.total -= 1
@@ -176,10 +167,10 @@ function deleteItemFromTableData(item: any): void {
 
 /**
  * @description delete item from selected items
- * @param  {any} item
+ * @param  {AdReport} item
  * @return  {void}
  */
-function deleteItemFromSelectedItems(item: any): void {
+function deleteItemFromSelectedItems(item: AdReportItem): void {
   const targetItemIndex = selectedItems.value.findIndex((i: number) => i === item.id)
 
   if (targetItemIndex !== -1) selectedItems.value.splice(targetItemIndex, 1)
@@ -207,10 +198,10 @@ function deleteItem(item: AdReportItem): void {
 
 /**
  * @description show confirm modal before delete item
- * @param  {ItemType} item
+ * @param  {AdReportItem} item
  * @return  {Promise<void>}
  */
-async function showConfirmDeleteItem(item: any): Promise<void> {
+async function showConfirmDeleteItem(item: AdReportItem): Promise<void> {
   const confirm = await confirmModal.value.open('يرجي التاكيد', 'هل انت متاكد من الحذف')
 
   if (confirm) deleteItem(item)

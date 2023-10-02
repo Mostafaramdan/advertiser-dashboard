@@ -23,4 +23,12 @@ export const reportsRoutes = [
       requiredPermission: 'view_chat_reports',
     },
   },
+  {
+    path: 'chat-rates',
+    name: 'chat-rates-page',
+    component: () => import('./pages/ChatRatesPage.vue'),
+    meta: {
+      requiredPermission: 'view_chat_rates',
+    },
+  },
 ]
