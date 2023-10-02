@@ -43,6 +43,7 @@ export interface AdsRequestAttachment {
   type: string
   path: string
   is_vimeo?: boolean
+  thumbnail: string
 }
 
 export interface AdsRequestsDetails {

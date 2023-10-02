@@ -102,6 +102,17 @@ const data = computed(() => {
 })
 
 // #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
+function openAttachmentsModal() {
+  showAttachmentsModal.value = true
+  const galleryFirstItem: HTMLImageElement | null = document.querySelector('.attachment-thumbnail')
+  galleryFirstItem?.click()
+}
+// #endregion
 </script>
 
 <template>
@@ -160,7 +171,7 @@ const data = computed(() => {
                       variant="outlined"
                       size="small"
                       v-if="item.value.length"
-                      @click="showAttachmentsModal = true"
+                      @click="openAttachmentsModal"
                     >
                       <VIcon start icon="tabler-paperclip" />
                       عرض المرفقات

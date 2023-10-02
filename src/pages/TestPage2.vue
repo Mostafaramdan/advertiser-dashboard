@@ -1,9 +1,19 @@
+<script setup lang="ts">
+import lgThumbnail from 'lightgallery/plugins/thumbnail'
+import lgVideo from 'lightgallery/plugins/video'
+import Lightgallery from 'lightgallery/vue'
+
+const plugins = [lgVideo, lgThumbnail]
+
+function showAttachments() {
+  const img: HTMLImageElement | null = document.querySelector('.attachment-img')
+  img?.click()
+}
+</script>
+
 <template>
-  <lightgallery
-    :settings="{ speed: 500, plugins: plugins }"
-    :onInit="onInit"
-    :onBeforeSlide="onBeforeSlide"
-  >
+  <VBtn @click="showAttachments">show</VBtn>
+  <lightgallery :settings="{ speed: 500, plugins }">
     <!-- Image -->
     <a
       href="https://images.unsplash.com/photo-1696225339703-bf3eeaa7ddac?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1778&q=80"
@@ -11,6 +21,7 @@
       <img
         width="100"
         height="100"
+        class="attachment-img d-none"
         src="https://images.unsplash.com/photo-1696225339703-bf3eeaa7ddac?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1778&q=80"
       />
     </a>
@@ -23,6 +34,7 @@
       <img
         width="100"
         height="100"
+        class="attachment-img d-none"
         src="https://img.youtube.com/vi/EIUJfXk3_3w/maxresdefault.jpg"
       />
     </a>
@@ -35,6 +47,7 @@
       <img
         width="100"
         height="100"
+        class="attachment-img d-none"
         src="https://images.unsplash.com/photo-1682695797873-aa4cb6edd613?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
       />
     </a>
@@ -47,43 +60,24 @@
       <img
         width="100"
         height="100"
+        class="attachment-img d-none"
         src="https://images.unsplash.com/photo-1683009427666-340595e57e43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
       />
     </a>
   </lightgallery>
 </template>
 
-<script>
-import Lightgallery from 'lightgallery/vue'
-import lgZoom from 'lightgallery/plugins/zoom'
-import lgVideo from 'lightgallery/plugins/video'
-import lgThumbnail from 'lightgallery/plugins/thumbnail'
-
-export default {
-  name: 'App',
-  components: {
-    Lightgallery,
-  },
-  data: () => ({
-    plugins: [lgZoom, lgVideo, lgThumbnail],
-  }),
-  methods: {
-    onInit: () => {
-      console.log('lightGallery has been initialized')
-    },
-    onBeforeSlide: () => {
-      console.log('calling before slide')
-    },
-  },
-}
-</script>
-<style lang="css">
-@import 'https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.4/css/lightgallery.css';
-@import 'https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.4/css/lg-zoom.css';
-@import 'https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.4/css/lg-video.css';
-@import 'https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.4/css/lg-thumbnail.css';
+<style lang="scss">
+@import 'lightgallery/css/lg-zoom.css';
+@import 'lightgallery/css/lg-video.css';
+@import 'lightgallery/css/lg-thumbnail.css';
+@import 'lightgallery/css/lightgallery.css';
 
 .lg-container {
   direction: ltr;
+
+  iframe {
+    padding-block-end: 40px;
+  }
 }
 </style>
