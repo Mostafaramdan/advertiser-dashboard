@@ -41,12 +41,11 @@ const plugins = [lgVideo, lgThumbnail]
             :src="attachment.thumbnail"
           />
         </a>
-
         <a
           v-else
           :data-video="
             JSON.stringify({
-              source: [{ src: attachment.path }],
+              source: [{ src: attachment.path, type: attachment.mime_type }],
               attributes: { preload: false, controls: true },
             })
           "

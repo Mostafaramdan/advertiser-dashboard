@@ -1,4 +1,5 @@
 import { couponsRoutes } from '@/modules/coupons/couponsRoutes'
+import { disputesRoutes } from '@/modules/disputes/disputesRoutes'
 import { reportsRoutes } from '@/modules/reports/reportsRoutes'
 import { settingsRoutes } from '@/modules/settings/settingsRoutes'
 import { subscriptionsRoutes } from '@/modules/subscriptions/subscriptionsRoutes'
@@ -182,6 +183,16 @@ const router = createRouter({
         ],
       },
       children: reportsRoutes,
+    },
+    {
+      path: '/disputes',
+      name: 'disputes',
+      component: () => import('@/modules/disputes/DisputesModule.vue'),
+      meta: {
+        layout: 'default',
+        requireAtLeastOnePermission: ['view_dispute_replies', 'view_dispute_types'],
+      },
+      children: disputesRoutes,
     },
     {
       path: '/notifications',

@@ -355,6 +355,24 @@ const navItems = computed(() => {
       ],
     },
     {
+      title: 'التنازع',
+      icon: { icon: 'tabler-analyze' },
+      show: hasAtLeaseOnePermission(['view_dispute_replies', 'view_dispute_types']),
+      to: null,
+      children: [
+        {
+          title: 'أنواع التنازع / موظفي الدعم',
+          to: { name: 'disputes-types-page' },
+          show: hasPermission('view_dispute_types'),
+        },
+        {
+          title: 'إجراءات التنازع',
+          to: { name: 'disputes-procedures-page' },
+          show: hasPermission('view_dispute_replies'),
+        },
+      ],
+    },
+    {
       title: 'الاشعارات',
       to: { name: 'notifications-page' },
       icon: { icon: 'tabler-bell' },

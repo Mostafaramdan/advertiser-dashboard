@@ -52,6 +52,10 @@ class ListService {
   getTags(): AxiosPromise {
     return axios.get(`${this.contextPath}/tags`)
   }
+
+  getAdmins(): AxiosPromise {
+    return axios.get(`${this.contextPath}/admins`)
+  }
 }
 
 export const listService = new ListService()
