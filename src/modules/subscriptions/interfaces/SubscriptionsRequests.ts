@@ -8,6 +8,7 @@ export type SubscriptionsRequestStatusValue =
   | 'Renew'
   | 'Extend'
   | 'Promotion'
+  | 'Activate'
 
 export interface SubscriptionsRequestStatus {
   value: SubscriptionsRequestStatusValue

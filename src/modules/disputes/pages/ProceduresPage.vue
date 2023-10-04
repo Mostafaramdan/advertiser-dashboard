@@ -15,7 +15,7 @@ import { proceduresService } from '../services/ProceduresService'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'dispute_replies'
+const MODEL_NAME = 'dispute_procedures'
 
 const params = reactive({
   page: 1,
@@ -77,11 +77,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_dispute_reply'),
-  edit: hasPermission('update_dispute_reply'),
-  delete: hasPermission('delete_dispute_reply'),
-  changeStatus: hasPermission('change_status_dispute_reply'),
-  sort: hasPermission('sort_dispute_reply'),
+  create: hasPermission('create_dispute_procedure'),
+  edit: hasPermission('update_dispute_procedure'),
+  delete: hasPermission('delete_dispute_procedure'),
+  changeStatus: hasPermission('change_status_dispute_procedure'),
+  sort: hasPermission('sort_dispute_procedure'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {

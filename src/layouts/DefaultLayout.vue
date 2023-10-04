@@ -357,9 +357,18 @@ const navItems = computed(() => {
     {
       title: 'التنازع',
       icon: { icon: 'tabler-analyze' },
-      show: hasAtLeaseOnePermission(['view_dispute_replies', 'view_dispute_types']),
+      show: hasAtLeaseOnePermission([
+        'view_dispute_procedures',
+        'view_dispute_types',
+        'view_disputes',
+      ]),
       to: null,
       children: [
+        {
+          title: 'طلبات التنازع',
+          to: { name: 'disputes-requests-page' },
+          show: hasPermission('view_disputes'),
+        },
         {
           title: 'أنواع التنازع / موظفي الدعم',
           to: { name: 'disputes-types-page' },
@@ -368,7 +377,7 @@ const navItems = computed(() => {
         {
           title: 'إجراءات التنازع',
           to: { name: 'disputes-procedures-page' },
-          show: hasPermission('view_dispute_replies'),
+          show: hasPermission('view_dispute_procedures'),
         },
       ],
     },

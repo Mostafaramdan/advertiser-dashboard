@@ -190,7 +190,11 @@ const router = createRouter({
       component: () => import('@/modules/disputes/DisputesModule.vue'),
       meta: {
         layout: 'default',
-        requireAtLeastOnePermission: ['view_dispute_replies', 'view_dispute_types'],
+        requireAtLeastOnePermission: [
+          'view_dispute_procedures',
+          'view_dispute_types',
+          'view_disputes',
+        ],
       },
       children: disputesRoutes,
     },

@@ -3,7 +3,7 @@ import axios from 'axios'
 import type { Procedure } from './../interfaces/Procedure'
 
 class ProceduresService {
-  contextPath = 'disputes/replies'
+  contextPath = 'disputes/procedures'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
