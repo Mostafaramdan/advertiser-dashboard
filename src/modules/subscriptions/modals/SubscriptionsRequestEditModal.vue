@@ -73,7 +73,7 @@ const requestStatuses = computed((): SubscriptionsRequestStatus[] => {
     {
       value: 'Accept',
       label: 'قبول',
-      show: [1, 3, 5].includes(formData.request_status),
+      show: [1, 3].includes(formData.request_status),
     },
     {
       value: 'Reject',
@@ -114,6 +114,11 @@ const requestStatuses = computed((): SubscriptionsRequestStatus[] => {
       value: 'ActiveOnce',
       label: 'تنشيط مرة واحدة',
       show: formData.request_status === 6,
+    },
+    {
+      value: 'Activate',
+      label: 'تنشيط',
+      show: formData.request_status === 5,
     },
   ]
 })
