@@ -91,7 +91,7 @@ function getData() {
         <VExpansionPanelText>
           <VRow class="mt-0" v-if="isLoading">
             <VCol v-for="i in 6" :key="i" cols="12" sm="6" md="4" lg="2" class="pt-0">
-              <VSkeletonLoader type="list-item-two-line" />
+              <VSkeletonLoader type="list-item-avatar-two-line" />
             </VCol>
           </VRow>
 
