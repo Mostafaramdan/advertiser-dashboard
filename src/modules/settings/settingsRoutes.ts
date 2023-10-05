@@ -144,6 +144,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'ready-replies',
+    name: 'ready-replies-settings',
+    component: () => import('./pages/ReadyReplies.vue'),
+    meta: {
+      requiredAccess: 'admin_replies',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),

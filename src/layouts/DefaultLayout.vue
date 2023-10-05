@@ -235,6 +235,11 @@ const navItems = computed(() => {
           to: { name: 'chat-settings' },
           show: canAccessPage('chat_settings'),
         },
+        {
+          title: 'الردود الجاهزة',
+          to: { name: 'ready-replies-settings' },
+          show: canAccessPage('admin_replies'),
+        },
       ],
     },
     {

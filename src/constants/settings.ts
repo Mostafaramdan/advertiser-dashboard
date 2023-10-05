@@ -58,3 +58,10 @@ export const MAIN_TAGS_IDS = {
   ads: 1,
   coupons: 2,
 }
+
+// replies types
+export const REPLIES_TYPES: any = {
+  chat: 'الشات',
+  dispute: 'التنازع',
+  ticket: 'التذاكر',
+}
