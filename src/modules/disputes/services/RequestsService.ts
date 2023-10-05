@@ -10,6 +10,10 @@ class RequestsService {
     return axios.get(`${this.contextPath}`, { params })
   }
 
+  getRequestsStats(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/statistics`, { params })
+  }
+
   /** **************** post ******************/
   takeProcedure(payload: { id: number; data: DisputeRequestProcedureForm }): AxiosPromise {
     return axios.post(`${this.contextPath}/${payload.id}/make_procedure`, payload.data)

@@ -8,6 +8,7 @@ import { useAuthStore } from '@/stores/AuthStore'
 import { useDisputesStore } from '@/stores/DisputesStore'
 import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
+import RequestsStats from '../components/RequestsStats.vue'
 import type { DisputeRequest, User } from '../interfaces/DisputeRequest'
 import RequestProcedureModal from '../modals/RequestProcedureModal.vue'
 import { requestsService } from '../services/RequestsService'
@@ -16,6 +17,7 @@ import { requestsService } from '../services/RequestsService'
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
+const FilterComponent = defineAsyncComponent(() => import('../components/RequestsFilter.vue'))
 const { t } = useI18n()
 const toast = useToast()
 const router = useRouter()
@@ -23,6 +25,8 @@ const disputesStore = useDisputesStore()
 const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'disputes'
+const showFilter = ref<boolean>(false)
+const loadFilter = ref<boolean>(false)
 const showProcedureModal = ref<boolean>(false)
 const activeItem = ref<DisputeRequest | null>(null)
 const params = reactive({
@@ -82,7 +86,13 @@ const permissions = computed(() => ({
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
-  return []
+  return [
+    {
+      icon: 'tabler-filter',
+      show: true,
+      handler: handleShowFilter,
+    },
+  ]
 })
 
 // #endregion
@@ -141,6 +151,17 @@ function onTakeProcedure(item: DisputeRequest) {
   const targetIndex = tableData.value.findIndex((request: DisputeRequest) => request.id === item.id)
   if (targetIndex !== -1) tableData.value.splice(targetIndex, 1, item)
 }
+
+function handleShowFilter() {
+  showFilter.value = !showFilter.value
+  if (!loadFilter.value) loadFilter.value = true
+}
+
+function onApplyFilter(filters: any) {
+  Object.assign(params, { ...filters, page: 1 })
+  getPageData()
+}
+
 // #endregion
 </script>
 
@@ -152,8 +173,15 @@ function onTakeProcedure(item: DisputeRequest) {
       v-model:showModal="showProcedureModal"
       @procedure:sent="onTakeProcedure"
     />
+    <Component
+      :is="FilterComponent"
+      v-if="loadFilter"
+      v-model:showFilter="showFilter"
+      @apply-filter="onApplyFilter"
+    />
     <VCard title="طلبات التنازع" class="page-card">
       <VCardText>
+        <RequestsStats />
         <PageActions
           :page-actions-buttons="pageActionsButtons"
           :items-per-page="params.itemPerPage"
@@ -251,7 +279,7 @@ function onTakeProcedure(item: DisputeRequest) {
                     </VListItem>
 
                     <VListItem
-                      :disabled="!permissions.takeProcedure"
+                      :disabled="!permissions.takeProcedure || !item.raw.can_make_procedure"
                       @click="openProcedureModal(item.raw)"
                     >
                       <template #prepend>

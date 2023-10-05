@@ -21,3 +21,12 @@ export interface DisputeRequestProcedureForm {
   procedure_id: null | number
   details: string
 }
+
+export interface RequestsStats {
+  total: number
+  new: number
+  opened: number
+  accepted: number
+  confirmed: number
+  finished: number
+}

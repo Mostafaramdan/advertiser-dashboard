@@ -60,6 +60,10 @@ class ListService {
   getDisputesProcedures(): AxiosPromise {
     return axios.get(`${this.contextPath}/dispute_procedures`)
   }
+
+  getDisputesTypes(): AxiosPromise {
+    return axios.get(`${this.contextPath}/dispute_types`)
+  }
 }
 
 export const listService = new ListService()
