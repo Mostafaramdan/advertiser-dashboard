@@ -93,6 +93,12 @@ const { formatDateTime } = UseGeneralHelpers()
               />
               <VListItem
                 class="px-2 py-2"
+                title="عدد ايام الايقاف المتبقية"
+                :subtitle="activeItem.remaining_stop_days"
+                border
+              />
+              <VListItem
+                class="px-2 py-2"
                 title="الدولة"
                 :subtitle="activeItem.user.country"
                 border

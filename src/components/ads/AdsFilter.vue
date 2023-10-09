@@ -55,6 +55,7 @@ const initFilters: any = {
   is_active: null,
   type: null,
   id_deleted: null,
+  ad_request_id: null,
 }
 
 const filters = reactive({ ...initFilters, ...props.initFilters })
@@ -151,12 +152,20 @@ function getCategories() {
       <VExpansionPanel elevation="0">
         <VExpansionPanelTitle> البحث حسب </VExpansionPanelTitle>
         <VExpansionPanelText>
+          <VTextField
+            label="رقم طلب الاعلان"
+            v-model="filters.ad_request_id"
+            type="number"
+            class="mt-2"
+            clearable
+          >
+          </VTextField>
           <UsersSelectFilter
             label="اختر معلن"
             userRole="advertiser"
             v-model="filters.advertiser_id"
             id="advertisers-select-filter"
-            class="mt-2"
+            class="mt-3"
             :keyword="extraData.advertiser_name"
           />
           <VSelect

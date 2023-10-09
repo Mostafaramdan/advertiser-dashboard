@@ -107,9 +107,10 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-const { advertiser_id, advertiser_name } = route.query
+const { advertiser_id, advertiser_name, ad_request_id } = route.query
 if (advertiser_id) params.advertiser_id = +advertiser_id
 if (advertiser_name) filterExtraData.value.advertiser_name = advertiser_name
+if (ad_request_id) params.ad_request_id = +ad_request_id
 getPageData()
 
 // #endregion

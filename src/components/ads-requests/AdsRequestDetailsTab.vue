@@ -8,6 +8,8 @@ import { useAdsRequestsStore } from '@/stores/AdsRequestsStore'
 const { t } = useI18n()
 const adsRequestsStore = useAdsRequestsStore()
 const { formatDate } = UseGeneralHelpers()
+const route = useRoute()
+const adRequestId = +route.params.id
 // #endregion
 
 /***************************************
@@ -34,8 +36,9 @@ const orderInfo = computed(() => {
       value: formatDate(created_at),
     },
     {
-      label: 'عدد الاعلانات الطلب',
+      label: 'اعلانات الطلب',
       value: order_info.ads_count,
+      key: 'ads_count',
     },
     {
       label: 'طريقة الاعلان',
@@ -264,7 +267,15 @@ const commissionInfo = computed(() => {
                 <h5 class="text-primary text-subtitle-2">
                   {{ item.label }}
                 </h5>
-                <p class="text-body-2 mb-0">
+                <router-link
+                  v-if="item.key === 'ads_count' && item.value"
+                  :to="{
+                    name: 'ads-page',
+                    query: { ad_request_id: adRequestId },
+                  }"
+                  >{{ item.value }}</router-link
+                >
+                <p class="text-body-2 mb-0" v-else>
                   {{ item.value ?? '-' }}
                 </p>
               </VCol>

@@ -26,6 +26,7 @@ export interface SubscriptionsRequestItem {
   total: number
   payment_status: number
   request_status: number
+  remaining_stop_days: number
   user: {
     id: number
     username: string
