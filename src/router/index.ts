@@ -180,6 +180,8 @@ const router = createRouter({
           'view_advertiser_reports',
           'view_chat_reports',
           'view_chat_rates',
+          'view_advertiser_blocks',
+          'view_chat_blocks',
         ],
       },
       children: reportsRoutes,

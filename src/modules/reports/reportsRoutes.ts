@@ -31,4 +31,28 @@ export const reportsRoutes = [
       requiredPermission: 'view_chat_rates',
     },
   },
+  {
+    path: 'ads-block',
+    name: 'ads-block-page',
+    component: () => import('./pages/AdsBlockPage.vue'),
+    meta: {
+      requiredPermission: 'view_advertiser_blocks',
+    },
+  },
+  {
+    path: 'chat-block',
+    name: 'chat-block-page',
+    component: () => import('./pages/ChatBlockPage.vue'),
+    meta: {
+      requiredPermission: 'view_chat_blocks',
+    },
+  },
+  {
+    path: 'chat-block/:id',
+    name: 'chat-block-details-page',
+    component: () => import('./pages/ChatBlockDetailsPage.vue'),
+    meta: {
+      requiredPermission: 'view_chat_block_details',
+    },
+  },
 ]

@@ -29,6 +29,26 @@ class ReportsService {
     return axios.get(`${this.contextPath}/chat_rates`, { params })
   }
 
+  getAdsBlockList(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/advertiser_blocks`, { params })
+  }
+
+  getAdsBlockDetails({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/advertiser_blocks/${id}`, { params })
+  }
+
+  getChatBlockList(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/chat_blocks`, { params })
+  }
+
+  getChatBlockItem(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/chat_blocks/${id}`)
+  }
+
+  getChatBlockDetails({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/chat_blocks/${id}/details`, { params })
+  }
+
   /** **************** delete ******************/
   deleteItem(id: number): AxiosPromise {
     return axios.delete(`${this.contextPath}/${id}`)

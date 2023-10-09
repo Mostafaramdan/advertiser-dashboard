@@ -334,6 +334,8 @@ const navItems = computed(() => {
         'view_advertiser_reports',
         'view_chat_reports',
         'view_chat_rates',
+        'view_advertiser_blocks',
+        'view_chat_blocks',
       ]),
       to: null,
       children: [
@@ -356,6 +358,16 @@ const navItems = computed(() => {
           title: 'تقييم الشات',
           to: { name: 'chat-rates-page' },
           show: hasPermission('view_chat_rates'),
+        },
+        {
+          title: 'حظر عرض الاعلانات',
+          to: { name: 'ads-block-page' },
+          show: hasPermission('view_advertiser_blocks'),
+        },
+        {
+          title: 'حظر المحادثات',
+          to: { name: 'chat-block-page' },
+          show: hasPermission('view_chat_blocks'),
         },
       ],
     },

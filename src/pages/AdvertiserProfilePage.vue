@@ -22,6 +22,9 @@ const AccountSettingsTab = defineAsyncComponent(
 const ReportsTab = defineAsyncComponent(
   () => import('@/components/advertiser-profile/ReportsTab.vue'),
 )
+const AdsBlockTab = defineAsyncComponent(
+  () => import('@/components/advertiser-profile/AdsBlockTab.vue'),
+)
 const route = useRoute()
 const router = useRouter()
 const { hasPermission, canAccessPage } = useAuthStore()
@@ -65,6 +68,12 @@ const tabs = computed(() => {
       value: 'reports',
       component: ReportsTab,
       show: hasPermission('view_advertiser_report_details'),
+    },
+    {
+      title: 'حظر عرض الاعلانات',
+      value: 'ads-block',
+      component: AdsBlockTab,
+      show: hasPermission('view_advertiser_block_details'),
     },
   ]
 })

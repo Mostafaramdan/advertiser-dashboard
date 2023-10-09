@@ -4,7 +4,6 @@ import { MetaData } from '@/interfaces/Shared'
 import type { AdvertiserReportItem } from '@/modules/reports/interfaces/AdvertiserReport'
 import { reportsService } from '@/modules/reports/services/ReportsService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
@@ -12,15 +11,12 @@ import { VDataTableServer } from 'vuetify/labs/VDataTable'
  **************************************/
 // #region Variables
 const { t } = useI18n()
-const toast = useToast()
 const route = useRoute()
 const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
-const MODEL_NAME = 'reports'
 const showNotificationModal = ref<boolean>(false)
 const activeUser = ref(null)
 const advertiserId = +route.params.id
-const selectedItems = ref<number[]>([])
 const tableData = ref<AdvertiserReportItem[]>([])
 const metaData = ref<MetaData | null>(null)
 const confirmModal = ref<any>()
@@ -33,28 +29,24 @@ const params = reactive({
 
 const headers: any = [
   {
-    title: 'رقم البلاغ',
+    title: 'رقم الحظر',
     key: 'id',
   },
   {
-    title: 'اسم المبلغ',
-    key: 'reporter.username',
+    title: 'اسم الحاظر',
+    key: 'blocker.username',
   },
   {
-    title: 'تاريخ الابلاغ',
+    title: 'تاريخ الحظر',
     key: 'created_at',
   },
   {
-    title: 'نص البلاغ',
-    key: 'report_content',
-  },
-  {
     title: 'رقم الجوال',
-    key: 'reporter.phone',
+    key: 'blocker.phone',
   },
   {
     title: 'الدولة',
-    key: 'reporter.country_name',
+    key: 'blocker.country_name',
   },
   {
     title: 'العمليات',
@@ -70,7 +62,6 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  delete: hasPermission('delete_advertiser_report'),
   sendNotification: hasPermission('notify_users'),
 }))
 
@@ -91,7 +82,7 @@ getPageData()
 function getPageData(): void {
   isLoadingData.value = true
   reportsService
-    .getAdvertisersReportsDetails({ id: advertiserId, params })
+    .getAdsBlockDetails({ id: advertiserId, params })
     .then((res: any) => {
       const { data, meta } = res.data
       tableData.value = data
@@ -131,82 +122,6 @@ function onChangeItemsPerPage(value: number): void {
   reloadPageData()
 }
 
-/**
- * @description reload page data and reset selected items
- */
-function onReloadData(): void {
-  reloadPageData()
-  selectedItems.value = []
-}
-
-/**
- * @description delete item from table data after delete from server and update meta data
- * @param  {AdvertiserReportItem} item
- * @return  {void}
- */
-function deleteItemFromTableData(item: AdvertiserReportItem): void {
-  const targetIndex = tableData.value.findIndex((i: any) => i.id === item.id)
-
-  if (targetIndex === -1) return
-  tableData.value.splice(targetIndex, 1)
-
-  if (metaData.value) {
-    metaData.value.total -= 1
-    metaData.value.last_page = Math.ceil(metaData.value.total / params.itemPerPage)
-    if (tableData.value.length === 0 && metaData.value.current_page > 1) {
-      params.page = metaData.value.current_page - 1
-      getPageData()
-    }
-
-    // handle it for first page
-    else if (tableData.value.length === 0 && metaData.value.current_page === 1) {
-      getPageData()
-    }
-  }
-}
-
-/**
- * @description delete item from selected items
- * @param  {AdvertiserReportItem} item
- * @return  {void}
- */
-function deleteItemFromSelectedItems(item: AdvertiserReportItem): void {
-  const targetItemIndex = selectedItems.value.findIndex((i: number) => i === item.id)
-
-  if (targetItemIndex !== -1) selectedItems.value.splice(targetItemIndex, 1)
-}
-
-/**
- * @description delete item from server
- * @param  {AdvertiserReportItem} item
- * @return  {void}
- */
-function deleteItem(item: AdvertiserReportItem): void {
-  deleteItemFromSelectedItems(item)
-
-  isLoadingData.value = true
-  reportsService
-    .deleteAdvertisersReport(item.id as number)
-    .then((res: any) => {
-      toast.success(res.data.message)
-      deleteItemFromTableData(item)
-    })
-    .finally(() => {
-      isLoadingData.value = false
-    })
-}
-
-/**
- * @description show confirm modal before delete item
- * @param  {AdvertiserReportItem} item
- * @return  {Promise<void>}
- */
-async function showConfirmDeleteItem(item: AdvertiserReportItem): Promise<void> {
-  const confirm = await confirmModal.value.open('يرجي التاكيد', 'هل انت متاكد من الحذف')
-
-  if (confirm) deleteItem(item)
-}
-
 function openNotificationModal(user: any) {
   activeUser.value = user
   showNotificationModal.value = true
@@ -226,38 +141,27 @@ function openNotificationModal(user: any) {
     <div>
       <PageActions
         :items-per-page="params.itemPerPage"
-        :show-multi-delete="permissions.delete"
-        :model="MODEL_NAME"
-        :selected-items="selectedItems"
         @update:items-per-page="onChangeItemsPerPage"
         @update:search="onChangeSearch"
-        @reload-data="onReloadData"
+        @reload-data="reloadPageData"
       />
 
       <VDataTableServer
-        v-model="selectedItems"
         v-loading="isLoadingData"
         :headers="headers"
         :items="tableData"
-        show-select
         :items-length="metaData?.total || 0"
-        item-value="id"
         class="app-table"
         :no-data-text="isLoadingData ? t('general.loading') : t('general.no_data')"
       >
-        <template #item.reporter.username="{ item }">
+        <template #item.blocker.username="{ item }">
           <div style="min-width: 150px">
-            {{ item.raw.reporter.username }}
+            {{ item.raw.blocker.username }}
           </div>
         </template>
-        <template #item.report_content="{ item }">
-          <div style="width: 250px">
-            {{ item.raw.report_content }}
-          </div>
-        </template>
-        <template #item.reporter.country_name="{ item }">
+        <template #item.blocker.country_name="{ item }">
           <div style="min-width: 100px">
-            {{ item.raw.reporter.country_name }}
+            {{ item.raw.blocker.country_name }}
           </div>
         </template>
         <template #item.created_at="{ item }">
@@ -268,12 +172,9 @@ function openNotificationModal(user: any) {
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
-              <VIcon icon="tabler-trash" />
-            </IconBtn>
             <IconBtn
               :disabled="!permissions.sendNotification"
-              @click="openNotificationModal(item.raw.reporter)"
+              @click="openNotificationModal(item.raw.blocker)"
             >
               <VIcon icon="tabler-mail" />
             </IconBtn>
