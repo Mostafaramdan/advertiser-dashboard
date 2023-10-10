@@ -51,7 +51,6 @@ const {
   onReloadData,
   onChangeItemsPerPage,
   onChangeSearch,
-  onEditItem,
   showConfirmDeleteItem,
 } = UseCrudHelpers<SubscriptionsRequestItem>(subscriptionsRequestsService, params, MODEL_NAME)
 
@@ -144,7 +143,7 @@ function openNotificationModal(user: any) {
       v-model:showModal="showFormModal"
       :form-action="FormAction"
       :active-item="activeItem"
-      @edit-item="onEditItem"
+      @edit-item="onReloadData"
     />
     <SubscriptionsRequestDetailsModal
       v-model:showModal="showDetailsModal"
