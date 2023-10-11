@@ -10,6 +10,14 @@ class RequestsService {
     return axios.get(`${this.contextPath}`, { params })
   }
 
+  getSingleItem(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}`)
+  }
+
+  getDetails(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/details`)
+  }
+
   getRequestsStats(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/statistics`, { params })
   }

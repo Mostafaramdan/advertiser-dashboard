@@ -196,6 +196,7 @@ const router = createRouter({
           'view_dispute_procedures',
           'view_dispute_types',
           'view_disputes',
+          'view_dispute_details',
         ],
       },
       children: disputesRoutes,

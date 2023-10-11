@@ -15,6 +15,11 @@ export interface DisputeRequest {
   updated_at: string
   can_make_procedure: boolean
   dispute_status: string
+  request_status: string
+  payment_status: string
+  ads_request_total: number
+  retake_money: number
+  accepted_money: number
 }
 
 export interface DisputeRequestProcedureForm {
@@ -29,4 +34,38 @@ export interface RequestsStats {
   accepted: number
   confirmed: number
   finished: number
+}
+
+export interface DisputeRequestDetails {
+  id: number
+  description: string
+  can_rate: boolean
+  attachments: {
+    id: number
+    path: string
+    thumbnail: string
+    name: string
+  }[]
+  disputer_rate: {
+    rate: number
+    comment: string
+  } | null
+  disputed_rate: {
+    rate: number
+    comment: string
+  } | null
+  finished_action: {
+    id: number
+    user: {
+      id: number
+      username: string
+      role: string
+    }
+    details: string
+  }
+  procedures: {
+    id: number
+    details: string
+    created_at: string
+  }[]
 }

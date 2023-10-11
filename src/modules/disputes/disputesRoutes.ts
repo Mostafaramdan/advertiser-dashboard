@@ -8,6 +8,14 @@ export const disputesRoutes = [
     },
   },
   {
+    path: 'requests/:id',
+    name: 'dispute-details-page',
+    component: () => import('./pages/RequestDetailsPage.vue'),
+    meta: {
+      requiredPermission: 'view_dispute_details',
+    },
+  },
+  {
     path: 'procedures',
     name: 'disputes-procedures-page',
     component: () => import('./pages/ProceduresPage.vue'),

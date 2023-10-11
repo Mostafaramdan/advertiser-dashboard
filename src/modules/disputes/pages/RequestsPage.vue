@@ -258,7 +258,14 @@ function onApplyFilter(filters: any) {
 
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <IconBtn :disabled="!permissions.viewRequestDetails">
+              <IconBtn
+                :disabled="!permissions.viewRequestDetails"
+                :to="{
+                  name: 'dispute-details-page',
+                  params: { id: item.raw.id },
+                  query: { tab: 'details' },
+                }"
+              >
                 <VIcon icon="tabler-eye" />
               </IconBtn>
 
