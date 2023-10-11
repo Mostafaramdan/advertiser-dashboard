@@ -136,4 +136,11 @@ export interface AdsRequestsDetails {
     created_at: string
     time_ago: string
   }[]
+  campaign_type: null | 'single' | 'campaign'
+  campaign: {
+    goals: string
+    range: { from: number; to: number }
+    areas: { id: number; label: string }[]
+    countries: { id: number; label: string }[]
+  } | null
 }

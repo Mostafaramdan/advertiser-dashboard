@@ -75,3 +75,8 @@ export const ADS_REQUEST_STATUSES = [
     label: 'تم تأكيد ايقاف التنفيذ',
   },
 ]
+
+export const REQUEST_TYPES: any = {
+  single: 'فردي',
+  campaign: 'حملة',
+}

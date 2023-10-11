@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
+import { REQUEST_TYPES } from '@/constants/ads-requests'
 import { useAdsRequestsStore } from '@/stores/AdsRequestsStore'
 /***************************************
  **** Section Variables Declaration ****
@@ -17,7 +18,8 @@ const adRequestId = +route.params.id
  **************************************/
 // #region Computed
 const orderInfo = computed(() => {
-  const { order_info, advertiser, user, id, created_at } = adsRequestsStore.adsRequestDetails
+  const { order_info, advertiser, user, id, created_at, order_content } =
+    adsRequestsStore.adsRequestDetails
   return [
     {
       label: 'اسم المعلن',
@@ -67,6 +69,10 @@ const orderInfo = computed(() => {
     {
       label: 'تقييم الاعلان',
       value: order_info.rate,
+    },
+    {
+      label: 'نوع الطلب',
+      value: REQUEST_TYPES[order_content.campaign_type],
     },
     {
       label: 'نوع الاعلان',

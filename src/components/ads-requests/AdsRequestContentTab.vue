@@ -117,6 +117,64 @@ const data = computed(() => {
             </VExpansionPanelText>
           </VExpansionPanel>
         </VExpansionPanels>
+
+        <VExpansionPanels
+          class="expansion-panels-width-border mt-6"
+          :model-value="0"
+          v-if="data.campaign_type === 'campaign' && data.campaign"
+        >
+          <VExpansionPanel elevation="0">
+            <VExpansionPanelTitle>
+              <span class="d-flex align-center gap-3">
+                <VIcon size="20" icon="tabler-ad-2" />
+                الحملة
+              </span>
+            </VExpansionPanelTitle>
+            <VExpansionPanelText>
+              <div class="d-flex flex-column gap-2 content-list">
+                <div class="rounded border pa-2">
+                  <h4 class="mb-1">الهدف</h4>
+                  {{ data.campaign.goals }}
+                </div>
+                <div class="rounded border pa-2" v-if="data.campaign.range">
+                  <h4 class="mb-1">الميزانية</h4>
+                  <div class="d-flex flex-wrap gap-3">
+                    <div><span class="me-1">من</span> {{ data.campaign.range.from }}</div>
+                    <div><span class="me-1">الي</span> {{ data.campaign.range.to }}</div>
+                  </div>
+                </div>
+                <div class="rounded border pa-2" v-if="data.campaign.countries.length">
+                  <h4 class="mb-2">الدول</h4>
+                  <div class="d-flex flex-wrap gap-2">
+                    <VChip
+                      v-for="country in data.campaign.countries"
+                      :key="country.id"
+                      variant="outlined"
+                      color="primary"
+                      label
+                    >
+                      {{ country.label }}
+                    </VChip>
+                  </div>
+                </div>
+                <div class="rounded border pa-2" v-if="data.campaign.areas.length">
+                  <h4 class="mb-2">المناطق</h4>
+                  <div class="d-flex flex-wrap gap-2">
+                    <VChip
+                      v-for="area in data.campaign.areas"
+                      :key="area.id"
+                      variant="outlined"
+                      color="primary"
+                      label
+                    >
+                      {{ area.label }}
+                    </VChip>
+                  </div>
+                </div>
+              </div>
+            </VExpansionPanelText>
+          </VExpansionPanel>
+        </VExpansionPanels>
       </VCol>
       <VCol cols="12" md="6" lg="3">
         <VExpansionPanels class="expansion-panels-width-border" :model-value="0">
