@@ -7,9 +7,14 @@ import { useDisputesStore } from '@/stores/DisputesStore'
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
-const DetailsTab = defineAsyncComponent(() => import('../components/DisputeRequestDetailsTab.vue'))
+const DisputeRequestDetailsTab = defineAsyncComponent(
+  () => import('../components/DisputeRequestDetailsTab.vue'),
+)
 const DisputeRequestLogsTab = defineAsyncComponent(
   () => import('../components/DisputeRequestLogsTab.vue'),
+)
+const DisputeRequestConversationsTab = defineAsyncComponent(
+  () => import('../components/DisputeRequestConversationsTab.vue'),
 )
 const route = useRoute()
 const router = useRouter()
@@ -30,11 +35,17 @@ const tabs = computed(() => {
     {
       title: 'تفاصيل التنازع',
       value: 'details',
-      component: DetailsTab,
+      component: DisputeRequestDetailsTab,
       show: hasPermission('view_dispute_details'),
     },
     {
-      title: 'ملخص العمليات',
+      title: 'المحادثات',
+      value: 'conversations',
+      component: DisputeRequestConversationsTab,
+      show: hasPermission('view_dispute_conversations'),
+    },
+    {
+      title: ' ملخص العمليات',
       value: 'logs',
       component: DisputeRequestLogsTab,
       show: hasPermission('view_dispute_logs'),

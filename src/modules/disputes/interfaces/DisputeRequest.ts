@@ -1,3 +1,5 @@
+import { File } from '@/interfaces/Shared'
+
 export interface User {
   id: number
   username: string
@@ -68,4 +70,39 @@ export interface DisputeRequestDetails {
     details: string
     created_at: string
   }[]
+}
+
+export interface DisputeRequestLogsItem {
+  id: number
+  action: string
+  username: string
+  created_at: string
+  attachments: {
+    id: number
+    name: string
+    path: string
+  }[]
+}
+
+export interface ConversationsListItem {
+  id: number
+  created_at: string
+  details: string
+  user: {
+    id: number
+    username: string
+    image_path: string
+  }
+  attachment: File
+  target_user: {
+    id: number
+    username: string
+  }
+}
+
+export interface ConversationForm {
+  details: string
+  file?: File | null
+  file_id: number | null
+  for_user_id: number | null
 }

@@ -89,6 +89,7 @@ declare module '@vue/runtime-core' {
     PageTabsNav: typeof import('./src/components/shared/PageTabsNav.vue')['default']
     PricingPlanDialog: typeof import('./src/components/dialogs/PricingPlanDialog.vue')['default']
     ProfileBasicInfo: typeof import('./src/components/advertiser-profile/ProfileBasicInfo.vue')['default']
+    ReadyRepliesSelectionModal: typeof import('./src/components/shared/ReadyRepliesSelectionModal.vue')['default']
     ReferAndEarnDialog: typeof import('./src/components/dialogs/ReferAndEarnDialog.vue')['default']
     ReportsTab: typeof import('./src/components/advertiser-profile/ReportsTab.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

@@ -139,7 +139,7 @@ function onTakeProcedure() {
             </VBtn>
             <ToggleActivationSwitch
               :id="disputeRequestId"
-              v-model="requestDetails.can_rate"
+              v-model="data.can_rate"
               :model="MODEL_NAME"
               column="can_rate"
               label="امكانية التقييم للطرفين"

@@ -64,6 +64,10 @@ class ListService {
   getDisputesTypes(): AxiosPromise {
     return axios.get(`${this.contextPath}/dispute_types`)
   }
+
+  getReadyReplies(type: string): AxiosPromise {
+    return axios.get(`${this.contextPath}/admin_replies?type=${type}`)
+  }
 }
 
 export const listService = new ListService()

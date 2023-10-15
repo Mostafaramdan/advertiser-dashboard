@@ -18,6 +18,18 @@ class RequestsService {
     return axios.get(`${this.contextPath}/${id}/details`)
   }
 
+  getRequestLogs({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/logs`, { params })
+  }
+
+  getConversations({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/conversations`, { params })
+  }
+
+  sendMessage({ id, data }: { id: number; data: any }): AxiosPromise {
+    return axios.post(`${this.contextPath}/${id}/conversations`, data)
+  }
+
   getRequestsStats(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/statistics`, { params })
   }

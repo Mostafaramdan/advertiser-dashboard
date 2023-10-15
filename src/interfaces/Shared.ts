@@ -83,3 +83,8 @@ export interface NotificationModalProps {
     id: number
   }
 }
+
+export interface ReadyReplyItem {
+  id: number
+  label: string
+}
