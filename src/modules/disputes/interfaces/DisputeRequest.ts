@@ -1,3 +1,4 @@
+import { AdsRequestPaymentInfo, AdsRequestPlatformCommission } from '@/interfaces/AdsRequest'
 import { File } from '@/interfaces/Shared'
 
 export interface User {
@@ -105,4 +106,36 @@ export interface ConversationForm {
   file?: File | null
   file_id: number | null
   for_user_id: number | null
+}
+
+export type UserStats = {
+  type: string
+  rate: string | number
+  registered_at: string
+  sells_total: number
+  payment_total: number
+  finished_requests: number
+  not_finished_requests: number
+  cancelled_requests: number
+  dispute_requests_count: number
+  dispute_requests_from_him: number
+  dispute_requests_to_him: number
+  dispute_requests_inprogress: number
+  dispute_requests_cancelled: number
+  dispute_requests_in_app: number
+  dispute_requests_out_app: number
+}
+
+export interface DisputeRequestOtherInfo {
+  payment_info: AdsRequestPaymentInfo
+  platform_commission: AdsRequestPlatformCommission
+  disputer: UserStats
+  disputed: UserStats
+  ads_request: {
+    id: number
+    created_at: string
+    ads_type: string
+    category: string
+    area: string
+  }
 }

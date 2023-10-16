@@ -27,6 +27,7 @@ declare module '@vue/runtime-core' {
     AdsRequestCouponModal: typeof import('./src/components/ads-requests/AdsRequestCouponModal.vue')['default']
     AdsRequestDetailsTab: typeof import('./src/components/ads-requests/AdsRequestDetailsTab.vue')['default']
     AdsRequestHistoryTab: typeof import('./src/components/ads-requests/AdsRequestHistoryTab.vue')['default']
+    AdsRequestPaymentDetails: typeof import('./src/components/ads-requests/AdsRequestPaymentDetails.vue')['default']
     AdsRequestsFilter: typeof import('./src/components/ads-requests/AdsRequestsFilter.vue')['default']
     AdvertisersFilter: typeof import('./src/components/advertisers/AdvertisersFilter.vue')['default']
     AppAutocomplete: typeof import('./src/@core/components/app-form-elements/AppAutocomplete.vue')['default']

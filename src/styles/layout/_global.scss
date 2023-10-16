@@ -91,3 +91,23 @@ input[type="number"] {
     cursor: auto;
   }
 }
+
+.information-list {
+  &__item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 10px;
+
+    @include responsive-down('md') {
+      flex-direction: column;
+    }
+
+    h5 {
+      min-inline-size: 120px;
+    }
+
+    p {
+      word-break: break-word;
+    }
+  }
+}

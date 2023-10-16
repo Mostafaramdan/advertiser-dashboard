@@ -26,8 +26,8 @@ class RequestsService {
     return axios.get(`${this.contextPath}/${id}/conversations`, { params })
   }
 
-  sendMessage({ id, data }: { id: number; data: any }): AxiosPromise {
-    return axios.post(`${this.contextPath}/${id}/conversations`, data)
+  getOtherDetails(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/other_details`)
   }
 
   getRequestsStats(params: any): AxiosPromise {
@@ -37,6 +37,10 @@ class RequestsService {
   /** **************** post ******************/
   takeProcedure(payload: { id: number; data: DisputeRequestProcedureForm }): AxiosPromise {
     return axios.post(`${this.contextPath}/${payload.id}/make_procedure`, payload.data)
+  }
+
+  sendMessage({ id, data }: { id: number; data: any }): AxiosPromise {
+    return axios.post(`${this.contextPath}/${id}/conversations`, data)
   }
 }
 

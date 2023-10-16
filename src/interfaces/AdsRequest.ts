@@ -47,6 +47,39 @@ export interface AdsRequestAttachment {
   mime_type: string
 }
 
+export type AdsRequestPaymentInfo = {
+  id: number
+  created_at: string
+  payment_method: string
+  payment_deadline: string
+  payment_status: string
+  total_costs: number
+  main_cost: number
+  total_commission: number
+  release_total: number
+  prizes: number
+  order_price: number
+  other_costs: number
+  coupon_discount: number
+  special_discounts: number
+  total_discounts: number
+  tax: number
+  confirm_transfer: string
+  advertiser_points: number
+  user_points: number
+  marketer_points: number
+  advertiser_points_value: number
+  user_points_value: number
+  marketer_points_value: number
+  pdf: string | null
+} | null
+
+export type AdsRequestPlatformCommission = {
+  confirm_transfer: string
+  commission_percent: number
+  commission_value: number
+} | null
+
 export interface AdsRequestsDetails {
   id: number
   created_at: string
@@ -65,43 +98,14 @@ export interface AdsRequestsDetails {
     rate: number | null
     ads_request_status: string
   }
-  payment_info: {
-    id: number
-    created_at: string
-    payment_method: string
-    payment_deadline: string
-    payment_status: string
-    total_costs: number
-    main_cost: number
-    total_commission: number
-    release_total: number
-    prizes: number
-    order_price: number
-    other_costs: number
-    coupon_discount: number
-    special_discounts: number
-    total_discounts: number
-    tax: number
-    confirm_transfer: string
-    advertiser_points: number
-    user_points: number
-    marketer_points: number
-    advertiser_points_value: number
-    user_points_value: number
-    marketer_points_value: number
-    pdf: string | null
-  } | null
+  payment_info: AdsRequestPaymentInfo
   transfer_info_out_platforms: {
     bank_name: string
     total_transfer: number
     transferred_at: string
     transfer_image: string
   } | null
-  platform_commission: {
-    confirm_transfer: string
-    commission_percent: number
-    commission_value: number
-  } | null
+  platform_commission: AdsRequestPlatformCommission
   order_content: {
     ads_locations: {
       show_app: boolean

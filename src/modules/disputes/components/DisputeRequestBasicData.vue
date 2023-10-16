@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { USERS_ROLES } from '@/constants/index'
+import { useAuthStore } from '@/stores/AuthStore'
 import { useDisputesStore } from '@/stores/DisputesStore'
 import type { User } from '../interfaces/DisputeRequest'
 
@@ -10,6 +11,7 @@ import type { User } from '../interfaces/DisputeRequest'
 // #region Variables
 const { formatDateTime } = UseGeneralHelpers()
 const disputesStore = useDisputesStore()
+const { hasPermission } = useAuthStore()
 
 // #endregion
 
@@ -17,6 +19,10 @@ const disputesStore = useDisputesStore()
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
+const permissions = computed(() => ({
+  viewAdsRequestDetails: hasPermission('view_ads_requests_details'),
+}))
+
 const data = computed(() => {
   const { requestDetails } = disputesStore
   if (!requestDetails) return []
@@ -54,6 +60,7 @@ const data = computed(() => {
     {
       label: 'رقم طلب الإعلان',
       value: requestDetails.ads_request_id,
+      key: 'ads_request_id',
     },
     {
       label: 'حالة الطلب',
@@ -110,12 +117,12 @@ function getProfileUrl(user: User) {
     <VExpansionPanel elevation="0">
       <VExpansionPanelTitle>عرض بيانات التنازع</VExpansionPanelTitle>
       <VExpansionPanelText>
-        <div class="order-info">
+        <div class="information-list">
           <VRow class="mt-0">
             <VCol
               v-for="(item, index) in data"
               :key="index"
-              class="py-1 py-sm-2 order-info__item"
+              class="py-1 py-sm-2 information-list__item"
               cols="12"
               sm="6"
               lg="4"
@@ -129,6 +136,16 @@ function getProfileUrl(user: User) {
               >
                 {{ item.value.username }}
               </router-link>
+              <router-link
+                class="pa-1"
+                v-else-if="item.key === 'ads_request_id' && permissions.viewAdsRequestDetails"
+                :to="{
+                  name: 'ads-request-details-page',
+                  params: { id: item.value },
+                  query: { tab: 'details' },
+                }"
+                >{{ item.value }}</router-link
+              >
               <p class="text-body-2 mb-0" v-else>
                 {{ item.value ?? '-' }}
               </p>
@@ -139,25 +156,3 @@ function getProfileUrl(user: User) {
     </VExpansionPanel>
   </VExpansionPanels>
 </template>
-
-<style lang="scss" scoped>
-.order-info {
-  &__item {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px 10px;
-
-    @include responsive-down('md') {
-      flex-direction: column;
-    }
-
-    h5 {
-      min-inline-size: 120px;
-    }
-
-    p {
-      word-break: break-word;
-    }
-  }
-}
-</style>

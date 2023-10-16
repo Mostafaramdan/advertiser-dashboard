@@ -16,6 +16,9 @@ const DisputeRequestLogsTab = defineAsyncComponent(
 const DisputeRequestConversationsTab = defineAsyncComponent(
   () => import('../components/DisputeRequestConversationsTab.vue'),
 )
+const DisputeRequestOtherDetailsTab = defineAsyncComponent(
+  () => import('../components/DisputeRequestOtherDetailsTab.vue'),
+)
 const route = useRoute()
 const router = useRouter()
 const disputesStore = useDisputesStore()
@@ -49,6 +52,13 @@ const tabs = computed(() => {
       value: 'logs',
       component: DisputeRequestLogsTab,
       show: hasPermission('view_dispute_logs'),
+    },
+    {
+      title: 'تفاصيل أخرى',
+      value: 'other-details',
+      component: DisputeRequestOtherDetailsTab,
+      // TODO: ADD PERMISSION
+      show: hasPermission('view_dispute_details'),
     },
   ]
 })

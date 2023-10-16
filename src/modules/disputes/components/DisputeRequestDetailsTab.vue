@@ -260,9 +260,9 @@ function onTakeProcedure() {
       <VExpansionPanel elevation="0">
         <VExpansionPanelTitle>تفاصيل انهاء التنازع</VExpansionPanelTitle>
         <VExpansionPanelText v-if="data && requestDetails">
-          <div class="order-info" v-if="data.finished_action?.user">
+          <div class="information-list" v-if="data.finished_action?.user">
             <VRow class="mt-0">
-              <VCol class="py-2 order-info__item" cols="12" sm="6" lg="4">
+              <VCol class="py-2 information-list__item" cols="12" sm="6" lg="4">
                 <h5 class="text-primary text-subtitle-2">
                   {{
                     requestDetails.disputer.id === data.finished_action.user.id
@@ -274,7 +274,7 @@ function onTakeProcedure() {
                   {{ data.finished_action.user.username }}
                 </p>
               </VCol>
-              <VCol class="py-2 order-info__item" cols="12" sm="6" lg="4">
+              <VCol class="py-2 information-list__item" cols="12" sm="6" lg="4">
                 <h5 class="text-primary text-subtitle-2">سبب الانهاء</h5>
                 <p class="text-body-2 mb-0">
                   {{ data.finished_action.details || '-' }}
@@ -313,26 +313,6 @@ function onTakeProcedure() {
 
   &:hover &__name {
     opacity: 0.8;
-  }
-}
-
-.order-info {
-  &__item {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px 10px;
-
-    @include responsive-down('md') {
-      flex-direction: column;
-    }
-
-    h5 {
-      min-inline-size: 120px;
-    }
-
-    p {
-      word-break: break-word;
-    }
   }
 }
 </style>
