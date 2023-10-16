@@ -57,8 +57,7 @@ const tabs = computed(() => {
       title: 'تفاصيل أخرى',
       value: 'other-details',
       component: DisputeRequestOtherDetailsTab,
-      // TODO: ADD PERMISSION
-      show: hasPermission('view_dispute_details'),
+      show: hasPermission('view_dispute_other_details'),
     },
   ]
 })
