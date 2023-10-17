@@ -37,7 +37,7 @@ const requestInfo = computed(() => {
       value: ads_request.category,
     },
     {
-      label: 'الدولة',
+      label: 'دولة صاحب طلب التنازع',
       value: ads_request.area,
     },
   ]
