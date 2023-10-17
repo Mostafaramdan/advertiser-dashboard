@@ -240,6 +240,11 @@ const navItems = computed(() => {
           to: { name: 'ready-replies-settings' },
           show: canAccessPage('admin_replies'),
         },
+        {
+          title: 'شرائح الميزانية',
+          to: { name: 'budget-slides-settings' },
+          show: canAccessPage('budget_slides'),
+        },
       ],
     },
     {

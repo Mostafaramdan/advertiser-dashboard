@@ -146,9 +146,17 @@ export const settingsRoutes = [
   {
     path: 'ready-replies',
     name: 'ready-replies-settings',
-    component: () => import('./pages/ReadyReplies.vue'),
+    component: () => import('./pages/ReadyRepliesPage.vue'),
     meta: {
       requiredAccess: 'admin_replies',
+    },
+  },
+  {
+    path: 'budget-slides',
+    name: 'budget-slides-settings',
+    component: () => import('./pages/BudgetSlidesPage.vue'),
+    meta: {
+      requiredAccess: 'budget_slides',
     },
   },
   {
