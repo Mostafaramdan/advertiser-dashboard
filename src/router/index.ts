@@ -2,6 +2,7 @@ import { couponsRoutes } from '@/modules/coupons/couponsRoutes'
 import { disputesRoutes } from '@/modules/disputes/disputesRoutes'
 import { reportsRoutes } from '@/modules/reports/reportsRoutes'
 import { settingsRoutes } from '@/modules/settings/settingsRoutes'
+import { statisticsRoutes } from '@/modules/statistics/statisticsRoutes'
 import { subscriptionsRoutes } from '@/modules/subscriptions/subscriptionsRoutes'
 import HomePage from '@/pages/HomePage.vue'
 import { useAuthStore } from '@/stores/AuthStore'
@@ -200,6 +201,15 @@ const router = createRouter({
         ],
       },
       children: disputesRoutes,
+    },
+    {
+      path: '/statistics',
+      name: 'statistics',
+      component: () => import('@/modules/statistics/StatisticsModule.vue'),
+      meta: {
+        layout: 'default',
+      },
+      children: statisticsRoutes,
     },
     {
       path: '/notifications',

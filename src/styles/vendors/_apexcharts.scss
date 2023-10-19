@@ -1,0 +1,86 @@
+.apexcharts-canvas {
+  inline-size: 100% !important;
+  max-inline-size: 100%;
+
+  svg {
+    max-inline-size: 100%;
+  }
+}
+
+.apexcharts-canvas .apexcharts-text {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.apexcharts-canvas .apexcharts-gridline {
+  stroke: rgba(var(--v-theme-grey-400), 100%);
+  transition: all 0.15s ease;
+}
+
+.apexcharts-canvas .apexcharts-ycrosshairs.apexcharts-active,
+.apexcharts-canvas .apexcharts-xcrosshairs.apexcharts-active {
+  stroke: rgba(111, 118, 126, 50%);
+}
+
+.apexcharts-canvas .apexcharts-marker {
+  stroke-width: 0;
+}
+
+.apexcharts-canvas .apexcharts-tooltip {
+  border: none !important;
+  border-radius: 8px;
+  background: rgba(var(--v-theme-white), 98%) !important;
+  color: rgba(var(--v-theme-grey-900), 100%) !important;
+  line-height: 1;
+  padding-block: 8px 0;
+  padding-inline: 8px;
+}
+
+.apexcharts-canvas .apexcharts-tooltip .apexcharts-tooltip-title {
+  border: none !important;
+  background: transparent !important;
+  font-weight: 600;
+  margin-block-end: 8px;
+  padding-block: 0 5px;
+  padding-inline: 0;
+}
+
+.apexcharts-canvas .apexcharts-tooltip .apexcharts-tooltip-series-group {
+  background: transparent !important;
+  padding-block: 0 8px;
+  padding-inline: 0;
+}
+
+.apexcharts-canvas .apexcharts-tooltip .apexcharts-tooltip-y-group {
+  padding: 0;
+}
+
+.apexcharts-canvas .apexcharts-tooltip .apexcharts-tooltip-marker {
+  border-radius: 4px;
+  margin-inline-end: 4px;
+}
+
+.apexcharts-canvas .apexcharts-tooltip .apexcharts-tooltip-text {
+  font-weight: 600;
+}
+
+.apexcharts-canvas .apexcharts-legend {
+  justify-content: space-between !important;
+  padding: 0;
+  gap: 9px;
+}
+
+.apexcharts-canvas .apexcharts-legend .apexcharts-legend-series .apexcharts-legend-text {
+  display: inline-block;
+  color: rgba(var(--v-theme-grey-900), 100%) !important;
+  font-size: 14px !important;
+  font-weight: bold;
+  max-inline-size: 100px;
+}
+
+.apexcharts-canvas .apexcharts-legend .apexcharts-legend-series .apexcharts-legend-marker {
+  border-radius: 4px !important;
+  margin-inline-end: 8px;
+}

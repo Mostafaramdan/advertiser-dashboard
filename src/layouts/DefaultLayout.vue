@@ -404,6 +404,12 @@ const navItems = computed(() => {
       ],
     },
     {
+      title: 'التقارير',
+      icon: { icon: 'tabler-report-analytics' },
+      show: true,
+      to: { name: 'statistics-index' },
+    },
+    {
       title: 'الاشعارات',
       to: { name: 'notifications-page' },
       icon: { icon: 'tabler-bell' },
