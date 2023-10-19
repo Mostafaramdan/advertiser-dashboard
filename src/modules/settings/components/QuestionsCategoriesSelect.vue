@@ -23,8 +23,8 @@ const emit = defineEmits<{ (e: 'update:modelValue', value: any): void }>()
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
-const questionsCategories = ref([])
-const isLoading = ref(false)
+const questionsCategories = ref<{ id: number; label: string }[]>([])
+const isLoading = ref<boolean>(false)
 
 // #endregion
 
@@ -77,7 +77,7 @@ function getQuestionsCategoriesList() {
     :loading="isLoading"
     :items="questionsCategories"
     label="القسم"
-    item-title="name"
+    item-title="label"
     item-value="id"
     name="category"
     clearable
