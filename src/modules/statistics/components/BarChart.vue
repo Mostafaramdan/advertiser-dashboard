@@ -41,7 +41,7 @@ const chartData = computed(() => {
         :options="chartData.options"
         :series="chartData.series"
         type="bar"
-        height="400px"
+        height="350px"
       />
     </VCardText>
   </VCard>

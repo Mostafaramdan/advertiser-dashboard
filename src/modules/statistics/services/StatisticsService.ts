@@ -13,12 +13,36 @@ class StatisticsService {
     return axios.get(`${this.contextPath}/plans`, { params })
   }
 
+  getSubscribersStats(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/subscribers`, { params })
+  }
+
   getUsersStats(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/clients`, { params })
   }
 
   getGuestsStats(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/guests`, { params })
+  }
+
+  getVisitsStats(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/visits`, { params })
+  }
+
+  getAdsStats(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/ads`, { params })
+  }
+
+  getCouponsStats(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/coupons`, { params })
+  }
+
+  getRequestsStats(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/requests`, { params })
+  }
+
+  getDocumentsStats(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/attachments`, { params })
   }
 }
 

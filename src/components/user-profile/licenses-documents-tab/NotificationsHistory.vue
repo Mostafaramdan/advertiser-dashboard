@@ -47,7 +47,6 @@ const headers: any = [
   {
     title: 'قنوات الارسال',
     key: 'channels',
-    align: 'center',
   },
   {
     title: 'الرسالة / التنبيه',
@@ -96,7 +95,7 @@ function getPageData() {
       :no-data-text="isLoading ? t('general.loading') : t('general.no_data')"
     >
       <template #item.admin_name="{ item }">
-        <div style="min-width: 100px">
+        <div style="min-inline-size: 100px">
           {{ item.raw.admin_name }}
         </div>
       </template>
@@ -111,7 +110,7 @@ function getPageData() {
             :color="item.raw.channels.includes(type.value) ? 'primary' : 'secondary'"
             v-for="type in NOTIFICATIONS_TYPES"
             :key="type.value"
-            style="height: auto"
+            style="block-size: auto"
             class="pa-1"
             label
           >
@@ -122,7 +121,7 @@ function getPageData() {
         </div>
       </template>
       <template #item.message="{ item }">
-        <div style="min-width: 300px">
+        <div style="min-inline-size: 300px">
           {{ item.raw.message }}
         </div>
       </template>

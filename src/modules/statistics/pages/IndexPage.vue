@@ -12,11 +12,12 @@ const stats = [
     title: 'الباقات',
     to: { name: 'packages-statistics' },
   },
-  // {
-  //   icon: 'tabler-user-dollar',
-  //   color: 'primary',
-  //   title: 'المشتركين',
-  // },
+  {
+    icon: 'tabler-user-dollar',
+    color: 'primary',
+    title: 'المشتركين',
+    to: { name: 'subscribers-statistics' },
+  },
   {
     icon: 'tabler-user',
     color: 'primary',
@@ -29,31 +30,36 @@ const stats = [
     title: 'الزوار',
     to: { name: 'guests-statistics' },
   },
-  // {
-  //   icon: 'tabler-users-group',
-  //   color: 'primary',
-  //   title: 'الدخول العام',
-  // },
-  // {
-  //   icon: 'tabler-ad-2',
-  //   color: 'primary',
-  //   title: 'الإعلانات',
-  // },
-  // {
-  //   icon: 'tabler-discount-2',
-  //   color: 'primary',
-  //   title: 'الكوبونات',
-  // },
-  // {
-  //   icon: 'tabler-file-check',
-  //   color: 'primary',
-  //   title: 'الطلبات',
-  // },
-  // {
-  //   icon: 'tabler-license',
-  //   color: 'primary',
-  //   title: 'الوثائق والتراخيص',
-  // },
+  {
+    icon: 'tabler-users-group',
+    color: 'primary',
+    title: 'الدخول العام',
+    to: { name: 'visits-statistics' },
+  },
+  {
+    icon: 'tabler-ad-2',
+    color: 'primary',
+    title: 'الإعلانات',
+    to: { name: 'ads-statistics' },
+  },
+  {
+    icon: 'tabler-discount-2',
+    color: 'primary',
+    title: 'الكوبونات',
+    to: { name: 'coupons-statistics' },
+  },
+  {
+    icon: 'tabler-file-check',
+    color: 'primary',
+    title: 'الطلبات',
+    to: { name: 'requests-statistics' },
+  },
+  {
+    icon: 'tabler-license',
+    color: 'primary',
+    title: 'الوثائق والتراخيص',
+    to: { name: 'documents-statistics' },
+  },
 ]
 </script>
 

@@ -6,10 +6,12 @@
 interface LicensesDocumentsHistoryModalProps {
   showModal: boolean
   activeId: number
+  activeTab?: string
 }
 
 const props = withDefaults(defineProps<LicensesDocumentsHistoryModalProps>(), {
   showModal: false,
+  activeTab: 'details',
 })
 
 // #endregion
@@ -29,7 +31,7 @@ const emit = defineEmits<{
  **************************************/
 // #region Variables
 const showModal = useVModel(props, 'showModal', emit)
-const currentTab = ref<string>('details')
+const currentTab = ref<string>(props.activeTab)
 const tabs = [
   {
     title: 'سجل التنبيهات',
@@ -66,7 +68,7 @@ const tabs = [
         <VToolbar
           density="compact"
           title="السجل"
-          style="position: sticky; z-index: 1; top: 0; width: 100%"
+          style="position: sticky; z-index: 1; inline-size: 100%; inset-block-start: 0"
           elevation="2"
           color="grey-200"
         >

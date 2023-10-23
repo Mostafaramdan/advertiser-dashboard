@@ -3,7 +3,6 @@ import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import type { LicenseDocument, UserBasicData } from '@/interfaces/User'
 import { API_SEND_ATTACHMENT_NOTIFICATION, usersService } from '@/services/UsersService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
@@ -21,7 +20,6 @@ const props = withDefaults(defineProps<LicensesDocumentsTabProps>(), {})
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
-const toast = useToast()
 const { t } = useI18n()
 const route = useRoute()
 const { hasPermission } = useAuthStore()

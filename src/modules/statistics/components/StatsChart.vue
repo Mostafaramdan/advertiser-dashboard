@@ -51,6 +51,7 @@ function getChartComponent(type: string) {
         :title="chart.title"
         :labels="chart.data.labels"
         :series="chart.data.series"
+        class="h-100"
       />
     </div>
   </div>
@@ -67,7 +68,7 @@ function getChartComponent(type: string) {
     flex-grow: 1;
     inline-size: calc(50% - 1rem);
 
-    @media (max-width: 1199.98px) {
+    @media (width <= 1199.98px) {
       inline-size: 100%;
     }
   }

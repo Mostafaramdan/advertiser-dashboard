@@ -46,7 +46,7 @@ const chartData = computed(() => {
         :options="chartData.options"
         :series="chartData.series"
         type="pie"
-        height="400px"
+        height="350px"
         v-if="chartData.series.some((s) => s)"
       />
       <div v-else class="text-h6">

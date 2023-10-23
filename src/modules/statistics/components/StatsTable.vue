@@ -15,6 +15,13 @@ const props = withDefaults(
   },
 )
 // #endregion
+
+/***************************************
+ **** Section Variables Declaration ****
+ **************************************/
+// #region Variables
+const { t } = useI18n()
+// #endregion
 </script>
 
 <template>
@@ -22,11 +29,11 @@ const props = withDefaults(
     <VExpansionPanel>
       <VExpansionPanelTitle>{{ title }}</VExpansionPanelTitle>
       <VExpansionPanelText>
-        <div class="overflow-auto">
+        <div class="overflow-auto" v-if="stats.length">
           <table class="stats-table">
             <tbody>
               <tr v-for="(item, index) in stats" :key="index">
-                <td style="min-width: 145px">
+                <td style="min-inline-size: 145px">
                   {{ item.title }}
                 </td>
                 <td>
@@ -49,6 +56,9 @@ const props = withDefaults(
               </tr>
             </tbody>
           </table>
+        </div>
+        <div v-else class="text-h6">
+          {{ t('general.no_data') }}
         </div>
       </VExpansionPanelText>
     </VExpansionPanel>
