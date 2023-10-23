@@ -299,6 +299,18 @@ const navItems = computed(() => {
       show: canAccessPage('ads_requests'),
     },
     {
+      title: 'المحافظ و الدفع الالكترونى',
+      to: { name: 'wallets-and-payments-page' },
+      icon: { icon: 'tabler-wallet' },
+      show: true,
+    },
+    {
+      title: 'النقاط والمكافآت',
+      to: { name: 'points-and-prizes-page' },
+      icon: { icon: 'tabler-gift' },
+      show: true,
+    },
+    {
       title: 'الكوبونات',
       icon: { icon: 'tabler-discount-2' },
       show: hasAtLeaseOnePermission([

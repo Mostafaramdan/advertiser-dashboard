@@ -1,0 +1,3 @@
+<template>
+  <InProgressCard />
+</template>

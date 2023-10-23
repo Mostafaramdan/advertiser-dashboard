@@ -156,6 +156,22 @@ const router = createRouter({
       },
     },
     {
+      path: '/wallets-and-payments',
+      name: 'wallets-and-payments-page',
+      component: () => import('@/pages/WalletsAndPaymentsPage.vue'),
+      meta: {
+        layout: 'default',
+      },
+    },
+    {
+      path: '/points-and-prizes',
+      name: 'points-and-prizes-page',
+      component: () => import('@/pages/PointsAndPrizesPage.vue'),
+      meta: {
+        layout: 'default',
+      },
+    },
+    {
       path: '/coupons',
       name: 'coupons',
       component: () => import('@/modules/coupons/CouponsModule.vue'),
