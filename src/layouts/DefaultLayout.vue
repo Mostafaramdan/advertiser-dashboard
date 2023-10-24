@@ -416,6 +416,33 @@ const navItems = computed(() => {
       ],
     },
     {
+      title: 'التذاكر',
+      icon: { icon: 'tabler-ticket' },
+      show: hasAtLeaseOnePermission([
+        'view_tickets',
+        'view_ticket_types',
+        'view_ticket_categories',
+      ]),
+      to: null,
+      children: [
+        {
+          title: 'تذاكر الدعم',
+          to: { name: 'support-tickets-page' },
+          show: hasPermission('view_tickets'),
+        },
+        {
+          title: 'أنواع التذاكر',
+          to: { name: 'tickets-types-page' },
+          show: hasPermission('view_ticket_types'),
+        },
+        {
+          title: 'أقسام التذاكر',
+          to: { name: 'tickets-categories-page' },
+          show: hasPermission('view_ticket_categories'),
+        },
+      ],
+    },
+    {
       title: 'التقارير',
       icon: { icon: 'tabler-report-analytics' },
       show: true,
@@ -426,6 +453,13 @@ const navItems = computed(() => {
       to: { name: 'notifications-page' },
       icon: { icon: 'tabler-bell' },
       show: hasPermission('view_notifications'),
+    },
+    {
+      title: 'الشات',
+      to: { name: 'chat-page' },
+      icon: { icon: 'tabler-message' },
+      // TODO: ADD PERMISSION
+      show: true,
     },
   ]
 })

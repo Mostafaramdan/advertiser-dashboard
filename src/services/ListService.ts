@@ -68,6 +68,10 @@ class ListService {
   getReadyReplies(type: string): AxiosPromise {
     return axios.get(`${this.contextPath}/admin_replies?type=${type}`)
   }
+
+  getTicketsTypes(): AxiosPromise {
+    return axios.get(`${this.contextPath}/support_types`)
+  }
 }
 
 export const listService = new ListService()

@@ -5,3 +5,8 @@ export const DISPUTES_STATUSES = new Map([
   ['confirmed', { label: 'تم التاكيد' }],
   ['finished', { label: 'مكتمل' }],
 ])
+
+export const FAVORITE_STATUSES = {
+  1: 'مفضل',
+  0: 'غير مفضل',
+}

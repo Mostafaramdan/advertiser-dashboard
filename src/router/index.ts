@@ -4,6 +4,7 @@ import { reportsRoutes } from '@/modules/reports/reportsRoutes'
 import { settingsRoutes } from '@/modules/settings/settingsRoutes'
 import { statisticsRoutes } from '@/modules/statistics/statisticsRoutes'
 import { subscriptionsRoutes } from '@/modules/subscriptions/subscriptionsRoutes'
+import { ticketsRoutes } from '@/modules/tickets/ticketsRoutes'
 import HomePage from '@/pages/HomePage.vue'
 import { useAuthStore } from '@/stores/AuthStore'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -219,6 +220,20 @@ const router = createRouter({
       children: disputesRoutes,
     },
     {
+      path: '/tickets',
+      name: 'tickets',
+      component: () => import('@/modules/tickets/TicketsModule.vue'),
+      meta: {
+        layout: 'default',
+        requireAtLeastOnePermission: [
+          'view_tickets',
+          'view_ticket_types',
+          'view_ticket_categories',
+        ],
+      },
+      children: ticketsRoutes,
+    },
+    {
       path: '/statistics',
       name: 'statistics',
       component: () => import('@/modules/statistics/StatisticsModule.vue'),
@@ -234,6 +249,15 @@ const router = createRouter({
       meta: {
         layout: 'default',
         hasPermission: 'view_notifications',
+      },
+    },
+    {
+      path: '/chat',
+      name: 'chat-page',
+      component: () => import('@/pages/ChatPage.vue'),
+      meta: {
+        layout: 'default',
+        // TODO: ADD PERMISSION
       },
     },
     {
