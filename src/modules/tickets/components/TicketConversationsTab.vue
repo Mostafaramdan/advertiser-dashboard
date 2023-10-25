@@ -2,23 +2,22 @@
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import type { MetaData } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import { useDisputesStore } from '@/stores/DisputesStore'
-import type { ConversationsListItem } from '../interfaces/DisputeRequest'
-import { requestsService } from '../services/RequestsService'
-import DisputeRequestConversationsForm from './DisputeRequestConversationsForm.vue'
-
+import { useTicketsStore } from '@/stores/TicketsStore'
+import type { ConversationsListItem } from '../interfaces/SupportTicket'
+import { supportTicketsService } from '../services/SupportTicketsService'
+import TicketConversationsForm from './TicketConversationsForm.vue'
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
 const route = useRoute()
 const { formatDateTime } = UseGeneralHelpers()
-const disputesStore = useDisputesStore()
+const ticketsStore = useTicketsStore()
 const { hasPermission } = useAuthStore()
 const isLoading = ref<boolean>(false)
 const metaData = ref<MetaData | null>(null)
 const messages = ref<ConversationsListItem[]>([])
-const disputeRequestId = +route.params.id
+const ticketId = +route.params.id
 const messagesContainerRef = ref()
 
 const params = reactive({
@@ -32,10 +31,12 @@ const params = reactive({
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
+const ticketBasicData = computed(() => ticketsStore.ticketBasicData)
+
 const permissions = computed(() => ({
-  sendMessage: hasPermission('reply_dispute_request'),
+  sendMessage: hasPermission('reply_ticket'),
 }))
-const requestDetails = computed(() => disputesStore.requestDetails)
+
 const sortedMessages = computed(() => {
   return messages.value.sort((a: any, b: any) => {
     return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
@@ -58,8 +59,8 @@ getPageData()
 // #region Functions
 function getPageData() {
   isLoading.value = true
-  requestsService
-    .getConversations({ id: disputeRequestId, params })
+  supportTicketsService
+    .getConversations({ id: ticketId, params })
     .then((res) => {
       const { data, meta } = res.data
       metaData.value = meta
@@ -122,23 +123,11 @@ function onMessageSent(message: ConversationsListItem) {
                   <span v-else>!</span>
                 </VAvatar>
                 <div style="min-inline-size: 205px">
-                  <div class="mb-1">{{ message.user.username }}</div>
-                  <div v-if="requestDetails" class="d-flex flex-wrap gap-2">
+                  <div class="mb-1">{{ message.user.account_name }}</div>
+                  <div v-if="ticketBasicData" class="d-flex flex-wrap gap-2">
                     <VChip color="primary">
-                      {{
-                        message.user.id === requestDetails.disputer.id
-                          ? 'الشاكي'
-                          : message.user.id === requestDetails.disputed.id
-                          ? 'المشكي'
-                          : 'المنصة'
-                      }}
+                      {{ message.user.id === ticketBasicData.user.id ? 'مقدم التذكرة' : 'المنصة' }}
                     </VChip>
-                    <template v-if="message.target_user">
-                      الي
-                      <VChip color="primary">
-                        {{ message.target_user.username }}
-                      </VChip>
-                    </template>
                   </div>
                 </div>
               </div>
@@ -166,9 +155,29 @@ function onMessageSent(message: ConversationsListItem) {
       </VList>
       <p v-if="!isLoading && messages.length === 0" class="text-body-1 mb-0">لا يوجد بيانات</p>
     </div>
-    <DisputeRequestConversationsForm @message:sent="onMessageSent" v-if="permissions.sendMessage" />
-    <VAlert v-else class="overflow-visible" color="error" variant="tonal" icon="mdi-alert-outline">
+    <VAlert
+      class="overflow-visible"
+      v-if="!permissions.sendMessage"
+      color="error"
+      variant="tonal"
+      icon="mdi-alert-outline"
+    >
       ليس لديك الصلاحيات لإرسال رسالة
     </VAlert>
+    <template v-else-if="ticketBasicData">
+      <TicketConversationsForm
+        @message:sent="onMessageSent"
+        v-if="!['cancelled', 'finished'].includes(ticketBasicData.status)"
+      />
+      <VAlert
+        v-else
+        class="overflow-visible"
+        color="error"
+        variant="tonal"
+        icon="mdi-alert-outline"
+      >
+        لا يمكن إرسال رد علي هذه التذكرة . هذه التذكرة غير نشطة الان
+      </VAlert>
+    </template>
   </section>
 </template>

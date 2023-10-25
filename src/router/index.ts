@@ -157,6 +157,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/admins',
+      name: 'admins-page',
+      component: () => import('@/pages/AdminsPage.vue'),
+      meta: {
+        layout: 'default',
+      },
+    },
+    {
       path: '/wallets-and-payments',
       name: 'wallets-and-payments-page',
       component: () => import('@/pages/WalletsAndPaymentsPage.vue'),

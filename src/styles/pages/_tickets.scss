@@ -1,0 +1,52 @@
+.conversations-tab {
+  display: flex;
+  flex-direction: column;
+  max-block-size: 80vh;
+
+  .v-list-item-title {
+    white-space: wrap;
+  }
+
+  .attachment {
+    svg {
+      min-inline-size: 20px;
+    }
+
+    span {
+      @include max-lines(1);
+    }
+  }
+}
+
+
+.conversations-form {
+  border-radius: 8px;
+  background: rgba(var(--v-theme-grey-300), 0.3);
+
+  .v-input .v-field__append-inner[class] {
+    padding-block-start: 0;
+  }
+
+  .username {
+    @include max-lines(1);
+  }
+}
+
+
+.logs-tab {
+  .v-list-item-title {
+    white-space: wrap;
+  }
+  
+  .attachments {
+    &__item {
+      svg {
+        min-inline-size: 20px;
+      }
+  
+      span {
+        @include max-lines(1);
+      }
+    }
+  }
+}

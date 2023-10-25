@@ -79,15 +79,15 @@ const data = computed(() => {
       value: requestDetails.payment_status,
     },
     {
-      label: 'مبلغ الطلب',
+      label: 'قيمة طلب الأعلان',
       value: requestDetails.ads_request_total,
     },
     {
-      label: 'مبلغ الاسترداد',
+      label: 'قيمة طلب الإسترداد',
       value: requestDetails.retake_money,
     },
     {
-      label: 'المبلغ المقبول',
+      label: 'القيمة المقبولة',
       value: requestDetails.accepted_money,
     },
   ]

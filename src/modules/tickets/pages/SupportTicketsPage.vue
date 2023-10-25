@@ -30,6 +30,7 @@ const params = reactive({
 })
 
 const {
+  selectedItems,
   tableData,
   metaData,
   IsLoadingData,
@@ -41,30 +42,6 @@ const {
   showConfirmDeleteItem,
 } = UseCrudHelpers<SupportTicket>(supportTicketsService, params, MODEL_NAME)
 
-tableData.value = [
-  {
-    id: 1,
-    user: {
-      username: 'اسم المستخدم',
-      role: 'guest',
-    },
-    type: 'استفسار/سؤال',
-    status: 'new',
-    rate: 4.5,
-    is_starred: true,
-    created_at: '2022-10-01',
-    updated_at: '2022-10-01',
-    first_admin: {
-      username: 'اسم المستخدم',
-      hours: 20,
-    },
-    second_admin: {
-      username: 'اسم المستخدم',
-      hours: 5,
-    },
-  },
-]
-
 const headers: any = [
   {
     title: 'مقدم التذكرة',
@@ -72,7 +49,7 @@ const headers: any = [
   },
   {
     title: 'نوع التذكرة/رقم التذكرة',
-    key: 'type',
+    key: 'support_type',
   },
   {
     title: 'الحالة/تقييم العميل',
@@ -84,11 +61,11 @@ const headers: any = [
   },
   {
     title: 'المسؤول الاول/التوقيت',
-    key: 'first_admin',
+    key: 'primary_admin',
   },
   {
     title: 'المسؤول الثاني/التوقيت',
-    key: 'second_admin',
+    key: 'secondary_admin',
   },
   {
     title: 'العمليات',
@@ -124,7 +101,7 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-// getPageData()
+getPageData()
 
 // #endregion
 
@@ -183,31 +160,36 @@ function onApplyFilter(filters: any) {
         <PageActions
           :page-actions-buttons="pageActionsButtons"
           :items-per-page="params.itemPerPage"
+          :show-multi-delete="permissions.delete"
           :model="MODEL_NAME"
+          :selected-items="selectedItems"
           @update:items-per-page="onChangeItemsPerPage"
           @update:search="onChangeSearch"
           @reload-data="onReloadData"
         />
         <VDataTableServer
+          v-model="selectedItems"
           v-loading="IsLoadingData"
           :headers="headers"
           :items="tableData"
+          show-select
           :items-length="metaData?.total || 0"
+          item-value="id"
           class="app-table"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
           <template #item.user="{ item }">
             <div style="min-inline-size: 150px">
-              <span>{{ item.raw.user.username }}</span>
+              <span>{{ item.raw.user.account_name }}</span>
               <span class="text-sm text-disabled d-block">{{
                 USERS_TYPES[item.raw.user.role]
               }}</span>
             </div>
           </template>
 
-          <template #item.type="{ item }">
+          <template #item.support_type="{ item }">
             <div style="min-inline-size: 150px">
-              <span>{{ item.raw.type }}</span>
+              <span>{{ item.raw.support_type }}</span>
               <span class="text-sm text-disabled d-block"> {{ item.raw.id }}</span>
             </div>
           </template>
@@ -215,7 +197,7 @@ function onApplyFilter(filters: any) {
           <template #item.status="{ item }">
             <div style="min-inline-size: 80px">
               <span>{{ TICKETS_STATUSES.get(item.raw.status)?.label }}</span>
-              <span class="d-flex align-center text-sm" v-if="item.raw.rate">
+              <span class="d-flex align-center text-sm" v-if="item.raw.rate !== null">
                 <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
                 {{ item.raw.rate }}
               </span>
@@ -227,21 +209,23 @@ function onApplyFilter(filters: any) {
             <div class="text-no-wrap">
               {{ formatDateTime(item.raw.created_at) }}
               <span class="text-sm text-disabled d-block">
-                {{ formatDateTime(item.raw.updated_at) }}</span
+                {{ formatDateTime(item.raw.last_update) }}</span
               >
             </div>
           </template>
 
-          <template #item.first_admin="{ item }">
+          <template #item.primary_admin="{ item }">
             <div style="min-inline-size: 150px">
-              <span>{{ item.raw.first_admin.username }}</span>
-              <span class="text-sm text-disabled d-block">{{ item.raw.first_admin.hours }}</span>
+              <span>{{ item.raw.primary_admin.name }}</span>
+              <span class="text-sm text-disabled d-block">{{ item.raw.primary_admin.hours }}</span>
             </div>
           </template>
-          <template #item.second_admin="{ item }">
+          <template #item.secondary_admin="{ item }">
             <div style="min-inline-size: 150px">
-              <span>{{ item.raw.second_admin.username }}</span>
-              <span class="text-sm text-disabled d-block">{{ item.raw.second_admin.hours }}</span>
+              <span>{{ item.raw.secondary_admin.name }}</span>
+              <span class="text-sm text-disabled d-block">{{
+                item.raw.secondary_admin.hours
+              }}</span>
             </div>
           </template>
 

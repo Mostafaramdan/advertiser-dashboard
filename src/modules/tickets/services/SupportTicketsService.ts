@@ -9,8 +9,29 @@ class SupportTicketsService {
     return axios.get(`${this.contextPath}`, { params })
   }
 
+  getSingleItem(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}`)
+  }
+
+  getTicketDetails(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/details`)
+  }
+
   getRequestsStats(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/statistics`, { params })
+  }
+
+  getConversations({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/conversations`, { params })
+  }
+
+  getLogs({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/logs`, { params })
+  }
+
+  /** **************** post ******************/
+  sendMessage({ id, data }: { id: number; data: any }): AxiosPromise {
+    return axios.post(`${this.contextPath}/${id}/conversations`, data)
   }
 
   /** **************** delete ******************/

@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import ReadyRepliesSelectionModal from '@/components/shared/ReadyRepliesSelectionModal.vue'
 import type { File } from '@/interfaces/Shared'
-import { useDisputesStore } from '@/stores/DisputesStore'
-import type { ConversationForm, ConversationsListItem } from '../interfaces/DisputeRequest'
-import { requestsService } from '../services/RequestsService'
+import type { ConversationForm, ConversationsListItem } from '../interfaces/SupportTicket'
+import { supportTicketsService } from '../services/SupportTicketsService'
 
 /***************************************
  **** Section Emits Declaration ********
@@ -20,17 +19,14 @@ const emit = defineEmits<{
  **************************************/
 // #region Variables
 const route = useRoute()
-const disputesStore = useDisputesStore()
 const disputeRequestId = +route.params.id
 const showUploadBox = ref<boolean>(false)
-const showUsersBox = ref<boolean>(false)
 const showRepliesModal = ref<boolean>(false)
 const isLoading = ref<boolean>(false)
 const formData = reactive<ConversationForm>({
   details: '',
   file: null,
   file_id: null,
-  for_user_id: null,
 })
 // #endregion
 
@@ -38,8 +34,6 @@ const formData = reactive<ConversationForm>({
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-const requestDetails = computed(() => disputesStore.requestDetails)
-
 let isValid = computed(() => formData.details.trim() || formData.file?.id)
 // #endregion
 
@@ -57,11 +51,6 @@ function resetUploadBox() {
   showUploadBox.value = false
 }
 
-function resetUsersBox() {
-  showUsersBox.value = false
-  formData.for_user_id = null
-}
-
 function onSelectReply(reply: string) {
   formData.details = reply
 }
@@ -73,12 +62,11 @@ function sendMessage() {
   }
   delete payload.data.file
   isLoading.value = true
-  requestsService
+  supportTicketsService
     .sendMessage(payload)
     .then((res) => {
       formData.details = ''
       resetUploadBox()
-      resetUsersBox()
       emit('message:sent', res.data.data)
     })
     .finally(() => {
@@ -92,38 +80,9 @@ function sendMessage() {
   <div>
     <ReadyRepliesSelectionModal
       v-model:showModal="showRepliesModal"
-      type="dispute"
+      type="ticket"
       @select:reply="onSelectReply"
     />
-    <div class="conversations-form mt-5 px-3 py-2" v-if="requestDetails && showUsersBox">
-      <div class="d-flex flex-wrap gap-x-5 gap-y-2">
-        <span>ارسال الي</span>
-        <VBtn
-          size="35"
-          variant="outlined"
-          class="ms-auto"
-          icon="tabler-x"
-          @click="resetUsersBox"
-        ></VBtn>
-      </div>
-      <div class="d-flex flex-wrap gap-x-5 gap-y-2">
-        <template v-for="user in [requestDetails.disputer, requestDetails.disputed]" :key="user.id">
-          <v-checkbox v-model="formData.for_user_id" :true-value="user.id" :false-value="null">
-            <template v-slot:label>
-              <div class="d-flex align-center">
-                <VAvatar size="38" variant="tonal" cover class="me-3">
-                  <VImg v-if="user.image_path" :src="user.image_path" cover />
-                  <span v-else>!</span>
-                </VAvatar>
-                <div style="max-inline-size: 205px" class="username">
-                  {{ user.username }}
-                </div>
-              </div>
-            </template>
-          </v-checkbox>
-        </template>
-      </div>
-    </div>
     <VForm class="conversations-form mt-3 px-3 py-2" @submit.prevent="sendMessage">
       <div class="d-flex flex-wrap gap-2" v-if="showUploadBox">
         <div :class="{ border: formData.file }">
@@ -152,10 +111,6 @@ function sendMessage() {
           </IconBtn>
           <IconBtn @click="showUploadBox = true">
             <VIcon icon="tabler-link" />
-          </IconBtn>
-
-          <IconBtn @click="showUsersBox = true" class="me-1">
-            <VIcon icon="tabler-users" />
           </IconBtn>
 
           <VBtn

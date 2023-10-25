@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import UseGeneralHelpers from '@/composables/UseGeneralHelpers';
-import type { MetaData } from '@/interfaces/Shared';
-import type { DisputeRequestLogsItem } from '../interfaces/DisputeRequest';
-import { requestsService } from '../services/RequestsService';
+import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
+import type { MetaData } from '@/interfaces/Shared'
+import type { TicketLogsItem } from '../interfaces/SupportTicket'
+import { supportTicketsService } from '../services/SupportTicketsService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -12,7 +12,7 @@ const route = useRoute()
 const { formatDateTime } = UseGeneralHelpers()
 const isLoading = ref<boolean>(false)
 const metaData = ref<MetaData | null>(null)
-const logs = ref<DisputeRequestLogsItem[]>([])
+const logs = ref<TicketLogsItem[]>([])
 const disputeRequestId = +route.params.id
 const params = reactive({
   page: 1,
@@ -34,8 +34,8 @@ getPageData()
 // #region Functions
 function getPageData() {
   isLoading.value = true
-  requestsService
-    .getRequestLogs({ id: disputeRequestId, params })
+  supportTicketsService
+    .getLogs({ id: disputeRequestId, params })
     .then((res) => {
       const { data, meta } = res.data
       metaData.value = meta
@@ -90,4 +90,3 @@ function getPageData() {
     </div>
   </section>
 </template>
-

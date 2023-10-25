@@ -154,7 +154,7 @@ getPageData()
           </span>
         </template>
         <template #item.admins="{ item }">
-          <div class="d-flex" v-if="item.raw.admins.length">
+          <div class="d-flex">
             <VChip variant="outlined" color="primary" label>
               {{ item.raw.admins[0].label }}
             </VChip>

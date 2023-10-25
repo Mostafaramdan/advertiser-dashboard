@@ -299,6 +299,12 @@ const navItems = computed(() => {
       show: canAccessPage('ads_requests'),
     },
     {
+      title: 'فريق العمل',
+      to: { name: 'admins-page' },
+      icon: { icon: 'tabler-users-group' },
+      show: true,
+    },
+    {
       title: 'المحافظ و الدفع الالكترونى',
       to: { name: 'wallets-and-payments-page' },
       icon: { icon: 'tabler-wallet' },
