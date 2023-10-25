@@ -133,7 +133,7 @@ function onTakeProcedure() {
               class="my-2"
               min-width="200"
               @click="openProcedureModal"
-              :disabled="!permissions.takeProcedure"
+              :disabled="!permissions.takeProcedure || !requestDetails.can_make_procedure"
             >
               اتخاذ اجراء <VIcon end icon="tabler-status-change" />
             </VBtn>

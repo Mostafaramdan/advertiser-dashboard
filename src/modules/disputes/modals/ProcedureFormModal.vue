@@ -143,7 +143,7 @@ const submit = () => {
                   item-title="label"
                   item-value="id"
                   name="status"
-                  label="حالة التنازع"
+                  label="الحالة المتغير اليها طلب التنازع"
                   clearable
                   rules="required"
                 />
