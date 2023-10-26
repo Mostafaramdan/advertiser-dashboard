@@ -60,6 +60,30 @@ const stats = [
     title: 'الوثائق والتراخيص',
     to: { name: 'documents-statistics' },
   },
+  {
+    icon: 'tabler-wallet',
+    color: 'primary',
+    title: 'المحافظ و الدفع الالكترونى',
+    // to: null,
+  },
+  {
+    icon: 'tabler-gift',
+    color: 'primary',
+    title: 'النقاط والمكافآت',
+    // to: null,
+  },
+  {
+    icon: 'tabler-analyze',
+    color: 'primary',
+    title: 'طلبات التنازع',
+    // to: null,
+  },
+  {
+    icon: 'tabler-ticket',
+    color: 'primary',
+    title: 'التذاكر',
+    // to: null,
+  },
 ]
 </script>
 
@@ -74,9 +98,16 @@ const stats = [
               <h5 class="text-h6 my-4">
                 {{ item.title }}
               </h5>
-              <VBtn :to="item.to" variant="tonal" class="py-2" height="auto"
+              <VBtn v-if="item.to" :to="item.to" variant="tonal" class="py-2" height="auto"
                 >عرض <VIcon end icon="tabler-eye"
               /></VBtn>
+              <v-tooltip v-else text="قيد التطوير" location="bottom">
+                <template v-slot:activator="{ props }">
+                  <VBtn variant="tonal" v-bind="props" class="py-2" height="auto"
+                    >عرض <VIcon end icon="tabler-eye"
+                  /></VBtn>
+                </template>
+              </v-tooltip>
             </VCardText>
           </VCard>
         </VCol>

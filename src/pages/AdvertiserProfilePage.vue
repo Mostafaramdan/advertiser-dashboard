@@ -134,6 +134,7 @@ function updateRouteQuery() {
             name: 'subscriptions-logs-page',
             query: { user_id: advertiserId, advertiser_name: user.username },
           }"
+          target="_blank"
           :disabled="!permissions.viewSubscriptionsLogs"
         >
           سجل الاشنراكات
@@ -146,6 +147,7 @@ function updateRouteQuery() {
             name: 'ads-page',
             query: { advertiser_id: advertiserId, advertiser_name: user.username },
           }"
+          target="_blank"
           :disabled="!permissions.viewAds"
         >
           استعراض الإعلانات <VIcon end icon="tabler-ad-2" />
@@ -157,6 +159,7 @@ function updateRouteQuery() {
             name: 'ads-requests-page',
             query: { advertiser_id: advertiserId, advertiser_name: user.username },
           }"
+          target="_blank"
           :disabled="!permissions.viewAdsRequests"
         >
           استعراض الطلبات <VIcon end icon="tabler-file-check" />

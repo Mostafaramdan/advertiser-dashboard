@@ -12,6 +12,10 @@
   font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1;
+
+  tspan {
+    fill: rgba(var(--v-theme-grey-900), 100%);
+  }
 }
 
 .apexcharts-canvas .apexcharts-gridline {
