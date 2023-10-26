@@ -19,6 +19,9 @@ const MarketingPresentationTab = defineAsyncComponent(
 const AccountSettingsTab = defineAsyncComponent(
   () => import('@/components/advertiser-profile/AccountSettingsTab.vue'),
 )
+const StatisticsTab = defineAsyncComponent(
+  () => import('@/components/advertiser-profile/StatisticsTab.vue'),
+)
 const ReportsTab = defineAsyncComponent(
   () => import('@/components/advertiser-profile/ReportsTab.vue'),
 )
@@ -56,6 +59,12 @@ const tabs = computed(() => {
       value: 'account-settings',
       component: AccountSettingsTab,
       show: hasPermission('show_account_settings'),
+    },
+    {
+      title: 'إحصائات الحساب',
+      value: 'statistics',
+      component: StatisticsTab,
+      show: hasPermission('show_advertiser_statistics'),
     },
     {
       title: 'العرض التسويقي',

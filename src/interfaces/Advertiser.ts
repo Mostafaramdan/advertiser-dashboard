@@ -109,3 +109,60 @@ export interface AccountSettingsData {
     name: string
   }[]
 }
+
+export interface AdvertiserStatsData {
+  statistics: {
+    sales_volume: number
+    sales_in_platform: number
+    sales_out_platform: number
+    charge_total: number
+    total_withdraw: number
+    total_refunds: number
+    current_total_wallet: number
+    total_points_earned: number
+    total_points_transferred: number
+    wasted_points: number
+    total_point_values_used: number
+    total_prizes: number
+  }
+  statistics_ads_request: {
+    total_ads_request: number
+    in_progress_ads_requests: number
+    finished_ads_requests: number
+    refused_ads_requests_by_client: number
+    refused_ads_requests_by_advertiser: number
+    cancelled_ads_requests_by_client: number
+    cancelled_ads_requests_by_advertiser: number
+    disputed_ads_request: number
+    ads_request_comments_count: number
+    ads_request_replies_count: number
+  }
+  statistics_ads: {
+    total_ads: number
+    total_direct_ads: number
+    total_inDirect_ads: number
+    total_views: number
+    total_reports: number
+    total_rats: number
+    average_rats: number | null
+    average_reports: number
+  }
+  statistics_coupons: {
+    total_ads_request_coupons: number
+    total_my_coupons: number
+    active_coupons: number
+    inActive_coupons: number
+    total_goes_coupons: number
+    total_copies: number
+    total_uses: number
+    total_using_platform_coupons: number
+    total_active_platform_coupons: number
+  }
+  statistics_Tickets_And_coupons: {
+    total_tickets: number
+    total_active_tickets: number
+    total_finished_as_disputer: number
+    total_finished_as_disputed: number
+    total_active_disputes: number
+  }
+}

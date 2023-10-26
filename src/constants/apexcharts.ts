@@ -47,7 +47,9 @@ export const DONUT_CHART_OPTIONS = {
   plotOptions: {
     pie: {
       donut: {
-        size: '78%',
+        labels: {
+          show: true,
+        },
       },
     },
   },

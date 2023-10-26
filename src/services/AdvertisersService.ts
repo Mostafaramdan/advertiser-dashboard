@@ -25,6 +25,10 @@ class AdvertisersService {
     return axios.get(`${this.contextPath}/${id}/account_settings`)
   }
 
+  getStatistics(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/statistics`)
+  }
+
   /** **************** delete ******************/
   deleteItem(id: number): AxiosPromise {
     return axios.delete(`${this.contextPath}/${id}`)
