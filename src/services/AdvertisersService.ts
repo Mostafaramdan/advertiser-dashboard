@@ -29,6 +29,10 @@ class AdvertisersService {
     return axios.get(`${this.contextPath}/${id}/statistics`)
   }
 
+  getAdsRequestsLogs({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/ads_request_logs`, { params })
+  }
+
   /** **************** delete ******************/
   deleteItem(id: number): AxiosPromise {
     return axios.delete(`${this.contextPath}/${id}`)

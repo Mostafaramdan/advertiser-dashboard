@@ -28,6 +28,9 @@ const ReportsTab = defineAsyncComponent(
 const AdsBlockTab = defineAsyncComponent(
   () => import('@/components/advertiser-profile/AdsBlockTab.vue'),
 )
+const AdsRequestsLogsTab = defineAsyncComponent(
+  () => import('@/components/advertiser-profile/AdsRequestsLogsTab.vue'),
+)
 const route = useRoute()
 const router = useRouter()
 const { hasPermission, canAccessPage } = useAuthStore()
@@ -83,6 +86,12 @@ const tabs = computed(() => {
       value: 'ads-block',
       component: AdsBlockTab,
       show: hasPermission('view_advertiser_block_details'),
+    },
+    {
+      title: 'سجل طلبات الاعلانات',
+      value: 'ads-requests-logs',
+      component: AdsRequestsLogsTab,
+      show: hasPermission('show_advertiser_ads_request_logs'),
     },
   ]
 })
@@ -146,7 +155,7 @@ function updateRouteQuery() {
           target="_blank"
           :disabled="!permissions.viewSubscriptionsLogs"
         >
-          سجل الاشنراكات
+          سجل الاشتراكات
           <VIcon end icon="tabler-history" />
         </VBtn>
         <VBtn

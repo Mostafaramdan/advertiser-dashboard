@@ -166,3 +166,11 @@ export interface AdvertiserStatsData {
     total_active_disputes: number
   }
 }
+
+export interface AdRequestLogItem {
+  id: number
+  username: string
+  created_at: string
+  details: string
+  action_type: string
+}

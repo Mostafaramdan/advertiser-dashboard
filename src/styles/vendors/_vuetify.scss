@@ -103,6 +103,7 @@
     }
 
     .v-tab.v-btn {
+      padding-inline: 13px;
       transition: all 0.3s;
 
       &:not(.v-tab--selected) {
