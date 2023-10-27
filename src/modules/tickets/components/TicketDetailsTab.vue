@@ -194,7 +194,7 @@ function getPageData() {
 
       <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
         <VExpansionPanel elevation="0">
-          <VExpansionPanelTitle>تفاصيل انهاء التنازع</VExpansionPanelTitle>
+          <VExpansionPanelTitle>تفاصيل اغلاق التذكرة</VExpansionPanelTitle>
           <VExpansionPanelText>
             <div class="d-flex align-center gap-2" v-if="data.closed_by">
               <VIcon icon="tabler-circle-check" size="30" color="primary" />
