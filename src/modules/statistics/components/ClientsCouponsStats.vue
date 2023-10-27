@@ -33,7 +33,7 @@ const tableHeadings = [
 <template>
   <VExpansionPanels :model-value="0" class="mt-5">
     <VExpansionPanel>
-      <VExpansionPanelTitle>المعلنين</VExpansionPanelTitle>
+      <VExpansionPanelTitle>التجار</VExpansionPanelTitle>
       <VExpansionPanelText>
         <v-table class="simple-table" density="compact" v-if="stats.length">
           <thead>

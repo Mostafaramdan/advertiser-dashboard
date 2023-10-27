@@ -16,7 +16,7 @@ const isLoading = ref<boolean>(false)
 const data = ref<CouponsData | null>(null)
 const params = reactive({
   year: new Date().getFullYear(),
-  period: null,
+  period: 6,
 })
 
 // #endregion
