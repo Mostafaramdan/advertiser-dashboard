@@ -11,6 +11,9 @@ const DetailsTab = defineAsyncComponent(() => import('@/components/user-profile/
 const LicensesDocumentsTab = defineAsyncComponent(
   () => import('@/components/user-profile/licenses-documents-tab/Index.vue'),
 )
+const AdsRequestsLogsTab = defineAsyncComponent(
+  () => import('@/components/user-profile/AdsRequestsLogsTab.vue'),
+)
 const route = useRoute()
 const router = useRouter()
 const { hasPermission } = useAuthStore()
@@ -36,6 +39,12 @@ const tabs = computed(() => {
       value: 'licenses-documents',
       component: LicensesDocumentsTab,
       show: hasPermission('show_attachments'),
+    },
+    {
+      title: 'سجل طلبات الاعلانات',
+      value: 'ads-requests-logs',
+      component: AdsRequestsLogsTab,
+      show: hasPermission('show_user_ads_request_logs'),
     },
   ]
 })

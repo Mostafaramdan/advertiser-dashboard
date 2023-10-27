@@ -16,6 +16,10 @@ class UsersService {
     return axios.get(`${contextPath}/users/${id}/details`)
   }
 
+  getAdsRequestsLogs({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${contextPath}/users/${id}/ads_request_logs`, { params })
+  }
+
   getLicensesDocuments(id: number): AxiosPromise {
     return axios.get(`${contextPath}/${id}/attachments`)
   }

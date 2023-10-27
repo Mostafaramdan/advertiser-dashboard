@@ -75,3 +75,11 @@ export interface LogsHistoryItem {
   action_by: string | null
   action: string
 }
+
+export interface AdRequestLogItem {
+  id: number
+  username: string
+  created_at: string
+  details: string
+  action_type: string
+}
