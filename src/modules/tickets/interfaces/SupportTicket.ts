@@ -63,7 +63,7 @@ export interface ConversationsListItem {
     account_name: string
     image_path: string
   }
-  attachment: File
+  attachments: { id: number; path: string; name: string }[]
 }
 
 export interface ConversationForm {

@@ -139,16 +139,19 @@ function onMessageSent(message: ConversationsListItem) {
               </span>
             </VListItemTitle>
             <div class="mt-1">{{ message.details }}</div>
-            <a
-              class="attachment d-flex align-center gap-2 mt-2"
-              v-if="message.attachment"
-              :href="message.attachment.path"
-              target="_blank"
-              download
-            >
-              <VIcon icon="tabler-file-description"></VIcon>
-              <span>{{ message.attachment.name }}</span>
-            </a>
+            <div class="d-flex flex-wrap gap-x-4 gap-y-2" v-if="message.attachments.length">
+              <a
+                v-for="attachment in message.attachments"
+                :key="attachment.id"
+                class="attachment d-flex align-center gap-2 mt-2"
+                :href="attachment.path"
+                target="_blank"
+                download
+              >
+                <VIcon icon="tabler-file-description"></VIcon>
+                <span>{{ attachment.name }}</span>
+              </a>
+            </div>
           </VListItem>
           <VDivider />
         </template>
