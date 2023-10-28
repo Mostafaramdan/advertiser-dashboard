@@ -65,7 +65,6 @@ const headers: any = [
   {
     title: 'حالة الطلب',
     key: 'ads_request_status',
-    align: 'center',
   },
   {
     title: 'العمليات',
@@ -183,7 +182,7 @@ function openNotificationModal(user: any) {
                   <span v-else>!</span>
                 </VAvatar>
               </div>
-              <div style="min-width: 205px">
+              <div style="min-inline-size: 205px">
                 {{ item.raw.advertiser.username }}
                 <span class="text-sm text-disabled d-block">{{ item.raw.user.username }}</span>
               </div>
@@ -196,19 +195,19 @@ function openNotificationModal(user: any) {
             </div>
           </template>
           <template #item.price="{ item }">
-            <div class="text-no-wrap" style="min-width: 80px">
-              TODO
+            <div class="text-no-wrap" style="min-inline-size: 80px">
+              {{ item.raw.price }}
               <span class="text-sm text-disabled d-block"> {{ item.raw.commission }}</span>
             </div>
           </template>
           <template #item.payment_status="{ item }">
-            <div style="min-width: 100px">
+            <div style="min-inline-size: 100px">
               {{ item.raw.payment_method }}
               <span class="text-sm text-disabled d-block">{{ item.raw.payment_status }}</span>
             </div>
           </template>
           <template #item.ads_request_status="{ item }">
-            <div style="min-width: 80px">
+            <div style="min-inline-size: 80px">
               {{ item.raw.ads_request_status }}
             </div>
           </template>

@@ -66,7 +66,7 @@ const paymentInfo = computed(() => {
     },
     {
       label: 'قيمة الطلب',
-      value: 'TODO',
+      value: paymentDetails.order_price,
     },
     {
       label: 'عمولة المنصة',
@@ -78,7 +78,7 @@ const paymentInfo = computed(() => {
     },
     {
       label: 'المعلق',
-      value: 'TODO',
+      value: paymentDetails.pending_amount,
     },
     {
       label: 'المكافات',
@@ -111,10 +111,6 @@ const paymentInfo = computed(() => {
     {
       label: 'الضريبة',
       value: paymentDetails.tax,
-    },
-    {
-      label: 'إجمالي قيمة الطلب',
-      value: 'TODO',
     },
     {
       label: 'نقاط المعلن',

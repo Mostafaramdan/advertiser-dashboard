@@ -64,6 +64,7 @@ export type AdsRequestPaymentInfo = {
   special_discounts: number
   total_discounts: number
   tax: number
+  pending_amount: number
   confirm_transfer: string
   advertiser_points: number
   user_points: number

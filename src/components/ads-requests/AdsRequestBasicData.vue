@@ -109,7 +109,7 @@ async function showConfirmDeleteRequest(): Promise<void> {
                   </span>
                   <span class="d-flex align-center" v-if="requestData.payment_info">
                     <strong class="me-3">قيمة الطلب</strong>
-                    TODO
+                    {{ requestData.payment_info.order_price }}
                   </span>
                   <span class="d-flex align-center">
                     <strong class="me-3">حالة الطلب</strong>
