@@ -63,7 +63,7 @@ const headers: any = [
   },
   {
     title: 'الدولة',
-    key: 'commenter.country',
+    key: 'commenter.country_name',
   },
   {
     title: 'العمليات',
@@ -252,13 +252,18 @@ function openNotificationModal(user: any) {
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.commenter.username="{ item }">
-          <div style="min-width: 150px">
+          <div style="min-inline-size: 150px">
             {{ item.raw.commenter.username }}
           </div>
         </template>
         <template #item.comment="{ item }">
-          <div style="width: 250px">
+          <div style="inline-size: 250px">
             {{ item.raw.comment }}
+          </div>
+        </template>
+        <template #item.commenter.country_name="{ item }">
+          <div style="min-inline-size: 100px">
+            {{ item.raw.commenter.country_name || '-' }}
           </div>
         </template>
         <template #item.created_at="{ item }">
