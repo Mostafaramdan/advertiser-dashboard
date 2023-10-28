@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
+import { formatUrl } from '@/helpers/index'
 import { AdsRequestCoupon } from '@/interfaces/AdsRequest'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useVModel } from '@vueuse/core'
@@ -112,7 +113,7 @@ const permissions = computed(() => ({
           </div>
           <div class="rounded border pa-1 mt-2">
             <h4 class="mb-1">المتجر</h4>
-            <a :href="coupon.link" target="_blank" class="content-list__link">
+            <a :href="formatUrl(coupon.link)" target="_blank" class="content-list__link">
               الذهاب لمتجر {{ coupon.store_name }}
             </a>
             <span class="d-block">عدد مرات الذهاب {{ coupon.goes_count }}</span>

@@ -4,7 +4,7 @@ const enMessages = {
   min: '{field} must be a minimum of 0:{min} characters',
   max: '{field} must be a maximum of 0:{max} characters',
   unique: '{field} is already taken',
-  url: '{field} must be a valid URL',
+  validUrl: '{field} must be a valid URL',
   confirmed: '{field} must be the same as previous field',
   min_value: '{field} must be not less than 0:{min}',
   max_value: '{field} must be not greater than 0:{max}',

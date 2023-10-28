@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { formatUrl } from '@/helpers/index'
 import type { AccountSettingsData, AdvertiserBasicData } from '@/interfaces/Advertiser'
 import { advertisersService } from '@/services/AdvertisersService'
 
@@ -64,7 +65,7 @@ function getData() {
                   </VAvatar>
                   <div class="channel-card__content">
                     <h2 class="text-h6">{{ channel.channel.name }}</h2>
-                    <a :href="channel.link" target="_blank" class="channel-card__link">{{
+                    <a :href="formatUrl(channel.link)" target="_blank" class="channel-card__link">{{
                       channel.link
                     }}</a>
                     <ToggleActivationSwitch

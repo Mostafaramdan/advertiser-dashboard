@@ -8,16 +8,16 @@ import {
   min_value,
   numeric,
   required,
-  url,
 } from '@vee-validate/rules'
 import { Field, Form, configure, defineRule } from 'vee-validate'
 import {
   greaterThanTime,
   lessThanTime,
+  lessThanValue,
   minDate,
   minWords,
   validIcloud,
-  lessThanValue,
+  validUrl,
 } from './custom-rules'
 import arMessages from './messages/ar'
 import enMessages from './messages/en'
@@ -27,7 +27,7 @@ export default (app: any) => {
   defineRule('email', email)
   defineRule('min', min)
   defineRule('max', max)
-  defineRule('url', url)
+  defineRule('validUrl', validUrl)
   defineRule('confirmed', confirmed)
   defineRule('min_value', min_value)
   defineRule('max_value', max_value)

@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { cloneItem } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import type { Area } from '../interfaces/Area'
 import { areasService } from '../services/AreasService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem } from '@/helpers/index'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -152,7 +152,7 @@ const submit = () => {
                   v-model="formData.location_url"
                   label="رابط النطاق الجغرافى"
                   name="location_url"
-                  rules="required|url"
+                  rules="required|validUrl"
                 />
               </VCol>
               <VCol cols="12">

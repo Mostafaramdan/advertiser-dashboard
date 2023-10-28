@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { REQUEST_TYPES } from '@/constants/ads-requests'
+import { formatUrl } from '@/helpers/index'
 import { useAdsRequestsStore } from '@/stores/AdsRequestsStore'
 import AdsRequestPaymentDetails from './AdsRequestPaymentDetails.vue'
+
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
@@ -184,7 +186,12 @@ const bankTransferInfo = computed(() => {
                   {{ item.label }}
                 </h5>
                 <div v-if="item.key === 'transfer_image'">
-                  <a :href="item.value" target="_blank" v-if="item.value" class="mt-2 d-block">
+                  <a
+                    :href="formatUrl(item.value)"
+                    target="_blank"
+                    v-if="item.value"
+                    class="mt-2 d-block"
+                  >
                     <VAvatar variant="outlined" size="80" cover rounded="0">
                       <VImg :src="item.value" />
                     </VAvatar>

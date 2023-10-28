@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
+import { formatUrl } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 
@@ -101,7 +102,7 @@ const showModal = useVModel(props, 'showModal', emit)
                 border
               />
               <VListItem class="px-2 py-2" title="الرابط" border>
-                <a :href="activeItem.link" target="_blank" rel="noopener noreferrer">{{
+                <a :href="formatUrl(activeItem.link)" target="_blank" rel="noopener noreferrer">{{
                   activeItem.link
                 }}</a>
               </VListItem>

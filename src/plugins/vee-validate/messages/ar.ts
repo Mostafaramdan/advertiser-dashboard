@@ -4,7 +4,7 @@ const arMessages = {
   min: '{field} يجب أن يكون بحد أدنى 0:{min} حرفًا',
   max: '{field} يجب أن يكون بحد أقصى 0:{max} حرفًا',
   unique: '{field} مأخوذ بالفعل',
-  url: '{field} يجب أن يكون عنوان URL صالحًا',
+  validUrl: '{field} يجب أن يكون عنوان URL صالحًا',
   confirmed: '{field} يجب أن يكون نفس الحقل السابق',
   min_value: '{field} يجب أن يكون أكبر من أو يساوي 0:{min}',
   max_value: '{field} يجب أن يكون أقل من أو يساوي 0:{max}',

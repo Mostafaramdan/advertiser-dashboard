@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { formatUrl } from '@/helpers/index'
+import type { pageAction } from '@/interfaces/Shared'
+import { useAuthStore } from '@/stores/AuthStore'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { Area } from '../interfaces/Area'
 import AreaDetailsModal from '../modals/AreaDetailsModal.vue'
 import AreaFormModal from '../modals/AreaFormModal.vue'
 import { areasService } from '../services/AreasService'
-import { useAuthStore } from '@/stores/AuthStore'
-import type { pageAction } from '@/interfaces/Shared'
-import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -148,7 +149,6 @@ getPageData()
         :show-multi-activate="permissions.changeStatus"
         :model="MODEL_NAME"
         :selected-items="selectedItems"
-        :back-link="{ name: 'countries-settings' }"
         @update:items-per-page="onChangeItemsPerPage"
         @update:search="onChangeSearch"
         @reload-data="onReloadData"
@@ -166,11 +166,11 @@ getPageData()
       >
         <template #item.name.ar="{ item }">
           <a
-            :href="item.raw.location_url"
+            :href="formatUrl(item.raw.location_url)"
             target="_blank"
             rel="noopener noreferrer"
             class="d-inline-flex align-center"
-            style="min-width: 120px"
+            style="min-inline-size: 120px"
           >
             <span>
               {{ item.raw.name.ar }}
@@ -178,7 +178,7 @@ getPageData()
           </a>
         </template>
         <template #item.name.en="{ item }">
-          <span style="min-width: 120px">
+          <span style="min-inline-size: 120px">
             {{ item.raw.name.en }}
           </span>
         </template>

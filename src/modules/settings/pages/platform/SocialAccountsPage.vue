@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { cloneItem, getChangesOfArray } from '@/helpers/index'
+import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import type { SocialAccount } from '../../interfaces/SocialAccount'
 import { platformService } from '../../services/PlatformService'
-import { useAuthStore } from '@/stores/AuthStore'
-import { cloneItem, getChangesOfArray } from '@/helpers/index'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -112,7 +112,7 @@ function submit() {
               v-else-if="item.type === 'text'"
               v-model.number="item.value"
               :name="`value-${item.id}`"
-              :rules="{ required: item.is_active, url: true }"
+              :rules="{ required: item.is_active, validUrl: true }"
               label="هذ الحقل"
               class="text-input"
               placeholder="ادخل الرابط"

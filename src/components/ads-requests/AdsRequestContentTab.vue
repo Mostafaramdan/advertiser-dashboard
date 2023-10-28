@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { formatUrl } from '@/helpers/index'
 import { useAdsRequestsStore } from '@/stores/AdsRequestsStore'
 import AdsRequestAttachmentsModal from './AdsRequestAttachmentsModal.vue'
 import AdsRequestCouponModal from './AdsRequestCouponModal.vue'
@@ -189,7 +190,7 @@ const data = computed(() => {
               <div class="d-flex flex-column gap-2 content-list" v-if="data.links.length">
                 <div class="rounded border pa-2" v-for="(link, index) in data.links" :key="link.id">
                   {{ link.name }}
-                  <a :href="link.link" target="_blank" class="content-list__link">{{
+                  <a :href="formatUrl(link.link)" target="_blank" class="content-list__link">{{
                     link.link
                   }}</a>
                 </div>
@@ -232,7 +233,7 @@ const data = computed(() => {
                     <VIcon icon="tabler-file-description" size="24" />
                   </VAvatar>
                   <div class="overflow-hidden">
-                    <a class="content-list__link" :href="data.ads_plan" target="_blank"
+                    <a class="content-list__link" :href="formatUrl(data.ads_plan)" target="_blank"
                       >خطة الاعلان</a
                     >
                   </div>

@@ -2,6 +2,7 @@
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { COUPONS_TYPES } from '@/constants/coupons'
+import { formatUrl } from '@/helpers/index'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useCouponsStore } from '@/stores/CouponsStore'
@@ -188,10 +189,10 @@ function onApplyFilter(filters: any) {
       >
         <template #item.code="{ item }">
           <a
-            :href="item.raw.link"
+            :href="formatUrl(item.raw.link)"
             target="_blank"
             class="d-flex align-center"
-            style="min-width: 150px"
+            style="min-inline-size: 150px"
           >
             <VAvatar size="38" variant="tonal" class="me-3" cover>
               <VImg v-if="item.raw.store?.image" :src="item.raw.store.image" cover />
@@ -205,30 +206,30 @@ function onApplyFilter(filters: any) {
         </template>
 
         <template #item.advertiser="{ item }">
-          <span style="width: 205px">
+          <span style="inline-size: 205px">
             {{ item.raw.advertiser.account_name }}
           </span>
         </template>
 
         <template #item.started_at="{ item }">
-          <div class="text-no-wrap" style="min-width: 80px">
+          <div class="text-no-wrap" style="min-inline-size: 80px">
             {{ formatDate(item.raw.started_at) }}
             <span class="text-sm text-disabled d-block"> {{ formatDate(item.raw.ended_at) }}</span>
           </div>
         </template>
         <template #item.discount="{ item }">
-          <div class="text-no-wrap" style="min-width: 80px">
+          <div class="text-no-wrap" style="min-inline-size: 80px">
             {{ item.raw.discount }}%
             <span class="text-sm text-disabled d-block">{{ item.raw.uses }}</span>
           </div>
         </template>
 
         <template #item.status_text="{ item }">
-          <div style="min-width: 80px">{{ item.raw.status_text }}</div>
+          <div style="min-inline-size: 80px">{{ item.raw.status_text }}</div>
         </template>
 
         <template #item.store="{ item }">
-          <div style="min-width: 100px">
+          <div style="min-inline-size: 100px">
             {{ item.raw.store.name }}
             <span class="text-sm text-disabled d-block">{{ item.raw.category.label }}</span>
           </div>

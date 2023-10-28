@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useVModel } from '@vueuse/core'
+import { formatUrl } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
+import { useVModel } from '@vueuse/core'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -75,9 +76,12 @@ const showModal = useVModel(props, 'showModal', emit)
                 border
               />
               <VListItem class="px-2 py-2" title="رابط النطاق الجغرافى" border>
-                <a :href="activeItem.location_url" target="_blank" rel="noopener noreferrer">{{
-                  activeItem.location_url
-                }}</a>
+                <a
+                  :href="formatUrl(activeItem.location_url)"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >{{ activeItem.location_url }}</a
+                >
               </VListItem>
             </VList>
             <AppSwitch :model-value="activeItem.is_active" label="الحالة" name="is_active" />

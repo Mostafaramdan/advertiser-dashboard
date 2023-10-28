@@ -37,3 +37,16 @@ export function lessThanValue(value: string, [max]: any) {
   else if (Number(value) >= Number(max)) return false
   return true
 }
+
+export function validUrl(value: string) {
+  if (!value || !value.length) return true
+  else {
+    const enteredValue =
+      value.startsWith('https://') || value.startsWith('http://') ? value : `https://${value}`
+    const expression =
+      /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
+    const regexUrl = new RegExp(expression)
+    const isMatch = enteredValue.match(regexUrl)
+    return !!isMatch
+  }
+}

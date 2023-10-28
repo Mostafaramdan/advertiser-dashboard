@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { formatUrl } from '@/helpers/index'
 import type { AdvertiserBasicData, AdvertiserDetails } from '@/interfaces/Advertiser'
 import { advertisersService } from '@/services/AdvertisersService'
 import { useAuthStore } from '@/stores/AuthStore'
@@ -354,7 +355,7 @@ function takeProcedure(procedure: any) {
                   </h5>
                   <p class="text-body-2 mb-0 mt-1">
                     <a
-                      :href="data.ma3roof_data[item.key]"
+                      :href="formatUrl(data.ma3roof_data[item.key])"
                       target="_blank"
                       v-if="item.key === 'link'"
                       >{{ data.ma3roof_data[item.key] }}</a

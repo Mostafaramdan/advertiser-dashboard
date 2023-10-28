@@ -379,7 +379,7 @@ const submit = () => {
                   v-model="formData.link"
                   label="الرابط"
                   name="link"
-                  rules="required|url"
+                  rules="required|validUrl"
                 />
               </VCol>
               <VCol cols="12">
