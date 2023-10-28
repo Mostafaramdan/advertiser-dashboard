@@ -46,20 +46,20 @@ const orderInfo = computed(() => {
       key: 'ads_count',
     },
     {
-      label: 'طريقة الاعلان',
-      value: order_info.ads_method,
-    },
-    {
       label: 'قسم الاعلان',
       value: order_info.ads_category,
     },
     {
-      label: 'عدد مرات التكرار',
-      value: order_info.repeat_count,
+      label: 'طريقة الاعلان',
+      value: order_info.ads_method,
     },
     {
       label: 'فترة الاعلان',
       value: order_info.range_date,
+    },
+    {
+      label: 'عدد مرات التكرار',
+      value: order_info.repeat_count,
     },
     {
       label: 'تقييم المعلن',
