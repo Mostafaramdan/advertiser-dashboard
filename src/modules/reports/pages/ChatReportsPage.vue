@@ -250,8 +250,8 @@ function openNotificationModal(user: any) {
                   <span v-else>!</span>
                 </VAvatar>
               </div>
-              <div style="min-width: 80px">
-                <span>{{ item.raw.reported.username }}</span>
+              <div style="min-inline-size: 80px">
+                <span>{{ item.raw.reported.account_name }}</span>
               </div>
             </div>
           </template>
@@ -267,8 +267,8 @@ function openNotificationModal(user: any) {
                   <span v-else>!</span>
                 </VAvatar>
               </div>
-              <div style="min-width: 80px">
-                <span>{{ item.raw.reporter.username }}</span>
+              <div style="min-inline-size: 80px">
+                <span>{{ item.raw.reporter.account_name }}</span>
               </div>
             </div>
           </template>
@@ -278,12 +278,12 @@ function openNotificationModal(user: any) {
             </div>
           </template>
           <template #item.message="{ item }">
-            <div class="my-2" style="min-width: 150px; max-width: 280px">
+            <div class="my-2" style="max-inline-size: 280px; min-inline-size: 150px">
               {{ item.raw.message }}
             </div>
           </template>
           <template #item.report_content="{ item }">
-            <div class="my-2" style="min-width: 150px; max-width: 280px">
+            <div class="my-2" style="max-inline-size: 280px; min-inline-size: 150px">
               {{ item.raw.report_content }}
             </div>
           </template>

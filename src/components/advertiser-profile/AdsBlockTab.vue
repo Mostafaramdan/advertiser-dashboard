@@ -34,7 +34,7 @@ const headers: any = [
   },
   {
     title: 'اسم الحاظر',
-    key: 'blocker.username',
+    key: 'blocker.account_name',
   },
   {
     title: 'تاريخ الحظر',
@@ -154,13 +154,13 @@ function openNotificationModal(user: any) {
         class="app-table"
         :no-data-text="isLoadingData ? t('general.loading') : t('general.no_data')"
       >
-        <template #item.blocker.username="{ item }">
-          <div style="min-width: 150px">
-            {{ item.raw.blocker.username }}
+        <template #item.blocker.account_name="{ item }">
+          <div style="min-inline-size: 150px">
+            {{ item.raw.blocker.account_name }}
           </div>
         </template>
         <template #item.blocker.country_name="{ item }">
-          <div style="min-width: 100px">
+          <div style="min-inline-size: 100px">
             {{ item.raw.blocker.country_name }}
           </div>
         </template>

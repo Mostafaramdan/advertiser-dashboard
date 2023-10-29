@@ -43,7 +43,7 @@ const {
 const headers: any = [
   {
     title: 'اسم المعلق',
-    key: 'commenter.username',
+    key: 'commenter.account_name',
   },
   {
     title: 'تاريخ التعليق',
@@ -251,9 +251,9 @@ function openNotificationModal(user: any) {
         class="app-table"
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
-        <template #item.commenter.username="{ item }">
+        <template #item.commenter.account_name="{ item }">
           <div style="min-inline-size: 150px">
-            {{ item.raw.commenter.username }}
+            {{ item.raw.commenter.account_name }}
           </div>
         </template>
         <template #item.comment="{ item }">

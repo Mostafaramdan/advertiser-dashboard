@@ -1,6 +1,7 @@
 type User = {
   id: number
   username: string
+  account_name: string
   email: string
   phone: string
   image_path: string

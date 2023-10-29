@@ -38,7 +38,7 @@ const headers: any = [
   },
   {
     title: 'اسم المبلغ',
-    key: 'reporter.username',
+    key: 'reporter.account_name',
   },
   {
     title: 'تاريخ الابلاغ',
@@ -245,18 +245,18 @@ function openNotificationModal(user: any) {
         class="app-table"
         :no-data-text="isLoadingData ? t('general.loading') : t('general.no_data')"
       >
-        <template #item.reporter.username="{ item }">
-          <div style="min-width: 150px">
-            {{ item.raw.reporter.username }}
+        <template #item.reporter.account_name="{ item }">
+          <div style="min-inline-size: 150px">
+            {{ item.raw.reporter.account_name }}
           </div>
         </template>
         <template #item.report_content="{ item }">
-          <div style="width: 250px">
+          <div style="inline-size: 250px">
             {{ item.raw.report_content }}
           </div>
         </template>
         <template #item.reporter.country_name="{ item }">
-          <div style="min-width: 100px">
+          <div style="min-inline-size: 100px">
             {{ item.raw.reporter.country_name }}
           </div>
         </template>
