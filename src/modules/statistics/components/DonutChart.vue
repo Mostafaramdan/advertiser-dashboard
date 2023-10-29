@@ -11,8 +11,11 @@ const props = withDefaults(
     title: string
     series: number[]
     labels: string[]
+    height: number
   }>(),
-  {},
+  {
+    height: 350,
+  },
 )
 // #endregion
 
@@ -46,7 +49,7 @@ const chartData = computed(() => {
         :options="chartData.options"
         :series="chartData.series"
         type="donut"
-        height="350px"
+        :height="`${height}px`"
         v-if="chartData.series.some((s) => s)"
       />
       <div v-else class="text-h6">

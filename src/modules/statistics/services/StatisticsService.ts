@@ -44,6 +44,18 @@ class StatisticsService {
   getDocumentsStats(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/attachments`, { params })
   }
+
+  getDailyStats(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/general/daily_statistics`, { params })
+  }
+
+  getMonthlyStats(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/general/monthly_statistics`, { params })
+  }
+
+  getGeneralStats(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/general/general_statistics`, { params })
+  }
 }
 
 export const statisticsService = new StatisticsService()

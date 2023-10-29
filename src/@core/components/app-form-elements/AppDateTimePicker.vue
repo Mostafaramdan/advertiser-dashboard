@@ -174,7 +174,6 @@ const elementId = computed(() => {
                 :model-value="modelValue"
                 :placeholder="props.placeholder"
                 class="flat-picker-custom-style"
-                :disabled="isReadonly.value"
                 @on-open="isCalendarOpen = true"
                 @on-close="isCalendarOpen = false"
                 @update:model-value="emitModelValue"
