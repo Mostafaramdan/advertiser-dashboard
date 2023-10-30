@@ -16,7 +16,7 @@ const vuetifyTheme = useTheme()
 const isLoading = ref<boolean>(false)
 const data = ref<DailyStatsData | null>(null)
 const params = reactive({
-  date: new Date(),
+  date: null,
 })
 
 // #endregion
