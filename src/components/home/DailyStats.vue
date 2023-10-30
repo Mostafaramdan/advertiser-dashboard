@@ -6,6 +6,7 @@ import { statisticsService } from '@/modules/statistics/services/StatisticsServi
 import { hexToRgb } from '@layouts/utils'
 import VueApexCharts from 'vue3-apexcharts'
 import { useTheme } from 'vuetify'
+import PaymentStatsCard from './PaymentStatsCard.vue'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -384,25 +385,7 @@ function getData() {
                 <div class="border rounded mt-3 pa-4">
                   <VRow>
                     <VCol v-for="item in paymentsStats" :key="item.title" cols="12" sm="6" md="4">
-                      <div class="d-flex align-center">
-                        <VAvatar rounded size="33" :color="item.color" variant="tonal" class="me-2">
-                          <VIcon size="25" :icon="item.icon" />
-                        </VAvatar>
-
-                        <h6 class="text-base font-weight-medium">
-                          {{ item.title }}
-                        </h6>
-                      </div>
-                      <h6 class="text-h5 my-2">
-                        {{ item.amount }}
-                      </h6>
-                      <VProgressLinear
-                        :model-value="item.progress"
-                        :color="item.color"
-                        height="6"
-                        rounded
-                        rounded-bar
-                      />
+                      <PaymentStatsCard :stats="item" />
                     </VCol>
                   </VRow>
                 </div>
@@ -410,25 +393,7 @@ function getData() {
                 <div class="border rounded mt-3 pa-4">
                   <VRow>
                     <VCol v-for="item in requestsStats" :key="item.title" cols="12" sm="6" md="4">
-                      <div class="d-flex align-center">
-                        <VAvatar rounded size="33" :color="item.color" variant="tonal" class="me-2">
-                          <VIcon size="25" :icon="item.icon" />
-                        </VAvatar>
-
-                        <h6 class="text-base font-weight-medium">
-                          {{ item.title }}
-                        </h6>
-                      </div>
-                      <h6 class="text-h5 my-2">
-                        {{ item.amount }}
-                      </h6>
-                      <VProgressLinear
-                        :model-value="item.progress"
-                        :color="item.color"
-                        height="6"
-                        rounded
-                        rounded-bar
-                      />
+                      <PaymentStatsCard :stats="item" />
                     </VCol>
                   </VRow>
                 </div>

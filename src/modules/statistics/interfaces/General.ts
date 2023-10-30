@@ -24,7 +24,7 @@ export interface DailyStatsData {
   }
 }
 
-export interface CountryStats {
+export interface UsersCountriesStatsItem {
   id: number
   count: number
   name: string
@@ -43,9 +43,10 @@ export interface MonthlyStatsData {
     chats: number
     ads_content: number
   }
-  advertisers_countries: CountryStats[]
-  users_countries: CountryStats[]
+  advertisers_countries: UsersCountriesStatsItem[]
+  users_countries: UsersCountriesStatsItem[]
 }
+
 export interface GeneralStatsData {
   stats: {
     advertisers: number
@@ -68,4 +69,12 @@ export interface GeneralStatsData {
     ads_count: number
     requests_count: number
   }[]
+}
+
+export interface PaymentStatsCardProps {
+  title: string
+  amount: number
+  icon: string
+  color: string
+  progress: number
 }

@@ -3,6 +3,7 @@ import DonutChart from '@/modules/statistics/components/DonutChart.vue'
 import StatsFilter from '@/modules/statistics/components/StatsFilter.vue'
 import type { MonthlyStatsData } from '@/modules/statistics/interfaces/General'
 import { statisticsService } from '@/modules/statistics/services/StatisticsService'
+import UsersCountriesStatsCard from './UsersCountriesStatsCard.vue'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -138,93 +139,17 @@ function onApplyFilter(filters: any) {
               </VCol>
 
               <VCol cols="12" md="6" class="py-0 mb-4">
-                <VCard title="المعلنين حسب الدول" class="h-100" flat border>
-                  <div style="overflow: auto; max-block-size: 315px">
-                    <VCardText>
-                      <VList class="card-list" v-if="data.advertisers_countries.length">
-                        <VListItem v-for="country in data.advertisers_countries" :key="country.id">
-                          <template #prepend>
-                            <VAvatar size="34" color="secondary" :image="country.image_path" />
-                          </template>
-
-                          <VListItemTitle class="font-weight-medium">
-                            {{ country.count }}
-                          </VListItemTitle>
-                          <VListItemSubtitle>
-                            {{ country.name }}
-                          </VListItemSubtitle>
-
-                          <template #append>
-                            <div
-                              :class="`d-flex align-center font-weight-medium ${
-                                country.percentage > 0 ? 'text-success' : 'text-error'
-                              }`"
-                            >
-                              <VIcon
-                                :icon="
-                                  country.percentage > 0
-                                    ? 'tabler-chevron-up'
-                                    : 'tabler-chevron-down'
-                                "
-                                size="18"
-                                class="me-1"
-                              />
-                              <span>{{ Math.abs(country.percentage) }}%</span>
-                            </div>
-                          </template>
-                        </VListItem>
-                      </VList>
-                      <div v-else class="text-h6">
-                        {{ t('general.no_data') }}
-                      </div>
-                    </VCardText>
-                  </div>
-                </VCard>
+                <UsersCountriesStatsCard
+                  title="المعلنين حسب الدول"
+                  :data="data.advertisers_countries"
+                />
               </VCol>
 
               <VCol cols="12" md="6" class="py-0 mb-4">
-                <VCard title="المستخدمين حسب الدول" class="h-100" flat border>
-                  <div style="overflow: auto; max-block-size: 315px">
-                    <VCardText>
-                      <VList class="card-list" v-if="data.users_countries.length">
-                        <VListItem v-for="country in data.users_countries" :key="country.id">
-                          <template #prepend>
-                            <VAvatar size="34" color="secondary" :image="country.image_path" />
-                          </template>
-
-                          <VListItemTitle class="font-weight-medium">
-                            {{ country.count }}
-                          </VListItemTitle>
-                          <VListItemSubtitle>
-                            {{ country.name }}
-                          </VListItemSubtitle>
-
-                          <template #append>
-                            <div
-                              :class="`d-flex align-center font-weight-medium ${
-                                country.percentage > 0 ? 'text-success' : 'text-error'
-                              }`"
-                            >
-                              <VIcon
-                                :icon="
-                                  country.percentage > 0
-                                    ? 'tabler-chevron-up'
-                                    : 'tabler-chevron-down'
-                                "
-                                size="18"
-                                class="me-1"
-                              />
-                              <span>{{ Math.abs(country.percentage) }}%</span>
-                            </div>
-                          </template>
-                        </VListItem>
-                      </VList>
-                      <div v-else class="text-h6">
-                        {{ t('general.no_data') }}
-                      </div>
-                    </VCardText>
-                  </div>
-                </VCard>
+                <UsersCountriesStatsCard
+                  title="المستخدمين حسب الدول"
+                  :data="data.users_countries"
+                />
               </VCol>
             </VRow>
           </template>
