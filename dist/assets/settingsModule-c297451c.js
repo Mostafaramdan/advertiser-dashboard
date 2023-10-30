@@ -1,1 +1,0 @@
-import{p as e,s,O as t,d as n,y as o,ai as a}from"./index-6b2e2ed9.js";const c={class:"settings-container"},u=e({__name:"settingsModule",setup(r){return(i,_)=>(s(),t("section",c,[n(o(a))]))}});export{u as default};
