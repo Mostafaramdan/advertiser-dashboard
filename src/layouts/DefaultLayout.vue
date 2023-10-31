@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import NavBarNotifications from '@/layouts/components/NavBarNotifications.vue'
 import { authService } from '@/services/AuthService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useSkins } from '@core/composable/useSkins'
@@ -520,7 +521,7 @@ function getPermissions() {
         <NavbarThemeSwitcher />
 
         <VSpacer />
-
+        <NavBarNotifications class="me-2" />
         <UserProfile />
       </div>
     </template>

@@ -260,6 +260,16 @@ const router = createRouter({
       },
     },
     {
+      path: '/dashboard-notifications',
+      name: 'dashboard-notifications-page',
+      component: () => import('@/pages/DashboardNotificationsPage.vue'),
+      meta: {
+        layout: 'default',
+        // TODO: Add permission
+        // hasPermission: 'view_notifications',
+      },
+    },
+    {
       path: '/chat',
       name: 'chat-page',
       component: () => import('@/pages/ChatPage.vue'),

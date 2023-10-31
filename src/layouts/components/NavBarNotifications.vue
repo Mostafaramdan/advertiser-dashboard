@@ -1,79 +1,101 @@
 <script lang="ts" setup>
-import type { Notification } from '@layouts/types'
-
-import avatar3 from '@images/avatars/avatar-3.png'
-import avatar4 from '@images/avatars/avatar-4.png'
-import avatar5 from '@images/avatars/avatar-5.png'
-import paypal from '@images/svg/paypal.svg'
-
-const notifications = ref<Notification[]>([
+const notifications = ref<any>([
   {
-    id: 1,
-    img: avatar4,
-    title: 'Congratulation Flora! 🎉',
-    subtitle: 'Won the monthly best seller badge',
-    time: 'Today',
-    isSeen: true,
+    id: '1',
+    title: 'Lorem Ipsum 1',
+    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    notification_type: 'Type A',
+    created_at: '2023-10-10T08:30:00.000Z',
+    action_by: {
+      id: '101',
+      role: 'Admin',
+      account_name: 'admin_user1',
+      image_path: 'https://picsum.photos/200/300/?random=1',
+    },
+    is_seen: true,
   },
   {
-    id: 2,
-    text: 'Tom Holland',
-    title: 'New user registered.',
-    subtitle: '5 hours ago',
-    time: 'Yesterday',
-    isSeen: false,
+    id: '2',
+    title: 'Lorem Ipsum 2',
+    body: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    notification_type: 'Type B',
+    created_at: '2023-10-11T14:45:00.000Z',
+    action_by: {
+      id: '102',
+      role: 'User',
+      account_name: 'user123',
+      image_path: 'https://picsum.photos/200/300/?random=2',
+    },
+    is_seen: false,
   },
   {
-    id: 3,
-    img: avatar5,
-    title: 'New message received 👋🏻',
-    subtitle: 'You have 10 unread messages',
-    time: '11 Aug',
-    isSeen: true,
+    id: '3',
+    title: 'Lorem Ipsum 3',
+    body: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+    notification_type: 'Type C',
+    created_at: '2023-10-12T10:15:00.000Z',
+    action_by: {
+      id: '103',
+      role: 'Manager',
+      account_name: 'manager456',
+      image_path: 'https://picsum.photos/200/300/?random=3',
+    },
+    is_seen: true,
   },
   {
-    id: 4,
-    img: paypal,
-    title: 'Paypal',
-    subtitle: 'Received Payment',
-    time: '25 May',
-    isSeen: false,
-    color: 'error',
+    id: '4',
+    title: 'Lorem Ipsum 4',
+    body: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.',
+    notification_type: 'Type A',
+    created_at: '2023-10-13T19:20:00.000Z',
+    action_by: {
+      id: '104',
+      role: 'Admin',
+      account_name: 'admin_user2',
+      image_path: 'https://picsum.photos/200/300/?random=4',
+    },
+    is_seen: false,
   },
   {
-    id: 5,
-    img: avatar3,
-    title: 'Received Order 📦',
-    subtitle: 'New order received from john',
-    time: '19 Mar',
-    isSeen: true,
+    id: '5',
+    title: 'Lorem Ipsum 5',
+    body: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.',
+    notification_type: 'Type B',
+    created_at: '2023-10-14T16:10:00.000Z',
+    action_by: {
+      id: '105',
+      role: 'User',
+      account_name: 'user789',
+      image_path: 'https://picsum.photos/200/300/?random=5',
+    },
+    is_seen: true,
   },
 ])
 
 const removeNotification = (notificationId: number) => {
-  notifications.value.forEach((item, index) => {
+  notifications.value.forEach((item: any, index: number) => {
     if (notificationId === item.id) notifications.value.splice(index, 1)
   })
 }
 
 const markRead = (notificationId: number[]) => {
-  notifications.value.forEach((item) => {
+  notifications.value.forEach((item: any) => {
     notificationId.forEach((id) => {
-      if (id === item.id) item.isSeen = true
+      if (id === item.id) item.is_seen = true
     })
   })
 }
 
 const markUnRead = (notificationId: number[]) => {
-  notifications.value.forEach((item) => {
+  notifications.value.forEach((item: any) => {
     notificationId.forEach((id) => {
-      if (id === item.id) item.isSeen = false
+      if (id === item.id) item.is_seen = false
     })
   })
 }
 
-const handleNotificationClick = (notification: Notification) => {
-  if (!notification.isSeen) markRead([notification.id])
+const handleNotificationClick = (notification: any) => {
+  if (!notification.is_seen) markRead([notification.id])
 }
 </script>
 
