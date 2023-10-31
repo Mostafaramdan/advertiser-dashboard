@@ -83,3 +83,17 @@ export interface AdRequestLogItem {
   details: string
   action_type: string
 }
+
+export interface ChatBlockLogsItem {
+  id: number
+  reporter: {
+    id: number
+    username: string
+    email: string
+    phone: string
+    image_path: string
+    country_name: string
+  }
+  created_at: string
+  report_content: string
+}

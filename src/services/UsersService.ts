@@ -36,6 +36,10 @@ class UsersService {
     return axios.get(`${contextPath}/attachments/${id}/logs`, { params })
   }
 
+  getChatBlockLogs(id: number, params: any): AxiosPromise {
+    return axios.get(`${contextPath}/${id}/chat_blocks_logs`, { params })
+  }
+
   /** **************** delete ******************/
   deleteItem(id: number): AxiosPromise {
     return axios.delete(`${contextPath}/users/${id}`)

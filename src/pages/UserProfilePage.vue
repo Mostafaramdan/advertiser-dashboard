@@ -14,6 +14,9 @@ const LicensesDocumentsTab = defineAsyncComponent(
 const AdsRequestsLogsTab = defineAsyncComponent(
   () => import('@/components/user-profile/AdsRequestsLogsTab.vue'),
 )
+const ChatBlockLogsTab = defineAsyncComponent(
+  () => import('@/components/user-profile/ChatBlockLogsTab.vue'),
+)
 const route = useRoute()
 const router = useRouter()
 const { hasPermission } = useAuthStore()
@@ -45,6 +48,12 @@ const tabs = computed(() => {
       value: 'ads-requests-logs',
       component: AdsRequestsLogsTab,
       show: hasPermission('show_user_ads_request_logs'),
+    },
+    {
+      title: 'سجل حظر المحادثات',
+      value: 'chat-block-logs',
+      component: ChatBlockLogsTab,
+      show: hasPermission('show_chat_blocks'),
     },
   ]
 })
