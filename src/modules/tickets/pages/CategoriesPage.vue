@@ -165,13 +165,16 @@ getPageData()
         </template>
 
         <template #item.user_types="{ item }">
-          <div class="d-flex" v-if="item.raw.user_types">
-            <VChip variant="outlined" color="primary" label>
-              {{ USERS_TYPES[item.raw.user_types[0]] }}
-            </VChip>
-            <span class="ms-1" v-if="item.raw.user_types.length > 1">
-              +{{ item.raw.user_types.length - 1 }}</span
+          <div class="d-flex gap-2" v-if="item.raw.user_types">
+            <VChip
+              variant="outlined"
+              color="primary"
+              label
+              v-for="type in item.raw.user_types"
+              :key="type"
             >
+              {{ USERS_TYPES[type] }}
+            </VChip>
           </div>
         </template>
 
