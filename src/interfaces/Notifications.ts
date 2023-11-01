@@ -16,3 +16,19 @@ export interface NotificationCreateModalProps {
   title: string
   message: string
 }
+
+export interface DashboardNotification {
+  id: number
+  title: string
+  body: string
+  type: string
+  is_seen: boolean
+  created_at: string
+  action_by: {
+    id: number
+    account_name: string
+    image_path: string
+    role: string
+  }
+  model_id: number
+}
