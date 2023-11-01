@@ -22,7 +22,7 @@ const props = withDefaults(
 </script>
 
 <template>
-  <VCard title="المستخدمين حسب الدول" class="h-100" flat border>
+  <VCard :title="title" class="h-100" flat border>
     <div style="overflow: auto; max-block-size: 315px">
       <VCardText>
         <VList class="card-list" v-if="data.length">

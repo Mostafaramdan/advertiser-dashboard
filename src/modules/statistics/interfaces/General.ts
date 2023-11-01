@@ -7,6 +7,7 @@ export interface DailyStatsData {
     new: number
     opened: number
     finished: number
+    lated: number
     average_time_in_hours: number
     all: number
     finished_percentage: number

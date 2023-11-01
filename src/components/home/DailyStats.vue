@@ -42,6 +42,12 @@ const ticketsStats = computed(() => {
       subtitle: tickets.opened,
     },
     {
+      avatarColor: 'error',
+      avatarIcon: 'tabler-clock-cancel',
+      title: 'التذاكر المتأخرة',
+      subtitle: tickets.lated,
+    },
+    {
       avatarColor: 'success',
       avatarIcon: 'tabler-lock-check',
       title: 'التذاكر المنتهية',
@@ -317,7 +323,7 @@ function getData() {
             <VRow class="my-0">
               <VCol cols="12" lg="6" class="py-0 mb-4">
                 <DonutChart
-                  :height="$vuetify.display.smAndDown ? 350 : 200"
+                  :height="$vuetify.display.smAndDown ? 350 : 260"
                   title="الإشتراكات"
                   :labels="data.subscriptions.labels"
                   :series="data.subscriptions.series"
