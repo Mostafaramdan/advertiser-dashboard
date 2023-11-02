@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseNotificationsHelpers } from '@/composables/UseNotificationsHelpers'
+import { initFirebase } from '@/firebase/index'
 import type { DashboardNotification } from '@/interfaces/Notifications'
 import { dashboardNotificationsService } from '@/services/DashboardNotificationsService'
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
@@ -11,7 +12,6 @@ import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 // #region Variables
 const router = useRouter()
 const {
-  metaData,
   confirmModal,
   isLoading,
   unSeenCount,
@@ -36,13 +36,14 @@ const params = reactive({
  **************************************/
 // #region Computed
 const tableData = computed(() => notificationStore.latestNotifications)
-
+const metaData = computed(() => notificationStore.latestNotificationsMeta)
 // #endregion
 
 /***************************************
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
+initFirebase()
 getPageData()
 
 // handle delete item on action deleteItem is completed
@@ -71,7 +72,7 @@ function getPageData(): void {
     .then((res) => {
       const { data, meta, unseen_count } = res.data
       notificationStore.setLatestNotifications(data)
-      metaData.value = meta
+      notificationStore.setLatestNotificationsMeta(meta)
       notificationStore.setUnseenCount(unseen_count)
     })
     .finally(() => {
@@ -85,7 +86,7 @@ function getPageData(): void {
  * @return  {void}
  */
 function deleteItemFromTableData(item: DashboardNotification): void {
-  const targetIndex = tableData.value.findIndex((i: any) => i.id === item.id)
+  const targetIndex = tableData.value.findIndex((i: any) => i.uuid === item.uuid)
 
   if (targetIndex === -1) return
   tableData.value.splice(targetIndex, 1)
@@ -151,7 +152,7 @@ function goToNotificationsPage() {
               v-loading="isLoading"
               style="min-block-size: 100px"
             >
-              <template v-for="(notification, index) in tableData" :key="notification.title">
+              <template v-for="(notification, index) in tableData" :key="notification.uuid">
                 <VDivider v-if="index > 0" />
                 <VListItem
                   link
@@ -174,7 +175,7 @@ function goToNotificationsPage() {
                     </VListItemAction>
                   </template>
 
-                  <VListItemTitle>{{ notification.title }}</VListItemTitle>
+                  <VListItemTitle class="text-h6 mb-1">{{ notification.title }}</VListItemTitle>
                   <VListItemSubtitle>{{ notification.body }}</VListItemSubtitle>
                   <span class="text-xs text-disabled">{{
                     formatDateTime(notification.created_at)

@@ -14,6 +14,14 @@ class AuthService {
     return axios.post(`${this.contextPath}/login`, payload)
   }
 
+  setFcmToken(fcm_token: string): AxiosPromise {
+    return axios.post(`set_fcm_token`, { fcm_token })
+  }
+
+  deleteFcmToken(fcm_token: string): AxiosPromise {
+    return axios.post(`delete_fcm_token`, { fcm_token })
+  }
+
   logout(): AxiosPromise {
     return axios.post(`${this.contextPath}/logout`)
   }

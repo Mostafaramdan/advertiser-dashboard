@@ -27,6 +27,7 @@
     "apexcharts-clevision": "3.28.5",
     "axios": "1.4.0",
     "chart.js": "^4.4.0",
+    "firebase": "^10.5.2",
     "jwt-decode": "3.1.2",
     "lightgallery": "^2.7.2",
     "lodash": "^4.17.21",

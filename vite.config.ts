@@ -1,14 +1,11 @@
-import { fileURLToPath } from 'node:url'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import { fileURLToPath } from 'node:url'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import vuetify from 'vite-plugin-vuetify'
-
-// @ts-expect-error Known error: https://github.com/sxzz/unplugin-vue-macros/issues/257#issuecomment-1410752890
-import DefineOptions from 'unplugin-vue-define-options/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -33,11 +30,8 @@ export default defineConfig({
     VueI18nPlugin({
       runtimeOnly: true,
       compositionOnly: true,
-      include: [
-        fileURLToPath(new URL('./src/plugins/i18n/locales/**', import.meta.url)),
-      ],
+      include: [fileURLToPath(new URL('./src/plugins/i18n/locales/**', import.meta.url))],
     }),
-    DefineOptions(),
   ],
   define: { 'process.env': {} },
   resolve: {
@@ -48,19 +42,35 @@ export default defineConfig({
       '@layouts': fileURLToPath(new URL('./src/@layouts', import.meta.url)),
       '@images': fileURLToPath(new URL('./src/assets/images/', import.meta.url)),
       '@styles': fileURLToPath(new URL('./src/styles/', import.meta.url)),
-      '@configured-variables': fileURLToPath(new URL('./src/styles/variables/_template.scss', import.meta.url)),
+      '@configured-variables': fileURLToPath(
+        new URL('./src/styles/variables/_template.scss', import.meta.url),
+      ),
       '@validators': fileURLToPath(new URL('./src/@core/utils/validators', import.meta.url)),
-      'apexcharts': fileURLToPath(new URL('node_modules/apexcharts-clevision', import.meta.url)),
+      apexcharts: fileURLToPath(new URL('node_modules/apexcharts-clevision', import.meta.url)),
     },
   },
   build: {
     chunkSizeWarningLimit: 5000,
+    rollupOptions: {
+      input: {
+        // the default entry point
+        app: './index.html',
+        // 1️⃣
+        'service-worker': 'src/firebase/firebaseSw.js',
+      },
+      output: {
+        // 2️⃣
+        entryFileNames: (assetInfo) => {
+          return assetInfo.name === 'service-worker'
+            ? 'firebase-messaging-sw.js' // put service worker in root
+            : 'assets/js/[name]-[hash].js' // others in `assets/js/`
+        },
+      },
+    },
   },
   optimizeDeps: {
     exclude: ['vuetify'],
-    entries: [
-      './src/**/*.vue',
-    ],
+    entries: ['./src/**/*.vue'],
   },
   css: {
     preprocessorOptions: {

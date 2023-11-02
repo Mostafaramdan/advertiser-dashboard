@@ -15,12 +15,12 @@ class DashboardNotificationsService {
   }
 
   /** **************** delete ******************/
-  deleteItem(id: number): AxiosPromise {
+  deleteItem(id: string): AxiosPromise {
     return axios.delete(`${this.contextPath}/${id}`)
   }
 
   /** **************** patch ******************/
-  toggleSeen(id: number): AxiosPromise {
+  toggleSeen(id: string): AxiosPromise {
     return axios.patch(`${this.contextPath}/toggle_seen`, {
       notification_id: id,
     })

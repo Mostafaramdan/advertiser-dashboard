@@ -18,7 +18,7 @@ export interface NotificationCreateModalProps {
 }
 
 export interface DashboardNotification {
-  id: number
+  uuid: string
   title: string
   body: string
   type: string

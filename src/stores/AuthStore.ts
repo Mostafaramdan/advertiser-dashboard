@@ -1,13 +1,15 @@
 import type { User } from '@/interfaces/Auth'
-
+import { authService } from '@/services/AuthService'
 interface State {
   authUser: User | null
+  fcmToken: string | null
 }
 
 export const useAuthStore = defineStore('authStore', {
   state: (): State => {
     return {
       authUser: JSON.parse(localStorage.getItem('authUser') as string) || null,
+      fcmToken: localStorage.getItem('fcmToken') || null,
     }
   },
   getters: {
@@ -57,9 +59,23 @@ export const useAuthStore = defineStore('authStore', {
     clearAuthUser() {
       this.authUser = null
       localStorage.removeItem('authUser')
+      localStorage.removeItem('fcmToken')
     },
     setUserPermissions(permissions: any) {
       if (this.authUser) this.authUser.permissions = permissions
+    },
+    setFcmToken(fcm_token: string) {
+      console.log('fcm_token', fcm_token)
+      this.fcmToken = fcm_token
+      localStorage.setItem('fcmToken', fcm_token)
+      authService.setFcmToken(fcm_token)
+    },
+    deleteFcmToken() {
+      if (!this.fcmToken) return
+      authService.deleteFcmToken(this.fcmToken).then(() => {
+        localStorage.removeItem('fcmToken')
+        this.fcmToken = null
+      })
     },
   },
 })

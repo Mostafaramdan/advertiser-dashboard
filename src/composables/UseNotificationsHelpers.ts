@@ -1,4 +1,3 @@
-import type { MetaData } from '@/interfaces/Shared'
 import type { DashboardNotification } from '@/interfaces/Notifications'
 import { useNotificationsStore } from '@/stores/Notifications'
 
@@ -8,7 +7,6 @@ export function UseNotificationsHelpers() {
    **************************************/
   // #region Variables
   const notificationStore = useNotificationsStore()
-  const metaData = ref<MetaData | null>(null)
   const confirmModal = ref<any>()
   const isLoading = ref<boolean>(false)
   // #endregion
@@ -33,7 +31,10 @@ export function UseNotificationsHelpers() {
   }
 
   function toggleNotificationSeen(notification: DashboardNotification): void {
-    notificationStore.toggleNotificationSeen(notification)
+    isLoading.value = true
+    notificationStore.toggleNotificationSeen(notification).then(() => {
+      isLoading.value = false
+    })
   }
   function handleNotificationClick(notification: DashboardNotification): void {
     console.log('click', notification)
@@ -56,7 +57,6 @@ export function UseNotificationsHelpers() {
   // #endregion
 
   return {
-    metaData,
     confirmModal,
     isLoading,
     notificationStore,

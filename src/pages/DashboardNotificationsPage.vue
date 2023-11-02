@@ -10,7 +10,6 @@ import { dashboardNotificationsService } from '@/services/DashboardNotifications
  **************************************/
 // #region Variables
 const {
-  metaData,
   confirmModal,
   isLoading,
   unSeenCount,
@@ -34,6 +33,7 @@ const params = reactive({
  **************************************/
 // #region Computed
 const tableData = computed(() => notificationStore.notificationsList)
+const metaData = computed(() => notificationStore.notificationsListMeta)
 
 const pageActionsButtons = computed<pageAction[]>(() => {
   return [
@@ -80,12 +80,13 @@ onUnmounted(() => {
 // #region Functions
 function getPageData(): void {
   isLoading.value = true
+  if (params.page === 1) notificationStore.setNotificationsList([])
   dashboardNotificationsService
     .getNotifications(params)
     .then((res) => {
       const { data, meta, unseen_count } = res.data
       notificationStore.setNotificationsList(data)
-      metaData.value = meta
+      notificationStore.setNotificationsListMeta(meta)
       notificationStore.setUnseenCount(unseen_count)
     })
     .finally(() => {
@@ -114,7 +115,7 @@ function onChangeItemsPerPage(value: number): void {
  * @return  {void}
  */
 function deleteItemFromTableData(item: DashboardNotification): void {
-  const targetIndex = tableData.value.findIndex((i: any) => i.id === item.id)
+  const targetIndex = tableData.value.findIndex((i: any) => i.uuid === item.uuid)
 
   if (targetIndex === -1) return
   tableData.value.splice(targetIndex, 1)
@@ -154,58 +155,59 @@ function handleShowFilter(): void {
           @reload-data="reloadPageData"
         />
 
-        <VList
-          :lines="false"
-          class="notifications-list rounded-0 py-0 border"
-          v-loading="isLoading"
-          style="min-block-size: 150px"
-        >
-          <template v-for="(notification, index) in tableData" :key="notification.id">
-            <VDivider v-if="index > 0" />
-            <VListItem link class="align-start pa-2" @click="handleNotificationClick(notification)">
-              <template #prepend>
-                <VAvatar size="45" variant="outlined">
-                  <VImg
-                    v-if="notification.action_by.image_path"
-                    :src="notification.action_by.image_path"
-                    cover
-                  />
-                  <span v-else>!</span>
-                </VAvatar>
-              </template>
-
-              <VListItemTitle class="font-weight-medium">{{ notification.title }}</VListItemTitle>
-              <VListItemSubtitle class="my-1">{{ notification.body }}</VListItemSubtitle>
-              <span class="text-sm text-disabled">{{
-                formatDateTime(notification.created_at)
-              }}</span>
-
-              <!-- Slot: Append -->
-              <template #append>
-                <div class="d-flex flex-column align-center gap-2">
-                  <IconBtn size="small" @click.stop="toggleNotificationSeen(notification)">
-                    <VIcon
-                      size="15"
-                      icon="tabler-circle-filled"
-                      :color="notification.is_seen ? 'success' : 'error'"
+        <div v-loading="isLoading" style="min-block-size: 150px">
+          <VList :lines="false" class="notifications-list rounded-0 py-0 border">
+            <template v-for="(notification, index) in tableData" :key="notification.uuid">
+              <VDivider v-if="index > 0" />
+              <VListItem
+                link
+                class="align-start pa-2"
+                @click="handleNotificationClick(notification)"
+              >
+                <template #prepend>
+                  <VAvatar size="45" variant="outlined">
+                    <VImg
+                      v-if="notification.action_by.image_path"
+                      :src="notification.action_by.image_path"
+                      cover
                     />
-                  </IconBtn>
-                  <IconBtn size="small" @click.stop="showConfirmDeleteItem(notification)">
-                    <VIcon size="20" icon="tabler-trash" />
-                  </IconBtn>
-                </div>
-              </template>
-            </VListItem>
-          </template>
+                    <span v-else>!</span>
+                  </VAvatar>
+                </template>
 
-          <VListItem
-            v-show="!tableData.length && !isLoading"
-            class="text-center text-medium-emphasis"
-            style="block-size: 56px"
-          >
-            <VListItemTitle> لا توجد اشعارات</VListItemTitle>
-          </VListItem>
-        </VList>
+                <VListItemTitle class="font-weight-medium">{{ notification.title }}</VListItemTitle>
+                <VListItemSubtitle class="my-1">{{ notification.body }}</VListItemSubtitle>
+                <span class="text-sm text-disabled">{{
+                  formatDateTime(notification.created_at)
+                }}</span>
+
+                <!-- Slot: Append -->
+                <template #append>
+                  <div class="d-flex flex-column align-center gap-2">
+                    <IconBtn size="small" @click.stop="toggleNotificationSeen(notification)">
+                      <VIcon
+                        size="15"
+                        icon="tabler-circle-filled"
+                        :color="notification.is_seen ? 'success' : 'error'"
+                      />
+                    </IconBtn>
+                    <IconBtn size="small" @click.stop="showConfirmDeleteItem(notification)">
+                      <VIcon size="20" icon="tabler-trash" />
+                    </IconBtn>
+                  </div>
+                </template>
+              </VListItem>
+            </template>
+
+            <VListItem
+              v-show="!tableData.length && !isLoading"
+              class="text-center text-medium-emphasis"
+              style="block-size: 56px"
+            >
+              <VListItemTitle> لا توجد اشعارات</VListItemTitle>
+            </VListItem>
+          </VList>
+        </div>
         <PagePagination
           v-model:page="params.page"
           :meta-data="metaData"
