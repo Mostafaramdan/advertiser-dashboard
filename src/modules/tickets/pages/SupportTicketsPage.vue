@@ -154,7 +154,8 @@ function onApplyFilter(filters: any) {
       v-model:showFilter="showFilter"
       @apply-filter="onApplyFilter"
     />
-    <VCard title="تذاكر الدعم" class="page-card">
+    <VCard class="page-card">
+      <template #title> تذاكر الدعم {{ metaData && `(${metaData.total})` }} </template>
       <VCardText>
         <SupportTicketsStats />
         <PageActions

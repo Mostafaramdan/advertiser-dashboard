@@ -9,6 +9,7 @@ export const TICKETS_STATUSES = new Map([
   ['opened', { label: 'مفتوحة' }],
   ['answered', { label: 'مجابة' }],
   ['waiting', { label: 'مؤجلة' }],
+  ['delayed', { label: 'متأخرة' }],
   ['transferred', { label: 'محولة' }],
   ['cancelled', { label: 'مقفلة' }],
   ['finished', { label: 'منتهية' }],

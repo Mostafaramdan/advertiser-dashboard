@@ -18,25 +18,30 @@ const isLoading = ref<boolean>(false)
 // #region Computed
 const stats = computed(() => {
   return [
-    {
-      key: 'total',
-      icon: 'tabler-ticket',
-      color: 'primary',
-    },
+    // {
+    //   key: 'total',
+    //   icon: 'tabler-ticket',
+    //   color: 'primary',
+    // },
     {
       key: 'new',
       icon: 'tabler-file-plus',
-      color: 'info',
+      color: 'primary',
     },
     {
       key: 'opened',
       icon: 'tabler-file-check',
-      color: 'dark',
+      color: 'info',
     },
     {
       key: 'answered',
       icon: 'tabler-checks',
       color: 'success',
+    },
+    {
+      key: 'delayed',
+      icon: 'tabler-clock-cancel',
+      color: 'error',
     },
     {
       key: 'transferred',
@@ -51,7 +56,7 @@ const stats = computed(() => {
     {
       key: 'cancelled',
       icon: 'tabler-lock',
-      color: 'error',
+      color: 'dark',
     },
     {
       key: 'finished',
