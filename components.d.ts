@@ -81,7 +81,6 @@ declare module 'vue' {
     MarketingPresentationTab: typeof import('./src/components/advertiser-profile/MarketingPresentationTab.vue')['default']
     MonthlyStats: typeof import('./src/components/home/MonthlyStats.vue')['default']
     MoreBtn: typeof import('./src/@core/components/MoreBtn.vue')['default']
-    NavBarNotifications: typeof import('./src/components/dashboard-notifications/NavBarNotifications.vue')['default']
     NoteModal: typeof import('./src/components/user-profile/licenses-documents-tab/NoteModal.vue')['default']
     NotesHistory: typeof import('./src/components/user-profile/licenses-documents-tab/NotesHistory.vue')['default']
     NotificationCreateModal: typeof import('./src/components/notifications/NotificationCreateModal.vue')['default']

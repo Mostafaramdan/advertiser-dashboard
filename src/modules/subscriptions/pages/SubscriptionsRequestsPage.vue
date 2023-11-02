@@ -5,7 +5,6 @@ import { GENDER_TYPES, USERS_ROLES, USERS_TYPES } from '@/constants/index'
 import { PAYMENT_STATUSES, REQUEST_STATUSES } from '@/constants/subscriptions'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { SubscriptionsRequestItem } from '../interfaces/SubscriptionsRequests'
 import SubscriptionsRequestDetailsModal from '../modals/SubscriptionsRequestDetailsModal.vue'
@@ -20,7 +19,7 @@ const FilterComponent = defineAsyncComponent(
   () => import('../components/SubscriptionsRequestsFilter.vue'),
 )
 const { t } = useI18n()
-const toast = useToast()
+const route = useRoute()
 const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'subscription_requests'
@@ -29,7 +28,7 @@ const loadFilter = ref<boolean>(false)
 const showNotificationModal = ref<boolean>(false)
 const activeUser = ref(null)
 
-const params = reactive({
+const params: any = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
@@ -110,6 +109,9 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
+const { id } = route.query
+if (id) params.id = +id
+
 getPageData()
 
 // #endregion
@@ -194,14 +196,14 @@ function openNotificationModal(user: any) {
                   <span v-else>!</span>
                 </VAvatar>
               </div>
-              <div style="min-width: 205px">
+              <div style="min-inline-size: 205px">
                 {{ item.raw.user.account_name }}
                 <span class="text-sm text-disabled d-block">{{ item.raw.user.email }}</span>
               </div>
             </div>
           </template>
           <template #item.country_name="{ item }">
-            <div style="min-width: 150px">
+            <div style="min-inline-size: 150px">
               {{ item.raw.country_name }}
               <span class="text-sm text-disabled d-block">{{ item.raw.area_name }}</span>
             </div>
@@ -219,7 +221,7 @@ function openNotificationModal(user: any) {
             </div>
           </template>
           <template #item.payment_status="{ item }">
-            <div style="min-width: 100px">
+            <div style="min-inline-size: 100px">
               {{ REQUEST_STATUSES[item.raw.request_status] }}
               <span class="text-sm text-disabled d-block">{{
                 PAYMENT_STATUSES[item.raw.payment_status]
@@ -228,7 +230,7 @@ function openNotificationModal(user: any) {
           </template>
 
           <template #item.user_type="{ item }">
-            <div style="min-width: 100px">
+            <div style="min-inline-size: 100px">
               {{ USERS_ROLES[item.raw.user.role] + ' ' + USERS_TYPES[item.raw.user.type] }}
               <span class="text-sm text-disabled d-block">{{
                 GENDER_TYPES[item.raw.user.gender as 'male' | 'female']

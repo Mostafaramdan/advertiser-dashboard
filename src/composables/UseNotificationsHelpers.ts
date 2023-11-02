@@ -6,6 +6,7 @@ export function UseNotificationsHelpers() {
    **** Section Variables Declaration ****
    **************************************/
   // #region Variables
+  const router = useRouter()
   const notificationStore = useNotificationsStore()
   const confirmModal = ref<any>()
   const isLoading = ref<boolean>(false)
@@ -38,7 +39,35 @@ export function UseNotificationsHelpers() {
   }
   function handleNotificationClick(notification: DashboardNotification): void {
     console.log('click', notification)
-    if (!notification.is_seen) toggleNotificationSeen(notification)
+    const { type, model_id, is_seen, action_by } = notification
+    if (!is_seen) toggleNotificationSeen(notification)
+    switch (type) {
+      case 'new_subscription_request':
+        router.push({ name: 'subscriptions-requests-page', query: { id: model_id } })
+        break
+      case 'active_temp':
+      case 'active_once':
+      case 'extend_subscription':
+      case 'renew_subscription':
+      case 'stop_temp_subscription':
+      case 'vacation_subscription':
+      case 'end_stop_temp_subscription':
+      case 'end_vacation_subscription':
+      case 'end_vacation_subscription':
+        router.push({
+          name: 'subscriptions-logs-page',
+          query: { user_id: action_by.id, advertiser_name: action_by.username },
+        })
+        break
+      case 'change_account_data':
+      case 'delete_account':
+        router.push({
+          name: action_by.role === 'advertiser' ? 'advertisers-profile-page' : 'user-profile-page',
+          params: { id: action_by.id },
+          query: { tab: 'details' },
+        })
+        break
+    }
   }
 
   function deleteItem(item: DashboardNotification): void {

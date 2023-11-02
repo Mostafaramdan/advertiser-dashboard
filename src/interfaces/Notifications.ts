@@ -27,6 +27,7 @@ export interface DashboardNotification {
   action_by: {
     id: number
     account_name: string
+    username: string
     image_path: string
     role: string
   }
