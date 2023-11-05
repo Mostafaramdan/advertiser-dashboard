@@ -40,11 +40,11 @@ export function UseNotificationsHelpers() {
   }
   function handleNotificationClick(notification: DashboardNotification): void {
     console.log('click', notification)
-    const { type, model_id, is_seen, action_by } = notification
+    const { type, model, is_seen, action_by } = notification
     if (!is_seen) toggleNotificationSeen(notification)
     switch (type) {
       case 'new_subscription_request':
-        router.push({ name: 'subscriptions-requests-page', query: { id: model_id } })
+        router.push({ name: 'subscriptions-requests-page', query: { id: model?.id } })
         break
       case 'active_temp':
       case 'active_once':
@@ -65,6 +65,19 @@ export function UseNotificationsHelpers() {
           name: action_by.role === 'advertiser' ? 'advertisers-profile-page' : 'user-profile-page',
           params: { id: action_by.id },
           query: { tab: 'details' },
+        })
+        break
+
+      case 'add_new_attachment':
+      case 'edit_attachment':
+      case 'expire_end_attachment':
+      case 'ended_attachment':
+      case 'confirm_attachment':
+      case 'reject_attachment':
+        router.push({
+          name: model?.role === 'advertiser' ? 'advertisers-profile-page' : 'user-profile-page',
+          params: { id: model?.id },
+          query: { tab: 'licenses-documents' },
         })
         break
     }

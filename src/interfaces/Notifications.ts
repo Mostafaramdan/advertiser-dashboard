@@ -31,5 +31,8 @@ export interface DashboardNotification {
     image_path: string
     role: string
   }
-  model_id: number
+  model: {
+    id: number
+    role?: string
+  } | null
 }

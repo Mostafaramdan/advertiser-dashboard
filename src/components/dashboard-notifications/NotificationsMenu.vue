@@ -132,7 +132,7 @@ function goToNotificationsPage() {
         <VCard class="d-flex flex-column">
           <!-- 👉 Header -->
           <VCardItem class="pa-2">
-            <VCardTitle class="text-lg"> الاشعارات </VCardTitle>
+            <VCardTitle class="text-subtitle-1 font-weight-medium"> الاشعارات </VCardTitle>
 
             <template #append v-if="unSeenCount">
               <IconBtn @click="markAllAsSeen">
@@ -175,8 +175,10 @@ function goToNotificationsPage() {
                     </VListItemAction>
                   </template>
 
-                  <VListItemTitle class="text-h6 mb-1">{{ notification.title }}</VListItemTitle>
-                  <VListItemSubtitle>{{ notification.body }}</VListItemSubtitle>
+                  <VListItemTitle class="text-sm font-weight-medium">{{
+                    notification.title
+                  }}</VListItemTitle>
+                  <VListItemSubtitle class="text-sm">{{ notification.body }}</VListItemSubtitle>
                   <span class="text-xs text-disabled">{{
                     formatDateTime(notification.created_at)
                   }}</span>
