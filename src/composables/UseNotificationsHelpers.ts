@@ -53,7 +53,6 @@ export function UseNotificationsHelpers() {
       case 'vacation_subscription':
       case 'end_stop_temp_subscription':
       case 'end_vacation_subscription':
-      case 'end_vacation_subscription':
         router.push({
           name: 'subscriptions-logs-page',
           query: { user_id: action_by.id, advertiser_name: action_by.username },

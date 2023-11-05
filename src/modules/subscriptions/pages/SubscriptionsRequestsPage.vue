@@ -106,6 +106,23 @@ const pageActionsButtons = computed<pageAction[]>(() => {
 // #endregion
 
 /***************************************
+ **** Section Watchers *****************
+ **************************************/
+// #region Watchers
+watch(
+  () => route.query,
+  () => {
+    const { id } = route.query
+    if (id) {
+      params.page = 1
+      params.id = +id
+      getPageData()
+    }
+  },
+)
+// #endregion
+
+/***************************************
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
