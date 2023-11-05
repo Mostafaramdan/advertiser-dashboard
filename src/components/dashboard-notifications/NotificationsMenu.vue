@@ -16,13 +16,13 @@ const {
   isLoading,
   unSeenCount,
   notificationStore,
+  showMenu,
   markAllAsSeen,
   toggleNotificationSeen,
   handleNotificationClick,
   showConfirmDeleteItem,
 } = UseNotificationsHelpers()
 const { formatDateTime } = UseGeneralHelpers()
-const showMenu = ref<boolean>(false)
 const params = reactive({
   page: 1,
   itemPerPage: 5,
@@ -148,17 +148,17 @@ function goToNotificationsPage() {
           <!-- 👉 Notifications list -->
           <PerfectScrollbar :options="{ wheelPropagation: false }" style="max-block-size: 23.75rem">
             <VList
-              class="notification-list rounded-0 py-0"
+              class="notifications-list rounded-0 py-0"
               v-loading="isLoading"
               style="min-block-size: 100px"
             >
               <template v-for="(notification, index) in tableData" :key="notification.uuid">
                 <VDivider v-if="index > 0" />
                 <VListItem
-                  link
                   lines="one"
                   min-height="66px"
-                  class="list-item-hover-class"
+                  class="notifications-list__item"
+                  :class="{ new: !notification.is_seen }"
                   @click="handleNotificationClick(notification)"
                 >
                   <!-- Slot: Prepend -->
@@ -228,7 +228,7 @@ function goToNotificationsPage() {
 </template>
 
 <style lang="scss">
-.list-item-hover-class {
+.notifications-list__item {
   .visible-in-hover {
     display: none;
   }
@@ -240,7 +240,7 @@ function goToNotificationsPage() {
   }
 }
 
-.notification-list.v-list {
+.notifications-list.v-list {
   .v-list-item {
     border-radius: 0 !important;
     margin: 0 !important;

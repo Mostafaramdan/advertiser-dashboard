@@ -10,6 +10,7 @@ export function UseNotificationsHelpers() {
   const notificationStore = useNotificationsStore()
   const confirmModal = ref<any>()
   const isLoading = ref<boolean>(false)
+  const showMenu = ref<boolean>(false)
   // #endregion
 
   /***************************************
@@ -67,6 +68,8 @@ export function UseNotificationsHelpers() {
         })
         break
     }
+
+    showMenu.value = false
   }
 
   function deleteItem(item: DashboardNotification): void {
@@ -89,6 +92,7 @@ export function UseNotificationsHelpers() {
     isLoading,
     notificationStore,
     unSeenCount,
+    showMenu,
     markAllAsSeen,
     toggleNotificationSeen,
     handleNotificationClick,

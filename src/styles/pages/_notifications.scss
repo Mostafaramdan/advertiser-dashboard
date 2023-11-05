@@ -1,0 +1,21 @@
+.notifications-list {
+  .v-list-item__prepend, .v-list-item__append {
+    align-self: flex-start;
+  }
+
+  .v-list-item__overlay {
+    display: none;
+  }
+
+  &__item {
+    cursor: pointer;
+
+    &.new {
+      background: rgba(var(--v-theme-grey-200), 0.8);
+    }
+
+    &:hover {
+      background: rgba(var(--v-theme-grey-200), 0.5);
+    }
+  }
+}

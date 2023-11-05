@@ -160,8 +160,8 @@ function handleShowFilter(): void {
             <template v-for="(notification, index) in tableData" :key="notification.uuid">
               <VDivider v-if="index > 0" />
               <VListItem
-                link
-                class="align-start pa-2"
+                class="notifications-list__item align-start pa-2"
+                :class="{ new: !notification.is_seen }"
                 @click="handleNotificationClick(notification)"
               >
                 <template #prepend>
@@ -217,11 +217,3 @@ function handleShowFilter(): void {
     </VCard>
   </section>
 </template>
-
-<style lang="scss" scoped>
-.notifications-list {
-  :deep(.v-list-item__prepend, .v-list-item__append) {
-    align-self: flex-start;
-  }
-}
-</style>
