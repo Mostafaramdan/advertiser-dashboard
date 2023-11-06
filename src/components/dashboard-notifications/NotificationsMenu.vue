@@ -16,13 +16,13 @@ const {
   isLoading,
   unSeenCount,
   notificationStore,
-  showMenu,
   markAllAsSeen,
   toggleNotificationSeen,
   handleNotificationClick,
   showConfirmDeleteItem,
 } = UseNotificationsHelpers()
 const { formatDateTime } = UseGeneralHelpers()
+const showMenu = ref<boolean>(false)
 const params = reactive({
   page: 1,
   itemPerPage: 5,
@@ -105,6 +105,11 @@ function goToNotificationsPage() {
   router.push({ name: 'dashboard-notifications-page' })
   showMenu.value = false
 }
+
+function onClickNotification(notification: DashboardNotification) {
+  handleNotificationClick(notification)
+  showMenu.value = false
+}
 // #endregion
 </script>
 
@@ -159,7 +164,7 @@ function goToNotificationsPage() {
                   min-height="66px"
                   class="notifications-list__item"
                   :class="{ new: !notification.is_seen }"
-                  @click="handleNotificationClick(notification)"
+                  @click="onClickNotification(notification)"
                 >
                   <!-- Slot: Prepend -->
                   <template #prepend>

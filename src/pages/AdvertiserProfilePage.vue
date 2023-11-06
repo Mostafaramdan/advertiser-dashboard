@@ -39,7 +39,7 @@ const router = useRouter()
 const { hasPermission, canAccessPage } = useAuthStore()
 const currentTab = ref<any>()
 const user = ref<AdvertiserBasicData | null>(null)
-const advertiserId: number = +route.params.id
+const advertiserId = ref<number>(+route.params.id)
 // #endregion
 
 /***************************************
@@ -119,6 +119,8 @@ const permissions = computed(() => ({
 // #region Watchers
 watch(route, () => {
   currentTab.value = route.query?.tab
+  // also update advertiser id for notifications click actions as it used as a key to render the components
+  advertiserId.value = +route.params.id
 })
 
 // #endregion
@@ -150,7 +152,7 @@ function updateRouteQuery() {
 </script>
 
 <template>
-  <section class="advertiser-profile">
+  <section class="advertiser-profile" :key="advertiserId">
     <div class="d-flex overflow-auto text-nowrap mb-3 align-center">
       <PageBackBtn :link="{ name: 'advertisers-page' }" />
       <template v-if="user">

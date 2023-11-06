@@ -462,6 +462,13 @@ const navItems = computed(() => {
       show: hasPermission('view_notifications'),
     },
     {
+      title: 'سجل العمليات',
+      to: { name: 'logs-page' },
+      icon: { icon: 'tabler-history' },
+      // TODO: ADD PERMISSION
+      show: true,
+    },
+    {
       title: 'الشات',
       to: { name: 'chat-page' },
       icon: { icon: 'tabler-message' },

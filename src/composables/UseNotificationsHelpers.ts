@@ -10,7 +10,6 @@ export function UseNotificationsHelpers() {
   const notificationStore = useNotificationsStore()
   const confirmModal = ref<any>()
   const isLoading = ref<boolean>(false)
-  const showMenu = ref<boolean>(false)
   // #endregion
 
   /***************************************
@@ -38,10 +37,9 @@ export function UseNotificationsHelpers() {
       isLoading.value = false
     })
   }
-  function handleNotificationClick(notification: DashboardNotification): void {
-    console.log('click', notification)
-    const { type, model, is_seen, action_by } = notification
-    if (!is_seen) toggleNotificationSeen(notification)
+
+  function handleNotificationAction(notification: DashboardNotification) {
+    const { type, model, action_by } = notification
     switch (type) {
       case 'new_subscription_request':
         router.push({ name: 'subscriptions-requests-page', query: { id: model?.id } })
@@ -80,9 +78,43 @@ export function UseNotificationsHelpers() {
           query: { tab: 'licenses-documents' },
         })
         break
-    }
 
-    showMenu.value = false
+      case 'create_user_channel':
+      case 'update_user_channel':
+      case 'delete_user_channel':
+      case 'change_status_user_channel':
+      case 'change_type_user_channel':
+      case 'edit_user_categories':
+      case 'add_user_categories':
+      case 'add_areas':
+      case 'edit_areas':
+        router.push({
+          name: 'advertisers-profile-page',
+          params: { id: model?.id },
+          query: { tab: 'account-settings' },
+        })
+        break
+
+      case 'add_ma3roof':
+      case 'delete_ma3roof':
+      case 'add_billing_card':
+      case 'edit_billing_card':
+      case 'add_tax':
+      case 'edit_tax':
+      case 'edit_advanced_settings':
+        router.push({
+          name: 'advertisers-profile-page',
+          params: { id: model?.id },
+          query: { tab: 'details' },
+        })
+        break
+    }
+  }
+
+  function handleNotificationClick(notification: DashboardNotification): void {
+    const { is_seen } = notification
+    if (!is_seen) toggleNotificationSeen(notification)
+    handleNotificationAction(notification)
   }
 
   function deleteItem(item: DashboardNotification): void {
@@ -105,10 +137,10 @@ export function UseNotificationsHelpers() {
     isLoading,
     notificationStore,
     unSeenCount,
-    showMenu,
     markAllAsSeen,
     toggleNotificationSeen,
     handleNotificationClick,
+    handleNotificationAction,
     showConfirmDeleteItem,
   }
 }

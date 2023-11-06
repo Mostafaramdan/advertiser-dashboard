@@ -22,7 +22,7 @@ const router = useRouter()
 const { hasPermission } = useAuthStore()
 const currentTab = ref<any>()
 const user = ref<UserBasicData | null>(null)
-
+const userId = ref<number>(+route.params.id)
 // #endregion
 
 /***************************************
@@ -66,6 +66,8 @@ const tabs = computed(() => {
 // #region Watchers
 watch(route, () => {
   currentTab.value = route.query?.tab
+  // also update advertiser id for notifications click actions as it used as a key to render the components
+  userId.value = +route.params.id
 })
 
 // #endregion
@@ -97,7 +99,7 @@ function updateRouteQuery() {
 </script>
 
 <template>
-  <section class="user-profile">
+  <section class="user-profile" :key="userId">
     <div class="d-flex overflow-auto text-nowrap mb-3 align-center">
       <PageBackBtn :link="{ name: 'users-page' }" />
       <!-- TODO: ADD permissions -->

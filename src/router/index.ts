@@ -265,6 +265,14 @@ const router = createRouter({
       component: () => import('@/pages/DashboardNotificationsPage.vue'),
       meta: {
         layout: 'default',
+      },
+    },
+    {
+      path: '/logs',
+      name: 'logs-page',
+      component: () => import('@/pages/LogsPage.vue'),
+      meta: {
+        layout: 'default',
         // TODO: Add permission
         // hasPermission: 'view_notifications',
       },
