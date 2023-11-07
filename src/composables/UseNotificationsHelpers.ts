@@ -40,9 +40,10 @@ export function UseNotificationsHelpers() {
 
   function handleNotificationAction(notification: DashboardNotification) {
     const { type, model, action_by } = notification
+    const modelId = model?.id
     switch (type) {
       case 'new_subscription_request':
-        router.push({ name: 'subscriptions-requests-page', query: { id: model?.id } })
+        router.push({ name: 'subscriptions-requests-page', query: { id: modelId } })
         break
       case 'active_temp':
       case 'active_once':
@@ -74,7 +75,7 @@ export function UseNotificationsHelpers() {
       case 'reject_attachment':
         router.push({
           name: model?.role === 'advertiser' ? 'advertisers-profile-page' : 'user-profile-page',
-          params: { id: model?.id },
+          params: { id: modelId },
           query: { tab: 'licenses-documents' },
         })
         break
@@ -90,7 +91,7 @@ export function UseNotificationsHelpers() {
       case 'edit_areas':
         router.push({
           name: 'advertisers-profile-page',
-          params: { id: model?.id },
+          params: { id: modelId },
           query: { tab: 'account-settings' },
         })
         break
@@ -112,7 +113,7 @@ export function UseNotificationsHelpers() {
       case 'reject_verified':
         router.push({
           name: 'advertisers-profile-page',
-          params: { id: model?.id },
+          params: { id: modelId },
           query: { tab: 'details' },
         })
         break
@@ -122,7 +123,7 @@ export function UseNotificationsHelpers() {
       case 'reject_marketer':
         router.push({
           name: 'advertisers-profile-page',
-          params: { id: model?.id },
+          params: { id: modelId },
           query: { tab: 'marketing-presentation' },
         })
         break
@@ -131,7 +132,42 @@ export function UseNotificationsHelpers() {
       case 'delete_account_by_admin':
         router.push({
           name: model?.role === 'advertiser' ? 'advertisers-profile-page' : 'user-profile-page',
-          params: { id: model?.id },
+          params: { id: modelId },
+          query: { tab: 'details' },
+        })
+        break
+
+      case 'change_status_ads_by_admin':
+      case 'delete_ads_by_admin':
+      case 'restore_ads_by_admin':
+        router.push({
+          name: 'ad-details-page',
+          params: { id: modelId },
+          query: { tab: 'details' },
+        })
+        break
+
+      case 'delete_comment_ads_by_admin':
+        router.push({
+          name: 'ad-details-page',
+          params: { id: modelId },
+          query: { tab: 'comments' },
+        })
+        break
+
+      case 'delete_report_ads_by_admin':
+        router.push({
+          name: 'ad-details-page',
+          params: { id: modelId },
+          query: { tab: 'reports' },
+        })
+        break
+
+      case 'delete_ads_request_by_admin':
+      case 'cancel_ads_request_by_admin':
+        router.push({
+          name: 'ads-request-details-page',
+          params: { id: modelId },
           query: { tab: 'details' },
         })
         break
