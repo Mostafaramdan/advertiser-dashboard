@@ -102,8 +102,35 @@ export function UseNotificationsHelpers() {
       case 'add_tax':
       case 'edit_tax':
       case 'edit_advanced_settings':
+      case 'confirm_licensed_at_mawthoq':
+      case 'reject_licensed_at_mawthoq':
+      case 'confirm_ma3roof_verified':
+      case 'reject_ma3roof_verified':
+      case 'confirm_trustes_settings':
+      case 'reject_trustes_settings':
+      case 'confirm_verified':
+      case 'reject_verified':
         router.push({
           name: 'advertisers-profile-page',
+          params: { id: model?.id },
+          query: { tab: 'details' },
+        })
+        break
+      case 'create_user_marketer_info':
+      case 'edit_user_marketer_info':
+      case 'confirm_marketer':
+      case 'reject_marketer':
+        router.push({
+          name: 'advertisers-profile-page',
+          params: { id: model?.id },
+          query: { tab: 'marketing-presentation' },
+        })
+        break
+
+      case 'change_status_account':
+      case 'delete_account_by_admin':
+        router.push({
+          name: model?.role === 'advertiser' ? 'advertisers-profile-page' : 'user-profile-page',
           params: { id: model?.id },
           query: { tab: 'details' },
         })

@@ -61,10 +61,10 @@ export const useNotificationsStore = defineStore('notifications', {
         const notificationId = notification.uuid
 
         dashboardNotificationsService.toggleSeen(notificationId).then(() => {
+          if (notification.is_seen) this.increaseUnseenCount()
+          else this.decreaseUnseenCount()
           this.toggleNotificationsListItemSeen(notificationId)
           this.toggleLatestNotificationsListItemSeen(notificationId)
-          if (notification.is_seen) this.decreaseUnseenCount()
-          else this.increaseUnseenCount()
           resolve()
         })
       })
