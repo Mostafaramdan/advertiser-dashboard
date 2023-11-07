@@ -21,32 +21,20 @@ export const useAuthStore = defineStore('authStore', {
     },
     hasPermission(state): (permission: string) => boolean {
       return (permission: string): boolean => {
-        return !!state.authUser?.permissions?.actions?.includes(permission)
+        return !!state.authUser?.permissions?.includes(permission)
       }
     },
     hasPermissions(state): (permissions: string[]) => boolean {
       return (permissions: string[]): boolean => {
         return permissions.every((permission) => {
-          return state.authUser?.permissions?.actions.includes(permission)
+          return state.authUser?.permissions?.includes(permission)
         })
       }
     },
     hasAtLeaseOnePermission(state): (permissions: string[]) => boolean {
       return (permissions: string[]) => {
         return permissions.some((permission) => {
-          return state.authUser?.permissions?.actions.includes(permission)
-        })
-      }
-    },
-    canAccessPage(state): (page: string) => boolean {
-      return (page: string) => {
-        return !!state.authUser?.permissions?.accessible_pages.includes(page)
-      }
-    },
-    canAccessAtLeastOnePage(state): (pages: string[]) => boolean {
-      return (pages: string[]) => {
-        return pages.some((page) => {
-          return state.authUser?.permissions?.accessible_pages.includes(page)
+          return state.authUser?.permissions?.includes(permission)
         })
       }
     },

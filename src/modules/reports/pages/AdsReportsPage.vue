@@ -14,7 +14,7 @@ import { reportsService } from '../services/ReportsService'
 const FilterComponent = defineAsyncComponent(() => import('../components/AdsReportsFilter.vue'))
 const toast = useToast()
 const { t } = useI18n()
-const { hasPermission, canAccessPage } = useAuthStore()
+const { hasPermission } = useAuthStore()
 const ADS_MODEL_NAME = 'ads'
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
@@ -69,7 +69,7 @@ const headers: any = [
 const permissions = computed(() => ({
   sendNotification: hasPermission('notify_users'),
   changeAdStatus: hasPermission('change_status_ads'),
-  viewAdDetails: canAccessPage('ads_details'),
+  viewAdDetails: hasPermission('view_ads_details'),
   deleteAd: hasPermission('delete_ads'),
   restoreAd: hasPermission('restore_ads'),
 }))
@@ -254,20 +254,20 @@ async function showConfirmModal(item: AdsReport): Promise<void> {
                   <span v-else>!</span>
                 </VAvatar>
               </div>
-              <div style="min-width: 205px">
+              <div style="min-inline-size: 205px">
                 <span>{{ item.raw.advertiser.username }}</span>
                 <span class="text-sm text-disabled d-block">{{ item.raw.advertiser.phone }}</span>
               </div>
             </router-link>
           </template>
           <template #item.reports_count="{ item }">
-            <div class="text-no-wrap" style="min-width: 80px">
+            <div class="text-no-wrap" style="min-inline-size: 80px">
               {{ item.raw.reports_count }}
               <span class="text-sm text-disabled d-block">{{ item.raw.report_rate }}%</span>
             </div>
           </template>
           <template #item.seen_count="{ item }">
-            <div class="text-no-wrap" style="min-width: 80px">
+            <div class="text-no-wrap" style="min-inline-size: 80px">
               {{ item.raw.seen_count }}
               <div class="d-flex">
                 <VChip
@@ -282,7 +282,7 @@ async function showConfirmModal(item: AdsReport): Promise<void> {
             </div>
           </template>
           <template #item.ads_description="{ item }">
-            <span style="width: 180px">
+            <span style="inline-size: 180px">
               {{ item.raw.ads_description }}
             </span>
           </template>

@@ -66,7 +66,7 @@ const router = createRouter({
       component: () => import('@/modules/settings/settingsModule.vue'),
       meta: {
         layout: 'default',
-        requireAccess: 'settings',
+        requiredPermission: 'view_settings',
       },
       children: settingsRoutes,
     },
@@ -76,10 +76,10 @@ const router = createRouter({
       component: () => import('@/modules/subscriptions/subscriptionsModule.vue'),
       meta: {
         layout: 'default',
-        requireAtLeastOneAccess: [
-          'subscription_requests',
-          'subscription_requests_logs',
-          'packages',
+        requireAtLeastOnePermission: [
+          'view_subscription_requests',
+          'view_subscription_requests_logs',
+          'view_packages',
         ],
       },
       children: subscriptionsRoutes,
@@ -90,7 +90,7 @@ const router = createRouter({
       component: () => import('@/pages/AdvertisersPage.vue'),
       meta: {
         layout: 'default',
-        requireAccess: 'advertisers',
+        requiredPermission: 'view_advertisers',
       },
     },
     {
@@ -99,7 +99,7 @@ const router = createRouter({
       component: () => import('@/pages/AdvertiserProfilePage.vue'),
       meta: {
         layout: 'default',
-        requireAccess: 'advertiser_details',
+        requiredPermission: 'view_advertiser_details',
       },
     },
     {
@@ -108,7 +108,7 @@ const router = createRouter({
       component: () => import('@/pages/UsersPage.vue'),
       meta: {
         layout: 'default',
-        requireAccess: 'users',
+        requiredPermission: 'view_users',
       },
     },
     {
@@ -117,7 +117,7 @@ const router = createRouter({
       component: () => import('@/pages/UserProfilePage.vue'),
       meta: {
         layout: 'default',
-        requireAccess: 'advertiser_details',
+        requiredPermission: 'view_advertiser_details',
       },
     },
     {
@@ -126,7 +126,7 @@ const router = createRouter({
       component: () => import('@/pages/AdsPage.vue'),
       meta: {
         layout: 'default',
-        requireAccess: 'ads',
+        requiredPermission: 'view_ads',
       },
     },
     {
@@ -135,7 +135,7 @@ const router = createRouter({
       component: () => import('@/pages/AdDetailsPage.vue'),
       meta: {
         layout: 'default',
-        requireAccess: 'ads_details',
+        requiredPermission: 'view_ads_details',
       },
     },
     {
@@ -144,7 +144,7 @@ const router = createRouter({
       component: () => import('@/pages/AdsRequestsPage.vue'),
       meta: {
         layout: 'default',
-        requireAccess: 'ads_requests',
+        requiredPermission: 'view_ads_requests',
       },
     },
     {
@@ -153,7 +153,7 @@ const router = createRouter({
       component: () => import('@/pages/AdsRequestDetailsPage.vue'),
       meta: {
         layout: 'default',
-        requireAccess: 'ads_requests_details',
+        requiredPermission: 'view_ads_requests_details',
       },
     },
     {
@@ -298,26 +298,10 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const {
-    isAuthUser,
-    canAccessPage,
-    canAccessAtLeastOnePage,
-    hasPermission,
-    hasAtLeaseOnePermission,
-  } = useAuthStore()
+  const { isAuthUser, hasPermission, hasAtLeaseOnePermission } = useAuthStore()
 
   if (to.meta.layout === 'default' && !isAuthUser)
     next({ name: 'login-page', query: { redirect: to.fullPath } })
-
-  if (isAuthUser && to.meta.requiredAccess && !canAccessPage(to.meta.requiredAccess as string))
-    next({ name: 'error-page', query: { message: 'errors.you_are_not_authorized' } })
-
-  if (
-    isAuthUser &&
-    to.meta.requireAtLeastOneAccess &&
-    !canAccessAtLeastOnePage(to.meta.requireAtLeastOneAccess as string[])
-  )
-    next({ name: 'error-page', query: { message: 'errors.you_are_not_authorized' } })
 
   if (
     isAuthUser &&

@@ -13,7 +13,7 @@ import { subscriptionsPackagesService } from '../services/SubscriptionsPackagesS
 // #region Variables
 const { t } = useI18n()
 const router = useRouter()
-const { hasPermission, canAccessPage } = useAuthStore()
+const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'packages'
 
@@ -90,7 +90,7 @@ const permissions = computed(() => ({
   changeStatus: hasPermission('change_status_package'),
   sort: hasPermission('sort_package'),
   viewDetails: hasPermission('show_package_details'),
-  viewAdvertisers: canAccessPage('advertisers'),
+  viewAdvertisers: hasPermission('view_advertisers'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {

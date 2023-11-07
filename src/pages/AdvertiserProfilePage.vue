@@ -36,7 +36,7 @@ const ChatBlockLogsTab = defineAsyncComponent(
 )
 const route = useRoute()
 const router = useRouter()
-const { hasPermission, canAccessPage } = useAuthStore()
+const { hasPermission } = useAuthStore()
 const currentTab = ref<any>()
 const user = ref<AdvertiserBasicData | null>(null)
 const advertiserId = ref<number>(+route.params.id)
@@ -106,9 +106,9 @@ const tabs = computed(() => {
 })
 
 const permissions = computed(() => ({
-  viewAds: canAccessPage('ads'),
-  viewAdsRequests: canAccessPage('ads_requests'),
-  viewSubscriptionsLogs: canAccessPage('subscription_requests_logs'),
+  viewAds: hasPermission('view_ads'),
+  viewAdsRequests: hasPermission('view_ads_requests'),
+  viewSubscriptionsLogs: hasPermission('view_subscription_requests_logs'),
 }))
 
 // #endregion

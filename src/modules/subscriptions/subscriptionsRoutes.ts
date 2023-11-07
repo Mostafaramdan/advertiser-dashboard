@@ -4,7 +4,7 @@ export const subscriptionsRoutes = [
     name: 'subscriptions-packages-page',
     component: () => import('./pages/SubscriptionsPackagesPage.vue'),
     meta: {
-      requireAccess: 'packages',
+      requiredPermission: 'view_packages',
     },
   },
   {
@@ -36,7 +36,7 @@ export const subscriptionsRoutes = [
     name: 'subscriptions-requests-page',
     component: () => import('./pages/SubscriptionsRequestsPage.vue'),
     meta: {
-      requireAccess: 'subscription_requests',
+      requiredPermission: 'view_subscription_requests',
     },
   },
   {
@@ -44,7 +44,7 @@ export const subscriptionsRoutes = [
     name: 'subscriptions-logs-page',
     component: () => import('./pages/SubscriptionsLogsPage.vue'),
     meta: {
-      requireAccess: 'subscription_requests_logs',
+      requiredPermission: 'view_subscription_requests_logs',
     },
   },
 ]

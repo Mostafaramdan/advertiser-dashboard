@@ -18,7 +18,7 @@ const FilterComponent = defineAsyncComponent(
 const { t } = useI18n()
 const toast = useToast()
 const route = useRoute()
-const { hasPermission, canAccessPage } = useAuthStore()
+const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'advertisers'
 const showFilter = ref<boolean>(false)
@@ -81,11 +81,11 @@ const headers: any = [
 const permissions = computed(() => ({
   delete: hasPermission('delete_advertiser'),
   changeStatus: hasPermission('change_status_advertiser'),
-  viewRequests: canAccessPage('ads_requests'),
-  viewCoupons: canAccessPage('advertiser_coupons'),
-  viewWallet: canAccessPage('wallets'),
-  viewLogs: canAccessPage('advertiser_logs'),
-  viewAdvertiserDetails: canAccessPage('advertiser_details'),
+  viewRequests: hasPermission('view_ads_requests'),
+  viewCoupons: hasPermission('view_advertiser_coupons'),
+  viewWallet: hasPermission('view_wallets'),
+  viewLogs: hasPermission('view_advertiser_logs'),
+  viewAdvertiserDetails: hasPermission('view_advertiser_details'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -201,14 +201,14 @@ async function showConfirmDeleteItem(item: Advertiser): Promise<void> {
                   محذوف
                 </VChip>
               </div>
-              <div style="min-width: 205px">
+              <div style="min-inline-size: 205px">
                 {{ item.raw.account_name }}
                 <span class="text-sm text-disabled d-block">{{ item.raw.email }}</span>
               </div>
             </div>
           </template>
           <template #item.country_name="{ item }">
-            <div style="min-width: 150px">
+            <div style="min-inline-size: 150px">
               {{ item.raw.country_name }}
               <span class="text-sm text-disabled d-block">{{ item.raw.area_name }}</span>
             </div>

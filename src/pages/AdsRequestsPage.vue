@@ -16,7 +16,7 @@ const FilterComponent = defineAsyncComponent(
 )
 const { t } = useI18n()
 const route = useRoute()
-const { hasPermission, canAccessPage } = useAuthStore()
+const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'ads_requests'
 const showFilter = ref<boolean>(false)
@@ -82,7 +82,7 @@ const headers: any = [
 const permissions = computed(() => ({
   sendNotification: hasPermission('notify_users'),
   delete: hasPermission('delete_ads_request'),
-  viewAdsRequestDetails: canAccessPage('ads_requests_details'),
+  viewAdsRequestDetails: hasPermission('view_ads_requests_details'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {

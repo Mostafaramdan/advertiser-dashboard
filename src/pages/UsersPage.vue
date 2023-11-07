@@ -16,7 +16,7 @@ import { VDataTableServer } from 'vuetify/labs/VDataTable'
 const FilterComponent = defineAsyncComponent(() => import('@/components/users/UsersFilter.vue'))
 const { t } = useI18n()
 const toast = useToast()
-const { hasPermission, canAccessPage } = useAuthStore()
+const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'users'
 const showFilter = ref<boolean>(false)
@@ -78,11 +78,11 @@ const headers: any = [
 const permissions = computed(() => ({
   delete: hasPermission('delete_users'),
   changeStatus: hasPermission('change_status_user'),
-  viewRequests: canAccessPage('ads_requests'),
-  viewCoupons: canAccessPage('user_coupons'),
-  viewWallet: canAccessPage('wallets'),
-  viewLogs: canAccessPage('user_logs'),
-  viewUserDetails: canAccessPage('user_details'),
+  viewRequests: hasPermission('view_ads_requests'),
+  viewCoupons: hasPermission('view_user_coupons'),
+  viewWallet: hasPermission('view_wallets'),
+  viewLogs: hasPermission('view_user_logs'),
+  viewUserDetails: hasPermission('view_user_details'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -195,14 +195,14 @@ async function showConfirmDeleteItem(item: User): Promise<void> {
                   محذوف
                 </VChip>
               </div>
-              <div style="min-width: 205px">
+              <div style="min-inline-size: 205px">
                 {{ item.raw.account_name }}
                 <span class="text-sm text-disabled d-block">{{ item.raw.email }}</span>
               </div>
             </div>
           </template>
           <template #item.country_name="{ item }">
-            <div style="min-width: 150px">
+            <div style="min-inline-size: 150px">
               {{ item.raw.country_name }}
               <span class="text-sm text-disabled d-block">{{ item.raw.area_name }}</span>
             </div>

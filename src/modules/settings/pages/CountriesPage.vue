@@ -1,17 +1,17 @@
 <script setup lang="ts">
+import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { useAuthStore } from '@/stores/AuthStore'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { Country } from '../interfaces/Country'
 import CountryDetailsModal from '../modals/CountryDetailsModal.vue'
 import { countriesService } from '../services/CountriesService'
-import { useAuthStore } from '@/stores/AuthStore'
-import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
 const { t } = useI18n()
-const { hasPermission, canAccessPage } = useAuthStore()
+const { hasPermission } = useAuthStore()
 const MODEL_NAME = 'countries'
 
 const params = reactive({
@@ -79,6 +79,7 @@ const headers: any = [
 const permissions = computed(() => ({
   changeStatus: hasPermission('change_status_country'),
   sort: hasPermission('sort_country'),
+  viewAreas: hasPermission('view_areas'),
 }))
 
 // #endregion
@@ -123,7 +124,7 @@ getPageData()
             target="_blank"
             rel="noopener noreferrer"
             class="d-inline-flex align-center"
-            style="min-width: 120px"
+            style="min-inline-size: 120px"
           >
             <VAvatar size="38" variant="tonal" class="me-3" cover>
               <VImg v-if="item.raw.image" :src="item.raw.image" cover />
@@ -135,7 +136,7 @@ getPageData()
           </a>
         </template>
         <template #item.name.en="{ item }">
-          <span style="min-width: 120px">
+          <span style="min-inline-size: 120px">
             {{ item.raw.name.en }}
           </span>
         </template>
@@ -160,7 +161,7 @@ getPageData()
               <VMenu activator="parent">
                 <VList>
                   <VListItem
-                    v-if="canAccessPage('areas')"
+                    v-if="permissions.viewAreas"
                     :to="{ name: 'areas-settings', params: { id: item.raw.id } }"
                   >
                     <template #prepend>

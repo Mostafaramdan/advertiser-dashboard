@@ -32,8 +32,7 @@ const { layoutAttrs, injectSkinClasses } = useSkins()
 const { setUserPermissions } = useAuthStore()
 const isLoading = ref<boolean>(false)
 
-const { canAccessPage, canAccessAtLeastOnePage, hasAtLeaseOnePermission, hasPermission } =
-  useAuthStore()
+const { hasAtLeaseOnePermission, hasPermission } = useAuthStore()
 
 // #endregion
 
@@ -52,226 +51,226 @@ const navItems = computed(() => {
     {
       title: 'الاعدادات',
       icon: { icon: 'tabler-settings' },
-      show: canAccessPage('settings'),
+      show: hasPermission('view_settings'),
       to: null,
       children: [
         {
           title: 'اعدادات حساب المنصة',
-          show: canAccessAtLeastOnePage([
-            'general_settings',
-            'social_settings',
-            'schedule_settings',
-            'billing_cards',
+          show: hasAtLeaseOnePermission([
+            'view_general_settings',
+            'view_social_settings',
+            'view_schedule_settings',
+            'view_billing_cards',
           ]),
           to: null,
           children: [
             {
               title: 'بيانات المنصة',
               to: { name: 'platform-settings-details' },
-              show: canAccessPage('general_settings'),
+              show: hasPermission('view_general_settings'),
             },
             {
               title: 'حسابات التواصل',
               to: { name: 'social-accounts-settings' },
-              show: canAccessPage('social_settings'),
+              show: hasPermission('view_social_settings'),
             },
             {
               title: 'دوام المنصة',
               to: { name: 'work-time-settings' },
-              show: canAccessPage('schedule_settings'),
+              show: hasPermission('view_schedule_settings'),
             },
             {
               title: 'طرق الدفع',
               to: { name: 'payment-methods-settings' },
-              show: canAccessPage('billing_cards'),
+              show: hasPermission('view_billing_cards'),
             },
           ],
         },
         {
           title: 'الدول',
           to: { name: 'countries-settings' },
-          show: canAccessPage('countries'),
+          show: hasPermission('view_countries'),
         },
         {
           title: 'الكيانات',
           to: { name: 'entities-settings' },
-          show: canAccessPage('entities'),
+          show: hasPermission('view_entities'),
         },
         {
           title: 'التصنيفات',
           to: { name: 'tags-settings' },
-          show: canAccessPage('tags'),
+          show: hasPermission('view_tags'),
         },
         {
           title: 'الاقسام',
           to: { name: 'categories-settings' },
-          show: canAccessPage('categories'),
+          show: hasPermission('view_categories'),
         },
         {
           title: 'القنوات',
           to: { name: 'channels-settings' },
-          show: canAccessPage('channels'),
+          show: hasPermission('view_channels'),
         },
         {
           title: 'اعدادات التشغيل',
           to: { name: 'ads-settings' },
-          show: canAccessPage('ads_settings'),
+          show: hasPermission('view_ads_settings'),
         },
         {
           title: 'الإعدادات المالية',
-          show: canAccessAtLeastOnePage([
-            'financial_settings',
-            'payment_commissions',
-            'point_settings',
-            'tax_settings',
+          show: hasAtLeaseOnePermission([
+            'view_financial_settings',
+            'view_payment_commissions',
+            'view_point_settings',
+            'view_tax_settings',
           ]),
           to: null,
           children: [
             {
               title: 'اعدادت الحسابات',
               to: { name: 'accounts-settings' },
-              show: canAccessPage('financial_settings'),
+              show: hasPermission('view_financial_settings'),
             },
             {
               title: 'شرائح عمولة الدفع',
               to: { name: 'payment-commission-settings' },
-              show: canAccessPage('payment_commissions'),
+              show: hasPermission('view_payment_commissions'),
             },
             {
               title: 'اعدادت النقاط',
               to: { name: 'points-settings' },
-              show: canAccessPage('point_settings'),
+              show: hasPermission('view_point_settings'),
             },
             {
               title: 'اعدادت الضريبة',
               to: { name: 'tax-settings' },
-              show: canAccessPage('tax_settings'),
+              show: hasPermission('view_tax_settings'),
             },
           ],
         },
         {
           title: 'الاسئلة الشائعة',
           to: { name: 'questions-settings' },
-          show: canAccessPage('questions'),
+          show: hasPermission('view_questions'),
         },
         {
           title: 'حسابات المعلنين',
-          show: canAccessAtLeastOnePage([
-            'ads_types',
-            'discrimination_types',
-            'account_cases',
-            'subscription_settings',
+          show: hasAtLeaseOnePermission([
+            'view_ads_types',
+            'view_discrimination_types',
+            'view_account_cases',
+            'view_subscription_settings',
           ]),
           to: null,
           children: [
             {
               title: 'أنواع الاعلانات',
               to: { name: 'ads-types-settings' },
-              show: canAccessPage('ads_types'),
+              show: hasPermission('view_ads_types'),
             },
             {
               title: 'انواع تمييز الحسابات',
               to: { name: 'discrimination-types-settings' },
-              show: canAccessPage('discrimination_types'),
+              show: hasPermission('view_discrimination_types'),
             },
             {
               title: 'حالات الحسابات',
               to: { name: 'accounts-cases-settings' },
-              show: canAccessPage('account_cases'),
+              show: hasPermission('view_account_cases'),
             },
             {
               title: 'إعدادات الاشتراك',
               to: { name: 'subscription-settings' },
-              show: canAccessPage('subscription_settings'),
+              show: hasPermission('view_subscription_settings'),
             },
           ],
         },
         {
           title: 'أسباب البلاغات',
           to: { name: 'reports-reasons-settings' },
-          show: canAccessPage('report_reasons'),
+          show: hasPermission('view_report_reasons'),
         },
         {
           title: 'عناصر التقييم',
           to: { name: 'rating-items-settings' },
-          show: canAccessPage('rate_types'),
+          show: hasPermission('view_rate_types'),
         },
         {
           title: 'الشروط والاحكام',
           to: { name: 'terms-conditions-settings' },
-          show: canAccessPage('terms'),
+          show: hasPermission('view_terms'),
         },
         {
           title: 'بنود إضافية للباقات',
           to: { name: 'subscription-extra-points-settings' },
-          show: canAccessPage('subscription_extra_points'),
+          show: hasPermission('view_subscription_extra_points'),
         },
         {
           title: 'جديد المنصة',
           to: { name: 'platform-news-settings' },
-          show: canAccessPage('page_news'),
+          show: hasPermission('view_page_news'),
         },
         {
           title: 'شركاء النجاح',
           to: { name: 'partners-settings' },
-          show: canAccessPage('partners'),
+          show: hasPermission('view_partners'),
         },
         {
           title: 'الفيديوهات التعريفية',
           to: { name: 'videos-settings' },
-          show: canAccessPage('videos'),
+          show: hasPermission('view_videos'),
         },
         {
           title: 'من نحن',
           to: { name: 'about-us-settings' },
-          show: canAccessPage('abouts'),
+          show: hasPermission('view_abouts'),
         },
         {
           title: 'إعدادات التذاكر',
           to: { name: 'tickets-settings' },
-          show: canAccessPage('ticket_settings'),
+          show: hasPermission('view_ticket_settings'),
         },
         {
           title: 'إعدادات الشات',
           to: { name: 'chat-settings' },
-          show: canAccessPage('chat_settings'),
+          show: hasPermission('view_chat_settings'),
         },
         {
           title: 'الردود الجاهزة',
           to: { name: 'ready-replies-settings' },
-          show: canAccessPage('admin_replies'),
+          show: hasPermission('view_admin_replies'),
         },
         {
           title: 'شرائح الميزانية',
           to: { name: 'budget-slides-settings' },
-          show: canAccessPage('budget_slides'),
+          show: hasPermission('view_budget_slides'),
         },
       ],
     },
     {
       title: 'الاشتراكات',
       icon: { icon: 'tabler-package' },
-      show: canAccessAtLeastOnePage([
-        'subscription_requests',
-        'subscription_requests_logs',
-        'packages',
+      show: hasAtLeaseOnePermission([
+        'view_subscription_requests',
+        'view_subscription_requests_logs',
+        'view_packages',
       ]),
       to: null,
       children: [
         {
           title: 'باقات الإشتراك',
           to: { name: 'subscriptions-packages-page' },
-          show: canAccessPage('packages'),
+          show: hasPermission('view_packages'),
         },
         {
           title: 'طلبات الاشتراكات',
           to: { name: 'subscriptions-requests-page' },
-          show: canAccessPage('subscription_requests'),
+          show: hasPermission('view_subscription_requests'),
         },
         {
           title: 'سجل الاشتراكات',
           to: { name: 'subscriptions-logs-page' },
-          show: canAccessPage('subscription_requests_logs'),
+          show: hasPermission('view_subscription_requests_logs'),
         },
       ],
     },
@@ -279,25 +278,25 @@ const navItems = computed(() => {
       title: 'المعلنين',
       to: { name: 'advertisers-page' },
       icon: { icon: 'tabler-user-dollar' },
-      show: canAccessPage('advertisers'),
+      show: hasPermission('view_advertisers'),
     },
     {
       title: 'المستخدمين',
       to: { name: 'users-page' },
       icon: { icon: 'tabler-user' },
-      show: canAccessPage('users'),
+      show: hasPermission('view_users'),
     },
     {
       title: 'الاعلانات',
       to: { name: 'ads-page' },
       icon: { icon: 'tabler-ad-2' },
-      show: canAccessPage('ads'),
+      show: hasPermission('view_ads'),
     },
     {
       title: 'طلبات الاعلان',
       to: { name: 'ads-requests-page' },
       icon: { icon: 'tabler-file-check' },
-      show: canAccessPage('ads_requests'),
+      show: hasPermission('view_ads_requests'),
     },
     {
       title: 'فريق العمل',

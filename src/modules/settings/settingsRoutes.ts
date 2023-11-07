@@ -4,7 +4,7 @@ export const settingsRoutes = [
     name: 'countries-settings',
     component: () => import('./pages/CountriesPage.vue'),
     meta: {
-      requiredAccess: 'countries',
+      requiredPermission: 'view_countries',
     },
   },
   {
@@ -12,7 +12,7 @@ export const settingsRoutes = [
     name: 'areas-settings',
     component: () => import('./pages/AreasPage.vue'),
     meta: {
-      requiredAccess: 'areas',
+      requiredPermission: 'view_areas',
     },
   },
   {
@@ -20,7 +20,7 @@ export const settingsRoutes = [
     name: 'entities-settings',
     component: () => import('./pages/EntitiesPage.vue'),
     meta: {
-      requiredAccess: 'entities',
+      requiredPermission: 'view_entities',
     },
   },
   {
@@ -28,7 +28,7 @@ export const settingsRoutes = [
     name: 'tags-settings',
     component: () => import('./pages/TagsPage.vue'),
     meta: {
-      requiredAccess: 'tags',
+      requiredPermission: 'view_tags',
     },
   },
   {
@@ -36,7 +36,7 @@ export const settingsRoutes = [
     name: 'categories-settings',
     component: () => import('./pages/CategoriesPage.vue'),
     meta: {
-      requiredAccess: 'categories',
+      requiredPermission: 'view_categories',
     },
   },
   {
@@ -44,7 +44,7 @@ export const settingsRoutes = [
     name: 'ads-settings',
     component: () => import('./pages/AdsSettingsPage.vue'),
     meta: {
-      requiredAccess: 'ads_settings',
+      requiredPermission: 'view_ads_settings',
     },
   },
   {
@@ -52,7 +52,7 @@ export const settingsRoutes = [
     name: 'channels-settings',
     component: () => import('./pages/ChannelsPage.vue'),
     meta: {
-      requiredAccess: 'channels',
+      requiredPermission: 'view_channels',
     },
   },
   {
@@ -60,7 +60,7 @@ export const settingsRoutes = [
     name: 'reports-reasons-settings',
     component: () => import('./pages/ReportsReasons.vue'),
     meta: {
-      requiredAccess: 'report_reasons',
+      requiredPermission: 'view_report_reasons',
     },
   },
   {
@@ -68,7 +68,7 @@ export const settingsRoutes = [
     name: 'questions-settings',
     component: () => import('./pages/QuestionsPage.vue'),
     meta: {
-      requiredAccess: 'questions',
+      requiredPermission: 'view_questions',
     },
   },
   {
@@ -76,7 +76,7 @@ export const settingsRoutes = [
     name: 'rating-items-settings',
     component: () => import('./pages/RateItemsPage.vue'),
     meta: {
-      requiredAccess: 'rate_types',
+      requiredPermission: 'view_rate_types',
     },
   },
   {
@@ -84,7 +84,7 @@ export const settingsRoutes = [
     name: 'terms-conditions-settings',
     component: () => import('./pages/TermsConditionsPage.vue'),
     meta: {
-      requiredAccess: 'terms',
+      requiredPermission: 'view_terms',
     },
   },
   {
@@ -92,7 +92,7 @@ export const settingsRoutes = [
     name: 'subscription-extra-points-settings',
     component: () => import('./pages/SubscriptionExtraPointsPage.vue'),
     meta: {
-      requiredAccess: 'subscription_extra_points',
+      requiredPermission: 'view_subscription_extra_points',
     },
   },
   {
@@ -100,7 +100,7 @@ export const settingsRoutes = [
     name: 'platform-news-settings',
     component: () => import('./pages/PlatformNewsPage.vue'),
     meta: {
-      requiredAccess: 'page_news',
+      requiredPermission: 'view_page_news',
     },
   },
   {
@@ -108,7 +108,7 @@ export const settingsRoutes = [
     name: 'partners-settings',
     component: () => import('./pages/PartnersPage.vue'),
     meta: {
-      requiredAccess: 'partners',
+      requiredPermission: 'view_partners',
     },
   },
   {
@@ -116,7 +116,7 @@ export const settingsRoutes = [
     name: 'videos-settings',
     component: () => import('./pages/VideosPage.vue'),
     meta: {
-      requiredAccess: 'videos',
+      requiredPermission: 'view_videos',
     },
   },
   {
@@ -124,7 +124,7 @@ export const settingsRoutes = [
     name: 'about-us-settings',
     component: () => import('./pages/AboutUsPage.vue'),
     meta: {
-      requiredAccess: 'abouts',
+      requiredPermission: 'view_abouts',
     },
   },
   {
@@ -132,7 +132,7 @@ export const settingsRoutes = [
     name: 'tickets-settings',
     component: () => import('./pages/TicketsPage.vue'),
     meta: {
-      requiredAccess: 'ticket_settings',
+      requiredPermission: 'view_ticket_settings',
     },
   },
   {
@@ -140,7 +140,7 @@ export const settingsRoutes = [
     name: 'chat-settings',
     component: () => import('./pages/ChatPage.vue'),
     meta: {
-      requiredAccess: 'chat_settings',
+      requiredPermission: 'view_chat_settings',
     },
   },
   {
@@ -148,7 +148,7 @@ export const settingsRoutes = [
     name: 'ready-replies-settings',
     component: () => import('./pages/ReadyRepliesPage.vue'),
     meta: {
-      requiredAccess: 'admin_replies',
+      requiredPermission: 'view_admin_replies',
     },
   },
   {
@@ -156,7 +156,7 @@ export const settingsRoutes = [
     name: 'budget-slides-settings',
     component: () => import('./pages/BudgetSlidesPage.vue'),
     meta: {
-      requiredAccess: 'budget_slides',
+      requiredPermission: 'view_budget_slides',
     },
   },
   {
@@ -164,11 +164,11 @@ export const settingsRoutes = [
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),
     meta: {
-      requireAtLeastOneAccess: [
-        'general_settings',
-        'social_settings',
-        'schedule_settings',
-        'billing_cards',
+      requireAtLeastOnePermission: [
+        'view_general_settings',
+        'view_social_settings',
+        'view_schedule_settings',
+        'view_billing_cards',
       ],
     },
     children: [
@@ -177,7 +177,7 @@ export const settingsRoutes = [
         name: 'platform-settings-details',
         component: () => import('./pages/platform/DetailsPage.vue'),
         meta: {
-          requiredAccess: 'general_settings',
+          requiredPermission: 'view_general_settings',
         },
       },
       {
@@ -185,7 +185,7 @@ export const settingsRoutes = [
         name: 'social-accounts-settings',
         component: () => import('./pages/platform/SocialAccountsPage.vue'),
         meta: {
-          requiredAccess: 'social_settings',
+          requiredPermission: 'view_social_settings',
         },
       },
       {
@@ -193,7 +193,7 @@ export const settingsRoutes = [
         name: 'work-time-settings',
         component: () => import('./pages/platform/WorkTimePage.vue'),
         meta: {
-          requiredAccess: 'schedule_settings',
+          requiredPermission: 'view_schedule_settings',
         },
       },
       {
@@ -201,7 +201,7 @@ export const settingsRoutes = [
         name: 'payment-methods-settings',
         component: () => import('./pages/platform/PaymentMethodsPage.vue'),
         meta: {
-          requiredAccess: 'billing_cards',
+          requiredPermission: 'view_billing_cards',
         },
       },
     ],
@@ -211,11 +211,11 @@ export const settingsRoutes = [
     name: 'financial-settings',
     component: () => import('./pages/financial-settings/IndexPage.vue'),
     meta: {
-      requireAtLeastOneAccess: [
-        'financial_settings',
-        'payment_commissions',
-        'point_settings',
-        'tax_settings',
+      requireAtLeastOnePermission: [
+        'view_financial_settings',
+        'view_payment_commissions',
+        'view_point_settings',
+        'view_tax_settings',
       ],
     },
     children: [
@@ -224,7 +224,7 @@ export const settingsRoutes = [
         name: 'accounts-settings',
         component: () => import('./pages/financial-settings/AccountsPage.vue'),
         meta: {
-          requiredAccess: 'financial_settings',
+          requiredPermission: 'view_financial_settings',
         },
       },
       {
@@ -232,7 +232,7 @@ export const settingsRoutes = [
         name: 'payment-commission-settings',
         component: () => import('./pages/financial-settings/PaymentCommissionPage.vue'),
         meta: {
-          requiredAccess: 'payment_commissions',
+          requiredPermission: 'view_payment_commissions',
         },
       },
       {
@@ -240,7 +240,7 @@ export const settingsRoutes = [
         name: 'points-settings',
         component: () => import('./pages/financial-settings/PointsPage.vue'),
         meta: {
-          requiredAccess: 'point_settings',
+          requiredPermission: 'view_point_settings',
         },
       },
       {
@@ -248,7 +248,7 @@ export const settingsRoutes = [
         name: 'tax-settings',
         component: () => import('./pages/financial-settings/TaxPage.vue'),
         meta: {
-          requiredAccess: 'tax_settings',
+          requiredPermission: 'view_tax_settings',
         },
       },
     ],
@@ -258,11 +258,11 @@ export const settingsRoutes = [
     name: 'advertisers-accounts',
     component: () => import('./pages/advertisers-accounts/IndexPage.vue'),
     meta: {
-      requireAtLeastOneAccess: [
-        'ads_types',
-        'discrimination_types',
-        'account_cases',
-        'subscription_settings',
+      requireAtLeastOnePermission: [
+        'view_ads_types',
+        'view_discrimination_types',
+        'view_account_cases',
+        'view_subscription_settings',
       ],
     },
     children: [
@@ -271,7 +271,7 @@ export const settingsRoutes = [
         name: 'ads-types-settings',
         component: () => import('./pages/advertisers-accounts/AdsTypesPage.vue'),
         meta: {
-          requiredAccess: 'ads_types',
+          requiredPermission: 'view_ads_types',
         },
       },
       {
@@ -279,7 +279,7 @@ export const settingsRoutes = [
         name: 'discrimination-types-settings',
         component: () => import('./pages/advertisers-accounts/DiscriminationTypesPage.vue'),
         meta: {
-          requiredAccess: 'discrimination_types',
+          requiredPermission: 'view_discrimination_types',
         },
       },
       {
@@ -287,7 +287,7 @@ export const settingsRoutes = [
         name: 'accounts-cases-settings',
         component: () => import('./pages/advertisers-accounts/AccountsCasesPage.vue'),
         meta: {
-          requiredAccess: 'account_cases',
+          requiredPermission: 'view_account_cases',
         },
       },
       {
@@ -295,7 +295,7 @@ export const settingsRoutes = [
         name: 'subscription-settings',
         component: () => import('./pages/advertisers-accounts/SubscriptionPage.vue'),
         meta: {
-          requiredAccess: 'subscription_settings',
+          requiredPermission: 'view_subscription_settings',
         },
       },
     ],

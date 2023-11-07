@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/AuthStore'
 import QuestionsCategoriesList from '../components/QuestionsCategoriesList.vue'
 import QuestionsList from '../components/QuestionsList.vue'
-import { useAuthStore } from '@/stores/AuthStore'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -9,7 +9,7 @@ import { useAuthStore } from '@/stores/AuthStore'
 // #region Variables
 const route = useRoute()
 const router = useRouter()
-const { canAccessPage } = useAuthStore()
+const { hasPermission } = useAuthStore()
 const currentTab = ref<any>()
 
 const tabs = [
@@ -17,13 +17,13 @@ const tabs = [
     title: 'الأسئلة الشائعة',
     value: 'questions',
     component: QuestionsList,
-    show: canAccessPage('questions'),
+    show: hasPermission('view_questions'),
   },
   {
     title: 'أقسام الأسئلة الشائعة',
     value: 'categories',
     component: QuestionsCategoriesList,
-    show: canAccessPage('support_categories'),
+    show: hasPermission('view_support_categories'),
   },
 ]
 

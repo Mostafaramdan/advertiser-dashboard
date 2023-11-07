@@ -16,7 +16,7 @@ const FilterComponent = defineAsyncComponent(() => import('@/components/ads/AdsF
 const toast = useToast()
 const { t } = useI18n()
 const route = useRoute()
-const { hasPermission, canAccessPage } = useAuthStore()
+const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'ads'
 const showFilter = ref<boolean>(false)
@@ -87,7 +87,7 @@ const permissions = computed(() => ({
   sendNotification: hasPermission('notify_users'),
   delete: hasPermission('delete_ads'),
   changeStatus: hasPermission('change_status_ads'),
-  viewAdDetails: canAccessPage('ads_details'),
+  viewAdDetails: hasPermission('view_ads_details'),
   restore: hasPermission('restore_ads'),
 }))
 
@@ -231,7 +231,7 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
                   محذوف
                 </VChip>
               </div>
-              <div style="min-width: 130px">
+              <div style="min-inline-size: 130px">
                 {{ item.raw.ads_type }}
                 <span class="d-flex align-center text-sm">
                   <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
@@ -251,7 +251,7 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
           </template>
 
           <template #item.category_name="{ item }">
-            <div style="min-width: 120px">
+            <div style="min-inline-size: 120px">
               <div class="d-flex gap-2" v-if="item.raw.ads_locations">
                 <VChip
                   variant="outlined"
@@ -278,14 +278,14 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
           </template>
 
           <template #item.status_txt="{ item }">
-            <div style="min-width: 120px">
+            <div style="min-inline-size: 120px">
               {{ item.raw.status_txt }}
               <span class="text-sm text-disabled d-block">{{ item.raw.seen_count }}</span>
             </div>
           </template>
 
           <template #item.advertiser="{ item }">
-            <span style="width: 120px">
+            <span style="inline-size: 120px">
               {{ item.raw.advertiser.username }}
             </span>
           </template>

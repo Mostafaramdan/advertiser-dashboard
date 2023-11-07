@@ -11,7 +11,7 @@ const props = withDefaults(
     title: string
     series: number[]
     labels: string[]
-    height: number
+    height?: number
   }>(),
   {
     height: 350,

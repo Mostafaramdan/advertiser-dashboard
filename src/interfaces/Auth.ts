@@ -6,5 +6,5 @@ export interface User {
   image_path: string
   token: string
   created_at: string
-  permissions: { accessible_pages: string[]; actions: string[] }
+  permissions: string[]
 }
