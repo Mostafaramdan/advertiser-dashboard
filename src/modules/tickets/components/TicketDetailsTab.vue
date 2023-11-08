@@ -181,6 +181,7 @@ function getPageData() {
                     :model-value="rate.rate"
                     active-color="#ffcc00"
                     color="#ffcc00"
+                    half-increments
                   />
                   <span class="d-block">{{ rate.comment }}</span>
                 </VListItem>

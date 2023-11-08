@@ -4,15 +4,16 @@ export const couponsRoutes = [
     name: 'platform-coupons-page',
     component: () => import('./pages/PlatformCouponsPage.vue'),
     meta: {
-      requiredPermission: 'view_advertiser_coupons',
+      requiredPermission: 'view_platform_coupons',
     },
   },
   {
     path: 'platform/:id',
-    name: 'platform-coupons-history-page',
-    component: () => import('./pages/PlatformCouponsHistoryPage.vue'),
+    name: 'platform-coupon-details-page',
+    component: () => import('./pages/PlatformCouponDetailsPage.vue'),
     meta: {
       requireAtLeastOnePermission: [
+        'view_platform_coupons',
         'view_coupon_subscriber_logs',
         'view_coupon_transactions_history',
       ],

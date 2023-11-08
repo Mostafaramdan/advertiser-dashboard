@@ -164,7 +164,7 @@ getPageData()
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.code="{ item }">
-          <div class="d-flex align-center" style="min-width: 150px">
+          <div class="d-flex align-center" style="min-inline-size: 150px">
             <VAvatar size="38" variant="tonal" class="me-3" cover>
               <VImg v-if="item.raw.image" :src="item.raw.image.path" cover />
               <span v-else>!</span>
@@ -176,7 +176,7 @@ getPageData()
         </template>
 
         <template #item.started_at="{ item }">
-          <div class="text-no-wrap" style="min-width: 80px">
+          <div class="text-no-wrap" style="min-inline-size: 80px">
             {{ formatDate(item.raw.started_at) }}
             <span class="text-sm text-disabled d-block"> {{ formatDate(item.raw.ended_at) }}</span>
           </div>
@@ -186,7 +186,7 @@ getPageData()
         </template>
 
         <template #item.marketer_ratio="{ item }">
-          <div style="min-width: 80px">{{ item.raw.marketer_ratio }}%</div>
+          <div style="min-inline-size: 80px">{{ item.raw.marketer_ratio }}%</div>
         </template>
 
         <template #item.is_active="{ item }">
@@ -223,7 +223,7 @@ getPageData()
                   <VListItem
                     v-if="permissions.viewHistory"
                     :to="{
-                      name: 'platform-coupons-history-page',
+                      name: 'platform-coupon-details-page',
                       params: { id: item.raw.id },
                       query: { tab: 'subscribers-history' },
                     }"

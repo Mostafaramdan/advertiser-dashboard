@@ -12,6 +12,10 @@ class CouponsService {
     return axios.get(`${this.contextPath}`, { params })
   }
 
+  getSingleItem(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}`)
+  }
+
   getSubscribersHistory({ id, params }: { id: number; params: any }): AxiosPromise {
     return axios.get(`${this.contextPath}/${id}/subscriber_logs`, { params })
   }

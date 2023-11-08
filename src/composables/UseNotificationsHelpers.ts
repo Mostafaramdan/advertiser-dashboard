@@ -1,5 +1,6 @@
 import type { DashboardNotification } from '@/interfaces/Notifications'
 import { useNotificationsStore } from '@/stores/Notifications'
+import { useToast } from 'vue-toastification'
 
 export function UseNotificationsHelpers() {
   /***************************************
@@ -7,6 +8,7 @@ export function UseNotificationsHelpers() {
    **************************************/
   // #region Variables
   const router = useRouter()
+  const toast = useToast()
   const notificationStore = useNotificationsStore()
   const confirmModal = ref<any>()
   const isLoading = ref<boolean>(false)
@@ -170,6 +172,47 @@ export function UseNotificationsHelpers() {
           params: { id: modelId },
           query: { tab: 'details' },
         })
+        break
+
+      case 'create_platform_coupon_by_admin':
+      case 'update_platform_coupon_by_admin':
+      case 'change_status_platform_coupon_by_admin':
+      case 'select_coupon':
+      case 'deselect_coupon':
+        router.push({
+          name: 'platform-coupon-details-page',
+          params: { id: modelId },
+          query: { tab: 'details' },
+        })
+        break
+
+      case 'create_advertiser_coupon_by_admin':
+      case 'update_advertiser_coupon':
+      case 'change_status_advertiser_coupon':
+      case 'change_status_advertiser_coupon':
+        // TODO: ADD advertiser coupon details page
+        router.push({
+          name: 'advertisers-coupons-page',
+        })
+        break
+
+      case 'create_ads_request_coupon':
+      case 'update_ads_request_coupon':
+      case 'change_status_ads_request_coupon':
+      case 'create_store':
+      case 'delete_store':
+      case 'confirm_store':
+      case 'reject_store':
+        // TODO: ADD ads request coupon details page
+        router.push({
+          name: 'users-coupons-page',
+        })
+        break
+
+      case 'delete_platform_coupon_by_admin':
+      case 'delete_advertiser_coupon':
+      case 'delete_ads_request_coupon':
+        toast.info('هذا الاشعار للعرض فقط')
         break
     }
   }

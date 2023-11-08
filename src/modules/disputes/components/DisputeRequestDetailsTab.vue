@@ -230,6 +230,7 @@ function onTakeProcedure() {
                   :model-value="data.disputer_rate.rate"
                   active-color="#ffcc00"
                   color="#ffcc00"
+                  half-increments
                 />
                 <p class="text-body-1 mb-0">{{ data.disputer_rate.comment || 'لا يوجد تعليق' }}</p>
               </div>
@@ -246,6 +247,7 @@ function onTakeProcedure() {
                   :model-value="data.disputed_rate.rate"
                   active-color="#ffcc00"
                   color="#ffcc00"
+                  half-increments
                 />
                 <p class="text-body-1 mb-0">{{ data.disputed_rate.comment || 'لا يوجد تعليق' }}</p>
               </div>

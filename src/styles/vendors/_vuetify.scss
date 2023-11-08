@@ -125,3 +125,11 @@
 .v-dialog--scrollable > .v-overlay__content[class] {
   overflow: initial;
 }
+
+
+// rating
+.v-rating__item--half {
+  @include rtl {
+    transform: scaleX(-1);
+  }
+}

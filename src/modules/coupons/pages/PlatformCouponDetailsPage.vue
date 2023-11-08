@@ -10,6 +10,9 @@ const SubscribersHistoryTab = defineAsyncComponent(
 const OperationsHistoryTab = defineAsyncComponent(
   () => import('../components/OperationsHistoryTab.vue'),
 )
+const PlatformCouponDetailsTab = defineAsyncComponent(
+  () => import('../components/PlatformCouponDetailsTab.vue'),
+)
 const route = useRoute()
 const router = useRouter()
 const { hasPermission } = useAuthStore()
@@ -24,6 +27,12 @@ const currentTab = ref<any>()
 // #region Computed
 const tabs = computed(() => {
   return [
+    {
+      title: 'تفاصيل الكوبون',
+      value: 'details',
+      component: PlatformCouponDetailsTab,
+      show: hasPermission('view_platform_coupons'),
+    },
     {
       title: 'سجل المشتركين',
       value: 'subscribers-history',
@@ -82,7 +91,7 @@ function updateRouteQuery() {
         <div class="d-flex align-center">
           <PageBackBtn :link="{ name: 'platform-coupons-page' }" />
           <div>
-            سجل الكوبون
+            كوبون المنصة
             <span>رقم ({{ route.params.id }})</span>
           </div>
         </div>
