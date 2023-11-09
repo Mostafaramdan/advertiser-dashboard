@@ -7,6 +7,8 @@ type SupportTicketAdmin = {
   status: 'success' | 'failed' | 'in_progress'
 }
 
+export type SupportTicketAdminRole = 'primary' | 'secondary'
+
 export type SupportTicket = {
   id: number
   is_starred: boolean

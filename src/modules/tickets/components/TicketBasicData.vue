@@ -6,6 +6,9 @@ import { useAuthStore } from '@/stores/AuthStore'
 import { useTicketsStore } from '@/stores/TicketsStore'
 import { useToast } from 'vue-toastification'
 import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
+import type { SupportTicket, SupportTicketAdminRole } from '../interfaces/SupportTicket'
+import SupportTicketEditModal from '../modals/SupportTicketEditModal.vue'
+import TransferTicketModal from '../modals/TransferTicketModal.vue'
 import { supportTicketsService } from '../services/SupportTicketsService'
 
 /***************************************
@@ -21,6 +24,9 @@ const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'tickets'
 const ticketId = +route.params.id
 const confirmModal = ref<any>()
+const showTransferTicketModal = ref<boolean>(false)
+const showEditModal = ref<boolean>(false)
+const transferTicketRole = ref<SupportTicketAdminRole | null>(null)
 const isLoading = reactive({
   data: false,
   delete: false,
@@ -34,6 +40,8 @@ const isLoading = reactive({
 // #region Computed
 const permissions = computed(() => ({
   delete: hasPermission('delete_ticket'),
+  edit: hasPermission('change_ticket_status'),
+  transferTicketToAdmin: hasPermission('assign_ticket'),
 }))
 
 const data = computed(() => ticketsStore.ticketBasicData)
@@ -106,12 +114,34 @@ function toggleFavorite() {
       isLoading.favorite = false
     })
 }
+
+function openTransferTicketModal(adminRole: SupportTicketAdminRole) {
+  transferTicketRole.value = adminRole
+  showTransferTicketModal.value = true
+}
+
+function onUpdateTicket(ticket: SupportTicket) {
+  ticketsStore.setTicketBasicData(ticket)
+}
 // #endregion
 </script>
 
 <template>
   <div>
     <ConfirmModal ref="confirmModal" />
+    <TransferTicketModal
+      v-if="showTransferTicketModal && data && transferTicketRole"
+      v-model:showModal="showTransferTicketModal"
+      :ticket-id="data.id"
+      :transfer-ticket-role="transferTicketRole"
+      @transfer:ticket="onUpdateTicket"
+    />
+    <SupportTicketEditModal
+      :ticket="data"
+      v-if="data && showEditModal"
+      v-model:showModal="showEditModal"
+      @edit-item="onUpdateTicket"
+    />
     <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
       <VExpansionPanel elevation="0">
         <VExpansionPanelTitle> عرض تفاصيل التذكرة </VExpansionPanelTitle>
@@ -147,28 +177,55 @@ function toggleFavorite() {
                     {{ TICKETS_STATUSES.get(data.status)?.label }}
                   </span>
                   <div class="d-flex flex-wrap gap-3 w-100 mt-2">
-                    <VBtn
-                      variant="outlined"
-                      color="error"
-                      class="me-3"
-                      @click="showConfirmModal"
-                      :loading="isLoading.delete"
-                      :disabled="isLoading.delete || !permissions.delete"
-                    >
-                      حذف التذكرة<VIcon end icon="tabler-trash" />
-                    </VBtn>
-                    <VBtn
-                      variant="outlined"
-                      class="me-3"
-                      @click="toggleFavorite"
-                      :disabled="isLoading.favorite"
-                    >
+                    <VBtn variant="outlined" @click="toggleFavorite" :disabled="isLoading.favorite">
                       اضافة للمفضلة
                       <VIcon
                         end
                         icon="tabler-star-filled"
                         :color="data.is_starred ? '#ffcc00' : 'dark'"
                       />
+                    </VBtn>
+                    <VBtn variant="outlined" :max-width="38" :min-width="40">
+                      <VIcon icon="tabler-dots-vertical" />
+                      <VMenu activator="parent">
+                        <VList>
+                          <VListItem
+                            :disabled="isLoading.delete || !permissions.delete"
+                            @click="showConfirmModal"
+                          >
+                            <template #prepend>
+                              <VIcon icon="tabler-trash" />
+                            </template>
+                            <VListItemTitle>حذف</VListItemTitle>
+                          </VListItem>
+                          <VListItem :disabled="!permissions.edit" @click="showEditModal = true">
+                            <template #prepend>
+                              <VIcon icon="tabler-edit" />
+                            </template>
+                            <VListItemTitle>تعديل </VListItemTitle>
+                          </VListItem>
+                          <VListItem
+                            :disabled="!permissions.transferTicketToAdmin"
+                            @click="openTransferTicketModal('primary')"
+                          >
+                            <template #prepend>
+                              <VIcon icon="tabler-refresh" />
+                            </template>
+
+                            <VListItemTitle>استبدال المسؤؤل الاول</VListItemTitle>
+                          </VListItem>
+                          <VListItem
+                            :disabled="!permissions.transferTicketToAdmin"
+                            @click="openTransferTicketModal('secondary')"
+                          >
+                            <template #prepend>
+                              <VIcon icon="tabler-refresh" />
+                            </template>
+
+                            <VListItemTitle>استبدال المسؤؤل الثاني</VListItemTitle>
+                          </VListItem>
+                        </VList>
+                      </VMenu>
                     </VBtn>
                   </div>
                 </div>

@@ -29,9 +29,21 @@ class SupportTicketsService {
     return axios.get(`${this.contextPath}/${id}/logs`, { params })
   }
 
+  getAvailableAdmins({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/filter_admins`, { params })
+  }
+
   /** **************** post ******************/
   sendMessage({ id, data }: { id: number; data: any }): AxiosPromise {
     return axios.post(`${this.contextPath}/${id}/conversations`, data)
+  }
+
+  transferTicketToAdmin({ id, data }: { id: number; data: any }): AxiosPromise {
+    return axios.post(`${this.contextPath}/${id}/assign_ticket_to_admin`, data)
+  }
+
+  editTicketStatus({ id, data }: { id: number; data: any }): AxiosPromise {
+    return axios.post(`${this.contextPath}/${id}/change_status`, data)
   }
 
   /** **************** delete ******************/

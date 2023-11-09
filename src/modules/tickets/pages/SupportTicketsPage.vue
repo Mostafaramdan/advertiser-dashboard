@@ -8,7 +8,9 @@ import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import SupportTicketsStats from '../components/SupportTicketsStats.vue'
-import type { SupportTicket } from '../interfaces/SupportTicket'
+import type { SupportTicket, SupportTicketAdminRole } from '../interfaces/SupportTicket'
+import SupportTicketEditModal from '../modals/SupportTicketEditModal.vue'
+import TransferTicketModal from '../modals/TransferTicketModal.vue'
 import { supportTicketsService } from '../services/SupportTicketsService'
 
 /***************************************
@@ -23,6 +25,10 @@ const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'tickets'
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
+const showTransferTicketModal = ref<boolean>(false)
+const showEditModal = ref<boolean>(false)
+const activeTicket = ref<SupportTicket | null>(null)
+const transferTicketRole = ref<SupportTicketAdminRole | null>(null)
 const params = reactive({
   page: 1,
   itemPerPage: 10,
@@ -83,6 +89,8 @@ const headers: any = [
 const permissions = computed(() => ({
   delete: hasPermission('delete_ticket'),
   viewTicketDetails: hasPermission('view_ticket_details'),
+  transferTicketToAdmin: hasPermission('assign_ticket'),
+  edit: hasPermission('change_ticket_status'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -132,6 +140,22 @@ function toggleFavorite(item: SupportTicket) {
     })
 }
 
+function openTransferTicketModal(ticket: SupportTicket, adminRole: SupportTicketAdminRole) {
+  activeTicket.value = ticket
+  transferTicketRole.value = adminRole
+  showTransferTicketModal.value = true
+}
+
+function openEditTicketModal(ticket: SupportTicket) {
+  activeTicket.value = ticket
+  showEditModal.value = true
+}
+
+function onUpdateTicket(ticket: SupportTicket) {
+  const targetIndex = tableData.value.findIndex((item) => item.id === ticket.id)
+  if (targetIndex !== -1) tableData.value.splice(targetIndex, 1, ticket)
+}
+
 function handleShowFilter() {
   showFilter.value = !showFilter.value
   if (!loadFilter.value) loadFilter.value = true
@@ -148,6 +172,19 @@ function onApplyFilter(filters: any) {
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
+    <TransferTicketModal
+      v-if="showTransferTicketModal && activeTicket && transferTicketRole"
+      v-model:showModal="showTransferTicketModal"
+      :ticket-id="activeTicket.id"
+      :transfer-ticket-role="transferTicketRole"
+      @transfer:ticket="onUpdateTicket"
+    />
+    <SupportTicketEditModal
+      :ticket="activeTicket"
+      v-if="activeTicket && showEditModal"
+      v-model:showModal="showEditModal"
+      @edit-item="onUpdateTicket"
+    />
     <Component
       :is="FilterComponent"
       v-if="loadFilter"
@@ -269,6 +306,12 @@ function onApplyFilter(filters: any) {
                       </template>
                       <VListItemTitle>حذف</VListItemTitle>
                     </VListItem>
+                    <VListItem :disabled="!permissions.edit" @click="openEditTicketModal(item.raw)">
+                      <template #prepend>
+                        <VIcon icon="tabler-edit" />
+                      </template>
+                      <VListItemTitle>تعديل </VListItemTitle>
+                    </VListItem>
                     <VListItem @click="toggleFavorite(item.raw)">
                       <template #prepend>
                         <VIcon
@@ -279,14 +322,20 @@ function onApplyFilter(filters: any) {
 
                       <VListItemTitle>اضافة للمفضلة</VListItemTitle>
                     </VListItem>
-                    <VListItem>
+                    <VListItem
+                      :disabled="!permissions.transferTicketToAdmin"
+                      @click="openTransferTicketModal(item.raw, 'primary')"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-refresh" />
                       </template>
 
                       <VListItemTitle>استبدال المسؤؤل الاول</VListItemTitle>
                     </VListItem>
-                    <VListItem>
+                    <VListItem
+                      :disabled="!permissions.transferTicketToAdmin"
+                      @click="openTransferTicketModal(item.raw, 'secondary')"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-refresh" />
                       </template>
