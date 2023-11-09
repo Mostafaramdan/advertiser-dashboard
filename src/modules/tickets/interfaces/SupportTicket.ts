@@ -4,6 +4,7 @@ type SupportTicketAdmin = {
   id: number
   name: string
   hours: number
+  status: 'success' | 'failed' | 'in_progress'
 }
 
 export type SupportTicket = {

@@ -24,39 +24,53 @@ const defaultFileImage = new URL('../../../assets/images/svg/file-icons/other.sv
 const ticketInfo = computed(() => {
   const { ticketBasicData } = ticketsStore
   if (!ticketBasicData) return []
+  const { primary_admin, secondary_admin, support_type, category, last_update, rate } =
+    ticketBasicData
   return [
     {
       label: 'نوع التذكرة',
-      value: ticketBasicData.support_type,
+      value: support_type,
     },
     {
       label: 'القسم',
-      value: ticketBasicData.category,
+      value: category,
     },
     {
       label: 'تاريخ أخر تعديل',
-      value: formatDateTime(ticketBasicData.last_update),
+      value: formatDateTime(last_update),
     },
     {
       label: 'التقييم',
-      value: ticketBasicData.rate,
+      value: rate,
       key: 'rate',
     },
     {
       label: 'المسؤول الاول',
-      value: ticketBasicData.primary_admin.name,
+      value: primary_admin.name,
     },
     {
       label: 'التوقيت',
-      value: ticketBasicData.primary_admin.hours,
+      value: primary_admin.hours,
+      class:
+        primary_admin.status === 'failed'
+          ? 'text-error'
+          : primary_admin.status === 'success'
+          ? 'text-success'
+          : '',
     },
     {
       label: 'المسؤول الثاني',
-      value: ticketBasicData.secondary_admin.name,
+      value: secondary_admin.name,
     },
     {
       label: 'التوقيت',
-      value: ticketBasicData.secondary_admin.hours,
+      value: secondary_admin.hours,
+      class:
+        secondary_admin.status === 'failed'
+          ? 'text-error'
+          : secondary_admin.status === 'success'
+          ? 'text-success'
+          : '',
     },
   ]
 })
@@ -114,7 +128,8 @@ function getPageData() {
                     {{ item.value }}
                   </span>
                 </div>
-                <p v-else class="text-body-2 mb-0">
+
+                <p v-else class="text-body-2 mb-0" :class="item.class">
                   {{ item.value ?? '-' }}
                 </p>
               </VCol>

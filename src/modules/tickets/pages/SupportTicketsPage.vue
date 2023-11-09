@@ -218,15 +218,27 @@ function onApplyFilter(filters: any) {
           <template #item.primary_admin="{ item }">
             <div style="min-inline-size: 150px">
               <span>{{ item.raw.primary_admin.name }}</span>
-              <span class="text-sm text-disabled d-block">{{ item.raw.primary_admin.hours }}</span>
+              <span
+                class="text-sm text-disabled d-block"
+                :class="{
+                  'text-error': item.raw.primary_admin.status === 'failed',
+                  'text-success': item.raw.primary_admin.status === 'success',
+                }"
+                >{{ item.raw.primary_admin.hours }}</span
+              >
             </div>
           </template>
           <template #item.secondary_admin="{ item }">
             <div style="min-inline-size: 150px">
               <span>{{ item.raw.secondary_admin.name }}</span>
-              <span class="text-sm text-disabled d-block">{{
-                item.raw.secondary_admin.hours
-              }}</span>
+              <span
+                class="text-sm text-disabled d-block"
+                :class="{
+                  'text-error': item.raw.primary_admin.status === 'failed',
+                  'text-success': item.raw.primary_admin.status === 'success',
+                }"
+                >{{ item.raw.secondary_admin.hours }}</span
+              >
             </div>
           </template>
 
