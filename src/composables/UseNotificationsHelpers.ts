@@ -214,6 +214,44 @@ export function UseNotificationsHelpers() {
         })
         break
 
+      case 'create_dispute':
+      case 'accept_dispute':
+      case 'reject_dispute':
+      case 'confirm_dispute':
+      case 'finish_dispute':
+      case 'rate_dispute':
+      case 'edit_rate_dispute':
+      case 'enable_rating':
+      case 'disable_rating':
+        router.push({
+          name: 'dispute-details-page',
+          params: { id: modelId },
+          query: { tab: 'details' },
+        })
+        break
+
+      case 'message_to_support_dispute':
+      case 'reply_to_dispute':
+        router.push({
+          name: 'dispute-details-page',
+          params: { id: modelId },
+          query: { tab: 'conversations' },
+        })
+        break
+
+      case 'accept_support_dispute':
+      case 'reject_support_dispute':
+      case 'reply_admin_dispute':
+      case 'make_procedure_dispute':
+      case 'admin_enable_rate_dispute':
+      case 'admin_disable_rate_dispute':
+        router.push({
+          name: 'dispute-details-page',
+          params: { id: modelId },
+          query: { tab: 'logs' },
+        })
+        break
+
       case 'delete_platform_coupon_by_admin':
       case 'delete_advertiser_coupon':
       case 'delete_ads_request_coupon':
