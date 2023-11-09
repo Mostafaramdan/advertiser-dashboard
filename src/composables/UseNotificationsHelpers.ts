@@ -190,28 +190,34 @@ export function UseNotificationsHelpers() {
       case 'update_advertiser_coupon':
       case 'change_status_advertiser_coupon':
       case 'change_status_advertiser_coupon':
-        // TODO: ADD advertiser coupon details page
         router.push({
-          name: 'advertisers-coupons-page',
+          name: 'advertiser-coupon-details-page',
+          params: { id: modelId },
         })
         break
 
       case 'create_ads_request_coupon':
       case 'update_ads_request_coupon':
       case 'change_status_ads_request_coupon':
+        router.push({
+          name: 'user-coupon-details-page',
+          params: { id: modelId },
+        })
+        break
+
       case 'create_store':
-      case 'delete_store':
       case 'confirm_store':
       case 'reject_store':
-        // TODO: ADD ads request coupon details page
         router.push({
-          name: 'users-coupons-page',
+          name: 'store-details-page',
+          params: { id: modelId },
         })
         break
 
       case 'delete_platform_coupon_by_admin':
       case 'delete_advertiser_coupon':
       case 'delete_ads_request_coupon':
+      case 'delete_store':
         toast.info('هذا الاشعار للعرض فقط')
         break
     }

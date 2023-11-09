@@ -21,7 +21,7 @@ const { formatDate } = UseGeneralHelpers()
 
 <template>
   <div>
-    <VList :lines="false">
+    <VList :lines="false" class="pt-0">
       <VListItem v-if="data.image?.path" class="px-2 py-2" title="صورة الكوبون" border>
         <VImg :src="data.image.path" max-width="100" class="my-2 border" />
       </VListItem>

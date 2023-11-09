@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
-
+import StoreDetailsCard from '../components/StoreDetailsCard.vue'
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
@@ -27,7 +26,6 @@ const emit = defineEmits<{
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
-const { formatDate } = UseGeneralHelpers()
 const showModal = useVModel(props, 'showModal', emit)
 
 // #endregion
@@ -57,25 +55,7 @@ const showModal = useVModel(props, 'showModal', emit)
       <div>
         <VCard v-if="activeItem" title="عرض متجر">
           <VCardText>
-            <VList :lines="false">
-              <VListItem v-if="activeItem.image?.path" class="px-2 py-2" title="صورة المتجر" border>
-                <VImg :src="activeItem.image.path" max-width="100" class="my-2" />
-              </VListItem>
-              <VListItem
-                class="px-2 py-2"
-                title="الاسم عربي"
-                :subtitle="activeItem.name.ar"
-                border
-              />
-              <VListItem
-                class="px-2 py-2"
-                title="الاسم انجليزي"
-                :subtitle="activeItem.name.en || '-'"
-                border
-              />
-            </VList>
-            <AppSwitch :model-value="activeItem.from_app" label="معتمد من المنصة" name="from_app" />
-            <AppSwitch :model-value="activeItem.is_active" label="الحالة" name="is_active" />
+            <StoreDetailsCard :data="activeItem" />
           </VCardText>
         </VCard>
       </div>

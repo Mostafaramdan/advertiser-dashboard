@@ -28,6 +28,14 @@ export const couponsRoutes = [
     },
   },
   {
+    path: 'stores/:id',
+    name: 'store-details-page',
+    component: () => import('./pages/StoreDetailsPage.vue'),
+    meta: {
+      requiredPermission: 'view_stores',
+    },
+  },
+  {
     path: 'advertisers',
     name: 'advertisers-coupons-page',
     component: () => import('./pages/AdvertisersCouponsPage.vue'),
@@ -36,9 +44,25 @@ export const couponsRoutes = [
     },
   },
   {
+    path: 'advertisers/:id',
+    name: 'advertiser-coupon-details-page',
+    component: () => import('./pages/AdvertiserCouponDetailsPage.vue'),
+    meta: {
+      requiredPermission: 'view_advertiser_coupons',
+    },
+  },
+  {
     path: 'users',
     name: 'users-coupons-page',
     component: () => import('./pages/UsersCouponsPage.vue'),
+    meta: {
+      requiredPermission: 'view_ads_request_coupons',
+    },
+  },
+  {
+    path: 'users/:id',
+    name: 'user-coupon-details-page',
+    component: () => import('./pages/UserCouponDetailsPage.vue'),
     meta: {
       requiredPermission: 'view_ads_request_coupons',
     },

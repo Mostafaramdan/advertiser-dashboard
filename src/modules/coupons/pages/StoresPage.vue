@@ -148,24 +148,24 @@ getPageData()
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.name.ar="{ item }">
-          <div class="d-flex align-center" style="min-width: 150px">
+          <div class="d-flex align-center" style="min-inline-size: 150px">
             <VAvatar size="38" variant="tonal" class="me-3" cover>
               <VImg v-if="item.raw.image" :src="item.raw.image.path" cover />
               <span v-else>!</span>
             </VAvatar>
-            <span style="min-width: 100px">
+            <span style="min-inline-size: 100px">
               {{ item.raw.name.ar }}
             </span>
           </div>
         </template>
         <template #item.name.en="{ item }">
-          <span style="min-width: 100px">
+          <span style="min-inline-size: 100px">
             {{ item.raw.name.en || '-' }}
           </span>
         </template>
 
         <template #item.from_app="{ item }">
-          <div class="d-flex justify-center" style="min-width: 100px">
+          <div class="d-flex justify-center" style="min-inline-size: 100px">
             <ToggleActivationSwitch
               :id="item.raw.id"
               v-model="item.raw.from_app"

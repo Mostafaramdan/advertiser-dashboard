@@ -10,6 +10,10 @@ class StoresService {
     return axios.get(`${this.contextPath}`, { params })
   }
 
+  getSingleItem(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}`)
+  }
+
   /** **************** post ******************/
   createItem(data: Store): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
