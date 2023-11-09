@@ -256,6 +256,9 @@ export function UseNotificationsHelpers() {
       case 'delete_advertiser_coupon':
       case 'delete_ads_request_coupon':
       case 'delete_store':
+      case 'create_global_notification':
+      case 'send_notification_to_a_user':
+      case 'delete_notification':
         toast.info('هذا الاشعار للعرض فقط')
         break
     }
