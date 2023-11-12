@@ -150,7 +150,7 @@ function submit() {
                   >
                     <template #selection="{ item, index }">
                       <VChip v-if="index < 1">
-                        <span>{{ item.raw.label }}</span>
+                        <span>{{ item.title }}</span>
                       </VChip>
                       <span v-if="index === 1" class="text-grey text-caption align-self-center">
                         (+{{ formData.roles.length - 1 }} اخري)
@@ -178,7 +178,7 @@ function submit() {
                   >
                     <template #selection="{ item, index }">
                       <VChip v-if="index < 1">
-                        <span>{{ item.raw.label }}</span>
+                        <span>{{ item.title }}</span>
                       </VChip>
                       <span v-if="index === 1" class="text-grey text-caption align-self-center">
                         (+{{ formData.types.length - 1 }} اخري)
@@ -203,7 +203,7 @@ function submit() {
                 >
                   <template #selection="{ item, index }">
                     <VChip v-if="index < 1">
-                      <span>{{ item.raw.label }}</span>
+                      <span>{{ item.title }}</span>
                     </VChip>
                     <span v-if="index === 1" class="text-grey text-caption align-self-center">
                       (+{{ formData.packages.length - 1 }} اخري)
@@ -227,7 +227,7 @@ function submit() {
                 >
                   <template #selection="{ item, index }">
                     <VChip v-if="index < 1">
-                      <span>{{ item.raw.label }}</span>
+                      <span>{{ item.title }}</span>
                     </VChip>
                     <span v-if="index === 1" class="text-grey text-caption align-self-center">
                       (+{{ formData.entities.length - 1 }} اخري)

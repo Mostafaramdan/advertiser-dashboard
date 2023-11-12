@@ -6,7 +6,6 @@ import type { pageAction } from '@/interfaces/Shared'
 import { adsService } from '@/services/AdsService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -171,6 +170,12 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
   if (!item.is_deleted) deleteItem(item)
   else restoreItem(item)
 }
+
+function rowProps({ item }: { item: AdsListItem }) {
+  return {
+    class: item.is_deleted && 'bg-background',
+  }
+}
 // #endregion
 </script>
 
@@ -212,30 +217,25 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
           item-value="id"
           :item-selectable="(item) => !item.is_deleted"
           class="app-table"
+          :row-props="rowProps"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
           <template #item.ads_type="{ item }">
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg v-if="item.raw.image_path" :src="item.raw.image_path" cover />
+                  <VImg v-if="item.image_path" :src="item.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
-                <VChip
-                  v-if="item.raw.is_deleted"
-                  class="px-0 mt-1"
-                  color="error"
-                  label
-                  size="x-small"
-                >
+                <VChip v-if="item.is_deleted" class="px-0 mt-1" color="error" label size="x-small">
                   محذوف
                 </VChip>
               </div>
               <div style="min-inline-size: 130px">
-                {{ item.raw.ads_type }}
+                {{ item.ads_type }}
                 <span class="d-flex align-center text-sm">
                   <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
-                  {{ item.raw.rate }}
+                  {{ item.rate }}
                 </span>
               </div>
             </div>
@@ -243,58 +243,53 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
 
           <template #item.started_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.started_at) }}
+              {{ formatDateTime(item.started_at) }}
               <span class="text-sm text-disabled d-block">{{
-                item.raw.ended_at ? formatDateTime(item.raw.ended_at) : 'لا يوجد'
+                item.ended_at ? formatDateTime(item.ended_at) : 'لا يوجد'
               }}</span>
             </div>
           </template>
 
           <template #item.category_name="{ item }">
             <div style="min-inline-size: 120px">
-              <div class="d-flex gap-2" v-if="item.raw.ads_locations">
-                <VChip
-                  variant="outlined"
-                  color="primary"
-                  label
-                  v-if="item.raw.ads_locations.show_app"
-                >
+              <div class="d-flex gap-2" v-if="item.ads_locations">
+                <VChip variant="outlined" color="primary" label v-if="item.ads_locations.show_app">
                   المنصة
                 </VChip>
                 <VChip
                   variant="outlined"
                   color="primary"
                   label
-                  v-if="item.raw.ads_locations.show_profile"
+                  v-if="item.ads_locations.show_profile"
                 >
                   البروفايل
                 </VChip>
               </div>
               <div v-else>لا يوجد</div>
               <span class="text-sm text-disabled d-block">
-                {{ item.raw.category_name || 'لا يوجد' }}
+                {{ item.category_name || 'لا يوجد' }}
               </span>
             </div>
           </template>
 
           <template #item.status_txt="{ item }">
             <div style="min-inline-size: 120px">
-              {{ item.raw.status_txt }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.seen_count }}</span>
+              {{ item.status_txt }}
+              <span class="text-sm text-disabled d-block">{{ item.seen_count }}</span>
             </div>
           </template>
 
           <template #item.advertiser="{ item }">
             <span style="inline-size: 120px">
-              {{ item.raw.advertiser.username }}
+              {{ item.advertiser.username }}
             </span>
           </template>
 
           <template #item.is_active="{ item }">
             <div class="d-flex justify-center">
               <ToggleActivationSwitch
-                :id="item.raw.id"
-                v-model="item.raw.is_active"
+                :id="item.id"
+                v-model="item.is_active"
                 :model="MODEL_NAME"
                 :disabled="!permissions.changeStatus"
               />
@@ -307,7 +302,7 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
                 :disabled="!permissions.viewAdDetails"
                 :to="{
                   name: 'ad-details-page',
-                  params: { id: item.raw.id },
+                  params: { id: item.id },
                   query: { tab: 'details' },
                 }"
               >
@@ -315,14 +310,14 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
               </IconBtn>
               <IconBtn
                 :disabled="!permissions.delete"
-                @click="showConfirmModal(item.raw)"
-                v-if="!item.raw.is_deleted"
+                @click="showConfirmModal(item)"
+                v-if="!item.is_deleted"
               >
                 <VIcon icon="tabler-trash" />
               </IconBtn>
               <IconBtn
-                @click="showConfirmModal(item.raw)"
-                v-else="!item.raw.is_deleted"
+                @click="showConfirmModal(item)"
+                v-else="!item.is_deleted"
                 :disabled="!permissions.restore"
               >
                 <VIcon icon="tabler-restore" />
@@ -334,7 +329,7 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
                   <VList>
                     <VListItem
                       v-if="permissions.sendNotification"
-                      @click="openNotificationModal(item.raw.advertiser)"
+                      @click="openNotificationModal(item.advertiser)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />
@@ -342,8 +337,8 @@ async function showConfirmModal(item: AdsListItem): Promise<void> {
                       <VListItemTitle>ارسال اشعار للمعلن</VListItemTitle>
                     </VListItem>
                     <VListItem
-                      v-if="permissions.sendNotification && item.raw.user"
-                      @click="openNotificationModal(item.raw.user)"
+                      v-if="permissions.sendNotification && item.user"
+                      @click="openNotificationModal(item.user)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />

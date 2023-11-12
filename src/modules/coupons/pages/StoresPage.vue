@@ -3,7 +3,7 @@ a
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { Store } from '../interfaces/Store'
 import StoreDetailsModal from '../modals/StoreDetailsModal.vue'
 import StoreFormModal from '../modals/StoreFormModal.vue'
@@ -150,25 +150,25 @@ getPageData()
         <template #item.name.ar="{ item }">
           <div class="d-flex align-center" style="min-inline-size: 150px">
             <VAvatar size="38" variant="tonal" class="me-3" cover>
-              <VImg v-if="item.raw.image" :src="item.raw.image.path" cover />
+              <VImg v-if="item.image" :src="item.image.path" cover />
               <span v-else>!</span>
             </VAvatar>
             <span style="min-inline-size: 100px">
-              {{ item.raw.name.ar }}
+              {{ item.name.ar }}
             </span>
           </div>
         </template>
         <template #item.name.en="{ item }">
           <span style="min-inline-size: 100px">
-            {{ item.raw.name.en || '-' }}
+            {{ item.name.en || '-' }}
           </span>
         </template>
 
         <template #item.from_app="{ item }">
           <div class="d-flex justify-center" style="min-inline-size: 100px">
             <ToggleActivationSwitch
-              :id="item.raw.id"
-              v-model="item.raw.from_app"
+              :id="item.id"
+              v-model="item.from_app"
               :model="MODEL_NAME"
               :disabled="!permissions.changeStatus"
               column="from_app"
@@ -179,8 +179,8 @@ getPageData()
         <template #item.is_active="{ item }">
           <div class="d-flex justify-center">
             <ToggleActivationSwitch
-              :id="item.raw.id"
-              v-model="item.raw.is_active"
+              :id="item.id"
+              v-model="item.is_active"
               :model="MODEL_NAME"
               :disabled="!permissions.changeStatus"
             />
@@ -189,11 +189,11 @@ getPageData()
 
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
               <VIcon icon="tabler-trash" />
             </IconBtn>
 
-            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item.raw)">
+            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item)">
               <VIcon icon="tabler-edit" />
             </IconBtn>
 
@@ -202,7 +202,7 @@ getPageData()
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem @click="showViewModal(item.raw)">
+                  <VListItem @click="showViewModal(item)">
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
@@ -212,8 +212,8 @@ getPageData()
 
                   <VListItem
                     v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
-                    @click="sortItems(item.raw.id)"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    @click="sortItems(item.id)"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />

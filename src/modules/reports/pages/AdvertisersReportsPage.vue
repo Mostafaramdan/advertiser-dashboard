@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MetaData } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { AdvertiserReport } from '../interfaces/AdvertiserReport'
 import { reportsService } from '../services/ReportsService'
 
@@ -159,31 +159,27 @@ function openNotificationModal(user: any) {
             <router-link
               :to="{
                 name: 'advertisers-profile-page',
-                params: { id: item.raw.advertiser.id },
+                params: { id: item.advertiser.id },
                 query: { tab: 'details' },
               }"
               class="d-flex align-center"
             >
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg
-                    v-if="item.raw.advertiser.image_path"
-                    :src="item.raw.advertiser.image_path"
-                    cover
-                  />
+                  <VImg v-if="item.advertiser.image_path" :src="item.advertiser.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
-              <div style="min-width: 205px">
-                <span>{{ item.raw.advertiser.username }}</span>
-                <span class="text-sm text-disabled d-block">{{ item.raw.advertiser.phone }}</span>
+              <div style="min-inline-size: 205px">
+                <span>{{ item.advertiser.username }}</span>
+                <span class="text-sm text-disabled d-block">{{ item.advertiser.phone }}</span>
               </div>
             </router-link>
           </template>
           <template #item.reports_count="{ item }">
-            <div class="text-no-wrap" style="min-width: 80px">
-              {{ item.raw.reports_count }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.report_rate }}%</span>
+            <div class="text-no-wrap" style="min-inline-size: 80px">
+              {{ item.reports_count }}
+              <span class="text-sm text-disabled d-block">{{ item.report_rate }}%</span>
             </div>
           </template>
 
@@ -193,7 +189,7 @@ function openNotificationModal(user: any) {
                 :disabled="!permissions.viewAdvertiserReports"
                 :to="{
                   name: 'advertisers-profile-page',
-                  params: { id: item.raw.advertiser.id },
+                  params: { id: item.advertiser.id },
                   query: { tab: 'reports' },
                 }"
               >
@@ -201,7 +197,7 @@ function openNotificationModal(user: any) {
               </IconBtn>
               <IconBtn
                 :disabled="!permissions.sendNotification"
-                @click="openNotificationModal(item.raw.advertiser)"
+                @click="openNotificationModal(item.advertiser)"
               >
                 <VIcon icon="tabler-mail" />
               </IconBtn>

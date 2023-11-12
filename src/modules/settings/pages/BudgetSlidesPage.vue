@@ -2,7 +2,7 @@
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { BudgetSlide } from '../interfaces/BudgetSlide'
 import BudgetSlideDetailsModal from '../modals/BudgetSlideDetailsModal.vue'
 import BudgetSlideFormModal from '../modals/BudgetSlideFormModal.vue'
@@ -140,20 +140,20 @@ getPageData()
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.from="{ item }">
-          <div style="min-width: 70px" class="text-no-wrap">
-            {{ item.raw.from }}
+          <div style="min-inline-size: 70px" class="text-no-wrap">
+            {{ item.from }}
           </div>
         </template>
         <template #item.to="{ item }">
-          <div style="min-width: 70px" class="text-no-wrap">
-            {{ item.raw.to }}
+          <div style="min-inline-size: 70px" class="text-no-wrap">
+            {{ item.to }}
           </div>
         </template>
 
         <template #item.is_active="{ item }">
           <ToggleActivationSwitch
-            :id="item.raw.id"
-            v-model="item.raw.is_active"
+            :id="item.id"
+            v-model="item.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />
@@ -162,11 +162,11 @@ getPageData()
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
             <IconBtn :disabled="!permissions.delete">
-              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item.raw)" />
+              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item)" />
             </IconBtn>
 
             <IconBtn :disabled="!permissions.edit">
-              <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
+              <VIcon icon="tabler-edit" @click="showEditModal(item)" />
             </IconBtn>
 
             <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -174,7 +174,7 @@ getPageData()
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem @click="showViewModal(item.raw)">
+                  <VListItem @click="showViewModal(item)">
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
@@ -184,8 +184,8 @@ getPageData()
 
                   <VListItem
                     v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
-                    @click="sortItems(item.raw.id)"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    @click="sortItems(item.id)"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />

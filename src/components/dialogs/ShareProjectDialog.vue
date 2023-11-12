@@ -110,7 +110,7 @@ const membersList: Member[] = [
           <template #item="{ props: listItemProp, item }">
             <VListItem v-bind="listItemProp">
               <template #prepend>
-                <VAvatar :image="item.raw.avatar" size="30" />
+                <VAvatar :image="item.avatar" size="30" />
               </template>
             </VListItem>
           </template>

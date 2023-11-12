@@ -4,7 +4,6 @@ import { MetaData } from '@/interfaces/Shared'
 import type { AdvertiserReportItem } from '@/modules/reports/interfaces/AdvertiserReport'
 import { reportsService } from '@/modules/reports/services/ReportsService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -156,25 +155,25 @@ function openNotificationModal(user: any) {
       >
         <template #item.blocker.account_name="{ item }">
           <div style="min-inline-size: 150px">
-            {{ item.raw.blocker.account_name }}
+            {{ item.blocker.account_name }}
           </div>
         </template>
         <template #item.blocker.country_name="{ item }">
           <div style="min-inline-size: 100px">
-            {{ item.raw.blocker.country_name }}
+            {{ item.blocker.country_name }}
           </div>
         </template>
         <template #item.created_at="{ item }">
           <div class="text-no-wrap">
-            {{ formatDateTime(item.raw.created_at) }}
-            <span class="text-sm text-disabled d-block"> {{ item.raw.phone }}</span>
+            {{ formatDateTime(item.created_at) }}
+            <span class="text-sm text-disabled d-block"> {{ item.phone }}</span>
           </div>
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
             <IconBtn
               :disabled="!permissions.sendNotification"
-              @click="openNotificationModal(item.raw.blocker)"
+              @click="openNotificationModal(item.blocker)"
             >
               <VIcon icon="tabler-mail" />
             </IconBtn>

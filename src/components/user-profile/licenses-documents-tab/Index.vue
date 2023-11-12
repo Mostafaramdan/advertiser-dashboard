@@ -3,7 +3,6 @@ import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import type { LicenseDocument, UserBasicData } from '@/interfaces/User'
 import { API_SEND_ATTACHMENT_NOTIFICATION, usersService } from '@/services/UsersService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -176,41 +175,41 @@ function openHistoryModal(id: number) {
     >
       <template #item.name="{ item }">
         <span class="text-no-wrap">
-          {{ item.raw.name }}
+          {{ item.name }}
         </span>
       </template>
       <template #item.ended_at="{ item }">
         <span class="text-no-wrap">
-          {{ formatDate(item.raw.ended_at) }}
+          {{ formatDate(item.ended_at) }}
         </span>
       </template>
       <template #item.remaining_days="{ item }">
-        <span class="text-no-wrap" v-if="item.raw.remaining_days !== null">
-          <span v-if="item.raw.remaining_days > 0"> {{ item.raw.remaining_days }} يوم </span>
+        <span class="text-no-wrap" v-if="item.remaining_days !== null">
+          <span v-if="item.remaining_days > 0"> {{ item.remaining_days }} يوم </span>
           <span class="text-error" v-else>منتهي</span>
         </span>
         <span v-else>-</span>
       </template>
       <template #item.updated_at="{ item }">
         <span class="text-no-wrap">
-          {{ formatDateTime(item.raw.updated_at) }}
+          {{ formatDateTime(item.updated_at) }}
         </span>
       </template>
       <template #item.last_notified_at="{ item }">
         <span class="text-no-wrap">
-          {{ formatDateTime(item.raw.last_notified_at) }}
+          {{ formatDateTime(item.last_notified_at) }}
         </span>
       </template>
       <template #item.file_path="{ item }">
         <div class="text-no-wrap">
-          <a v-if="item.raw.file_path" :href="item.raw.file_path" target="_blank">تحميل المرفق</a>
+          <a v-if="item.file_path" :href="item.file_path" target="_blank">تحميل المرفق</a>
           <span v-else>لا يوجد مرفق</span>
         </div>
       </template>
       <template #item.is_active="{ item }">
         <ToggleActivationSwitch
-          :id="item.raw.id"
-          v-model="item.raw.is_active"
+          :id="item.id"
+          v-model="item.is_active"
           :model="MODEL_NAME"
           :disabled="!permissions.confirmLicenseDocument"
         />
@@ -219,7 +218,7 @@ function openHistoryModal(id: number) {
         <VBtn
           variant="outlined"
           size="35"
-          @click="openNotificationModal(item.raw)"
+          @click="openNotificationModal(item)"
           :disabled="!permissions.sendNotification"
         >
           <VIcon icon="tabler-mail" size="22" />
@@ -229,7 +228,7 @@ function openHistoryModal(id: number) {
         <VBtn
           variant="outlined"
           size="35"
-          @click="openNoteModal(item.raw.id)"
+          @click="openNoteModal(item.id)"
           :disabled="!permissions.sendNote"
         >
           <VIcon icon="tabler-message-2-plus" size="22" />
@@ -239,7 +238,7 @@ function openHistoryModal(id: number) {
         <VBtn
           variant="outlined"
           size="35"
-          @click="openHistoryModal(item.raw.id)"
+          @click="openHistoryModal(item.id)"
           :disabled="!permissions.viewHistory"
         >
           <VIcon icon="tabler-history" size="22" />

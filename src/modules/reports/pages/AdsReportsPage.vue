@@ -3,7 +3,7 @@ import type { MetaData, pageAction } from '@/interfaces/Shared'
 import { adsService } from '@/services/AdsService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { AdsReport } from '../interfaces/AdsReport'
 import { reportsService } from '../services/ReportsService'
 
@@ -239,58 +239,54 @@ async function showConfirmModal(item: AdsReport): Promise<void> {
             <router-link
               :to="{
                 name: 'advertisers-profile-page',
-                params: { id: item.raw.advertiser.id },
+                params: { id: item.advertiser.id },
                 query: { tab: 'details' },
               }"
               class="d-flex align-center"
             >
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg
-                    v-if="item.raw.advertiser.image_path"
-                    :src="item.raw.advertiser.image_path"
-                    cover
-                  />
+                  <VImg v-if="item.advertiser.image_path" :src="item.advertiser.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
               <div style="min-inline-size: 205px">
-                <span>{{ item.raw.advertiser.username }}</span>
-                <span class="text-sm text-disabled d-block">{{ item.raw.advertiser.phone }}</span>
+                <span>{{ item.advertiser.username }}</span>
+                <span class="text-sm text-disabled d-block">{{ item.advertiser.phone }}</span>
               </div>
             </router-link>
           </template>
           <template #item.reports_count="{ item }">
             <div class="text-no-wrap" style="min-inline-size: 80px">
-              {{ item.raw.reports_count }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.report_rate }}%</span>
+              {{ item.reports_count }}
+              <span class="text-sm text-disabled d-block">{{ item.report_rate }}%</span>
             </div>
           </template>
           <template #item.seen_count="{ item }">
             <div class="text-no-wrap" style="min-inline-size: 80px">
-              {{ item.raw.seen_count }}
+              {{ item.seen_count }}
               <div class="d-flex">
                 <VChip
                   class="px-2 mt-1"
-                  :color="item.raw.is_deleted ? 'error' : 'success'"
+                  :color="item.is_deleted ? 'error' : 'success'"
                   label
                   size="x-small"
                 >
-                  {{ item.raw.is_deleted ? 'محذوف' : 'متواجد' }}
+                  {{ item.is_deleted ? 'محذوف' : 'متواجد' }}
                 </VChip>
               </div>
             </div>
           </template>
           <template #item.ads_description="{ item }">
             <span style="inline-size: 180px">
-              {{ item.raw.ads_description }}
+              {{ item.ads_description }}
             </span>
           </template>
           <template #item.is_active_ad="{ item }">
             <div class="d-flex justify-center">
               <ToggleActivationSwitch
-                :id="item.raw.ad_id"
-                v-model="item.raw.is_active_ad"
+                :id="item.ad_id"
+                v-model="item.is_active_ad"
                 :model="ADS_MODEL_NAME"
                 :disabled="!permissions.changeAdStatus"
               />
@@ -303,7 +299,7 @@ async function showConfirmModal(item: AdsReport): Promise<void> {
                 :disabled="!permissions.viewAdDetails"
                 :to="{
                   name: 'ad-details-page',
-                  params: { id: item.raw.ad_id },
+                  params: { id: item.ad_id },
                   query: { tab: 'reports' },
                 }"
               >
@@ -316,7 +312,7 @@ async function showConfirmModal(item: AdsReport): Promise<void> {
                   <VList>
                     <VListItem
                       v-if="permissions.sendNotification"
-                      @click="openNotificationModal(item.raw.advertiser)"
+                      @click="openNotificationModal(item.advertiser)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />
@@ -326,8 +322,8 @@ async function showConfirmModal(item: AdsReport): Promise<void> {
 
                     <VListItem
                       :disabled="!permissions.deleteAd"
-                      @click="showConfirmModal(item.raw)"
-                      v-if="!item.raw.is_deleted"
+                      @click="showConfirmModal(item)"
+                      v-if="!item.is_deleted"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-trash" />
@@ -335,8 +331,8 @@ async function showConfirmModal(item: AdsReport): Promise<void> {
                       <VListItemTitle>حذف الاعلان</VListItemTitle>
                     </VListItem>
                     <VListItem
-                      @click="showConfirmModal(item.raw)"
-                      v-else="!item.raw.is_deleted"
+                      @click="showConfirmModal(item)"
+                      v-else="!item.is_deleted"
                       :disabled="!permissions.restoreAd"
                     >
                       <template #prepend>

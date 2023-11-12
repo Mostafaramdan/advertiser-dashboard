@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { OperationsHistoryItem } from '../interfaces/PlatformCoupon'
 import { couponsService } from '../services/CouponsService'
 
@@ -153,20 +153,20 @@ function onReloadData(): void {
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.user="{ item }">
-          <div style="min-width: 150px; max-width: 250px">
-            {{ item.raw.user.username }}
-            <span class="text-sm text-disabled d-block"> {{ item.raw.user.role }}</span>
+          <div style="max-inline-size: 250px; min-inline-size: 150px">
+            {{ item.user.username }}
+            <span class="text-sm text-disabled d-block"> {{ item.user.role }}</span>
           </div>
         </template>
         <template #item.advertiser="{ item }">
-          <div style="min-width: 150px; max-width: 250px">
-            {{ item.raw.advertiser.username }}
-            <span class="text-sm text-disabled d-block"> {{ item.raw.advertiser.role }}</span>
+          <div style="max-inline-size: 250px; min-inline-size: 150px">
+            {{ item.advertiser.username }}
+            <span class="text-sm text-disabled d-block"> {{ item.advertiser.role }}</span>
           </div>
         </template>
         <template #item.created_at="{ item }">
           <div class="text-no-wrap">
-            {{ formatDateTime(item.raw.created_at) }}
+            {{ formatDateTime(item.created_at) }}
           </div>
         </template>
 

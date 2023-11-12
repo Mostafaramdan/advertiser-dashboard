@@ -5,7 +5,6 @@ import type { AdReportItem } from '@/modules/reports/interfaces/AdsReport'
 import { reportsService } from '@/modules/reports/services/ReportsService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -246,34 +245,34 @@ function openNotificationModal(user: any) {
         :no-data-text="isLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.reporter.username="{ item }">
-          <div style="min-width: 150px">
-            {{ item.raw.reporter.username }}
+          <div style="min-inline-size: 150px">
+            {{ item.reporter.username }}
           </div>
         </template>
         <template #item.report_content="{ item }">
-          <div style="width: 250px">
-            {{ item.raw.report_content }}
+          <div style="inline-size: 250px">
+            {{ item.report_content }}
           </div>
         </template>
         <template #item.reporter.country_name="{ item }">
-          <div style="min-width: 100px">
-            {{ item.raw.reporter.country_name }}
+          <div style="min-inline-size: 100px">
+            {{ item.reporter.country_name }}
           </div>
         </template>
         <template #item.created_at="{ item }">
           <div class="text-no-wrap">
-            {{ formatDateTime(item.raw.created_at) }}
-            <span class="text-sm text-disabled d-block"> {{ item.raw.phone }}</span>
+            {{ formatDateTime(item.created_at) }}
+            <span class="text-sm text-disabled d-block"> {{ item.phone }}</span>
           </div>
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
               <VIcon icon="tabler-trash" />
             </IconBtn>
             <IconBtn
               :disabled="!permissions.sendNotification"
-              @click="openNotificationModal(item.raw.reporter)"
+              @click="openNotificationModal(item.reporter)"
             >
               <VIcon icon="tabler-mail" />
             </IconBtn>

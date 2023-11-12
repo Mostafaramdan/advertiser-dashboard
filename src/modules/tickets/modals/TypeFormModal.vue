@@ -172,7 +172,7 @@ const submit = () => {
                 >
                   <template #selection="{ item, index }">
                     <VChip v-if="index < 1">
-                      <span>{{ item.raw.label }}</span>
+                      <span>{{ item.title }}</span>
                     </VChip>
                     <span v-if="index === 1" class="text-grey text-caption align-self-center">
                       (+{{ formData.admins.length - 1 }} اخري)
@@ -194,7 +194,7 @@ const submit = () => {
                 >
                   <template #selection="{ item, index }">
                     <VChip v-if="index < 1">
-                      <span>{{ item.raw.label }}</span>
+                      <span>{{ item.title }}</span>
                     </VChip>
                     <span v-if="index === 1" class="text-grey text-caption align-self-center">
                       (+{{ formData.user_types.length - 1 }} اخري)

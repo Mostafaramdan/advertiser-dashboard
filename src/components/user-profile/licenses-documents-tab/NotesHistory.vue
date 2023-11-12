@@ -3,7 +3,6 @@ import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { MetaData } from '@/interfaces/Shared'
 import type { LicenseDocumentNote } from '@/interfaces/User'
 import { usersService } from '@/services/UsersService'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -90,18 +89,18 @@ function getPageData() {
       :no-data-text="isLoading ? t('general.loading') : t('general.no_data')"
     >
       <template #item.admin_name="{ item }">
-        <div style="min-width: 100px">
-          {{ item.raw.admin_name }}
+        <div style="min-inline-size: 100px">
+          {{ item.admin_name }}
         </div>
       </template>
       <template #item.created_at="{ item }">
         <div class="text-no-wrap">
-          {{ formatDateTime(item.raw.created_at) }}
+          {{ formatDateTime(item.created_at) }}
         </div>
       </template>
       <template #item.note="{ item }">
-        <div style="min-width: 300px">
-          {{ item.raw.note }}
+        <div style="min-inline-size: 300px">
+          {{ item.note }}
         </div>
       </template>
 

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useLayouts } from '@layouts'
 import { config } from '@layouts/config'
-import { can } from '@layouts/plugins/casl'
 import type { NavLink } from '@layouts/types'
 import { getComputedNavLinkToProp, isNavLinkActive } from '@layouts/utils'
 
@@ -21,7 +20,6 @@ const { dynamicI18nProps } = useLayouts()
 
 <template>
   <li
-    v-if="can(item.action, item.subject)"
     class="nav-link"
     :class="[
       {

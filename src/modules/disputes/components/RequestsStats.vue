@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 import type { RequestsStats } from '../interfaces/DisputeRequest'
 import { requestsService } from '../services/RequestsService'
 

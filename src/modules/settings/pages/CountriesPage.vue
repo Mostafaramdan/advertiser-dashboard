@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { Country } from '../interfaces/Country'
 import CountryDetailsModal from '../modals/CountryDetailsModal.vue'
 import { countriesService } from '../services/CountriesService'
@@ -120,30 +120,30 @@ getPageData()
       >
         <template #item.name.ar="{ item }">
           <a
-            :href="item.raw.google_map"
+            :href="item.google_map"
             target="_blank"
             rel="noopener noreferrer"
             class="d-inline-flex align-center"
             style="min-inline-size: 120px"
           >
             <VAvatar size="38" variant="tonal" class="me-3" cover>
-              <VImg v-if="item.raw.image" :src="item.raw.image" cover />
+              <VImg v-if="item.image" :src="item.image" cover />
               <span v-else>!</span>
             </VAvatar>
             <span>
-              {{ item.raw.name.ar }}
+              {{ item.name.ar }}
             </span>
           </a>
         </template>
         <template #item.name.en="{ item }">
           <span style="min-inline-size: 120px">
-            {{ item.raw.name.en }}
+            {{ item.name.en }}
           </span>
         </template>
         <template #item.is_active="{ item }">
           <ToggleActivationSwitch
-            :id="item.raw.id"
-            v-model="item.raw.is_active"
+            :id="item.id"
+            v-model="item.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />
@@ -152,7 +152,7 @@ getPageData()
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
             <IconBtn>
-              <VIcon icon="tabler-eye" @click="showViewModal(item.raw)" />
+              <VIcon icon="tabler-eye" @click="showViewModal(item)" />
             </IconBtn>
 
             <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -162,7 +162,7 @@ getPageData()
                 <VList>
                   <VListItem
                     v-if="permissions.viewAreas"
-                    :to="{ name: 'areas-settings', params: { id: item.raw.id } }"
+                    :to="{ name: 'areas-settings', params: { id: item.id } }"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-view-360" />
@@ -173,8 +173,8 @@ getPageData()
 
                   <VListItem
                     v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
-                    @click="sortItems(item.raw.id)"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    @click="sortItems(item.id)"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { SubscribersHistoryItem } from '../interfaces/PlatformCoupon'
 import { couponsService } from '../services/CouponsService'
 
@@ -148,14 +148,14 @@ function onReloadData(): void {
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.advertiser="{ item }">
-          <div style="min-width: 150px; max-width: 250px">
-            {{ item.raw.advertiser.account_name }}
-            <span class="text-sm text-disabled d-block"> {{ item.raw.advertiser.username }}</span>
+          <div style="max-inline-size: 250px; min-inline-size: 150px">
+            {{ item.advertiser.account_name }}
+            <span class="text-sm text-disabled d-block"> {{ item.advertiser.username }}</span>
           </div>
         </template>
         <template #item.status="{ item }">
           <VChip color="dark">
-            {{ item.raw.status }}
+            {{ item.status }}
           </VChip>
         </template>
 

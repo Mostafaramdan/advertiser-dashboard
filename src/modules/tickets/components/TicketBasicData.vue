@@ -5,7 +5,7 @@ import { sharedService } from '@/services/SharedService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useTicketsStore } from '@/stores/TicketsStore'
 import { useToast } from 'vue-toastification'
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
+
 import type { SupportTicket, SupportTicketAdminRole } from '../interfaces/SupportTicket'
 import SupportTicketEditModal from '../modals/SupportTicketEditModal.vue'
 import TransferTicketModal from '../modals/TransferTicketModal.vue'

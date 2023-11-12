@@ -5,7 +5,6 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { DashboardNotification } from '@/interfaces/Notifications'
 import type { pageAction } from '@/interfaces/Shared'
 import { logsService } from '@/services/LogsService'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -129,27 +128,23 @@ function onApplyFilter(filters: any) {
         >
           <template #item.body="{ item }">
             <div class="bg-background pa-2 my-2 rounded text-center" style="inline-size: 300px">
-              {{ item.raw.body }}
+              {{ item.body }}
             </div>
           </template>
           <template #item.title="{ item }">
-            <a
-              href="#"
-              @click.prevent="handleNotificationAction(item.raw)"
-              style="inline-size: 150px"
-            >
-              {{ item.raw.title }}
+            <a href="#" @click.prevent="handleNotificationAction(item)" style="inline-size: 150px">
+              {{ item.title }}
             </a>
           </template>
           <template #item.action_by="{ item }">
-            <div style="inline-size: 180px" v-if="item.raw.action_by">
-              {{ item.raw.action_by.username }}
+            <div style="inline-size: 180px" v-if="item.action_by">
+              {{ item.action_by.username }}
             </div>
             <span v-else>-</span>
           </template>
           <template #item.created_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.created_at) }}
+              {{ formatDateTime(item.created_at) }}
             </div>
           </template>
 

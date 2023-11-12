@@ -4,7 +4,7 @@ import { USERS_TYPES } from '@/constants/tickets'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useTicketsStore } from '@/stores/TicketsStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { Type } from '../interfaces/Type'
 import TypeDetailsModal from '../modals/TypeDetailsModal.vue'
 import TypeFormModal from '../modals/TypeFormModal.vue'
@@ -150,27 +150,25 @@ getPageData()
       >
         <template #item.name="{ item }">
           <span style="min-inline-size: 180px">
-            {{ item.raw.name }}
+            {{ item.name }}
           </span>
         </template>
         <template #item.admins="{ item }">
           <div class="d-flex">
             <VChip variant="outlined" color="primary" label>
-              {{ item.raw.admins[0].label }}
+              {{ item.admins[0].label }}
             </VChip>
-            <span class="ms-1" v-if="item.raw.admins.length > 1">
-              +{{ item.raw.admins.length - 1 }}</span
-            >
+            <span class="ms-1" v-if="item.admins.length > 1"> +{{ item.admins.length - 1 }}</span>
           </div>
         </template>
 
         <template #item.user_types="{ item }">
-          <div class="d-flex gap-2" v-if="item.raw.user_types">
+          <div class="d-flex gap-2" v-if="item.user_types">
             <VChip
               variant="outlined"
               color="primary"
               label
-              v-for="type in item.raw.user_types"
+              v-for="type in item.user_types"
               :key="type"
             >
               {{ USERS_TYPES[type] }}
@@ -180,8 +178,8 @@ getPageData()
 
         <template #item.is_active="{ item }">
           <ToggleActivationSwitch
-            :id="item.raw.id"
-            v-model="item.raw.is_active"
+            :id="item.id"
+            v-model="item.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />
@@ -189,11 +187,11 @@ getPageData()
 
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
               <VIcon icon="tabler-trash" />
             </IconBtn>
 
-            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item.raw)">
+            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item)">
               <VIcon icon="tabler-edit" />
             </IconBtn>
 
@@ -202,7 +200,7 @@ getPageData()
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem @click="showViewModal(item.raw)">
+                  <VListItem @click="showViewModal(item)">
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
@@ -212,8 +210,8 @@ getPageData()
 
                   <VListItem
                     v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
-                    @click="sortItems(item.raw.id)"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    @click="sortItems(item.id)"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />

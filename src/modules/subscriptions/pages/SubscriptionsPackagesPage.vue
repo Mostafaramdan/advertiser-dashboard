@@ -3,7 +3,6 @@ import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 import type { SubscriptionsListItem } from '../interfaces/SubscriptionsList'
 import { subscriptionsPackagesService } from '../services/SubscriptionsPackagesService'
 
@@ -111,6 +110,11 @@ const pageActionsButtons = computed<pageAction[]>(() => {
 // #region Lifecycle Hooks
 getPageData()
 // #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
 function goToCreatePage(id: number) {
   router.push({ name: 'subscriptions-create-package-page', params: { id } })
 }
@@ -122,6 +126,13 @@ function goToEditPage(id: number) {
 function goToDetailsPage(id: number) {
   router.push({ name: 'subscriptions-package-details-page', params: { id } })
 }
+
+function rowProps({ item }: { item: SubscriptionsListItem }) {
+  return {
+    class: item.is_default && 'bg-background',
+  }
+}
+// #endregion
 </script>
 
 <template>
@@ -165,21 +176,22 @@ function goToDetailsPage(id: number) {
         :item-selectable="(item) => !item.is_default"
         class="app-table"
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
+        :row-props="rowProps"
       >
         <template #item.name="{ item }">
           <div class="d-flex align-center">
             <VAvatar size="38" variant="tonal" class="me-3" cover>
-              <VImg v-if="item.raw.image_path" :src="item.raw.image_path" cover />
+              <VImg v-if="item.image_path" :src="item.image_path" cover />
               <span v-else>!</span>
             </VAvatar>
             <span>
-              {{ item.raw.name }}
+              {{ item.name }}
             </span>
           </div>
         </template>
         <template #item.created_at="{ item }">
           <div class="text-no-wrap">
-            {{ formatDateTime(item.raw.created_at) }}
+            {{ formatDateTime(item.created_at) }}
           </div>
         </template>
         <template #item.subscribers_count="{ item }">
@@ -191,8 +203,8 @@ function goToDetailsPage(id: number) {
 
         <template #item.is_active="{ item }">
           <ToggleActivationSwitch
-            :id="item.raw.id"
-            v-model="item.raw.is_active"
+            :id="item.id"
+            v-model="item.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />
@@ -200,11 +212,11 @@ function goToDetailsPage(id: number) {
 
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete || item.raw.is_default">
-              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item.raw)" />
+            <IconBtn :disabled="!permissions.delete || item.is_default">
+              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item)" />
             </IconBtn>
 
-            <IconBtn :disabled="!permissions.edit" @click="goToEditPage(item.raw.id)">
+            <IconBtn :disabled="!permissions.edit" @click="goToEditPage(item.id)">
               <VIcon icon="tabler-edit" />
             </IconBtn>
 
@@ -213,10 +225,7 @@ function goToDetailsPage(id: number) {
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem
-                    @click="goToDetailsPage(item.raw.id)"
-                    :disabled="!permissions.viewDetails"
-                  >
+                  <VListItem @click="goToDetailsPage(item.id)" :disabled="!permissions.viewDetails">
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
@@ -225,7 +234,7 @@ function goToDetailsPage(id: number) {
                   </VListItem>
                   <VListItem
                     :disabled="!permissions.viewAdvertisers"
-                    :to="{ name: 'advertisers-page', query: { packageId: item.raw.id } }"
+                    :to="{ name: 'advertisers-page', query: { packageId: item.id } }"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-user-dollar" />
@@ -236,8 +245,8 @@ function goToDetailsPage(id: number) {
 
                   <VListItem
                     v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
-                    @click="sortItems(item.raw.id)"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    @click="sortItems(item.id)"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />

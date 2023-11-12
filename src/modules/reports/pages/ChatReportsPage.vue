@@ -3,7 +3,7 @@ import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { MetaData } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { CharReport } from '../interfaces/ChatReport'
 import { reportsService } from '../services/ReportsService'
 
@@ -242,16 +242,12 @@ function openNotificationModal(user: any) {
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg
-                    v-if="item.raw.reported.image_path"
-                    :src="item.raw.reported.image_path"
-                    cover
-                  />
+                  <VImg v-if="item.reported.image_path" :src="item.reported.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
               <div style="min-inline-size: 80px">
-                <span>{{ item.raw.reported.account_name }}</span>
+                <span>{{ item.reported.account_name }}</span>
               </div>
             </div>
           </template>
@@ -259,37 +255,33 @@ function openNotificationModal(user: any) {
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg
-                    v-if="item.raw.reporter.image_path"
-                    :src="item.raw.reporter.image_path"
-                    cover
-                  />
+                  <VImg v-if="item.reporter.image_path" :src="item.reporter.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
               <div style="min-inline-size: 80px">
-                <span>{{ item.raw.reporter.account_name }}</span>
+                <span>{{ item.reporter.account_name }}</span>
               </div>
             </div>
           </template>
           <template #item.report_date="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.report_date) }}
+              {{ formatDateTime(item.report_date) }}
             </div>
           </template>
           <template #item.message="{ item }">
             <div class="my-2" style="max-inline-size: 280px; min-inline-size: 150px">
-              {{ item.raw.message }}
+              {{ item.message }}
             </div>
           </template>
           <template #item.report_content="{ item }">
             <div class="my-2" style="max-inline-size: 280px; min-inline-size: 150px">
-              {{ item.raw.report_content }}
+              {{ item.report_content }}
             </div>
           </template>
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+              <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
                 <VIcon icon="tabler-trash" />
               </IconBtn>
               <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -299,7 +291,7 @@ function openNotificationModal(user: any) {
                   <VList>
                     <VListItem
                       :disabled="!permissions.sendNotification"
-                      @click="openNotificationModal(item.raw.reported)"
+                      @click="openNotificationModal(item.reported)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />
@@ -309,7 +301,7 @@ function openNotificationModal(user: any) {
                     </VListItem>
                     <VListItem
                       :disabled="!permissions.sendNotification"
-                      @click="openNotificationModal(item.raw.reporter)"
+                      @click="openNotificationModal(item.reporter)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />

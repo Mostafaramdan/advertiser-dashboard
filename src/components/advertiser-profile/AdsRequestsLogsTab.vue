@@ -3,7 +3,6 @@ import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import type { AdRequestLogItem } from '@/interfaces/Advertiser'
 import { MetaData } from '@/interfaces/Shared'
 import { advertisersService } from '@/services/AdvertisersService'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -125,22 +124,22 @@ function onChangeItemsPerPage(value: number): void {
       >
         <template #item.username="{ item }">
           <div style="min-inline-size: 150px">
-            {{ item.raw.username }}
+            {{ item.username }}
           </div>
         </template>
         <template #item.created_at="{ item }">
           <div class="text-no-wrap">
-            {{ formatDateTime(item.raw.created_at) }}
+            {{ formatDateTime(item.created_at) }}
           </div>
         </template>
         <template #item.details="{ item }">
           <div style="min-inline-size: 150px">
-            {{ item.raw.details || '-' }}
+            {{ item.details || '-' }}
           </div>
         </template>
         <template #item.action_type="{ item }">
           <div style="min-inline-size: 150px">
-            {{ item.raw.action_type || '-' }}
+            {{ item.action_type || '-' }}
           </div>
         </template>
         <template #bottom>

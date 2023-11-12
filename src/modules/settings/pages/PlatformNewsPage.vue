@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { USERS_TYPES } from '@/constants/settings'
+import type { pageAction } from '@/interfaces/Shared'
+import { useAuthStore } from '@/stores/AuthStore'
+
 import type { PlatformNewsItem } from '../interfaces/PlatformNewsItem'
 import PlatformNewsDetailsModal from '../modals/PlatformNewsDetailsModal.vue'
 import PlatformNewsFormModal from '../modals/PlatformNewsFormModal.vue'
 import { platformNewsService } from '../services/PlatformNewsService'
-import { useAuthStore } from '@/stores/AuthStore'
-import type { pageAction } from '@/interfaces/Shared'
-import { USERS_TYPES } from '@/constants/settings'
-import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -146,15 +146,15 @@ getPageData()
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
           <template #item.name="{ item }">
-            <span style="min-width: 200px">
-              {{ item.raw.name }}
+            <span style="min-inline-size: 200px">
+              {{ item.name }}
             </span>
           </template>
 
           <template #item.for="{ item }">
             <div class="d-flex gap-2">
               <VChip
-                v-for="type in item.raw.for as unknown"
+                v-for="type in item.for as unknown"
                 :key="type"
                 variant="outlined"
                 color="primary"
@@ -166,8 +166,8 @@ getPageData()
           </template>
           <template #item.is_active="{ item }">
             <ToggleActivationSwitch
-              :id="item.raw.id"
-              v-model="item.raw.is_active"
+              :id="item.id"
+              v-model="item.is_active"
               :model="MODEL_NAME"
               :disabled="!permissions.changeStatus"
             />
@@ -176,11 +176,11 @@ getPageData()
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
               <IconBtn :disabled="!permissions.delete">
-                <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item.raw)" />
+                <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item)" />
               </IconBtn>
 
               <IconBtn :disabled="!permissions.edit">
-                <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
+                <VIcon icon="tabler-edit" @click="showEditModal(item)" />
               </IconBtn>
 
               <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -188,7 +188,7 @@ getPageData()
 
                 <VMenu activator="parent">
                   <VList>
-                    <VListItem @click="showViewModal(item.raw)">
+                    <VListItem @click="showViewModal(item)">
                       <template #prepend>
                         <VIcon icon="tabler-eye" />
                       </template>
@@ -198,8 +198,8 @@ getPageData()
 
                     <VListItem
                       v-if="permissions.sort"
-                      :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
-                      @click="sortItems(item.raw.id)"
+                      :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                      @click="sortItems(item.id)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-transfer-in" />

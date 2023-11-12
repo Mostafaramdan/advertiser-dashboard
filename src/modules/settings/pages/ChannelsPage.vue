@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { CHANNEL_TYPES } from '@/constants/settings'
+import type { pageAction } from '@/interfaces/Shared'
+import { useAuthStore } from '@/stores/AuthStore'
+
 import type { Channel } from '../interfaces/Channel'
 import ChannelDetailsModal from '../modals/ChannelDetailsModal.vue'
 import ChannelFormModal from '../modals/ChannelFormModal.vue'
 import { channelsService } from '../services/ChannelsService'
-import { useAuthStore } from '@/stores/AuthStore'
-import type { pageAction } from '@/interfaces/Shared'
-import { CHANNEL_TYPES } from '@/constants/settings'
-import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -153,30 +153,30 @@ getPageData()
         <template #item.name.ar="{ item }">
           <div class="d-flex align-center">
             <VAvatar size="38" variant="tonal" class="me-3" cover>
-              <VImg v-if="item.raw.image" :src="item.raw.image.path" cover />
+              <VImg v-if="item.image" :src="item.image.path" cover />
               <span v-else>!</span>
             </VAvatar>
             <span>
-              {{ item.raw.name.ar }}
+              {{ item.name.ar }}
             </span>
           </div>
         </template>
         <template #item.name.en="{ item }">
           <span>
-            {{ item.raw.name.en }}
+            {{ item.name.en }}
           </span>
         </template>
 
         <template #item.channel_type="{ item }">
           <VChip variant="outlined" color="primary" label>
-            {{ CHANNEL_TYPES[item.raw.channel_type as 1 | 2] }}
+            {{ CHANNEL_TYPES[item.channel_type as 1 | 2] }}
           </VChip>
         </template>
 
         <template #item.is_active="{ item }">
           <ToggleActivationSwitch
-            :id="item.raw.id"
-            v-model="item.raw.is_active"
+            :id="item.id"
+            v-model="item.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />
@@ -185,11 +185,11 @@ getPageData()
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
             <IconBtn :disabled="!permissions.delete">
-              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item.raw)" />
+              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item)" />
             </IconBtn>
 
             <IconBtn :disabled="!permissions.edit">
-              <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
+              <VIcon icon="tabler-edit" @click="showEditModal(item)" />
             </IconBtn>
 
             <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -197,7 +197,7 @@ getPageData()
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem @click="showViewModal(item.raw)">
+                  <VListItem @click="showViewModal(item)">
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
@@ -207,8 +207,8 @@ getPageData()
 
                   <VListItem
                     v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
-                    @click="sortItems(item.raw.id)"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    @click="sortItems(item.id)"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />

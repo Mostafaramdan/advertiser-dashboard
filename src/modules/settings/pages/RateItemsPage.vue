@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { RATE_ITEM_TARGETS, RATE_ITEM_TYPES } from '@/constants/settings'
+import type { pageAction } from '@/interfaces/Shared'
+import { useAuthStore } from '@/stores/AuthStore'
+
 import type { RateItem } from '../interfaces/RateItem'
 import RateItemDetailsModal from '../modals/RateItemDetailsModal.vue'
 import RateItemFormModal from '../modals/RateItemFormModal.vue'
 import { rateItemsService } from '../services/RateItemsService'
-import { useAuthStore } from '@/stores/AuthStore'
-import type { pageAction } from '@/interfaces/Shared'
-import { RATE_ITEM_TARGETS, RATE_ITEM_TYPES } from '@/constants/settings'
-import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -155,31 +155,31 @@ getPageData()
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
         <template #item.name.ar="{ item }">
-          <span style="min-width: 100px">
-            {{ item.raw.name.ar }}
+          <span style="min-inline-size: 100px">
+            {{ item.name.ar }}
           </span>
         </template>
         <template #item.name.en="{ item }">
-          <span style="min-width: 100px">
-            {{ item.raw.name.en }}
+          <span style="min-inline-size: 100px">
+            {{ item.name.en }}
           </span>
         </template>
 
         <template #item.type="{ item }">
           <VChip variant="outlined" color="primary" label>
-            {{ RATE_ITEM_TYPES[item.raw.type] }}
+            {{ RATE_ITEM_TYPES[item.type] }}
           </VChip>
         </template>
         <template #item.for="{ item }">
           <VChip variant="outlined" color="primary" label>
-            {{ RATE_ITEM_TARGETS[item.raw.for] }}
+            {{ RATE_ITEM_TARGETS[item.for] }}
           </VChip>
         </template>
 
         <template #item.is_active="{ item }">
           <ToggleActivationSwitch
-            :id="item.raw.id"
-            v-model="item.raw.is_active"
+            :id="item.id"
+            v-model="item.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />
@@ -188,11 +188,11 @@ getPageData()
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
             <IconBtn :disabled="!permissions.delete">
-              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item.raw)" />
+              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item)" />
             </IconBtn>
 
             <IconBtn :disabled="!permissions.edit">
-              <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
+              <VIcon icon="tabler-edit" @click="showEditModal(item)" />
             </IconBtn>
 
             <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -200,7 +200,7 @@ getPageData()
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem @click="showViewModal(item.raw)">
+                  <VListItem @click="showViewModal(item)">
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
@@ -210,8 +210,8 @@ getPageData()
 
                   <VListItem
                     v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
-                    @click="sortItems(item.raw.id)"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    @click="sortItems(item.id)"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />

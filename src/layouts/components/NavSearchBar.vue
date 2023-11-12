@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Shepherd from 'shepherd.js'
-import type { SearchHeader, SearchItem } from '@/@fake-db/types'
-import axios from '@axios'
+// import type { SearchHeader, SearchItem } from '@/@fake-db/types'
+// import axios from '@axios'
 import { useThemeConfig } from '@core/composable/useThemeConfig'
+import Shepherd from 'shepherd.js'
 
 interface Suggestion {
   icon: string
@@ -95,20 +95,20 @@ const noDataSuggestions: Suggestion[] = [
 ]
 
 const searchQuery = ref('')
-const searchResult = ref<(SearchItem | SearchHeader)[]>([])
+const searchResult = ref<any>([])
 const router = useRouter()
 
 // 👉 fetch search result API
 watchEffect(() => {
-  axios
-    .get('/app-bar/search', {
-      params: {
-        q: searchQuery.value,
-      },
-    })
-    .then((response) => {
-      searchResult.value = response.data
-    })
+  // axios
+  //   .get('/app-bar/search', {
+  //     params: {
+  //       q: searchQuery.value,
+  //     },
+  //   })
+  //   .then((response) => {
+  //     searchResult.value = response.data
+  //   })
 })
 
 // 👉 redirect the selected page
@@ -175,7 +175,7 @@ const LazyAppBarSearch = defineAsyncComponent(() => import('@core/components/App
 </template>
 
 <style lang="scss" scoped>
-@use '@styles/variables/_vuetify.scss';
+// @use '@styles/variables/_vuetify.scss';
 
 .meta-key {
   border: thin solid rgba(var(--v-border-color), var(--v-border-opacity));

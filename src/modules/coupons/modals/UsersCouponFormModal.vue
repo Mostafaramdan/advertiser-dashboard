@@ -168,7 +168,7 @@ const submit = () => {
                     }"
                   >
                     <template #selection="{ item }">
-                      <span v-if="item.raw.label">{{ item.raw.label }}</span>
+                      <span v-if="item.title">{{ item.title }}</span>
                     </template>
                   </AppAutocomplete>
                 </div>
@@ -209,7 +209,7 @@ const submit = () => {
                           class="ms-0 me-1"
                           variant="outlined"
                         />
-                        <small>{{ item.raw.label }}</small>
+                        <small>{{ item.title }}</small>
                       </VChip>
                     </template>
                   </AppAutocomplete>

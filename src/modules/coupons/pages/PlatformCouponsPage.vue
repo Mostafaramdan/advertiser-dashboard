@@ -5,7 +5,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { COUPONS_TYPES } from '@/constants/coupons'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { PlatformCoupon } from '../interfaces/PlatformCoupon'
 import PlatformCouponDetailsModal from '../modals/PlatformCouponDetailsModal.vue'
 import PlatformCouponFormModal from '../modals/PlatformCouponFormModal.vue'
@@ -166,33 +166,33 @@ getPageData()
         <template #item.code="{ item }">
           <div class="d-flex align-center" style="min-inline-size: 150px">
             <VAvatar size="38" variant="tonal" class="me-3" cover>
-              <VImg v-if="item.raw.image" :src="item.raw.image.path" cover />
+              <VImg v-if="item.image" :src="item.image.path" cover />
               <span v-else>!</span>
             </VAvatar>
             <span>
-              {{ item.raw.code }}
+              {{ item.code }}
             </span>
           </div>
         </template>
 
         <template #item.started_at="{ item }">
           <div class="text-no-wrap" style="min-inline-size: 80px">
-            {{ formatDate(item.raw.started_at) }}
-            <span class="text-sm text-disabled d-block"> {{ formatDate(item.raw.ended_at) }}</span>
+            {{ formatDate(item.started_at) }}
+            <span class="text-sm text-disabled d-block"> {{ formatDate(item.ended_at) }}</span>
           </div>
         </template>
         <template #item.discount="{ item }">
-          <div class="text-no-wrap">{{ item.raw.discount }}%</div>
+          <div class="text-no-wrap">{{ item.discount }}%</div>
         </template>
 
         <template #item.marketer_ratio="{ item }">
-          <div style="min-inline-size: 80px">{{ item.raw.marketer_ratio }}%</div>
+          <div style="min-inline-size: 80px">{{ item.marketer_ratio }}%</div>
         </template>
 
         <template #item.is_active="{ item }">
           <ToggleActivationSwitch
-            :id="item.raw.id"
-            v-model="item.raw.is_active"
+            :id="item.id"
+            v-model="item.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />
@@ -200,11 +200,11 @@ getPageData()
 
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
               <VIcon icon="tabler-trash" />
             </IconBtn>
 
-            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item.raw)">
+            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item)">
               <VIcon icon="tabler-edit" />
             </IconBtn>
 
@@ -213,7 +213,7 @@ getPageData()
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem @click="showViewModal(item.raw)">
+                  <VListItem @click="showViewModal(item)">
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
@@ -224,7 +224,7 @@ getPageData()
                     v-if="permissions.viewHistory"
                     :to="{
                       name: 'platform-coupon-details-page',
-                      params: { id: item.raw.id },
+                      params: { id: item.id },
                       query: { tab: 'subscribers-history' },
                     }"
                   >
@@ -237,8 +237,8 @@ getPageData()
 
                   <VListItem
                     v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
-                    @click="sortItems(item.raw.id)"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    @click="sortItems(item.id)"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />

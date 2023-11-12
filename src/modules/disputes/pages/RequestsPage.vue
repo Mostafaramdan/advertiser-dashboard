@@ -7,7 +7,7 @@ import { sharedService } from '@/services/SharedService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useDisputesStore } from '@/stores/DisputesStore'
 import { useToast } from 'vue-toastification'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import RequestsStats from '../components/RequestsStats.vue'
 import type { DisputeRequest, User } from '../interfaces/DisputeRequest'
 import RequestProcedureModal from '../modals/RequestProcedureModal.vue'
@@ -201,59 +201,59 @@ function onApplyFilter(filters: any) {
           <template #item.disputer="{ item }">
             <a
               href="#"
-              @click.prevent="goToUserProfile(item.raw.disputer)"
-              style="min-width: 205px"
+              @click.prevent="goToUserProfile(item.disputer)"
+              style="min-inline-size: 205px"
             >
-              <span>{{ item.raw.disputer.username }}</span>
+              <span>{{ item.disputer.username }}</span>
               <span class="text-sm text-disabled d-block">{{
-                USERS_ROLES[item.raw.disputer.role]
+                USERS_ROLES[item.disputer.role]
               }}</span>
             </a>
           </template>
           <template #item.disputed="{ item }">
             <a
               href="#"
-              @click.prevent="goToUserProfile(item.raw.disputed)"
-              style="min-width: 205px"
+              @click.prevent="goToUserProfile(item.disputed)"
+              style="min-inline-size: 205px"
             >
-              <span>{{ item.raw.disputed.username }}</span>
+              <span>{{ item.disputed.username }}</span>
               <span class="text-sm text-disabled d-block">{{
-                USERS_ROLES[item.raw.disputed.role]
+                USERS_ROLES[item.disputed.role]
               }}</span>
             </a>
           </template>
 
           <template #item.request_type="{ item }">
-            <div style="min-width: 150px">
-              <span>{{ item.raw.request_type || '-' }}</span>
-              <span class="text-sm text-disabled d-block"> {{ item.raw.dispute_status }}</span>
+            <div style="min-inline-size: 150px">
+              <span>{{ item.request_type || '-' }}</span>
+              <span class="text-sm text-disabled d-block"> {{ item.dispute_status }}</span>
             </div>
           </template>
 
           <template #item.created_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.created_at) }}
+              {{ formatDateTime(item.created_at) }}
               <span class="text-sm text-disabled d-block">
-                {{ formatDateTime(item.raw.updated_at) }}</span
+                {{ formatDateTime(item.updated_at) }}</span
               >
             </div>
           </template>
 
           <template #item.ads_request_id="{ item }">
-            <div style="min-width: 100px">
+            <div style="min-inline-size: 100px">
               <router-link
                 class="pa-1"
                 v-if="permissions.viewAdsRequestDetails"
                 :to="{
                   name: 'ads-request-details-page',
-                  params: { id: item.raw.ads_request_id },
+                  params: { id: item.ads_request_id },
                   query: { tab: 'details' },
                 }"
-                >{{ item.raw.ads_request_id }}</router-link
+                >{{ item.ads_request_id }}</router-link
               >
-              <span class="pa-1" v-else>{{ item.raw.ads_request_id }}</span>
+              <span class="pa-1" v-else>{{ item.ads_request_id }}</span>
             </div>
-            <span class="text-sm text-disabled d-block pa-1"> {{ item.raw.id }}</span>
+            <span class="text-sm text-disabled d-block pa-1"> {{ item.id }}</span>
           </template>
 
           <template #item.actions="{ item }">
@@ -262,7 +262,7 @@ function onApplyFilter(filters: any) {
                 :disabled="!permissions.viewRequestDetails"
                 :to="{
                   name: 'dispute-details-page',
-                  params: { id: item.raw.id },
+                  params: { id: item.id },
                   query: { tab: 'details' },
                 }"
               >
@@ -274,11 +274,11 @@ function onApplyFilter(filters: any) {
 
                 <VMenu activator="parent">
                   <VList>
-                    <VListItem @click="toggleFavorite(item.raw)">
+                    <VListItem @click="toggleFavorite(item)">
                       <template #prepend>
                         <VIcon
                           icon="tabler-star-filled"
-                          :color="item.raw.is_starred ? '#ffcc00' : 'dark'"
+                          :color="item.is_starred ? '#ffcc00' : 'dark'"
                         />
                       </template>
 
@@ -286,8 +286,8 @@ function onApplyFilter(filters: any) {
                     </VListItem>
 
                     <VListItem
-                      :disabled="!permissions.takeProcedure || !item.raw.can_make_procedure"
-                      @click="openProcedureModal(item.raw)"
+                      :disabled="!permissions.takeProcedure || !item.can_make_procedure"
+                      @click="openProcedureModal(item)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-status-change" />

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { useAdsRequestsStore } from '@/stores/AdsRequestsStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -131,18 +130,18 @@ const data = computed(() => {
           >
             <template #item.created_at="{ item }">
               <div class="text-no-wrap">
-                {{ formatDateTime(item.raw.created_at) }}
-                <span class="text-sm text-disabled d-block">{{ item.raw.time_ago }}</span>
+                {{ formatDateTime(item.created_at) }}
+                <span class="text-sm text-disabled d-block">{{ item.time_ago }}</span>
               </div>
             </template>
             <template #item.title="{ item }">
-              <div style="min-width: 200px">
-                {{ item.raw.title }}
+              <div style="min-inline-size: 200px">
+                {{ item.title }}
               </div>
             </template>
             <template #item.description="{ item }">
-              <div style="min-width: 250px">
-                {{ item.raw.description || '-' }}
+              <div style="min-inline-size: 250px">
+                {{ item.description || '-' }}
               </div>
             </template>
             <template #bottom> </template>

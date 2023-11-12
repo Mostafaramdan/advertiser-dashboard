@@ -3,7 +3,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { listService } from '@/services/ListService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { Tag } from '../interfaces/Tag'
 import TagDetailsModal from '../modals/TagDetailsModal.vue'
 import TagFormModal from '../modals/TagFormModal.vue'
@@ -123,6 +123,12 @@ function getCategories() {
     })
 }
 
+function rowProps({ item }: { item: Tag }) {
+  return {
+    class: !item.can_control && 'bg-background',
+  }
+}
+
 // #endregion
 </script>
 
@@ -179,35 +185,36 @@ function getCategories() {
         :item-selectable="(item) => item.can_control"
         class="app-table"
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
+        :row-props="rowProps"
       >
         <template #item.name.ar="{ item }">
           <span>
-            {{ item.raw.name.ar }}
+            {{ item.name.ar }}
           </span>
         </template>
         <template #item.name.en="{ item }">
           <span>
-            {{ item.raw.name.en }}
+            {{ item.name.en }}
           </span>
         </template>
 
         <template #item.is_active="{ item }">
           <ToggleActivationSwitch
-            :id="item.raw.id"
-            v-model="item.raw.is_active"
+            :id="item.id"
+            v-model="item.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
-            :readonly="!item.raw.can_control"
+            :readonly="!item.can_control"
           />
         </template>
 
         <template #item.actions="{ item }">
-          <div class="d-flex justify-center" v-if="item.raw.can_control">
-            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+          <div class="d-flex justify-center" v-if="item.can_control">
+            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
               <VIcon icon="tabler-trash" />
             </IconBtn>
 
-            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item.raw)">
+            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item)">
               <VIcon icon="tabler-edit" />
             </IconBtn>
 
@@ -216,7 +223,7 @@ function getCategories() {
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem @click="showViewModal(item.raw)">
+                  <VListItem @click="showViewModal(item)">
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
@@ -226,8 +233,8 @@ function getCategories() {
 
                   <VListItem
                     v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
-                    @click="sortItems(item.raw.id)"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    @click="sortItems(item.id)"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />

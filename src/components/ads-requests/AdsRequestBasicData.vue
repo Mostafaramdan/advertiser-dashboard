@@ -4,7 +4,6 @@ import { adsRequestsService } from '@/services/AdsRequestsService'
 import { useAdsRequestsStore } from '@/stores/AdsRequestsStore'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 /***************************************
  **** Section Variables Declaration ****

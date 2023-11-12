@@ -6,7 +6,6 @@ import { adsService } from '@/services/AdsService'
 import { useAdsStore } from '@/stores/AdsStore'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -253,33 +252,33 @@ function openNotificationModal(user: any) {
       >
         <template #item.commenter.account_name="{ item }">
           <div style="min-inline-size: 150px">
-            {{ item.raw.commenter.account_name }}
+            {{ item.commenter.account_name }}
           </div>
         </template>
         <template #item.comment="{ item }">
           <div style="inline-size: 250px">
-            {{ item.raw.comment }}
+            {{ item.comment }}
           </div>
         </template>
         <template #item.commenter.country_name="{ item }">
           <div style="min-inline-size: 100px">
-            {{ item.raw.commenter.country_name || '-' }}
+            {{ item.commenter.country_name || '-' }}
           </div>
         </template>
         <template #item.created_at="{ item }">
           <div class="text-no-wrap">
-            {{ formatDateTime(item.raw.created_at) }}
-            <span class="text-sm text-disabled d-block"> {{ item.raw.phone }}</span>
+            {{ formatDateTime(item.created_at) }}
+            <span class="text-sm text-disabled d-block"> {{ item.phone }}</span>
           </div>
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
               <VIcon icon="tabler-trash" />
             </IconBtn>
             <IconBtn
               :disabled="!permissions.sendNotification"
-              @click="openNotificationModal(item.raw.commenter)"
+              @click="openNotificationModal(item.commenter)"
             >
               <VIcon icon="tabler-mail" />
             </IconBtn>

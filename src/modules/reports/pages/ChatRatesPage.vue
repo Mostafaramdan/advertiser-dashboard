@@ -2,7 +2,7 @@
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { MetaData } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { ChatRate } from '../interfaces/ChatRate'
 import { reportsService } from '../services/ReportsService'
 
@@ -161,17 +161,13 @@ function openNotificationModal(user: any) {
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg
-                    v-if="item.raw.employee.image_path"
-                    :src="item.raw.employee.image_path"
-                    cover
-                  />
+                  <VImg v-if="item.employee.image_path" :src="item.employee.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
-              <div style="min-width: 205px">
-                <span>{{ item.raw.employee.username }}</span>
-                <span class="text-sm text-disabled d-block">{{ item.raw.employee.phone }}</span>
+              <div style="min-inline-size: 205px">
+                <span>{{ item.employee.username }}</span>
+                <span class="text-sm text-disabled d-block">{{ item.employee.phone }}</span>
               </div>
             </div>
           </template>
@@ -179,29 +175,29 @@ function openNotificationModal(user: any) {
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg v-if="item.raw.rater.image_path" :src="item.raw.rater.image_path" cover />
+                  <VImg v-if="item.rater.image_path" :src="item.rater.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
-              <div style="min-width: 205px">
-                <span>{{ item.raw.rater.username }}</span>
-                <span class="text-sm text-disabled d-block">{{ item.raw.rater.phone }}</span>
+              <div style="min-inline-size: 205px">
+                <span>{{ item.rater.username }}</span>
+                <span class="text-sm text-disabled d-block">{{ item.rater.phone }}</span>
               </div>
             </div>
           </template>
           <template #item.created_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.created_at) }}
+              {{ formatDateTime(item.created_at) }}
             </div>
           </template>
           <template #item.rater.country_name="{ item }">
-            <div style="min-width: 100px">
-              {{ item.raw.rater.country_name }}
+            <div style="min-inline-size: 100px">
+              {{ item.rater.country_name }}
             </div>
           </template>
           <template #item.comment="{ item }">
-            <div class="my-2" style="min-width: 150px; max-width: 280px">
-              {{ item.raw.comment }}
+            <div class="my-2" style="max-inline-size: 280px; min-inline-size: 150px">
+              {{ item.comment }}
             </div>
           </template>
 
@@ -214,7 +210,7 @@ function openNotificationModal(user: any) {
                   <VList>
                     <VListItem
                       :disabled="!permissions.sendNotification"
-                      @click="openNotificationModal(item.raw.employee)"
+                      @click="openNotificationModal(item.employee)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />
@@ -224,7 +220,7 @@ function openNotificationModal(user: any) {
                     </VListItem>
                     <VListItem
                       :disabled="!permissions.sendNotification"
-                      @click="openNotificationModal(item.raw.rater)"
+                      @click="openNotificationModal(item.rater)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TICKETS_STATUSES } from '@/constants/tickets'
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
+
 import type { SupportTicketsStats } from '../interfaces/SupportTicket'
 import { supportTicketsService } from '../services/SupportTicketsService'
 

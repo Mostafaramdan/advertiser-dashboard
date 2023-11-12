@@ -6,7 +6,6 @@ import type { NotificationListItem } from '@/interfaces/Notifications'
 import type { pageAction } from '@/interfaces/Shared'
 import { notificationsService } from '@/services/NotificationsService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -158,40 +157,37 @@ function openNotificationsModal() {
           show-select
           :items-length="metaData?.total || 0"
           item-value="id"
-          :item-selectable="(item) => !item.is_deleted"
           class="app-table"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
           <template #item.body="{ item }">
-            <div class="bg-background pa-2 my-2 rounded text-center" style="width: 280px">
-              {{ item.raw.body }}
+            <div class="bg-background pa-2 my-2 rounded text-center" style="inline-size: 280px">
+              {{ item.body }}
             </div>
           </template>
           <template #item.receiver="{ item }">
-            <div style="width: 205px" v-if="item.raw.receiver">
-              {{ item.raw.receiver.username }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.receiver.role }}</span>
+            <div style="inline-size: 205px" v-if="item.receiver">
+              {{ item.receiver.username }}
+              <span class="text-sm text-disabled d-block">{{ item.receiver.role }}</span>
             </div>
             <span v-else>-</span>
           </template>
           <template #item.created_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.created_at) }}
-              <span class="text-sm text-disabled d-block">{{
-                item.raw.notification_category
-              }}</span>
+              {{ formatDateTime(item.created_at) }}
+              <span class="text-sm text-disabled d-block">{{ item.notification_category }}</span>
             </div>
           </template>
           <template #item.notification_type="{ item }">
-            <span class="d-block mb-1">{{ item.raw.notification_type }}</span>
-            <VChip :color="item.raw.is_seen ? 'success' : 'dark'">
-              {{ item.raw.is_seen ? 'تم المشاهدة' : 'لم تتم المشاهدة' }}
+            <span class="d-block mb-1">{{ item.notification_type }}</span>
+            <VChip :color="item.is_seen ? 'success' : 'dark'">
+              {{ item.is_seen ? 'تم المشاهدة' : 'لم تتم المشاهدة' }}
             </VChip>
           </template>
 
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+              <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
                 <VIcon icon="tabler-trash" />
               </IconBtn>
             </div>

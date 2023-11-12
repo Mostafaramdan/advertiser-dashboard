@@ -3,7 +3,7 @@ import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { REQUEST_STATUSES } from '@/constants/subscriptions'
 import type { pageAction } from '@/interfaces/Shared'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import SubscriptionsLogsStats from '../components/SubscriptionsLogsStats.vue'
 import type { SubscriptionsLogsItem } from '../interfaces/SubscriptionsRequests'
 import { subscriptionsLogsService } from '../services/SubscriptionsLogsService'
@@ -146,39 +146,39 @@ function onApplyFilter(filters: any) {
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
           <template #item.account_name="{ item }">
-            <div style="min-width: 200px">
-              {{ item.raw.account_name }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.packageName }}</span>
+            <div style="min-inline-size: 200px">
+              {{ item.account_name }}
+              <span class="text-sm text-disabled d-block">{{ item.packageName }}</span>
             </div>
           </template>
           <template #item.period="{ item }">
-            <div style="min-width: 100px">
-              {{ item.raw.period }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.remaining_days_str }}</span>
+            <div style="min-inline-size: 100px">
+              {{ item.period }}
+              <span class="text-sm text-disabled d-block">{{ item.remaining_days_str }}</span>
             </div>
           </template>
           <template #item.type="{ item }">
-            <div style="min-width: 100px">
-              {{ item.raw.type }}
+            <div style="min-inline-size: 100px">
+              {{ item.type }}
               <span class="text-sm text-disabled d-block">{{
-                formatDateTime(item.raw.start_date)
+                formatDateTime(item.start_date)
               }}</span>
             </div>
           </template>
           <template #item.price="{ item }">
-            <div style="min-width: 100px">
-              {{ item.raw.price }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.payment_method }}</span>
+            <div style="min-inline-size: 100px">
+              {{ item.price }}
+              <span class="text-sm text-disabled d-block">{{ item.payment_method }}</span>
             </div>
           </template>
           <template #item.created_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.created_at) }}
+              {{ formatDateTime(item.created_at) }}
             </div>
           </template>
           <template #item.request_status="{ item }">
             <VChip color="dark">
-              {{ REQUEST_STATUSES[item.raw.request_status] }}
+              {{ REQUEST_STATUSES[item.request_status] }}
             </VChip>
           </template>
           <template #bottom>

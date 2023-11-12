@@ -3,7 +3,6 @@ import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { MetaData } from '@/interfaces/Shared'
 import type { LogsHistoryItem } from '@/interfaces/User'
 import { usersService } from '@/services/UsersService'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -90,18 +89,18 @@ function getPageData() {
       :no-data-text="isLoading ? t('general.loading') : t('general.no_data')"
     >
       <template #item.action="{ item }">
-        <div style="min-width: 100px">
-          {{ item.raw.action }}
+        <div style="min-inline-size: 100px">
+          {{ item.action }}
         </div>
       </template>
       <template #item.action_by="{ item }">
-        <div style="min-width: 200px">
-          {{ item.raw.action_by || '-' }}
+        <div style="min-inline-size: 200px">
+          {{ item.action_by || '-' }}
         </div>
       </template>
       <template #item.created_at="{ item }">
         <div class="text-no-wrap">
-          {{ formatDateTime(item.raw.created_at) }}
+          {{ formatDateTime(item.created_at) }}
         </div>
       </template>
 

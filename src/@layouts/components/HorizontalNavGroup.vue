@@ -2,7 +2,6 @@
 import { useLayouts } from '@layouts'
 import { HorizontalNavLink, HorizontalNavPopper } from '@layouts/components'
 import { config } from '@layouts/config'
-import { canViewNavMenuGroup } from '@layouts/plugins/casl'
 import type { NavGroup } from '@layouts/types'
 import { isNavGroupActive } from '@layouts/utils'
 
@@ -47,7 +46,6 @@ watch(
 
 <template>
   <HorizontalNavPopper
-    v-if="canViewNavMenuGroup(item)"
     :is-rtl="isAppRtl"
     class="nav-group"
     tag="li"

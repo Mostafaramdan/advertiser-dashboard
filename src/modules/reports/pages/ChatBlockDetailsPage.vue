@@ -4,7 +4,7 @@ import { MetaData } from '@/interfaces/Shared'
 import type { ChatBlockItem } from '@/modules/reports/interfaces/ChatBlock'
 import { reportsService } from '@/modules/reports/services/ReportsService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import BlockedUserBasicInfo from '../components/BlockedUserBasicInfo.vue'
 
 /***************************************
@@ -160,26 +160,26 @@ function openNotificationModal(user: any) {
           :no-data-text="isLoadingData ? t('general.loading') : t('general.no_data')"
         >
           <template #item.blocker.username="{ item }">
-            <div style="min-width: 150px">
-              {{ item.raw.blocker.username }}
+            <div style="min-inline-size: 150px">
+              {{ item.blocker.username }}
             </div>
           </template>
           <template #item.blocker.country_name="{ item }">
-            <div style="min-width: 100px">
-              {{ item.raw.blocker.country_name || '-' }}
+            <div style="min-inline-size: 100px">
+              {{ item.blocker.country_name || '-' }}
             </div>
           </template>
           <template #item.created_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.created_at) }}
-              <span class="text-sm text-disabled d-block"> {{ item.raw.phone }}</span>
+              {{ formatDateTime(item.created_at) }}
+              <span class="text-sm text-disabled d-block"> {{ item.phone }}</span>
             </div>
           </template>
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
               <IconBtn
                 :disabled="!permissions.sendNotification"
-                @click="openNotificationModal(item.raw.blocker)"
+                @click="openNotificationModal(item.blocker)"
               >
                 <VIcon icon="tabler-mail" />
               </IconBtn>

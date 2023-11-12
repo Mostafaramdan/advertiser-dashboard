@@ -5,7 +5,6 @@ import type { AdsRequestsItem } from '@/interfaces/AdsRequest'
 import type { pageAction } from '@/interfaces/Shared'
 import { adsRequestsService } from '@/services/AdsRequestsService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -166,7 +165,6 @@ function openNotificationModal(user: any) {
           show-select
           :items-length="metaData?.total || 0"
           item-value="id"
-          :item-selectable="(item) => !item.is_deleted"
           class="app-table"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
@@ -174,41 +172,37 @@ function openNotificationModal(user: any) {
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg
-                    v-if="item.raw.advertiser.image_path"
-                    :src="item.raw.advertiser.image_path"
-                    cover
-                  />
+                  <VImg v-if="item.advertiser.image_path" :src="item.advertiser.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
               <div style="min-inline-size: 205px">
-                {{ item.raw.advertiser.username }}
-                <span class="text-sm text-disabled d-block">{{ item.raw.user.username }}</span>
+                {{ item.advertiser.username }}
+                <span class="text-sm text-disabled d-block">{{ item.user.username }}</span>
               </div>
             </div>
           </template>
           <template #item.created_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.created_at) }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.id }} </span>
+              {{ formatDateTime(item.created_at) }}
+              <span class="text-sm text-disabled d-block">{{ item.id }} </span>
             </div>
           </template>
           <template #item.price="{ item }">
             <div class="text-no-wrap" style="min-inline-size: 80px">
-              {{ item.raw.price }}
-              <span class="text-sm text-disabled d-block"> {{ item.raw.commission }}</span>
+              {{ item.price }}
+              <span class="text-sm text-disabled d-block"> {{ item.commission }}</span>
             </div>
           </template>
           <template #item.payment_status="{ item }">
             <div style="min-inline-size: 100px">
-              {{ item.raw.payment_method }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.payment_status }}</span>
+              {{ item.payment_method }}
+              <span class="text-sm text-disabled d-block">{{ item.payment_status }}</span>
             </div>
           </template>
           <template #item.ads_request_status="{ item }">
             <div style="min-inline-size: 80px">
-              {{ item.raw.ads_request_status }}
+              {{ item.ads_request_status }}
             </div>
           </template>
 
@@ -218,13 +212,13 @@ function openNotificationModal(user: any) {
                 :disabled="!permissions.viewAdsRequestDetails"
                 :to="{
                   name: 'ads-request-details-page',
-                  params: { id: item.raw.id },
+                  params: { id: item.id },
                   query: { tab: 'details' },
                 }"
               >
                 <VIcon icon="tabler-eye" />
               </IconBtn>
-              <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+              <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
                 <VIcon icon="tabler-trash" />
               </IconBtn>
               <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -234,7 +228,7 @@ function openNotificationModal(user: any) {
                   <VList>
                     <VListItem
                       v-if="permissions.sendNotification"
-                      @click="openNotificationModal(item.raw.advertiser)"
+                      @click="openNotificationModal(item.advertiser)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />
@@ -243,7 +237,7 @@ function openNotificationModal(user: any) {
                     </VListItem>
                     <VListItem
                       v-if="permissions.sendNotification"
-                      @click="openNotificationModal(item.raw.user)"
+                      @click="openNotificationModal(item.user)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />

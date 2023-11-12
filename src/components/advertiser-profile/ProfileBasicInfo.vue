@@ -3,7 +3,6 @@ import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import type { AdvertiserBasicData } from '@/interfaces/Advertiser'
 import { advertisersService } from '@/services/AdvertisersService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 /***************************************
  **** Section Emits Declaration ********

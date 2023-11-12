@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import type { pageAction } from '@/interfaces/Shared'
+import { useAuthStore } from '@/stores/AuthStore'
+
 import type { AdsType } from '../../interfaces/AdsType'
 import AdsTypeDetailsModal from '../../modals/AdsTypeDetailsModal.vue'
 import AdsTypeFormModal from '../../modals/AdsTypeFormModal.vue'
 import { adsTypesService } from '../../services/AdsTypesService'
-import { useAuthStore } from '@/stores/AuthStore'
-import type { pageAction } from '@/interfaces/Shared'
-import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -143,17 +143,15 @@ getPageData()
       >
         <template #item.name="{ item }">
           <span>
-            {{ item.raw.name }}
+            {{ item.name }}
           </span>
         </template>
-        <template #item.value_in_platform="{ item }"> {{ item.raw.value_in_platform }} % </template>
-        <template #item.value_out_platform="{ item }">
-          {{ item.raw.value_out_platform }} %
-        </template>
+        <template #item.value_in_platform="{ item }"> {{ item.value_in_platform }} % </template>
+        <template #item.value_out_platform="{ item }"> {{ item.value_out_platform }} % </template>
         <template #item.is_active="{ item }">
           <ToggleActivationSwitch
-            :id="item.raw.id"
-            v-model="item.raw.is_active"
+            :id="item.id"
+            v-model="item.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />
@@ -162,11 +160,11 @@ getPageData()
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
             <IconBtn :disabled="!permissions.delete">
-              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item.raw)" />
+              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item)" />
             </IconBtn>
 
             <IconBtn :disabled="!permissions.edit">
-              <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
+              <VIcon icon="tabler-edit" @click="showEditModal(item)" />
             </IconBtn>
 
             <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -174,7 +172,7 @@ getPageData()
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem @click="showViewModal(item.raw)">
+                  <VListItem @click="showViewModal(item)">
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
@@ -184,8 +182,8 @@ getPageData()
 
                   <VListItem
                     v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
-                    @click="sortItems(item.raw.id)"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    @click="sortItems(item.id)"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />

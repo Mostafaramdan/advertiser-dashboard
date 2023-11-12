@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MetaData } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { AdsBlock } from '../interfaces/AdsBlock'
 import { reportsService } from '../services/ReportsService'
 
@@ -149,30 +149,26 @@ function openNotificationModal(user: any) {
             <router-link
               :to="{
                 name: 'advertisers-profile-page',
-                params: { id: item.raw.blocked.id },
+                params: { id: item.blocked.id },
                 query: { tab: 'details' },
               }"
               class="d-flex align-center"
             >
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg
-                    v-if="item.raw.blocked.image_path"
-                    :src="item.raw.blocked.image_path"
-                    cover
-                  />
+                  <VImg v-if="item.blocked.image_path" :src="item.blocked.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
-              <div style="min-width: 205px">
-                <span>{{ item.raw.blocked.username }}</span>
-                <span class="text-sm text-disabled d-block">{{ item.raw.blocked.phone }}</span>
+              <div style="min-inline-size: 205px">
+                <span>{{ item.blocked.username }}</span>
+                <span class="text-sm text-disabled d-block">{{ item.blocked.phone }}</span>
               </div>
             </router-link>
           </template>
           <template #item.blockings_count="{ item }">
-            <div class="text-no-wrap" style="min-width: 80px">
-              {{ item.raw.blockings_count }}
+            <div class="text-no-wrap" style="min-inline-size: 80px">
+              {{ item.blockings_count }}
             </div>
           </template>
 
@@ -182,7 +178,7 @@ function openNotificationModal(user: any) {
                 :disabled="!permissions.viewAdBlockDetails"
                 :to="{
                   name: 'advertisers-profile-page',
-                  params: { id: item.raw.blocked.id },
+                  params: { id: item.blocked.id },
                   query: { tab: 'ads-block' },
                 }"
               >
@@ -190,7 +186,7 @@ function openNotificationModal(user: any) {
               </IconBtn>
               <IconBtn
                 :disabled="!permissions.sendNotification"
-                @click="openNotificationModal(item.raw.blocked)"
+                @click="openNotificationModal(item.blocked)"
               >
                 <VIcon icon="tabler-mail" />
               </IconBtn>

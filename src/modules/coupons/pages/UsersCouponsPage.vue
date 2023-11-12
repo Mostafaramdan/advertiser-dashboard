@@ -6,7 +6,7 @@ import { formatUrl } from '@/helpers/index'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useCouponsStore } from '@/stores/CouponsStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { UserCoupon } from '../interfaces/UsersCoupon'
 import UsersCouponDetailsModal from '../modals/UsersCouponDetailsModal.vue'
 import UsersCouponFormModal from '../modals/UsersCouponFormModal.vue'
@@ -178,57 +178,57 @@ function onApplyFilter(filters: any) {
       >
         <template #item.code="{ item }">
           <a
-            :href="formatUrl(item.raw.link)"
+            :href="formatUrl(item.link)"
             target="_blank"
             class="d-flex align-center"
             style="min-inline-size: 150px"
           >
             <VAvatar size="38" variant="tonal" class="me-3" cover>
-              <VImg v-if="item.raw.store?.image" :src="item.raw.store.image" cover />
+              <VImg v-if="item.store?.image" :src="item.store.image" cover />
               <span v-else>!</span>
             </VAvatar>
             <div class="overflow-hidden">
-              {{ item.raw.code }}
-              <span class="text-sm text-disabled d-block"> {{ item.raw.status_text }}</span>
+              {{ item.code }}
+              <span class="text-sm text-disabled d-block"> {{ item.status_text }}</span>
             </div>
           </a>
         </template>
 
         <template #item.user="{ item }">
           <span style="inline-size: 205px">
-            {{ item.raw.user.account_name }}
+            {{ item.user.account_name }}
           </span>
-          <span class="text-sm text-disabled d-block"> {{ item.raw.advertiser.account_name }}</span>
+          <span class="text-sm text-disabled d-block"> {{ item.advertiser.account_name }}</span>
         </template>
 
         <template #item.started_at="{ item }">
           <div class="text-no-wrap" style="min-inline-size: 80px">
-            {{ formatDate(item.raw.started_at) }}
-            <span class="text-sm text-disabled d-block"> {{ formatDate(item.raw.ended_at) }}</span>
+            {{ formatDate(item.started_at) }}
+            <span class="text-sm text-disabled d-block"> {{ formatDate(item.ended_at) }}</span>
           </div>
         </template>
         <template #item.discount="{ item }">
           <div class="text-no-wrap" style="min-inline-size: 80px">
-            {{ item.raw.discount }}%
-            <span class="text-sm text-disabled d-block">{{ item.raw.uses }}</span>
+            {{ item.discount }}%
+            <span class="text-sm text-disabled d-block">{{ item.uses }}</span>
           </div>
         </template>
 
         <template #item.status_text="{ item }">
-          <div style="min-inline-size: 80px">{{ item.raw.status_text }}</div>
+          <div style="min-inline-size: 80px">{{ item.status_text }}</div>
         </template>
 
         <template #item.store="{ item }">
           <div style="min-inline-size: 100px">
-            {{ item.raw.store.name }}
-            <span class="text-sm text-disabled d-block">{{ item.raw.category.label }}</span>
+            {{ item.store.name }}
+            <span class="text-sm text-disabled d-block">{{ item.category.label }}</span>
           </div>
         </template>
 
         <template #item.is_active="{ item }">
           <ToggleActivationSwitch
-            :id="item.raw.id"
-            v-model="item.raw.is_active"
+            :id="item.id"
+            v-model="item.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />
@@ -236,7 +236,7 @@ function onApplyFilter(filters: any) {
 
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
               <VIcon icon="tabler-trash" />
             </IconBtn>
             <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -244,7 +244,7 @@ function onApplyFilter(filters: any) {
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem @click="showViewModal(item.raw)">
+                  <VListItem @click="showViewModal(item)">
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
@@ -252,7 +252,7 @@ function onApplyFilter(filters: any) {
                     <VListItemTitle>عرض</VListItemTitle>
                   </VListItem>
 
-                  <VListItem v-if="permissions.edit" @click="showEditModal(item.raw)">
+                  <VListItem v-if="permissions.edit" @click="showEditModal(item)">
                     <template #prepend>
                       <VIcon icon="tabler-edit" />
                     </template>

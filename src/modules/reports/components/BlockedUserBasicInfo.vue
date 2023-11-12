@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reportsService } from '@/modules/reports/services/ReportsService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
+
 import { ChatBlock, User } from '../interfaces/ChatBlock'
 
 /***************************************

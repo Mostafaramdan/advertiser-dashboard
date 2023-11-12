@@ -7,7 +7,6 @@ import type { User } from '@/interfaces/User'
 import { usersService } from '@/services/UsersService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -141,6 +140,11 @@ async function showConfirmDeleteItem(item: User): Promise<void> {
   if (confirm) deleteItem(item)
 }
 
+function rowProps({ item }: { item: User }) {
+  return {
+    class: item.is_deleted && 'bg-background',
+  }
+}
 // #endregion
 </script>
 
@@ -177,57 +181,52 @@ async function showConfirmDeleteItem(item: User): Promise<void> {
           :item-selectable="(item) => !item.is_deleted"
           class="app-table"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
+          :row-props="rowProps"
         >
           <template #item.account_name="{ item }">
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg v-if="item.raw.image_path" :src="item.raw.image_path" cover />
+                  <VImg v-if="item.image_path" :src="item.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
-                <VChip
-                  v-if="item.raw.is_deleted"
-                  class="px-0 mt-1"
-                  color="error"
-                  label
-                  size="x-small"
-                >
+                <VChip v-if="item.is_deleted" class="px-0 mt-1" color="error" label size="x-small">
                   محذوف
                 </VChip>
               </div>
               <div style="min-inline-size: 205px">
-                {{ item.raw.account_name }}
-                <span class="text-sm text-disabled d-block">{{ item.raw.email }}</span>
+                {{ item.account_name }}
+                <span class="text-sm text-disabled d-block">{{ item.email }}</span>
               </div>
             </div>
           </template>
           <template #item.country_name="{ item }">
             <div style="min-inline-size: 150px">
-              {{ item.raw.country_name }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.area_name }}</span>
+              {{ item.country_name }}
+              <span class="text-sm text-disabled d-block">{{ item.area_name }}</span>
             </div>
           </template>
           <template #item.created_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.created_at) }}
-              <span class="text-sm text-disabled d-block"> {{ item.raw.phone }}</span>
+              {{ formatDateTime(item.created_at) }}
+              <span class="text-sm text-disabled d-block"> {{ item.phone }}</span>
             </div>
           </template>
           <template #item.gender="{ item }">
             <div class="text-no-wrap">
-              {{ GENDER_TYPES[item.raw.gender as 'male' | 'female'] }}
+              {{ GENDER_TYPES[item.gender as 'male' | 'female'] }}
               <span class="d-flex align-center justify-center text-sm">
                 <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
-                {{ item.raw.rate }}
+                {{ item.rate }}
               </span>
             </div>
           </template>
           <template #item.is_active="{ item }">
             <ToggleActivationSwitch
-              :id="item.raw.id"
-              v-model="item.raw.is_active"
+              :id="item.id"
+              v-model="item.is_active"
               :model="MODEL_NAME"
-              :disabled="!permissions.changeStatus || item.raw.is_deleted"
+              :disabled="!permissions.changeStatus || item.is_deleted"
             />
           </template>
 
@@ -237,7 +236,7 @@ async function showConfirmDeleteItem(item: User): Promise<void> {
                 :disabled="!permissions.viewUserDetails"
                 :to="{
                   name: 'user-profile-page',
-                  params: { id: item.raw.id },
+                  params: { id: item.id },
                   query: { tab: 'details' },
                 }"
               >
@@ -249,9 +248,9 @@ async function showConfirmDeleteItem(item: User): Promise<void> {
                 <VMenu activator="parent">
                   <VList>
                     <VListItem
-                      v-if="!item.raw.is_deleted"
+                      v-if="!item.is_deleted"
                       :disabled="!permissions.delete"
-                      @click="showConfirmDeleteItem(item.raw)"
+                      @click="showConfirmDeleteItem(item)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-trash" />

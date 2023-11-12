@@ -5,7 +5,7 @@ import { GENDER_TYPES, USERS_ROLES, USERS_TYPES } from '@/constants/index'
 import { PAYMENT_STATUSES, REQUEST_STATUSES } from '@/constants/subscriptions'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { SubscriptionsRequestItem } from '../interfaces/SubscriptionsRequests'
 import SubscriptionsRequestDetailsModal from '../modals/SubscriptionsRequestDetailsModal.vue'
 import SubscriptionsRequestEditModal from '../modals/SubscriptionsRequestEditModal.vue'
@@ -201,7 +201,6 @@ function openNotificationModal(user: any) {
           show-select
           :items-length="metaData?.total || 0"
           item-value="id"
-          :item-selectable="(item) => !item.is_deleted"
           class="app-table"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
@@ -209,48 +208,48 @@ function openNotificationModal(user: any) {
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
-                  <VImg v-if="item.raw.user.image_path" :src="item.raw.user.image_path" cover />
+                  <VImg v-if="item.user.image_path" :src="item.user.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
               </div>
               <div style="min-inline-size: 205px">
-                {{ item.raw.user.account_name }}
-                <span class="text-sm text-disabled d-block">{{ item.raw.user.email }}</span>
+                {{ item.user.account_name }}
+                <span class="text-sm text-disabled d-block">{{ item.user.email }}</span>
               </div>
             </div>
           </template>
           <template #item.country_name="{ item }">
             <div style="min-inline-size: 150px">
-              {{ item.raw.country_name }}
-              <span class="text-sm text-disabled d-block">{{ item.raw.area_name }}</span>
+              {{ item.country_name }}
+              <span class="text-sm text-disabled d-block">{{ item.area_name }}</span>
             </div>
           </template>
           <template #item.created_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.created_at) }}
-              <span class="text-sm text-disabled d-block"> {{ item.raw.user.phone }}</span>
+              {{ formatDateTime(item.created_at) }}
+              <span class="text-sm text-disabled d-block"> {{ item.user.phone }}</span>
             </div>
           </template>
           <template #item.ended_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.ended_at) }}
-              <span class="text-sm text-disabled d-block"> {{ item.raw.package_name }}</span>
+              {{ formatDateTime(item.ended_at) }}
+              <span class="text-sm text-disabled d-block"> {{ item.package_name }}</span>
             </div>
           </template>
           <template #item.payment_status="{ item }">
             <div style="min-inline-size: 100px">
-              {{ REQUEST_STATUSES[item.raw.request_status] }}
+              {{ REQUEST_STATUSES[item.request_status] }}
               <span class="text-sm text-disabled d-block">{{
-                PAYMENT_STATUSES[item.raw.payment_status]
+                PAYMENT_STATUSES[item.payment_status]
               }}</span>
             </div>
           </template>
 
           <template #item.user_type="{ item }">
             <div style="min-inline-size: 100px">
-              {{ USERS_ROLES[item.raw.user.role] + ' ' + USERS_TYPES[item.raw.user.type] }}
+              {{ USERS_ROLES[item.user.role] + ' ' + USERS_TYPES[item.user.type] }}
               <span class="text-sm text-disabled d-block">{{
-                GENDER_TYPES[item.raw.user.gender as 'male' | 'female']
+                GENDER_TYPES[item.user.gender as 'male' | 'female']
               }}</span>
             </div>
           </template>
@@ -258,17 +257,17 @@ function openNotificationModal(user: any) {
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
               <IconBtn :disabled="!permissions.delete">
-                <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item.raw)" />
+                <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item)" />
               </IconBtn>
               <IconBtn :disabled="!permissions.edit">
-                <VIcon icon="tabler-edit" @click="showEditModal(item.raw)" />
+                <VIcon icon="tabler-edit" @click="showEditModal(item)" />
               </IconBtn>
               <VBtn icon variant="text" size="small" color="medium-emphasis">
                 <VIcon size="24" icon="tabler-dots-vertical" />
 
                 <VMenu activator="parent">
                   <VList>
-                    <VListItem @click="showViewModal(item.raw)">
+                    <VListItem @click="showViewModal(item)">
                       <template #prepend>
                         <VIcon icon="tabler-eye" />
                       </template>
@@ -277,7 +276,7 @@ function openNotificationModal(user: any) {
                     </VListItem>
                     <VListItem
                       v-if="permissions.sendNotification"
-                      @click="openNotificationModal(item.raw.user)"
+                      @click="openNotificationModal(item.user)"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />

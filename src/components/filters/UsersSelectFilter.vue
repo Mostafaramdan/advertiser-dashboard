@@ -133,7 +133,7 @@ const handleDebounceSearch = debounce((value: any) => {
       }"
     >
       <template #selection="{ item }">
-        <span v-if="item.raw.label">{{ item.raw.label }}</span>
+        <span v-if="item.title">{{ item.title }}</span>
       </template>
       <template #prepend-item>
         <div class="search-input pa-1">

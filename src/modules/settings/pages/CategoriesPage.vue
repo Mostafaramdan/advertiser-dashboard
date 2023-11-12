@@ -3,7 +3,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { listService } from '@/services/ListService'
 import { useAuthStore } from '@/stores/AuthStore'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import type { Category } from '../interfaces/Category'
 import CategoryDetailsModal from '../modals/CategoryDetailsModal.vue'
 import CategoryFormModal from '../modals/CategoryFormModal.vue'
@@ -166,7 +166,7 @@ function getTags() {
             @update:model-value="onReloadData"
           >
             <template #selection="{ item, index }">
-              <span>{{ item.raw.label }}</span>
+              <span>{{ item.title }}</span>
             </template>
           </VSelect>
         </div>
@@ -185,19 +185,19 @@ function getTags() {
       >
         <template #item.name.ar="{ item }">
           <span>
-            {{ item.raw.name.ar }}
+            {{ item.name.ar }}
           </span>
         </template>
         <template #item.name.en="{ item }">
           <span>
-            {{ item.raw.name.en }}
+            {{ item.name.en }}
           </span>
         </template>
 
         <template #item.is_active="{ item }">
           <ToggleActivationSwitch
-            :id="item.raw.id"
-            v-model="item.raw.is_active"
+            :id="item.id"
+            v-model="item.is_active"
             :model="MODEL_NAME"
             :disabled="!permissions.changeStatus"
           />
@@ -205,11 +205,11 @@ function getTags() {
 
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item.raw)">
+            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
               <VIcon icon="tabler-trash" />
             </IconBtn>
 
-            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item.raw)">
+            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item)">
               <VIcon icon="tabler-edit" />
             </IconBtn>
 
@@ -218,7 +218,7 @@ function getTags() {
 
               <VMenu activator="parent">
                 <VList>
-                  <VListItem @click="showViewModal(item.raw)">
+                  <VListItem @click="showViewModal(item)">
                     <template #prepend>
                       <VIcon icon="tabler-eye" />
                     </template>
@@ -228,8 +228,8 @@ function getTags() {
 
                   <VListItem
                     v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.raw.id)"
-                    @click="sortItems(item.raw.id)"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    @click="sortItems(item.id)"
                   >
                     <template #prepend>
                       <VIcon icon="tabler-transfer-in" />

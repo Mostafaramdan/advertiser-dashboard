@@ -3,4 +3,5 @@ export interface Tag {
   sort?: number
   name: { en: string; ar: string }
   is_active?: boolean
+  can_control?: boolean
 }

@@ -6,7 +6,7 @@ import type { pageAction } from '@/interfaces/Shared'
 import { sharedService } from '@/services/SharedService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
+
 import SupportTicketsStats from '../components/SupportTicketsStats.vue'
 import type { SupportTicket, SupportTicketAdminRole } from '../interfaces/SupportTicket'
 import SupportTicketEditModal from '../modals/SupportTicketEditModal.vue'
@@ -218,26 +218,24 @@ function onApplyFilter(filters: any) {
         >
           <template #item.user="{ item }">
             <div style="min-inline-size: 150px">
-              <span>{{ item.raw.user.account_name }}</span>
-              <span class="text-sm text-disabled d-block">{{
-                USERS_TYPES[item.raw.user.role]
-              }}</span>
+              <span>{{ item.user.account_name }}</span>
+              <span class="text-sm text-disabled d-block">{{ USERS_TYPES[item.user.role] }}</span>
             </div>
           </template>
 
           <template #item.support_type="{ item }">
             <div style="min-inline-size: 150px">
-              <span>{{ item.raw.support_type }}</span>
-              <span class="text-sm text-disabled d-block"> {{ item.raw.id }}</span>
+              <span>{{ item.support_type }}</span>
+              <span class="text-sm text-disabled d-block"> {{ item.id }}</span>
             </div>
           </template>
 
           <template #item.status="{ item }">
             <div style="min-inline-size: 80px">
-              <span>{{ TICKETS_STATUSES.get(item.raw.status)?.label }}</span>
-              <span class="d-flex align-center text-sm" v-if="item.raw.rate !== null">
+              <span>{{ TICKETS_STATUSES.get(item.status)?.label }}</span>
+              <span class="d-flex align-center text-sm" v-if="item.rate !== null">
                 <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
-                {{ item.raw.rate }}
+                {{ item.rate }}
               </span>
               <span v-else class="text-sm text-disabled d-block"> لا يوجد</span>
             </div>
@@ -245,36 +243,36 @@ function onApplyFilter(filters: any) {
 
           <template #item.created_at="{ item }">
             <div class="text-no-wrap">
-              {{ formatDateTime(item.raw.created_at) }}
+              {{ formatDateTime(item.created_at) }}
               <span class="text-sm text-disabled d-block">
-                {{ formatDateTime(item.raw.last_update) }}</span
+                {{ formatDateTime(item.last_update) }}</span
               >
             </div>
           </template>
 
           <template #item.primary_admin="{ item }">
             <div style="min-inline-size: 150px">
-              <span>{{ item.raw.primary_admin.name }}</span>
+              <span>{{ item.primary_admin.name }}</span>
               <span
                 class="text-sm text-disabled d-block"
                 :class="{
-                  'text-error': item.raw.primary_admin.status === 'failed',
-                  'text-success': item.raw.primary_admin.status === 'success',
+                  'text-error': item.primary_admin.status === 'failed',
+                  'text-success': item.primary_admin.status === 'success',
                 }"
-                >{{ item.raw.primary_admin.hours }}</span
+                >{{ item.primary_admin.hours }}</span
               >
             </div>
           </template>
           <template #item.secondary_admin="{ item }">
             <div style="min-inline-size: 150px">
-              <span>{{ item.raw.secondary_admin.name }}</span>
+              <span>{{ item.secondary_admin.name }}</span>
               <span
                 class="text-sm text-disabled d-block"
                 :class="{
-                  'text-error': item.raw.primary_admin.status === 'failed',
-                  'text-success': item.raw.primary_admin.status === 'success',
+                  'text-error': item.primary_admin.status === 'failed',
+                  'text-success': item.primary_admin.status === 'success',
                 }"
-                >{{ item.raw.secondary_admin.hours }}</span
+                >{{ item.secondary_admin.hours }}</span
               >
             </div>
           </template>
@@ -285,7 +283,7 @@ function onApplyFilter(filters: any) {
                 :disabled="!permissions.viewTicketDetails"
                 :to="{
                   name: 'ticket-details-page',
-                  params: { id: item.raw.id },
+                  params: { id: item.id },
                   query: { tab: 'details' },
                 }"
               >
@@ -297,26 +295,23 @@ function onApplyFilter(filters: any) {
 
                 <VMenu activator="parent">
                   <VList>
-                    <VListItem
-                      :disabled="!permissions.delete"
-                      @click="showConfirmDeleteItem(item.raw)"
-                    >
+                    <VListItem :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
                       <template #prepend>
                         <VIcon icon="tabler-trash" />
                       </template>
                       <VListItemTitle>حذف</VListItemTitle>
                     </VListItem>
-                    <VListItem :disabled="!permissions.edit" @click="openEditTicketModal(item.raw)">
+                    <VListItem :disabled="!permissions.edit" @click="openEditTicketModal(item)">
                       <template #prepend>
                         <VIcon icon="tabler-edit" />
                       </template>
                       <VListItemTitle>تعديل </VListItemTitle>
                     </VListItem>
-                    <VListItem @click="toggleFavorite(item.raw)">
+                    <VListItem @click="toggleFavorite(item)">
                       <template #prepend>
                         <VIcon
                           icon="tabler-star-filled"
-                          :color="item.raw.is_starred ? '#ffcc00' : 'dark'"
+                          :color="item.is_starred ? '#ffcc00' : 'dark'"
                         />
                       </template>
 
@@ -324,7 +319,7 @@ function onApplyFilter(filters: any) {
                     </VListItem>
                     <VListItem
                       :disabled="!permissions.transferTicketToAdmin"
-                      @click="openTransferTicketModal(item.raw, 'primary')"
+                      @click="openTransferTicketModal(item, 'primary')"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-refresh" />
@@ -334,7 +329,7 @@ function onApplyFilter(filters: any) {
                     </VListItem>
                     <VListItem
                       :disabled="!permissions.transferTicketToAdmin"
-                      @click="openTransferTicketModal(item.raw, 'secondary')"
+                      @click="openTransferTicketModal(item, 'secondary')"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-refresh" />

@@ -4,7 +4,6 @@ import { NOTIFICATIONS_TYPES } from '@/constants'
 import { MetaData } from '@/interfaces/Shared'
 import { LicenseDocumentNotification } from '@/interfaces/User'
 import { usersService } from '@/services/UsersService'
-import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -96,18 +95,18 @@ function getPageData() {
     >
       <template #item.admin_name="{ item }">
         <div style="min-inline-size: 100px">
-          {{ item.raw.admin_name }}
+          {{ item.admin_name }}
         </div>
       </template>
       <template #item.created_at="{ item }">
         <div class="text-no-wrap">
-          {{ formatDateTime(item.raw.created_at) }}
+          {{ formatDateTime(item.created_at) }}
         </div>
       </template>
       <template #item.channels="{ item }">
         <div class="d-flex gap-2">
           <VChip
-            :color="item.raw.channels.includes(type.value) ? 'primary' : 'secondary'"
+            :color="item.channels.includes(type.value) ? 'primary' : 'secondary'"
             v-for="type in NOTIFICATIONS_TYPES"
             :key="type.value"
             style="block-size: auto"
@@ -122,7 +121,7 @@ function getPageData() {
       </template>
       <template #item.message="{ item }">
         <div style="min-inline-size: 300px">
-          {{ item.raw.message }}
+          {{ item.message }}
         </div>
       </template>
 
