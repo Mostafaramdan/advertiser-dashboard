@@ -44,6 +44,7 @@ export function UseNotificationsHelpers() {
     const { type, model, action_by } = notification
     const modelId = model?.id
     switch (type) {
+      // subscriptions types
       case 'new_subscription_request':
         router.push({ name: 'subscriptions-requests-page', query: { id: modelId } })
         break
@@ -60,6 +61,8 @@ export function UseNotificationsHelpers() {
           query: { user_id: action_by.id, advertiser_name: action_by.username },
         })
         break
+
+      // users profile types
       case 'change_account_data':
       case 'delete_account':
         router.push({
@@ -82,6 +85,16 @@ export function UseNotificationsHelpers() {
         })
         break
 
+      case 'change_status_account':
+      case 'delete_account_by_admin':
+        router.push({
+          name: model?.role === 'advertiser' ? 'advertisers-profile-page' : 'user-profile-page',
+          params: { id: modelId },
+          query: { tab: 'details' },
+        })
+        break
+
+      // advertiser profile types
       case 'create_user_channel':
       case 'update_user_channel':
       case 'delete_user_channel':
@@ -130,15 +143,7 @@ export function UseNotificationsHelpers() {
         })
         break
 
-      case 'change_status_account':
-      case 'delete_account_by_admin':
-        router.push({
-          name: model?.role === 'advertiser' ? 'advertisers-profile-page' : 'user-profile-page',
-          params: { id: modelId },
-          query: { tab: 'details' },
-        })
-        break
-
+      // ads types
       case 'change_status_ads_by_admin':
       case 'delete_ads_by_admin':
       case 'restore_ads_by_admin':
@@ -165,6 +170,7 @@ export function UseNotificationsHelpers() {
         })
         break
 
+      // ads requests types
       case 'delete_ads_request_by_admin':
       case 'cancel_ads_request_by_admin':
         router.push({
@@ -174,6 +180,7 @@ export function UseNotificationsHelpers() {
         })
         break
 
+      // platform coupons types
       case 'create_platform_coupon_by_admin':
       case 'update_platform_coupon_by_admin':
       case 'change_status_platform_coupon_by_admin':
@@ -186,9 +193,9 @@ export function UseNotificationsHelpers() {
         })
         break
 
+      // advertisers coupons types
       case 'create_advertiser_coupon_by_admin':
       case 'update_advertiser_coupon':
-      case 'change_status_advertiser_coupon':
       case 'change_status_advertiser_coupon':
         router.push({
           name: 'advertiser-coupon-details-page',
@@ -196,6 +203,7 @@ export function UseNotificationsHelpers() {
         })
         break
 
+      // users coupons types
       case 'create_ads_request_coupon':
       case 'update_ads_request_coupon':
       case 'change_status_ads_request_coupon':
@@ -205,6 +213,7 @@ export function UseNotificationsHelpers() {
         })
         break
 
+      // stores types
       case 'create_store':
       case 'confirm_store':
       case 'reject_store':
@@ -214,6 +223,7 @@ export function UseNotificationsHelpers() {
         })
         break
 
+      // disputes types
       case 'create_dispute':
       case 'accept_dispute':
       case 'reject_dispute':
@@ -252,6 +262,17 @@ export function UseNotificationsHelpers() {
         })
         break
 
+      // tickets types
+      case 'create_ticket':
+      case 'reply_ticket':
+        router.push({
+          name: 'ticket-details-page',
+          params: { id: modelId },
+          query: { tab: 'details' },
+        })
+        break
+
+      // notifications types
       case 'delete_platform_coupon_by_admin':
       case 'delete_advertiser_coupon':
       case 'delete_ads_request_coupon':
