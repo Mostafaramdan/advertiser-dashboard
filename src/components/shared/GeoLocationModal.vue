@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { GeoLocationModalProps, Location } from '@/interfaces/Shared'
 import { Loader } from '@googlemaps/js-api-loader'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { GeoLocationModalProps, Location } from '@/interfaces/Shared'
 /***************************************
  **** Section Props Declaration  ******
  **************************************/

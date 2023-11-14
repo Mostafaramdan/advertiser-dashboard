@@ -81,7 +81,7 @@ function logout() {
           <VDivider class="my-2" />
 
           <!-- 👉 Profile -->
-          <VListItem link>
+          <VListItem link :to="{ name: 'employees-details-page', params: { id: userData.id } }">
             <template #prepend>
               <VIcon class="me-2" icon="tabler-user" size="22" />
             </template>

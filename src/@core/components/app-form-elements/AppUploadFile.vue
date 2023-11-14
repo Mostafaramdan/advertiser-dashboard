@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import axios from 'axios'
-import { useToast } from 'vue-toastification'
 import { FILES_TYPES } from '@/constants/index'
 import { getFileType } from '@/helpers/file'
 import type { FormFileProps } from '@/interfaces/Forms'
+import axios from 'axios'
+import { useToast } from 'vue-toastification'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -16,6 +16,7 @@ const props = withDefaults(defineProps<FormFileProps>(), {
   uploadTip: '',
   width: '180px',
   height: '180px',
+  id: 'upload-input',
 
   // acceptedTypes: () => ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/webm'],
 
@@ -247,7 +248,7 @@ function cancelUpload() {
       <label
         v-else
         class="upload-label"
-        for="logo-image"
+        :for="id"
         @dragenter="dragStart($event)"
         @dragleave="dragEnd($event)"
         @dragend="dragEnd($event)"
@@ -255,7 +256,7 @@ function cancelUpload() {
         @dragexit="dragEnd($event)"
       >
         <input
-          id="logo-image"
+          :id="id"
           class="upload-label__input"
           type="file"
           :accept="props.acceptedTypes.join(',')"

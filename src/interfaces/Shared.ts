@@ -84,7 +84,7 @@ export interface NotificationModalProps {
   }
 }
 
-export interface ReadyReplyItem {
+export interface DropdownMenuItem {
   id: number
   label: string
 }

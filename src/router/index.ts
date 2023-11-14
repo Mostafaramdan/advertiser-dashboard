@@ -4,6 +4,7 @@ import { reportsRoutes } from '@/modules/reports/reportsRoutes'
 import { settingsRoutes } from '@/modules/settings/settingsRoutes'
 import { statisticsRoutes } from '@/modules/statistics/statisticsRoutes'
 import { subscriptionsRoutes } from '@/modules/subscriptions/subscriptionsRoutes'
+import { teamRoutes } from '@/modules/team/teamRoutes'
 import { ticketsRoutes } from '@/modules/tickets/ticketsRoutes'
 import HomePage from '@/pages/HomePage.vue'
 import { useAuthStore } from '@/stores/AuthStore'
@@ -157,14 +158,6 @@ const router = createRouter({
       },
     },
     {
-      path: '/admins',
-      name: 'admins-page',
-      component: () => import('@/pages/AdminsPage.vue'),
-      meta: {
-        layout: 'default',
-      },
-    },
-    {
       path: '/wallets-and-payments',
       name: 'wallets-and-payments-page',
       component: () => import('@/pages/WalletsAndPaymentsPage.vue'),
@@ -240,6 +233,16 @@ const router = createRouter({
         ],
       },
       children: ticketsRoutes,
+    },
+    {
+      path: '/team',
+      name: 'team',
+      component: () => import('@/modules/team/TeamModule.vue'),
+      meta: {
+        layout: 'default',
+        requireAtLeastOnePermission: ['view_admins'],
+      },
+      children: teamRoutes,
     },
     {
       path: '/statistics',

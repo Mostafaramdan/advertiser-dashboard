@@ -300,9 +300,16 @@ const navItems = computed(() => {
     },
     {
       title: 'فريق العمل',
-      to: { name: 'admins-page' },
       icon: { icon: 'tabler-users-group' },
-      show: true,
+      show: hasAtLeaseOnePermission(['view_admins']),
+      to: null,
+      children: [
+        {
+          title: 'الموظفين',
+          to: { name: 'employees-page' },
+          show: hasPermission('view_admins'),
+        },
+      ],
     },
     {
       title: 'المحافظ و الدفع الالكترونى',

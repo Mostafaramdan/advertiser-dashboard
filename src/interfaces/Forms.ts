@@ -38,6 +38,7 @@ export interface FormFileProps {
   uploadTip?: string
   width?: string
   height?: string
+  id?: string
 }
 
 export interface FormSwitchProps {

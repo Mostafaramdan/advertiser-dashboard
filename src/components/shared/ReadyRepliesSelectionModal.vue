@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ReadyReplyItem } from '@/interfaces/Shared'
+import type { DropdownMenuItem } from '@/interfaces/Shared'
 import { listService } from '@/services/ListService'
 /***************************************
  **** Section Props Declaration  ******
@@ -30,7 +30,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
-const repliesList = ref<ReadyReplyItem[]>([])
+const repliesList = ref<DropdownMenuItem[]>([])
 const selectedReply = ref<number | null>(null)
 
 // #endregion
@@ -69,8 +69,9 @@ function hideModal() {
 }
 
 function save() {
-  const reply = repliesList.value.find((reply: ReadyReplyItem) => reply.id === selectedReply.value)
-    ?.label
+  const reply = repliesList.value.find(
+    (reply: DropdownMenuItem) => reply.id === selectedReply.value,
+  )?.label
   if (reply) {
     hideModal()
     emit('select:reply', reply)
@@ -88,7 +89,7 @@ function save() {
     <VCard>
       <div>
         <VCard title="اختر رد" v-loading="isLoading">
-          <VCardText style="min-height: 300px">
+          <VCardText style="min-block-size: 300px">
             <AppRadio
               v-if="repliesList.length"
               v-model="selectedReply"

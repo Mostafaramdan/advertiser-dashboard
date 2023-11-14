@@ -72,6 +72,14 @@ class ListService {
   getTicketsTypes(): AxiosPromise {
     return axios.get(`${this.contextPath}/support_types`)
   }
+
+  getEmployeesRolesCategories(): AxiosPromise {
+    return axios.get(`${this.contextPath}/role_categories`)
+  }
+
+  getEmployeesRoles(): AxiosPromise {
+    return axios.get(`${this.contextPath}/roles`)
+  }
 }
 
 export const listService = new ListService()
