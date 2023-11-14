@@ -31,4 +31,12 @@ export const teamRoutes = [
       requiredPermission: 'view_admin_details',
     },
   },
+  {
+    path: 'categories',
+    name: 'team-categories-page',
+    component: () => import('./pages/CategoriesPage.vue'),
+    meta: {
+      requiredPermission: 'view_role_categories',
+    },
+  },
 ]
