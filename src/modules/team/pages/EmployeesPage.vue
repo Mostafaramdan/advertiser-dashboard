@@ -11,12 +11,14 @@ import { employeesService } from '../services/EmployeesService'
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
+const FilterComponent = defineAsyncComponent(() => import('../components/EmployeesFilter.vue'))
 const { t } = useI18n()
 const router = useRouter()
 const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'admins'
-
+const showFilter = ref<boolean>(false)
+const loadFilter = ref<boolean>(false)
 const params = reactive({
   page: 1,
   itemPerPage: 10,
@@ -85,6 +87,11 @@ const pageActionsButtons = computed<pageAction[]>(() => {
       show: permissions.value.create as boolean,
       handler: gotoCreatePage,
     },
+    {
+      icon: 'tabler-filter',
+      show: true,
+      handler: handleShowFilter,
+    },
   ]
 })
 
@@ -109,120 +116,139 @@ function gotoCreatePage() {
 function gotoDetailsPage(item: Employee) {
   router.push({ name: 'employees-details-page', params: { id: item.id } })
 }
+
+function handleShowFilter() {
+  showFilter.value = !showFilter.value
+  if (!loadFilter.value) loadFilter.value = true
+}
+
+function onApplyFilter(filters: any) {
+  Object.assign(params, { ...filters, page: 1 })
+  getPageData()
+}
 // #endregion
 </script>
 
 <template>
-  <ConfirmModal ref="confirmModal" />
-  <VCard title="الموظفين" class="page-card">
-    <VCardText>
-      <PageActions
-        :page-actions-buttons="pageActionsButtons"
-        :items-per-page="params.itemPerPage"
-        :show-multi-delete="permissions.delete"
-        :show-multi-activate="permissions.changeStatus"
-        :model="MODEL_NAME"
-        :selected-items="selectedItems"
-        @update:items-per-page="onChangeItemsPerPage"
-        @update:search="onChangeSearch"
-        @reload-data="onReloadData"
-      />
-      <VDataTableServer
-        v-model="selectedItems"
-        v-loading="IsLoadingData"
-        :headers="headers"
-        :items="tableData"
-        show-select
-        :items-length="metaData?.total || 0"
-        item-value="id"
-        class="app-table"
-        :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
-      >
-        <template #item.name="{ item }">
-          <div class="d-flex align-center">
-            <div class="d-flex flex-column align-center me-3 py-1">
-              <VAvatar size="38" variant="tonal" cover>
-                <VImg v-if="item.image_path" :src="item.image_path" cover />
-                <span v-else>!</span>
-              </VAvatar>
+  <div>
+    <ConfirmModal ref="confirmModal" />
+    <Component
+      :is="FilterComponent"
+      v-if="loadFilter"
+      v-model:showFilter="showFilter"
+      @apply-filter="onApplyFilter"
+      :init-filters="params"
+    />
+    <VCard title="الموظفين" class="page-card">
+      <VCardText>
+        <PageActions
+          :page-actions-buttons="pageActionsButtons"
+          :items-per-page="params.itemPerPage"
+          :show-multi-delete="permissions.delete"
+          :show-multi-activate="permissions.changeStatus"
+          :model="MODEL_NAME"
+          :selected-items="selectedItems"
+          @update:items-per-page="onChangeItemsPerPage"
+          @update:search="onChangeSearch"
+          @reload-data="onReloadData"
+        />
+        <VDataTableServer
+          v-model="selectedItems"
+          v-loading="IsLoadingData"
+          :headers="headers"
+          :items="tableData"
+          show-select
+          :items-length="metaData?.total || 0"
+          item-value="id"
+          class="app-table"
+          :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
+        >
+          <template #item.name="{ item }">
+            <div class="d-flex align-center">
+              <div class="d-flex flex-column align-center me-3 py-1">
+                <VAvatar size="38" variant="tonal" cover>
+                  <VImg v-if="item.image_path" :src="item.image_path" cover />
+                  <span v-else>!</span>
+                </VAvatar>
+              </div>
+              <div style="min-inline-size: 205px">
+                {{ item.name }}
+                <span class="text-sm text-disabled d-block">{{ item.email }}</span>
+              </div>
             </div>
-            <div style="min-inline-size: 205px">
-              {{ item.name }}
-              <span class="text-sm text-disabled d-block">{{ item.email }}</span>
+          </template>
+          <template #item.created_at="{ item }">
+            <div class="text-no-wrap">
+              {{ formatDateTime(item.created_at) }}
+              <span class="text-sm text-disabled d-block"> {{ item.phone }}</span>
             </div>
-          </div>
-        </template>
-        <template #item.created_at="{ item }">
-          <div class="text-no-wrap">
-            {{ formatDateTime(item.created_at) }}
-            <span class="text-sm text-disabled d-block"> {{ item.phone }}</span>
-          </div>
-        </template>
-        <template #item.type="{ item }">
-          <div class="text-no-wrap">
-            {{ EMPLOYEES_TYPES[item.type] }}
-            <span class="text-sm text-disabled d-block"> {{ item.code }}</span>
-          </div>
-        </template>
-        <template #item.role_category_name="{ item }">
-          <div style="min-inline-size: 150px">
-            <span>{{ item.role?.label }}</span>
-            <span class="text-sm text-disabled d-block"> {{ item.role_category_name }}</span>
-          </div>
-        </template>
-        <template #item.is_active="{ item }">
-          <ToggleActivationSwitch
-            :id="item.id"
-            v-model="item.is_active"
-            :model="MODEL_NAME"
-            :disabled="!permissions.changeStatus"
-          />
-        </template>
+          </template>
+          <template #item.type="{ item }">
+            <div class="text-no-wrap">
+              {{ EMPLOYEES_TYPES[item.type] }}
+              <span class="text-sm text-disabled d-block"> {{ item.code }}</span>
+            </div>
+          </template>
+          <template #item.role_category_name="{ item }">
+            <div style="min-inline-size: 150px">
+              <span>{{ item.role?.label }}</span>
+              <span class="text-sm text-disabled d-block"> {{ item.role_category_name }}</span>
+            </div>
+          </template>
+          <template #item.is_active="{ item }">
+            <ToggleActivationSwitch
+              :id="item.id"
+              v-model="item.is_active"
+              :model="MODEL_NAME"
+              :disabled="!permissions.changeStatus"
+            />
+          </template>
 
-        <template #item.actions="{ item }">
-          <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.viewDetails" @click="gotoDetailsPage(item)">
-              <VIcon icon="tabler-eye" />
-            </IconBtn>
+          <template #item.actions="{ item }">
+            <div class="d-flex justify-center">
+              <IconBtn :disabled="!permissions.viewDetails" @click="gotoDetailsPage(item)">
+                <VIcon icon="tabler-eye" />
+              </IconBtn>
 
-            <VBtn icon variant="text" size="small" color="medium-emphasis">
-              <VIcon size="24" icon="tabler-dots-vertical" />
+              <VBtn icon variant="text" size="small" color="medium-emphasis">
+                <VIcon size="24" icon="tabler-dots-vertical" />
 
-              <VMenu activator="parent">
-                <VList>
-                  <VListItem :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
-                    <template #prepend>
-                      <VIcon icon="tabler-trash" />
-                    </template>
+                <VMenu activator="parent">
+                  <VList>
+                    <VListItem :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
+                      <template #prepend>
+                        <VIcon icon="tabler-trash" />
+                      </template>
 
-                    <VListItemTitle>حذف</VListItemTitle>
-                  </VListItem>
-                  <VListItem
-                    :disabled="!permissions.edit"
-                    :to="{ name: 'employees-edit-page', params: { id: item.id } }"
-                  >
-                    <template #prepend>
-                      <VIcon icon="tabler-edit" />
-                    </template>
+                      <VListItemTitle>حذف</VListItemTitle>
+                    </VListItem>
+                    <VListItem
+                      :disabled="!permissions.edit"
+                      :to="{ name: 'employees-edit-page', params: { id: item.id } }"
+                    >
+                      <template #prepend>
+                        <VIcon icon="tabler-edit" />
+                      </template>
 
-                    <VListItemTitle>تعديل</VListItemTitle>
-                  </VListItem>
-                </VList>
-              </VMenu>
-            </VBtn>
-          </div>
-        </template>
+                      <VListItemTitle>تعديل</VListItemTitle>
+                    </VListItem>
+                  </VList>
+                </VMenu>
+              </VBtn>
+            </div>
+          </template>
 
-        <template #bottom>
-          <PagePagination
-            v-model:page="params.page"
-            :meta-data="metaData"
-            :get-page-data="getPageData"
-          />
-        </template>
-      </VDataTableServer>
-    </VCardText>
-  </VCard>
+          <template #bottom>
+            <PagePagination
+              v-model:page="params.page"
+              :meta-data="metaData"
+              :get-page-data="getPageData"
+            />
+          </template>
+        </VDataTableServer>
+      </VCardText>
+    </VCard>
+  </div>
 </template>
 
 <style lang="scss" scoped>
