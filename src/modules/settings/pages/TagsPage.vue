@@ -209,12 +209,18 @@ function rowProps({ item }: { item: Tag }) {
         </template>
 
         <template #item.actions="{ item }">
-          <div class="d-flex justify-center" v-if="item.can_control">
-            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
+          <div class="d-flex justify-center">
+            <IconBtn
+              :disabled="!permissions.delete || !item.can_control"
+              @click="showConfirmDeleteItem(item)"
+            >
               <VIcon icon="tabler-trash" />
             </IconBtn>
 
-            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item)">
+            <IconBtn
+              :disabled="!permissions.edit || !item.can_control"
+              @click="showEditModal(item)"
+            >
               <VIcon icon="tabler-edit" />
             </IconBtn>
 
@@ -232,7 +238,7 @@ function rowProps({ item }: { item: Tag }) {
                   </VListItem>
 
                   <VListItem
-                    v-if="permissions.sort"
+                    v-if="permissions.sort || !item.can_control"
                     :disabled="!selectedItems.length || selectedItems.includes(item.id)"
                     @click="sortItems(item.id)"
                   >
@@ -245,7 +251,6 @@ function rowProps({ item }: { item: Tag }) {
               </VMenu>
             </VBtn>
           </div>
-          <span v-else>-</span>
         </template>
 
         <template #bottom>
