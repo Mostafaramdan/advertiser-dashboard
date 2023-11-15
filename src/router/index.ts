@@ -240,7 +240,7 @@ const router = createRouter({
       component: () => import('@/modules/team/TeamModule.vue'),
       meta: {
         layout: 'default',
-        requireAtLeastOnePermission: ['view_admins', 'view_role_categories'],
+        requireAtLeastOnePermission: ['view_admins', 'view_role_categories', 'view_roles'],
       },
       children: teamRoutes,
     },

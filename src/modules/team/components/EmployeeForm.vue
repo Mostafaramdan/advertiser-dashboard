@@ -284,7 +284,7 @@ function submit() {
         </div>
       </template>
       <VCardText class="form-modal">
-        <VCard flat :disabled="formAction === 'view'">
+        <VCard flat>
           <VeeForm ref="formRef" @submit="submit">
             <h4 class="mt-3" v-if="formData.created_at">
               تاريخ الاضافة:

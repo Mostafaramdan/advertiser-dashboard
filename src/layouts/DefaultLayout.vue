@@ -301,13 +301,18 @@ const navItems = computed(() => {
     {
       title: 'فريق العمل',
       icon: { icon: 'tabler-users-group' },
-      show: hasAtLeaseOnePermission(['view_admins', 'view_role_categories']),
+      show: hasAtLeaseOnePermission(['view_admins', 'view_role_categories', 'view_roles']),
       to: null,
       children: [
         {
           title: 'الموظفين',
           to: { name: 'employees-page' },
           show: hasPermission('view_admins'),
+        },
+        {
+          title: 'الصلاحيات',
+          to: { name: 'team-roles-page' },
+          show: hasPermission('view_roles'),
         },
         {
           title: 'الأقسام',

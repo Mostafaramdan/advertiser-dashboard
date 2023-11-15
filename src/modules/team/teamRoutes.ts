@@ -39,4 +39,28 @@ export const teamRoutes = [
       requiredPermission: 'view_role_categories',
     },
   },
+  {
+    path: 'roles',
+    name: 'team-roles-page',
+    component: () => import('./pages/RolesPage.vue'),
+    meta: {
+      requiredPermission: 'view_roles',
+    },
+  },
+  {
+    path: 'roles/create',
+    name: 'roles-create-page',
+    component: () => import('./pages/RoleCreatePage.vue'),
+    meta: {
+      requiredPermission: 'create_role',
+    },
+  },
+  {
+    path: 'roles/:id/edit',
+    name: 'roles-edit-page',
+    component: () => import('./pages/RoleEditPage.vue'),
+    meta: {
+      requiredPermission: 'update_role',
+    },
+  },
 ]
