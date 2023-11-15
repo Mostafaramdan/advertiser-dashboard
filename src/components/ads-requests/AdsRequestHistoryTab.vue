@@ -12,7 +12,7 @@ const { formatDateTime } = UseGeneralHelpers()
 
 const headers: any = [
   {
-    title: 'المستخدم',
+    title: 'اسم صاحب الحركة',
     key: 'user',
   },
   {
