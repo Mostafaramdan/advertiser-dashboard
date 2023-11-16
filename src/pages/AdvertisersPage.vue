@@ -264,7 +264,14 @@ function rowProps({ item }: { item: Advertiser }) {
 
                       <VListItemTitle>حذف</VListItemTitle>
                     </VListItem>
-                    <VListItem v-if="permissions.viewRequests">
+                    <VListItem
+                      v-if="permissions.viewRequests"
+                      :to="{
+                        name: 'ads-requests-page',
+                        query: { advertiser_id: item.id, advertiser_name: item.username },
+                      }"
+                      target="_blank"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-package" />
                       </template>

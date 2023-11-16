@@ -65,6 +65,7 @@ const permissions = computed(() => ({
   delete: hasPermission('delete_role'),
   changeStatus: hasPermission('change_status_role'),
   sort: hasPermission('sort_role'),
+  viewDetails: hasPermission('view_role_details'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -96,9 +97,8 @@ function gotoCreatePage() {
 }
 
 function gotoDetailsPage(item: Role) {
-  console.log(item)
+  router.push({ name: 'roles-details-page', params: { id: item.id } })
 }
-
 // #endregion
 </script>
 
@@ -145,7 +145,7 @@ function gotoDetailsPage(item: Role) {
 
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <IconBtn @click="gotoDetailsPage(item)">
+              <IconBtn @click="gotoDetailsPage(item)" :disabled="!permissions.viewDetails">
                 <VIcon icon="tabler-eye" />
               </IconBtn>
 

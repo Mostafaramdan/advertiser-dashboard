@@ -16,6 +16,7 @@ export interface Advertiser {
   advertiser_requests: number
   followers_count: number
   ads_count: number
+  username: string
 }
 
 export interface AdvertiserBasicData {

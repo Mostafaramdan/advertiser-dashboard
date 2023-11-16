@@ -52,7 +52,7 @@ const tabs = computed(() => {
       title: 'بيانات المعلن',
       value: 'details',
       component: DetailsTab,
-      show: hasPermission('show_advertiser_details'),
+      show: hasPermission('view_advertiser_details'),
     },
     {
       title: 'التراخيص والوثائق',

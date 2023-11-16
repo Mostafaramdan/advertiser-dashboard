@@ -3,6 +3,7 @@ import { PAYMENT_STATUSES } from '@/constants/subscriptions'
 import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { listService } from '@/services/ListService'
+import { useAuthStore } from '@/stores/AuthStore'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import type {
@@ -39,6 +40,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const toast = useToast()
 const showModal = useVModel(props, 'showModal', emit)
+const { hasPermission } = useAuthStore()
 const isLoading = reactive({
   submit: false,
   periods: false,
@@ -68,52 +70,64 @@ const formData = reactive<SubscriptionsRequestEditModalProps>({
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
+const permissions = computed(() => ({
+  accept: hasPermission('accept_subscription_request'),
+  reject: hasPermission('reject_subscription_request'),
+  activeTemp: hasPermission('active_temp_subscription_request'),
+  activeOnce: hasPermission('active_once_subscription_request'),
+  stopTemp: hasPermission('stop_temp_subscription_request'),
+  vacation: hasPermission('vacation_subscription_request'),
+  renew: hasPermission('renew_subscription_request'),
+  extend: hasPermission('extend_subscription_request'),
+  promote: hasPermission('promote_subscription_request'),
+}))
+
 const requestStatuses = computed((): SubscriptionsRequestStatus[] => {
   return [
     {
       value: 'Accept',
       label: 'قبول',
-      show: [1, 3].includes(formData.request_status),
+      show: [1, 3].includes(formData.request_status) && permissions.value.accept,
     },
     {
       value: 'Reject',
       label: 'رفض',
-      show: formData.request_status === 1,
+      show: formData.request_status === 1 && permissions.value.reject,
     },
     {
       value: 'StopTemp',
       label: 'موقوف مؤقتا',
-      show: [2, 4].includes(formData.request_status),
+      show: [2, 4].includes(formData.request_status) && permissions.value.stopTemp,
     },
     {
       value: 'Extend',
       label: 'تمديد الإشتراك',
-      show: formData.request_status === 2,
+      show: formData.request_status === 2 && permissions.value.extend,
     },
     {
       value: 'ActiveTemp',
       label: 'منح فترة مجانية',
-      show: [2, 4, 6].includes(formData.request_status),
+      show: [2, 4, 6].includes(formData.request_status) && permissions.value.activeTemp,
     },
     {
       value: 'Vacation',
       label: 'عمل أجازة',
-      show: formData.request_status === 2,
+      show: formData.request_status === 2 && permissions.value.vacation,
     },
     {
       value: 'Promotion',
       label: 'ترقية',
-      show: [4, 6].includes(formData.request_status),
+      show: [4, 6].includes(formData.request_status) && permissions.value.promote,
     },
     {
       value: 'Renew',
       label: 'تجديد الاشتراك',
-      show: formData.request_status === 6,
+      show: formData.request_status === 6 && permissions.value.renew,
     },
     {
       value: 'ActiveOnce',
       label: 'تنشيط مرة واحدة',
-      show: formData.request_status === 6,
+      show: formData.request_status === 6 && permissions.value.activeOnce,
     },
     {
       value: 'Activate',

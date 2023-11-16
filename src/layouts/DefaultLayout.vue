@@ -55,7 +55,7 @@ const navItems = computed(() => {
       to: null,
       children: [
         {
-          title: 'اعدادات حساب المنصة',
+          title: 'إعدادت حساب المنصة',
           show: hasAtLeaseOnePermission([
             'view_general_settings',
             'view_social_settings',

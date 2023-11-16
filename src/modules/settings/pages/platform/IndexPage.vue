@@ -31,7 +31,7 @@ const navLinks = computed<PageTabNavItem[]>(() => {
 </script>
 
 <template>
-  <VCard class="page-card" title="اعدادات حساب المنصة">
+  <VCard class="page-card" title="إعدادت حساب المنصة">
     <VCardText>
       <PageTabsNav :nav-links="navLinks" />
       <RouterView />

@@ -75,7 +75,7 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  delete: hasPermission('delete_users'),
+  delete: hasPermission('delete_user'),
   changeStatus: hasPermission('change_status_user'),
   viewRequests: hasPermission('view_ads_requests'),
   viewCoupons: hasPermission('view_user_coupons'),
@@ -258,7 +258,13 @@ function rowProps({ item }: { item: User }) {
 
                       <VListItemTitle>حذف</VListItemTitle>
                     </VListItem>
-                    <VListItem v-if="permissions.viewRequests">
+                    <VListItem
+                      v-if="permissions.viewRequests"
+                      :to="{
+                        name: 'ads-requests-page',
+                        query: { user_id: item.id, user_name: item.username },
+                      }"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-package" />
                       </template>

@@ -35,7 +35,7 @@ const tabs = computed(() => {
       title: 'بيانات التاجر',
       value: 'details',
       component: DetailsTab,
-      show: hasPermission('show_user_details'),
+      show: hasPermission('view_user_details'),
     },
     {
       title: 'التراخيص والوثائق',

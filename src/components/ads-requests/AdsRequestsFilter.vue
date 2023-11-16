@@ -13,7 +13,7 @@ import { listService } from '@/services/ListService'
 const props = defineProps({
   showFilter: { type: Boolean, required: true },
   initFilters: { type: Object, default: {} },
-  extraData: { type: Object, default: { advertiser_name: '' } },
+  extraData: { type: Object, default: { advertiser_name: '', user_name: '' } },
 })
 
 // #endregion
@@ -158,7 +158,12 @@ function getCategories() {
             class="mt-2"
             :keyword="extraData.advertiser_name"
           />
-          <UsersSelectFilter class="mt-3" v-model="filters.user_id" id="users-select-filter" />
+          <UsersSelectFilter
+            class="mt-3"
+            v-model="filters.user_id"
+            id="users-select-filter"
+            :keyword="extraData.advertiser_name"
+          />
           <VSelect
             v-model="filters.country_id"
             :items="countriesList"

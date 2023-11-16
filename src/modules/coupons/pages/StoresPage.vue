@@ -88,7 +88,7 @@ const permissions = computed(() => ({
   delete: hasPermission('delete_store'),
   changeStatus: hasPermission('change_status_store'),
   sort: hasPermission('sort_store'),
-  changeConformStatus: hasPermission('change_confirm_status_store'),
+  changeConfirmStatus: hasPermission('change_confirm_status_store'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -170,7 +170,7 @@ getPageData()
               :id="item.id"
               v-model="item.from_app"
               :model="MODEL_NAME"
-              :disabled="!permissions.changeStatus"
+              :disabled="!permissions.changeConfirmStatus"
               column="from_app"
             />
           </div>

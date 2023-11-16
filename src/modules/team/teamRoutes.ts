@@ -48,6 +48,14 @@ export const teamRoutes = [
     },
   },
   {
+    path: 'roles/:id/details',
+    name: 'roles-details-page',
+    component: () => import('./pages/RoleDetailsPage.vue'),
+    meta: {
+      requiredPermission: 'view_role_details',
+    },
+  },
+  {
     path: 'roles/create',
     name: 'roles-create-page',
     component: () => import('./pages/RoleCreatePage.vue'),

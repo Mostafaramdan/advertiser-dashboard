@@ -29,6 +29,7 @@ const params: any = reactive({
   itemPerPage: 10,
   keyword: '',
   advertiser_id: null,
+  user_id: null,
 })
 
 const {
@@ -100,9 +101,11 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-const { advertiser_id, advertiser_name } = route.query
+const { advertiser_id, advertiser_name, user_id, user_name } = route.query
 if (advertiser_id) params.advertiser_id = +advertiser_id
 if (advertiser_name) filterExtraData.value.advertiser_name = advertiser_name
+if (user_id) params.user_id = +user_id
+if (user_name) filterExtraData.value.user_name = user_name
 getPageData()
 
 // #endregion

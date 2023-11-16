@@ -118,7 +118,7 @@ const router = createRouter({
       component: () => import('@/pages/UserProfilePage.vue'),
       meta: {
         layout: 'default',
-        requiredPermission: 'view_advertiser_details',
+        requiredPermission: 'view_user_details',
       },
     },
     {
