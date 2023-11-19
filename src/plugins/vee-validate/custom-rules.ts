@@ -50,3 +50,9 @@ export function validUrl(value: string) {
     return !!isMatch
   }
 }
+
+export function isNumber(value: string) {
+  if (!value || !value.length) return true
+  else if (isNaN(Number(value))) return false
+  return true
+}

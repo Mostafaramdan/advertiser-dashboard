@@ -152,6 +152,14 @@ function getMappedData() {
     if (item.key === 'extra_settings') extra_settings = item.items
   })
 
+  formData.periods.forEach((item: any) => {
+    if (item.free_days) item.free_days = +item.free_days
+    if (item.months_count) item.months_count = +item.months_count
+    if (item.price) item.price = +item.price
+    if (item.price_after_discount) item.price_after_discount = +item.price_after_discount
+    if (item.stop_temp_days) item.stop_temp_days = +item.stop_temp_days
+  })
+
   const payload: SubscriptionPackageFormProps = {
     ...formData,
     advertiser_settings,

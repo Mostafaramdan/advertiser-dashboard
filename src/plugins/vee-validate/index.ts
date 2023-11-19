@@ -1,17 +1,9 @@
 import { localize, setLocale } from '@vee-validate/i18n'
-import {
-  confirmed,
-  email,
-  max,
-  max_value,
-  min,
-  min_value,
-  numeric,
-  required,
-} from '@vee-validate/rules'
+import { confirmed, email, max, max_value, min, min_value, required } from '@vee-validate/rules'
 import { Field, Form, configure, defineRule } from 'vee-validate'
 import {
   greaterThanTime,
+  isNumber,
   lessThanTime,
   lessThanValue,
   minDate,
@@ -31,7 +23,7 @@ export default (app: any) => {
   defineRule('confirmed', confirmed)
   defineRule('min_value', min_value)
   defineRule('max_value', max_value)
-  defineRule('numeric', numeric)
+  defineRule('numeric', isNumber)
   defineRule('greaterThanTime', greaterThanTime)
   defineRule('lessThanTime', lessThanTime)
   defineRule('minWords', minWords)
