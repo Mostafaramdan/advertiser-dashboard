@@ -1,3 +1,5 @@
+import { PermissionListItem } from '@/modules/team/interfaces/Role'
+
 export const EMPLOYEES_TYPES: any = {
   in: 'داخلي',
   out: 'خارجي',
@@ -12,3 +14,1646 @@ export const SORT_TYPES = {
   latest: 'الأحدث',
   oldest: 'الأقدم',
 }
+
+export const PERMISSIONS_LIST: PermissionListItem[] = [
+  {
+    title: 'صلاحيات عامة',
+    groups: [
+      {
+        title: 'الاشعارات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_notifications',
+          },
+          {
+            label: 'إرسال',
+            checked: false,
+            key: 'create_notification',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_notification',
+          },
+        ],
+      },
+      {
+        title: 'التنيهات',
+        permissions: [
+          {
+            label: 'إرسال تنبية',
+            checked: false,
+            key: 'notify_users',
+          },
+        ],
+      },
+      {
+        title: 'صلاحيات مشتركة للمستخدمين',
+        permissions: [
+          {
+            label: 'عرض سجل حظر المحادثات',
+            checked: false,
+            key: 'show_chat_blocks',
+          },
+          {
+            label: 'عرض التراخيص',
+            checked: false,
+            key: 'show_attachments',
+          },
+          {
+            label: 'عرض سجل التراخيص',
+            checked: false,
+            key: 'show_attachments_logs',
+          },
+          {
+            label: 'إرسال تنبية للتراخيص',
+            checked: false,
+            key: 'send_notification_attachments',
+          },
+          {
+            label: 'اضافة  ملاحظة للتراخيص',
+            checked: false,
+            key: 'send_note_attachments',
+          },
+          {
+            label: 'الموافقة علي التراخيص',
+            checked: false,
+            key: 'confirm_attachments',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'إعدادت حساب المنصة',
+    groups: [
+      {
+        title: 'بيانات المنصة',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_general_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_general_settings',
+          },
+        ],
+      },
+      {
+        title: 'حسابات التواصل',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_social_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_social_settings',
+          },
+        ],
+      },
+      {
+        title: 'دوام المنصة',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_schedule_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_schedule_settings',
+          },
+        ],
+      },
+      {
+        title: 'طرق الدفع',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_billing_cards',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_billing_card',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_billing_card',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_billing_card',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_billing_card',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'الإعدادات المالية',
+    groups: [
+      {
+        title: 'الحسابات',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_financial_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_financial_settings',
+          },
+        ],
+      },
+      {
+        title: 'شرائح عمولة الدفع',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_payment_commissions',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_payment_commission',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_payment_commission',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_payment_commission',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_payment_commission',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_payment_commission',
+          },
+        ],
+      },
+      {
+        title: 'النقاط',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_point_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_point_settings',
+          },
+        ],
+      },
+      {
+        title: 'الضريبة',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_tax_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_tax_settings',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'إعدادات حسابات المعلنين',
+    groups: [
+      {
+        title: 'أنواع الاعلانات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_ads_types',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_ads_type',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_ads_type',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_ads_type',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_ads_type',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_ads_type',
+          },
+        ],
+      },
+      {
+        title: 'انواع تمييز الحسابات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_discrimination_types',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_discrimination_type',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_discrimination_type',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_discrimination_type',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_discrimination_type',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_discrimination_type',
+          },
+        ],
+      },
+      {
+        title: 'حالات الحسابات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_account_cases',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_account_case',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_account_case',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_account_case',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_account_case',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_account_case',
+          },
+        ],
+      },
+      {
+        title: 'إعدادات الاشتراك',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_subscription_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_subscription_setting',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'الإعدادت العامة',
+    groups: [
+      {
+        title: 'الدول',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_countries',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_country',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_country',
+          },
+        ],
+      },
+      {
+        title: 'المناظق',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_areas',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_area',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_area',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_area',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_area',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_area',
+          },
+        ],
+      },
+      {
+        title: 'الكيانات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_entities',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_entity',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_entity',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_entity',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_entity',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_entity',
+          },
+        ],
+      },
+      {
+        title: 'التصنيفات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_tags',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_tag',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_tag',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_tag',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_tag',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_tag',
+          },
+        ],
+      },
+      {
+        title: 'الاقسام',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_categories',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_category',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_category',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_category',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_category',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_category',
+          },
+        ],
+      },
+      {
+        title: 'القنوات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_channels',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_channel',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_channel',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_channel',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_channel',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_channel',
+          },
+        ],
+      },
+      {
+        title: 'اعدادات التشغيل',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_ads_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_ads_settings',
+          },
+        ],
+      },
+      {
+        title: 'الاسئلة الشائعة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_questions',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_question',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_question',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_question',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_question',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_question',
+          },
+        ],
+      },
+      {
+        title: 'أقسام الأسئلة الشائعة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_support_categories',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_support_category',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_support_category',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_support_category',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_support_category',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_support_category',
+          },
+        ],
+      },
+      {
+        title: 'أسباب البلاغات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_report_reasons',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_report_reason',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_report_reason',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_report_reason',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_report_reason',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_report_reason',
+          },
+        ],
+      },
+      {
+        title: 'عناصر التقييم',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_rate_types',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_rate_type',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_rate_type',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_rate_type',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_rate_type',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_rate_type',
+          },
+        ],
+      },
+      {
+        title: 'الشروط والاحكام',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_terms',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_term',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_term',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_term',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_term',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_term',
+          },
+        ],
+      },
+      {
+        title: 'بنود إضافية للباقات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_subscription_extra_points',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_subscription_extra_point',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_subscription_extra_point',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_subscription_extra_point',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_subscription_extra_point',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_subscription_extra_point',
+          },
+        ],
+      },
+      {
+        title: 'جديد المنصة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_page_news',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_page_new',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_page_new',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_page_new',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_page_new',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_page_new',
+          },
+        ],
+      },
+      {
+        title: 'شركاء النجاح',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_partners',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_partner',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_partner',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_partner',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_partner',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_partner',
+          },
+        ],
+      },
+      {
+        title: 'الفيديوهات التعريفية',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_videos',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_video',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_video',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_video',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_video',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_video',
+          },
+        ],
+      },
+      {
+        title: 'من نحن',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_abouts',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_about',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_about',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_about',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_about',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_about',
+          },
+        ],
+      },
+      {
+        title: 'إعدادات الشات',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_chat_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_chat_settings',
+          },
+        ],
+      },
+      {
+        title: 'الردود الجاهزة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_admin_replies',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_admin_reply',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_admin_reply',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_admin_reply',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_admin_reply',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_admin_reply',
+          },
+        ],
+      },
+      {
+        title: 'شرائح الميزانية',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_budget_slides',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_budget_slides',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_budget_slides',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_budget_slides',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_budget_slides',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_budget_slides',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'الإشتراكات',
+    groups: [
+      {
+        title: 'باقات الإشتراك',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_packages',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'show_package_details',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_package',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_package',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_package',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_package',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_package',
+          },
+        ],
+      },
+      {
+        title: 'طلبات الاشتراكات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_subscription_requests',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_subscription_request',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_subscription_request',
+          },
+          {
+            label: 'قبول',
+            checked: false,
+            key: 'accept_subscription_request',
+          },
+          {
+            label: 'رفض',
+            checked: false,
+            key: 'reject_subscription_request',
+          },
+          {
+            label: 'منح فترة مجانية',
+            checked: false,
+            key: 'active_temp_subscription_request',
+          },
+          {
+            label: 'تنشيط مرة واحدة',
+            checked: false,
+            key: 'active_once_subscription_request',
+          },
+          {
+            label: 'موقوف مؤقتا',
+            checked: false,
+            key: 'stop_temp_subscription_request',
+          },
+          {
+            label: 'عمل أجازة',
+            checked: false,
+            key: 'vacation_subscription_request',
+          },
+          {
+            label: 'تجديد الاشتراك',
+            checked: false,
+            key: 'renew_subscription_request',
+          },
+          {
+            label: 'تمديد الإشتراك',
+            checked: false,
+            key: 'extend_subscription_request',
+          },
+          {
+            label: 'ترقية',
+            checked: false,
+            key: 'promote_subscription_request',
+          },
+        ],
+      },
+      {
+        title: 'سجل الاشتراكات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_subscription_requests_logs',
+          },
+        ],
+      },
+      {
+        title: 'المعلنين',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_advertisers',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_advertiser_details',
+          },
+          {
+            label: 'عرض إحصائات الحساب',
+            checked: false,
+            key: 'show_advertiser_statistics',
+          },
+          {
+            label: 'عرض سجل طلبات الاعلانات',
+            checked: false,
+            key: 'show_advertiser_ads_request_logs',
+          },
+          {
+            label: 'عرض إعدادات الحساب',
+            checked: false,
+            key: 'show_account_settings',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_advertiser',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_advertiser',
+          },
+          {
+            label: 'اتخاذ اجراء',
+            checked: false,
+            key: 'take_procedure',
+          },
+          {
+            label: 'عرض العرض التسويقي',
+            checked: false,
+            key: 'show_marketer_info',
+          },
+          {
+            label: 'تعديل العرض التسويقي',
+            checked: false,
+            key: 'convert_to_marketer',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'الكوبونات',
+    groups: [
+      {
+        title: 'كوبونات المنصة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_platform_coupons',
+          },
+          {
+            label: 'سجل المشتركين',
+            checked: false,
+            key: 'view_coupon_subscriber_logs',
+          },
+          {
+            label: 'سجل العمليات',
+            checked: false,
+            key: 'view_coupon_transactions_history',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_platform_coupon',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_platform_coupon',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_platform_coupon',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_platform_coupon',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_platform_coupon',
+          },
+        ],
+      },
+      {
+        title: 'كوبونات المعلنين',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_advertiser_coupons',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_advertiser_coupon',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'delete_advertiser_coupon',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_advertiser_coupon',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_advertiser_coupon',
+          },
+        ],
+      },
+      {
+        title: 'كوبونات التجار',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_ads_request_coupons',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_ads_request_coupon',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_ads_request_coupon',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_ads_request_coupon',
+          },
+        ],
+      },
+      {
+        title: 'المتاجر',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_stores',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_store',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_store',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_store',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_store',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_store',
+          },
+          {
+            label: 'الاعتماد من المنصة',
+            checked: false,
+            key: 'change_confirm_status_store',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'التذاكر',
+    groups: [
+      {
+        title: 'إعدادات التذاكر',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_ticket_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_ticket_settings',
+          },
+        ],
+      },
+      {
+        title: 'أنواع التذاكر',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_ticket_types',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_ticket_type',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_ticket_type',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_ticket_type',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_ticket_type',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_support_ticket_type',
+          },
+        ],
+      },
+      {
+        title: 'أقسام التذاكر',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_ticket_categories',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_ticket_category',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_ticket_category',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_ticket_category',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_ticket_category',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_ticket_category',
+          },
+        ],
+      },
+      {
+        title: 'تذاكر الدعم',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_tickets',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_ticket_details',
+          },
+          {
+            label: 'عرض ملخص العمليات',
+            checked: false,
+            key: 'view_ticket_logs',
+          },
+          {
+            label: 'عرض المحادثات',
+            checked: false,
+            key: 'view_ticket_conversations',
+          },
+          {
+            label: 'الرد غلي المحادثة',
+            checked: false,
+            key: 'reply_ticket',
+          },
+          {
+            label: 'تعديل الحالة',
+            checked: false,
+            key: 'change_ticket_status',
+          },
+          {
+            label: 'تغيير المسؤل',
+            checked: false,
+            key: 'assign_ticket',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_ticket',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'الاعلانات و طلبات الاعلانات',
+    groups: [
+      {
+        title: 'الاعلانات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_ads',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_ads_details',
+          },
+          {
+            label: 'عرض التعليقات',
+            checked: false,
+            key: 'view_ads_comments',
+          },
+          {
+            label: 'حذف تعليق',
+            checked: false,
+            key: 'delete_comment',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_ads',
+          },
+          {
+            label: 'استرجاع',
+            checked: false,
+            key: 'restore_ads',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_ads',
+          },
+        ],
+      },
+      {
+        title: 'الطلبات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_ads_requests',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_ads_requests_details',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_ads_request',
+          },
+        ],
+      },
+      {
+        title: 'أنواع التنازع',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_dispute_types',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_dispute_type',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_dispute_type',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_dispute_type',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_dispute_type',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_dispute_type',
+          },
+        ],
+      },
+      {
+        title: 'إجراءات التنازع',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_dispute_procedures',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_dispute_procedure',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_dispute_procedure',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_dispute_procedure',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_dispute_procedure',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_dispute_procedure',
+          },
+        ],
+      },
+      {
+        title: 'طلبات التنازع',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_disputes',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_dispute_details',
+          },
+          {
+            label: 'عرض ملخص العمليات',
+            checked: false,
+            key: 'view_dispute_logs',
+          },
+          {
+            label: 'عرض تفاصيل أخرى',
+            checked: false,
+            key: 'view_dispute_other_details',
+          },
+          {
+            label: 'عرض المحادثات',
+            checked: false,
+            key: 'view_dispute_conversations',
+          },
+          {
+            label: 'الرد غلي المحادثة',
+            checked: false,
+            key: 'reply_dispute_request',
+          },
+          {
+            label: 'اتخاذ اجراء',
+            checked: false,
+            key: 'make_procedure_dispute',
+          },
+        ],
+      },
+    ],
+  },
+]
