@@ -83,6 +83,10 @@ const permissions = computed(() => ({
             {{ coupon.uses }}
           </div>
           <div class="rounded border pa-1 mt-2">
+            <h4 class="mb-1">تاريخ البداية</h4>
+            {{ formatDateTime(coupon.started_at) }}
+          </div>
+          <div class="rounded border pa-1 mt-2">
             <h4 class="mb-1">تاريخ الانتهاء</h4>
             {{ formatDateTime(coupon.ended_at) }}
           </div>

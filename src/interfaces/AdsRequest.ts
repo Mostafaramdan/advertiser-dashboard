@@ -28,6 +28,7 @@ export interface AdsRequestCoupon {
   link: string
   code: string
   ended_at: string
+  started_at: string
   uses: number
   goes_count: number
   views_count: number
