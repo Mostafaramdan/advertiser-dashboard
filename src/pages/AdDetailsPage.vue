@@ -42,7 +42,7 @@ const tabs = computed(() => {
       title: 'البلاغات',
       value: 'reports',
       component: ReportsTab,
-      show: hasPermission('view_ads_reports'),
+      show: hasPermission('view_ads_reports_details'),
     },
   ]
 })

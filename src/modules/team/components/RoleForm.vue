@@ -174,7 +174,7 @@ function toggleMultipleGroupCheck(value: boolean, groups: any) {
               </div>
             </div>
 
-            <div class="permissions-list mt-2">
+            <div class="permissions-list mt-2" v-if="!isLoading.data">
               <VExpansionPanels
                 v-for="(item, index) in permissionList"
                 :key="index"
@@ -257,7 +257,7 @@ function toggleMultipleGroupCheck(value: boolean, groups: any) {
 
 .permissions-list {
   :deep(.v-expansion-panels.expansion-panels-width-border[class]) {
-    border-color: rgb(var(--v-theme-grey-600), 1);
+    border-color: rgb(var(--v-theme-grey-400), 1);
   }
 
   :deep(.v-expansion-panel-title) {
@@ -277,7 +277,7 @@ function toggleMultipleGroupCheck(value: boolean, groups: any) {
     }
 
     &__group {
-      border: 1px solid rgb(var(--v-theme-grey-600), 1);
+      border: 1px solid rgb(var(--v-theme-grey-400), 1);
       border-radius: 5px;
       padding-block: 0;
       padding-inline: 10px;
@@ -290,7 +290,7 @@ function toggleMultipleGroupCheck(value: boolean, groups: any) {
     &__options {
       display: flex;
       flex-wrap: wrap;
-      border-inline-start: 1px solid rgb(var(--v-theme-grey-600), 1);
+      border-inline-start: 1px solid rgb(var(--v-theme-grey-400), 1);
       gap: 0 15px;
       margin-inline-start: 10px;
       padding-inline-start: 10px;
@@ -298,7 +298,7 @@ function toggleMultipleGroupCheck(value: boolean, groups: any) {
       @include responsive-down(md) {
         padding: 0;
         margin: 0;
-        border-block-start: 1px solid rgb(var(--v-theme-grey-600), 1);
+        border-block-start: 1px solid rgb(var(--v-theme-grey-400), 1);
         border-inline-start: 0;
       }
     }

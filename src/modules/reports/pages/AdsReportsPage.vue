@@ -69,7 +69,7 @@ const headers: any = [
 const permissions = computed(() => ({
   sendNotification: hasPermission('notify_users'),
   changeAdStatus: hasPermission('change_status_ads'),
-  viewAdDetails: hasPermission('view_ads_details'),
+  viewAdDetails: hasPermission('view_ads_details') && hasPermission('view_ads_reports_details'),
   deleteAd: hasPermission('delete_ads'),
   restoreAd: hasPermission('restore_ads'),
 }))

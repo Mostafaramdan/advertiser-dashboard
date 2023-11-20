@@ -48,7 +48,7 @@ const headers: any = [
 // #region Computed
 const permissions = computed(() => ({
   sendNotification: hasPermission('notify_users'),
-  viewDetails: hasPermission('view_advertiser_report_details'),
+  viewDetails: hasPermission('view_chat_block_details'),
 }))
 
 // #endregion

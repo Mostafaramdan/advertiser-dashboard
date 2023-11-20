@@ -1202,6 +1202,151 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
     ],
   },
   {
+    title: 'المستخدمين',
+    groups: [
+      {
+        title: 'المستخدمين',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_users',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_user_details',
+          },
+          {
+            label: 'عرض سجل طلبات الاعلانات',
+            checked: false,
+            key: 'show_user_ads_request_logs',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_user',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_user',
+          },
+        ],
+      },
+      {
+        title: 'الموظفين',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_admins',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_admin_details',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_admin',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_admin',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_admin',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_admin',
+          },
+        ],
+      },
+      {
+        title: 'الصلاحيات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_roles',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_role_details',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_role',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_role',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_role',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_role',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_role',
+          },
+        ],
+      },
+      {
+        title: 'أقسام فريق العمل',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_role_categories',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_role_category',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_role_category',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_role_category',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_role_category',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_role_category',
+          },
+        ],
+      },
+    ],
+  },
+  {
     title: 'الكوبونات',
     groups: [
       {
@@ -1651,6 +1796,106 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'اتخاذ اجراء',
             checked: false,
             key: 'make_procedure_dispute',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'البلاغات',
+    groups: [
+      {
+        title: 'بلاغات الاعلانات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_ads_reports',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_ads_reports_details',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_ad_report',
+          },
+        ],
+      },
+      {
+        title: 'بلاغات المعلنين',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_advertiser_reports',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_advertiser_report_details',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_advertiser_report',
+          },
+        ],
+      },
+      {
+        title: 'بلاغات الشات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_chat_reports',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_chat_report',
+          },
+        ],
+      },
+      {
+        title: 'تقييم الشات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_chat_rates',
+          },
+        ],
+      },
+      {
+        title: 'حظر عرض الاعلانات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_advertiser_blocks',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_advertiser_block_details',
+          },
+        ],
+      },
+      {
+        title: 'حظر المحادثات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_chat_blocks',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_chat_block_details',
           },
         ],
       },
