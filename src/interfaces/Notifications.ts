@@ -34,5 +34,6 @@ export interface DashboardNotification {
   model: {
     id: number
     role?: string
+    username?: string
   } | null
 }
