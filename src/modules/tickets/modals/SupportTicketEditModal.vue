@@ -36,7 +36,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 const formData = reactive({
-  status: props.ticket.status,
+  status: null,
 })
 
 // #endregion
@@ -102,6 +102,8 @@ function submit() {
                   label="حالة التذكرة"
                   clearable
                   rules="required"
+                  :hint="`الحالة السابقة هي ${TICKETS_STATUSES.get(ticket.status)?.label}`"
+                  persistent-hint
                 />
               </VCol>
             </VRow>
