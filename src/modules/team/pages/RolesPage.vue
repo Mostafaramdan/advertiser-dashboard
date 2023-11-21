@@ -30,14 +30,9 @@ const {
   onChangeItemsPerPage,
   onChangeSearch,
   showConfirmDeleteItem,
-  sortItems,
 } = UseCrudHelpers<Role>(rolesService, params, MODEL_NAME)
 
 const headers: any = [
-  {
-    title: '#',
-    key: 'sort',
-  },
   {
     title: 'الاسم',
     key: 'name',
@@ -64,7 +59,6 @@ const permissions = computed(() => ({
   edit: hasPermission('update_role'),
   delete: hasPermission('delete_role'),
   changeStatus: hasPermission('change_status_role'),
-  sort: hasPermission('sort_role'),
   viewDetails: hasPermission('view_role_details'),
 }))
 
@@ -170,17 +164,6 @@ function gotoDetailsPage(item: Role) {
                       </template>
 
                       <VListItemTitle>تعديل</VListItemTitle>
-                    </VListItem>
-
-                    <VListItem
-                      v-if="permissions.sort"
-                      :disabled="!selectedItems.length || selectedItems.includes(item.id)"
-                      @click="sortItems(item.id)"
-                    >
-                      <template #prepend>
-                        <VIcon icon="tabler-transfer-in" />
-                      </template>
-                      <VListItemTitle>نقل</VListItemTitle>
                     </VListItem>
                   </VList>
                 </VMenu>

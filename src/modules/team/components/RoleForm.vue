@@ -3,16 +3,14 @@ import { PERMISSIONS_LIST } from '@/constants/team'
 import { cloneItem } from '@/helpers/index'
 import type { FormActionType } from '@/interfaces/Forms'
 import { useToast } from 'vue-toastification'
-import type { PermissionListItem } from '../interfaces/Role'
+import type { PermissionListItem, RoleFormData } from '../interfaces/Role'
 import { rolesService } from '../services/RolesService'
 
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
 // #region Props
-const props = withDefaults(defineProps<{ formAction: FormActionType }>(), {
-  formAction: 'view',
-})
+const props = withDefaults(defineProps<{ formAction: FormActionType }>(), {})
 
 // #endregion
 
@@ -33,7 +31,7 @@ const isLoading = reactive({
   submit: false,
 })
 
-const formData = reactive<any>({
+const formData = reactive<RoleFormData>({
   name: '',
   is_active: true,
   permissions: [],
@@ -46,11 +44,7 @@ const formData = reactive<any>({
  **************************************/
 // #region Computed
 const formTitle = computed(() => {
-  return props.formAction === 'create'
-    ? 'اضافة صلاحية'
-    : props.formAction === 'edit'
-    ? 'تعديل صلاحية'
-    : 'عرض صلاحية'
+  return props.formAction === 'create' ? 'اضافة صلاحية' : 'تعديل صلاحية'
 })
 
 // #endregion
@@ -71,12 +65,35 @@ function initData() {
   if (props.formAction === 'edit') getEmployeeData()
 }
 
+function checkPermissions() {
+  permissionList.value.forEach((item) => {
+    item.groups.forEach((group) => {
+      group.permissions.forEach((permission) => {
+        if (formData.permissions.includes(permission.key)) {
+          permission.checked = true
+        }
+      })
+    })
+  })
+}
+
+function toggleSingleGroupCheck(value: boolean, permissions: any) {
+  permissions.forEach((permission: any) => (permission.checked = value))
+}
+
+function toggleMultipleGroupCheck(value: boolean, groups: any) {
+  groups.forEach((group: any) => {
+    toggleSingleGroupCheck(value, group.permissions)
+  })
+}
+
 function getEmployeeData() {
   isLoading.data = true
   rolesService
     .getSingleItem(employeeId)
     .then((res) => {
       Object.assign(formData, res.data.data)
+      checkPermissions()
     })
     .finally(() => {
       isLoading.data = false
@@ -112,35 +129,37 @@ function create(payload: any) {
     })
 }
 
-function getFormData() {
-  const payload = cloneItem(formData)
-  return payload
+function getFormData(): RoleFormData {
+  const selectedPermission: string[] = []
+  permissionList.value.forEach((item) => {
+    item.groups.forEach((group) => {
+      group.permissions.forEach((permission) => {
+        if (permission.checked) selectedPermission.push(permission.key)
+      })
+    })
+  })
+
+  formData.permissions = selectedPermission
+
+  return formData
 }
 
 function submit() {
   formRef.value.validate().then(({ errors }: any) => {
     const errorsArr = Object.values(errors)
+    const payload = getFormData()
+    if (payload.permissions.length === 0) errorsArr.push('يجب تحديد صلاحية واحدة على الاقل')
     if (errorsArr.length) {
-      toast.error(errorsArr.slice(0, 2).join('\n'))
+      toast.error(errorsArr.join('\n'))
     }
     if (errorsArr.length) return
 
     isLoading.submit = true
-    const payload = getFormData()
+
     props.formAction === 'create' ? create(payload) : edit(payload)
   })
 }
 // #endregion
-
-function toggleSingleGroupCheck(value: boolean, permissions: any) {
-  permissions.forEach((permission: any) => (permission.checked = value))
-}
-
-function toggleMultipleGroupCheck(value: boolean, groups: any) {
-  groups.forEach((group: any) => {
-    toggleSingleGroupCheck(value, group.permissions)
-  })
-}
 </script>
 
 <template>
@@ -174,75 +193,79 @@ function toggleMultipleGroupCheck(value: boolean, groups: any) {
               </div>
             </div>
 
-            <div class="permissions-list mt-2" v-if="!isLoading.data">
-              <VExpansionPanels
-                v-for="(item, index) in permissionList"
-                :key="index"
-                class="expansion-panels-width-border mb-6 permissions-list__item"
-                :model-value="0"
-              >
-                <VExpansionPanel elevation="0">
-                  <VExpansionPanelTitle>
-                    <span class="permissions-list__item__title">
-                      <span @click.stop="">
-                        <VCheckbox
-                          hide-details
-                          :ripple="false"
-                          @update:model-value="toggleMultipleGroupCheck($event, item.groups)"
-                          :model-value="
-                            item.groups.every((group) =>
-                              group.permissions.every((role) => role.checked),
-                            )
-                          "
-                        ></VCheckbox>
+            <template v-if="!isLoading.data">
+              <div class="permissions-list mt-2">
+                <VExpansionPanels
+                  v-for="(item, index) in permissionList"
+                  :key="index"
+                  class="expansion-panels-width-border mb-6 permissions-list__item"
+                  :model-value="0"
+                >
+                  <VExpansionPanel elevation="0">
+                    <VExpansionPanelTitle>
+                      <span class="permissions-list__item__title">
+                        <span @click.stop="">
+                          <VCheckbox
+                            hide-details
+                            :ripple="false"
+                            @update:model-value="toggleMultipleGroupCheck($event, item.groups)"
+                            :model-value="
+                              item.groups.every((group) =>
+                                group.permissions.every((role) => role.checked),
+                              )
+                            "
+                          ></VCheckbox>
+                        </span>
+                        <strong>{{ item.title }}</strong>
                       </span>
-                      <strong>{{ item.title }}</strong>
-                    </span>
-                  </VExpansionPanelTitle>
-                  <VExpansionPanelText>
-                    <div class="d-flex flex-wrap gap-4">
-                      <div
-                        class="permissions-list__item__group d-flex align-md-center flex-grow-1 flex-column flex-md-row"
-                        v-for="(group, index) in item.groups"
-                        :key="index"
-                      >
-                        <div style="min-inline-size: 160px">
-                          <VCheckbox
-                            class="main-checkbox"
-                            :model-value="group.permissions.every((role) => role.checked)"
-                            :label="group.title"
-                            @update:model-value="toggleSingleGroupCheck($event, group.permissions)"
-                          >
-                          </VCheckbox>
-                        </div>
-                        <div class="permissions-list__item__options">
-                          <VCheckbox
-                            v-model="permission.checked"
-                            v-for="permission in group.permissions"
-                            :key="permission.label"
-                            :label="permission.label"
-                          />
+                    </VExpansionPanelTitle>
+                    <VExpansionPanelText>
+                      <div class="d-flex flex-wrap gap-4">
+                        <div
+                          class="permissions-list__item__group d-flex align-md-center flex-grow-1 flex-column flex-md-row"
+                          v-for="(group, index) in item.groups"
+                          :key="index"
+                        >
+                          <div style="min-inline-size: 160px">
+                            <VCheckbox
+                              class="main-checkbox"
+                              :model-value="group.permissions.every((role) => role.checked)"
+                              :label="group.title"
+                              @update:model-value="
+                                toggleSingleGroupCheck($event, group.permissions)
+                              "
+                            >
+                            </VCheckbox>
+                          </div>
+                          <div class="permissions-list__item__options">
+                            <VCheckbox
+                              v-model="permission.checked"
+                              v-for="permission in group.permissions"
+                              :key="permission.label"
+                              :label="permission.label"
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </VExpansionPanelText>
-                </VExpansionPanel>
-              </VExpansionPanels>
-            </div>
+                    </VExpansionPanelText>
+                  </VExpansionPanel>
+                </VExpansionPanels>
+              </div>
 
-            <div cols="12" v-if="formAction !== 'view'" class="d-flex flex-wrap gap-3">
-              <VBtn class="px-8" variant="outlined" color="error" @click="goToRolesPage">
-                {{ t('actions.back') }}
-              </VBtn>
-              <VBtn
-                class="px-8"
-                :loading="isLoading.submit"
-                :disabled="isLoading.submit"
-                @click="submit"
-              >
-                {{ formAction === 'edit' ? t('actions.save') : t('actions.create') }}
-              </VBtn>
-            </div>
+              <div cols="12" v-if="formAction !== 'view'" class="d-flex flex-wrap gap-3">
+                <VBtn class="px-8" variant="outlined" color="error" @click="goToRolesPage">
+                  {{ t('actions.back') }}
+                </VBtn>
+                <VBtn
+                  class="px-8"
+                  :loading="isLoading.submit"
+                  :disabled="isLoading.submit"
+                  @click="submit"
+                >
+                  {{ formAction === 'edit' ? t('actions.save') : t('actions.create') }}
+                </VBtn>
+              </div>
+            </template>
           </VeeForm>
         </VCard>
       </VCardText>
@@ -253,61 +276,5 @@ function toggleMultipleGroupCheck(value: boolean, groups: any) {
 <style lang="scss" scoped>
 :deep(.v-card-item) {
   padding-block-end: 12px;
-}
-
-.permissions-list {
-  :deep(.v-expansion-panels.expansion-panels-width-border[class]) {
-    border-color: rgb(var(--v-theme-grey-400), 1);
-  }
-
-  :deep(.v-expansion-panel-title) {
-    padding-block: 5px;
-    padding-inline: 15px;
-  }
-
-  &__item {
-    &__title {
-      display: flex;
-      align-items: center;
-
-      > span {
-        position: relative;
-        margin-inline-end: 5px;
-      }
-    }
-
-    &__group {
-      border: 1px solid rgb(var(--v-theme-grey-400), 1);
-      border-radius: 5px;
-      padding-block: 0;
-      padding-inline: 10px;
-
-      :deep(.v-label) {
-        font-weight: 400;
-      }
-    }
-
-    &__options {
-      display: flex;
-      flex-wrap: wrap;
-      border-inline-start: 1px solid rgb(var(--v-theme-grey-400), 1);
-      gap: 0 15px;
-      margin-inline-start: 10px;
-      padding-inline-start: 10px;
-
-      @include responsive-down(md) {
-        padding: 0;
-        margin: 0;
-        border-block-start: 1px solid rgb(var(--v-theme-grey-400), 1);
-        border-inline-start: 0;
-      }
-    }
-
-    .main-checkbox {
-      :deep(.v-label) {
-        color: rgba(var(--v-theme-primary), 1);
-      }
-    }
-  }
 }
 </style>

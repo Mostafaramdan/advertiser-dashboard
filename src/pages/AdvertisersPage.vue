@@ -82,8 +82,9 @@ const permissions = computed(() => ({
   changeStatus: hasPermission('change_status_advertiser'),
   viewRequests: hasPermission('view_ads_requests'),
   viewCoupons: hasPermission('view_advertiser_coupons'),
-  viewWallet: hasPermission('view_wallets'),
-  viewLogs: hasPermission('view_advertiser_logs'),
+  //TODO : add permissions
+  viewWallet: true,
+  viewLogs: true,
   viewAdvertiserDetails: hasPermission('view_advertiser_details'),
 }))
 

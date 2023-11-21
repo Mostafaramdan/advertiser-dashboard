@@ -52,10 +52,6 @@ const {
 
 const headers: any = [
   {
-    title: '#',
-    key: 'sort',
-  },
-  {
     title: 'كود الكوبون',
     key: 'code',
   },

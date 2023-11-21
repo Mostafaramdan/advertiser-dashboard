@@ -5,18 +5,24 @@ export interface Role {
   is_active: boolean
 }
 
-interface Permission {
+export interface Permission {
   label: string
   checked: boolean
   key: string
 }
 
-interface Group {
+export interface PermissionsGroup {
   title: string
   permissions: Permission[]
 }
 
 export interface PermissionListItem {
   title: string
-  groups: Group[]
+  groups: PermissionsGroup[]
+}
+
+export interface RoleFormData {
+  name: string
+  permissions: string[]
+  is_active: boolean
 }
