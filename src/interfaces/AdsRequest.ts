@@ -5,6 +5,7 @@ type User = {
   phone: string
   image_path: string
   rate: number
+  account_name?: string
 }
 
 export interface AdsRequestsItem {

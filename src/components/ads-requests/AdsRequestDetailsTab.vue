@@ -26,11 +26,11 @@ const orderInfo = computed(() => {
   return [
     {
       label: 'اسم المعلن',
-      value: advertiser.username,
+      value: advertiser.account_name,
     },
     {
       label: 'اسم العميل',
-      value: user.username,
+      value: user.account_name,
     },
     {
       label: 'رقم الطلب',
