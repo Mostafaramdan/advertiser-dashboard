@@ -55,7 +55,9 @@ const orderInfo = computed(() => {
     },
     {
       label: 'فترة الاعلان',
-      value: order_info.range_date,
+      value: `من ${formatDate(order_info.range_date.started_at)} الي ${formatDate(
+        order_info.range_date.ended_at,
+      )}`,
     },
     {
       label: 'عدد مرات التكرار',

@@ -93,7 +93,10 @@ export interface AdsRequestsDetails {
     ads_type: string
     ads_category: string
     repeat_count: number
-    range_date: string
+    range_date: {
+      started_at: string
+      ended_at: string
+    }
     ads_method: string
     description: string
     title: string
