@@ -191,7 +191,12 @@ function onApplyFilter(filters: any) {
           </template>
           <template #item.role_category_name="{ item }">
             <div style="min-inline-size: 150px">
-              <span>{{ item.role?.label }}</span>
+              <div class="d-flex">
+                <VChip variant="outlined" color="primary" label>
+                  {{ item.roles[0].label }}
+                </VChip>
+                <span class="ms-1" v-if="item.roles.length > 1"> +{{ item.roles.length - 1 }}</span>
+              </div>
               <span class="text-sm text-disabled d-block"> {{ item.role_category_name }}</span>
             </div>
           </template>

@@ -7,6 +7,7 @@ import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormActionType } from '@/interfaces/Forms'
 import type { DropdownMenuItem, File, Location } from '@/interfaces/Shared'
 import { listService } from '@/services/ListService'
+import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import type { EmployeeDetails, EmployeeFormProps } from '../interfaces/Employee'
 import { employeesService } from '../services/EmployeesService'
@@ -29,6 +30,7 @@ const { t } = useI18n()
 const toast = useToast()
 const router = useRouter()
 const route = useRoute()
+const { authUser, getPermissions } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const formRef = ref<any>(null)
 const showGeoLocationModal = ref<boolean>(false)
@@ -66,7 +68,7 @@ const formData = reactive<EmployeeFormProps>({
   type: null,
   gender: null,
   role_category_id: null,
-  role_id: null,
+  roles: [],
   location: {
     name: '',
     lat: 0,
@@ -81,13 +83,10 @@ const formData = reactive<EmployeeFormProps>({
  **************************************/
 // #region Computed
 const formTitle = computed(() => {
-  return props.formAction === 'create'
-    ? 'اضافة موظف'
-    : props.formAction === 'edit'
-    ? 'تعديل موظف'
-    : 'عرض موظف'
+  return props.formAction === 'create' ? 'اضافة موظف' : 'تعديل موظف'
 })
 
+const authUserData = computed(() => authUser)
 // #endregion
 
 /***************************************
@@ -185,6 +184,7 @@ function getEmployeeData() {
       data.role_category_id = data.role_category?.id
       data.country_id = data.country?.id
       data.area_id = data.area?.id
+      data.roles = data.roles.map((role: DropdownMenuItem) => role.id)
 
       delete data.image?.id
       delete data.front_id_image?.id
@@ -215,11 +215,21 @@ function updateLocation(location: Location) {
   formData.location = { ...location }
 }
 
+function getAuthUserPermissions() {
+  isLoading.data = true
+  getPermissions().then(() => {
+    isLoading.data = false
+  })
+}
+
 function edit(payload: EmployeeFormProps) {
-  console.log(payload)
   employeesService
     .editItem(payload)
     .then((res) => {
+      // if it was the auth user we need to get new permissions
+      if (authUserData.value?.id === employeeId) {
+        getAuthUserPermissions()
+      }
       toast.success(res.data.message)
       goToEmployeesPage()
     })
@@ -463,19 +473,29 @@ function submit() {
               </VCol>
               <VCol cols="12" md="6">
                 <AppAutocomplete
-                  v-model="formData.role_id"
-                  name="role_id"
+                  v-model="formData.roles"
+                  name="roles"
                   :items="rolesList"
                   item-title="label"
                   item-value="id"
-                  label="الصلاحية"
-                  placeholder="الصلاحية"
+                  label="الصلاحيات"
+                  placeholder="الصلاحيات"
                   rules="required"
                   :loading="isLoading.roles"
                   :disabled="isLoading.roles"
                   clearable
+                  multiple
                   prepend-inner-icon="tabler-key"
-                />
+                >
+                  <template #selection="{ item, index }">
+                    <VChip v-if="index < 1">
+                      <span>{{ item.title }}</span>
+                    </VChip>
+                    <span v-if="index === 1" class="text-grey text-caption align-self-center">
+                      (+{{ formData.roles.length - 1 }} اخري)
+                    </span>
+                  </template>
+                </AppAutocomplete>
               </VCol>
               <VCol cols="12" class="d-flex flex-wrap gap-4">
                 <div>

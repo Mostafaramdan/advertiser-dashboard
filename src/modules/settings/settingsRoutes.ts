@@ -160,6 +160,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'units',
+    name: 'units-settings',
+    component: () => import('./pages/UnitsPage.vue'),
+    meta: {
+      requiredPermission: 'view_units',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),

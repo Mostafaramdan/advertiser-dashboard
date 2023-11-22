@@ -11,7 +11,7 @@ export interface Employee {
   phone: string
   name: string
   image_path: string
-  role_name: string
+  roles: { id: number; label: string }[]
   role_category_name: string
   created_at: string
 }
@@ -28,7 +28,7 @@ export interface EmployeeDetails {
   name: string
   image_path: string
   created_at: string
-  role: DropdownMenuItem
+  roles: DropdownMenuItem[]
   country: DropdownMenuItem
   area: DropdownMenuItem
   role_category: DropdownMenuItem
@@ -52,7 +52,7 @@ export interface EmployeeFormProps {
   location: Location
   country_id: number | null
   area_id: number | null
-  role_id: number | null
+  roles: number[]
   role_category_id: number | null
   gender: null | string
   personal_id: string

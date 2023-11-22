@@ -2,6 +2,7 @@
 import { PERMISSIONS_LIST } from '@/constants/team'
 import { cloneItem } from '@/helpers/index'
 import type { FormActionType } from '@/interfaces/Forms'
+import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import type { PermissionListItem, RoleFormData } from '../interfaces/Role'
 import { rolesService } from '../services/RolesService'
@@ -22,9 +23,10 @@ const { t } = useI18n()
 const toast = useToast()
 const router = useRouter()
 const route = useRoute()
+const { authUser, getPermissions } = useAuthStore()
 const formRef = ref<any>(null)
 const permissionList = ref<PermissionListItem[]>(cloneItem(PERMISSIONS_LIST))
-let employeeId: number = +route.params.id
+let roleId: number = +route.params.id
 
 const isLoading = reactive({
   data: false,
@@ -47,6 +49,7 @@ const formTitle = computed(() => {
   return props.formAction === 'create' ? 'اضافة صلاحية' : 'تعديل صلاحية'
 })
 
+const authUserData = computed(() => authUser)
 // #endregion
 
 /***************************************
@@ -90,7 +93,7 @@ function toggleMultipleGroupCheck(value: boolean, groups: any) {
 function getEmployeeData() {
   isLoading.data = true
   rolesService
-    .getSingleItem(employeeId)
+    .getSingleItem(roleId)
     .then((res) => {
       Object.assign(formData, res.data.data)
       checkPermissions()
@@ -104,12 +107,21 @@ function goToRolesPage() {
   router.push({ name: 'team-roles-page' })
 }
 
+function getAuthUserPermissions() {
+  isLoading.data = true
+  getPermissions().then(() => {
+    isLoading.data = false
+  })
+}
+
 function edit(payload: any) {
-  console.log(payload)
   rolesService
     .editItem(payload)
     .then((res) => {
       toast.success(res.data.message)
+      if (authUserData.value?.roles.find((role) => role.id === roleId)) {
+        getAuthUserPermissions()
+      }
       goToRolesPage()
     })
     .finally(() => {
@@ -208,7 +220,9 @@ function submit() {
                           <VCheckbox
                             hide-details
                             :ripple="false"
-                            @update:model-value="toggleMultipleGroupCheck($event, item.groups)"
+                            @update:model-value="
+                              toggleMultipleGroupCheck($event as boolean, item.groups)
+                            "
                             :model-value="
                               item.groups.every((group) =>
                                 group.permissions.every((role) => role.checked),
@@ -232,7 +246,7 @@ function submit() {
                               :model-value="group.permissions.every((role) => role.checked)"
                               :label="group.title"
                               @update:model-value="
-                                toggleSingleGroupCheck($event, group.permissions)
+                                toggleSingleGroupCheck($event as boolean, group.permissions)
                               "
                             >
                             </VCheckbox>

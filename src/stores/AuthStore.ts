@@ -40,17 +40,21 @@ export const useAuthStore = defineStore('authStore', {
     },
   },
   actions: {
+    saveUserDataInLocalStorage() {
+      localStorage.setItem('authUser', JSON.stringify(this.authUser))
+    },
     setAuthUser(user: any) {
       this.authUser = user
-      localStorage.setItem('authUser', JSON.stringify(user))
+      this.saveUserDataInLocalStorage()
     },
     clearAuthUser() {
       this.authUser = null
       localStorage.removeItem('authUser')
       localStorage.removeItem('fcmToken')
     },
-    setUserPermissions(permissions: any) {
+    setUserPermissions(permissions: string[]) {
       if (this.authUser) this.authUser.permissions = permissions
+      this.saveUserDataInLocalStorage()
     },
     setFcmToken(fcm_token: string) {
       console.log('fcm_token', fcm_token)
@@ -63,6 +67,14 @@ export const useAuthStore = defineStore('authStore', {
       authService.deleteFcmToken(this.fcmToken).then(() => {
         localStorage.removeItem('fcmToken')
         this.fcmToken = null
+      })
+    },
+    getPermissions() {
+      return new Promise((resolve) => {
+        authService.getPermissions().then((res) => {
+          this.setUserPermissions(res.data.data)
+          resolve(res.data)
+        })
       })
     },
   },

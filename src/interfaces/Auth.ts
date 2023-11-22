@@ -1,3 +1,5 @@
+import { DropdownMenuItem } from './Shared'
+
 export interface User {
   id: number
   uuid: string
@@ -7,4 +9,5 @@ export interface User {
   token: string
   created_at: string
   permissions: string[]
+  roles: DropdownMenuItem[]
 }

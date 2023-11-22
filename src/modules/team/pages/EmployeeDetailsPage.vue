@@ -36,6 +36,7 @@ const permissions = computed(() => ({
   changeStatus: hasPermission('change_status_admin'),
   delete: hasPermission('delete_admin'),
   edit: hasPermission('update_admin'),
+  viewRoleDetails: hasPermission('view_role_details'),
 }))
 
 const employeeDetails: any = computed(() => {
@@ -50,7 +51,7 @@ const employeeDetails: any = computed(() => {
     location,
     type,
     role_category,
-    role,
+    roles,
     front_id_image,
     back_id_image,
   } = employee.value
@@ -93,8 +94,9 @@ const employeeDetails: any = computed(() => {
       value: role_category.label,
     },
     {
-      label: 'الصلاحية',
-      value: role.label,
+      label: 'الصلاحيات',
+      value: roles,
+      key: 'roles',
     },
     {
       label: 'الصورة الشخصية(1)',
@@ -265,6 +267,21 @@ async function showConfirmDeleteModal(): Promise<void> {
                         </VAvatar>
                       </a>
                       <span v-else>-</span>
+                    </template>
+                    <template v-else-if="item.key === 'roles'">
+                      <div class="d-flex gap-2">
+                        <VChip
+                          variant="outlined"
+                          color="primary"
+                          label
+                          v-for="role in item.value"
+                          :key="role.id"
+                          :to="{ name: 'roles-details-page', params: { id: role.id } }"
+                          :disabled="!permissions.viewRoleDetails"
+                        >
+                          {{ role.label }}
+                        </VChip>
+                      </div>
                     </template>
                     <template v-else>
                       {{ item.value ?? '-' }}

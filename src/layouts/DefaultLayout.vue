@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import NotificationsMenu from '@/components/dashboard-notifications/NotificationsMenu.vue'
-import { authService } from '@/services/AuthService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useSkins } from '@core/composable/useSkins'
 import { useThemeConfig } from '@core/composable/useThemeConfig'
@@ -29,7 +28,7 @@ const { switchToVerticalNavOnLtOverlayNavBreakpoint, isLessThanOverlayNavBreakpo
 // Remove below composable usage if you are not using horizontal nav layout in your app
 const { layoutAttrs, injectSkinClasses } = useSkins()
 
-const { setUserPermissions } = useAuthStore()
+const { setUserPermissions, getPermissions } = useAuthStore()
 const isLoading = ref<boolean>(false)
 
 const { hasAtLeaseOnePermission, hasPermission } = useAuthStore()
@@ -244,6 +243,11 @@ const navItems = computed(() => {
           title: 'شرائح الميزانية',
           to: { name: 'budget-slides-settings' },
           show: hasPermission('view_budget_slides'),
+        },
+        {
+          title: 'الوحدات',
+          to: { name: 'units-settings' },
+          show: hasPermission('view_units'),
         },
       ],
     },
@@ -502,7 +506,7 @@ const navItems = computed(() => {
 // #region Lifecycle Hooks
 switchToVerticalNavOnLtOverlayNavBreakpoint(windowWidth)
 injectSkinClasses()
-getPermissions()
+getAuthUserPermissions()
 
 // #endregion
 
@@ -510,16 +514,11 @@ getPermissions()
  **** Section Functions Declaration ****
  **************************************/
 // #region Functions
-function getPermissions() {
+function getAuthUserPermissions() {
   isLoading.value = true
-  authService
-    .getPermissions()
-    .then((res: any) => {
-      setUserPermissions(res.data.data)
-    })
-    .finally(() => {
-      isLoading.value = false
-    })
+  getPermissions().then(() => {
+    isLoading.value = false
+  })
 }
 
 // #endregion
