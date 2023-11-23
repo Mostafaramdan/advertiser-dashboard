@@ -4,7 +4,7 @@ import { getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { RateItem } from '../interfaces/RateItem'
+import type { RateItem, RateItemBase } from '../interfaces/RateItem'
 import { rateItemsService } from '../services/RateItemsService'
 
 /***************************************
@@ -44,7 +44,7 @@ const isLoading = reactive({
 
 const formRef = ref<any>(null)
 
-const formData = reactive<RateItem>({
+const formData = reactive<RateItem | RateItemBase>({
   name: {
     ar: '',
     en: '',
@@ -67,8 +67,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة تقييم'
     : props.formAction === 'edit'
-    ? 'تعديل تقييم'
-    : 'عرض تقييم'
+      ? 'تعديل تقييم'
+      : 'عرض تقييم'
 })
 
 const isDisabled = computed(() => {
@@ -137,12 +137,10 @@ async function addNewAnswer() {
 
 function edit() {
   rateItemsService
-    .editItem(formData)
+    .editItem(formData as RateItem)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as RateItem)
       showModal.value = false
     })
     .finally(() => {

@@ -3,7 +3,7 @@ import { cloneItem } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { Category } from '../interfaces/Category'
+import type { Category, CategoryBase } from '../interfaces/Category'
 import { categoriesService } from '../services/CategoriesService'
 
 /***************************************
@@ -43,7 +43,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive({
+const formData = reactive<Category | CategoryBase>({
   name: {
     ar: '',
     en: '',
@@ -62,8 +62,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة قسم'
     : props.formAction === 'edit'
-    ? 'تعديل قسم'
-    : 'عرض قسم'
+      ? 'تعديل قسم'
+      : 'عرض قسم'
 })
 
 // #endregion
@@ -85,7 +85,7 @@ if (props.activeItem) {
 // #region Functions
 function edit() {
   categoriesService
-    .editItem(formData)
+    .editItem(formData as Category)
     .then((res) => {
       toast.success(res.data.message)
       emit('editItem', res.data.data)

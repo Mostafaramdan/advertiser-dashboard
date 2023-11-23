@@ -2,7 +2,6 @@
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-
 import type { ReportReason } from '../interfaces/ReportReason'
 import ReportReasonDetailsModal from '../modals/ReportReasonDetailsModal.vue'
 import ReportReasonFormModal from '../modals/ReportReasonFormModal.vue'
@@ -160,12 +159,12 @@ getPageData()
 
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete">
-              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item)" />
+            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
+              <VIcon icon="tabler-trash" />
             </IconBtn>
 
-            <IconBtn :disabled="!permissions.edit">
-              <VIcon icon="tabler-edit" @click="showEditModal(item)" />
+            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item)">
+              <VIcon icon="tabler-edit" />
             </IconBtn>
 
             <VBtn icon variant="text" size="small" color="medium-emphasis">

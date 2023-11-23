@@ -1,5 +1,9 @@
-export interface AdsType {
-  id?: number
+export interface AdsTypeBase {
   name: { en: string; ar: string }
-  is_active?: boolean
+  is_active: boolean
+}
+
+export interface AdsType extends AdsTypeBase {
+  id: number
+  sort: number
 }

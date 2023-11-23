@@ -4,7 +4,7 @@ import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { PlatformNewsItem } from '../interfaces/PlatformNewsItem'
+import type { PlatformNewsItem, PlatformNewsItemBase } from '../interfaces/PlatformNewsItem'
 import { platformNewsService } from '../services/PlatformNewsService'
 
 /***************************************
@@ -44,7 +44,7 @@ const isLoading = reactive({
 
 const formRef = ref<any>(null)
 
-const formData = reactive<PlatformNewsItem>({
+const formData = reactive<PlatformNewsItem | PlatformNewsItemBase>({
   name: '',
   description: '',
   for: [],
@@ -61,8 +61,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة خبر'
     : props.formAction === 'edit'
-    ? 'تعديل خبر'
-    : 'عرض خبر'
+      ? 'تعديل خبر'
+      : 'عرض خبر'
 })
 
 // #endregion
@@ -97,12 +97,10 @@ function getItemDetails(id: any) {
 }
 function edit() {
   platformNewsService
-    .editItem(formData)
+    .editItem(formData as PlatformNewsItem)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as PlatformNewsItem)
       showModal.value = false
     })
     .finally(() => {

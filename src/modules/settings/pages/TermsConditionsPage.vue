@@ -3,7 +3,6 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { listService } from '@/services/ListService'
 import { useAuthStore } from '@/stores/AuthStore'
-
 import type { TermsConditionsItem } from '../interfaces/TermsConditionsItem'
 import TermsConditionsDetailsModal from '../modals/TermsConditionsDetailsModal.vue'
 import TermsConditionsFormModal from '../modals/TermsConditionsFormModal.vue'
@@ -53,7 +52,7 @@ const {
   showEditModal,
   showViewModal,
   onEditItem,
-  onCreateItem,
+  reloadPageData,
   showConfirmDeleteItem,
   sortItems,
 } = UseCrudHelpers<TermsConditionsItem>(termsConditionsService, params, MODEL_NAME)
@@ -145,7 +144,7 @@ function handleOnEditItem(item: TermsConditionsItem) {
 function handleCreateItem(item: any) {
   if (!params.type.includes(item.data?.type?.id)) params.type.push(item.type)
 
-  onCreateItem(item)
+  reloadPageData()
 }
 
 // #endregion
@@ -241,12 +240,12 @@ function handleCreateItem(item: any) {
 
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <IconBtn :disabled="!permissions.delete">
-                <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item)" />
+              <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
+                <VIcon icon="tabler-trash" />
               </IconBtn>
 
-              <IconBtn :disabled="!permissions.edit">
-                <VIcon icon="tabler-edit" @click="showEditModal(item)" />
+              <IconBtn :disabled="!permissions.edit" @click="showEditModal(item)">
+                <VIcon icon="tabler-edit" />
               </IconBtn>
 
               <VBtn icon variant="text" size="small" color="medium-emphasis">

@@ -3,7 +3,7 @@ import { cloneItem } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { ReportReason } from '../interfaces/ReportReason'
+import type { ReportReason, ReportReasonBase } from '../interfaces/ReportReason'
 import { reportsReasonsService } from '../services/ReportsReasonsService'
 
 /***************************************
@@ -38,7 +38,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<ReportReason>({
+const formData = reactive<ReportReason | ReportReasonBase>({
   name: {
     ar: '',
     en: '',
@@ -56,8 +56,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة بلاغ'
     : props.formAction === 'edit'
-    ? 'تعديل بلاغ'
-    : 'عرض بلاغ'
+      ? 'تعديل بلاغ'
+      : 'عرض بلاغ'
 })
 
 // #endregion
@@ -71,12 +71,10 @@ if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 // #endregion
 function edit() {
   reportsReasonsService
-    .editItem(formData)
+    .editItem(formData as ReportReason)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as ReportReason)
       showModal.value = false
     })
     .finally(() => {

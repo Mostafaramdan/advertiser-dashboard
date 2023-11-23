@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { AccountCase } from './../interfaces/AccountCase'
+import type { AccountCase, AccountCaseBase } from './../interfaces/AccountCase'
 
 class AccountCaseService {
   contextPath = 'account_cases'
@@ -11,7 +11,7 @@ class AccountCaseService {
   }
 
   /** **************** post ******************/
-  createItem(data: AccountCase): AxiosPromise {
+  createItem(data: AccountCaseBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

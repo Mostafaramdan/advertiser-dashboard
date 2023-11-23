@@ -1,7 +1,4 @@
-export interface Area {
-  id?: number
-  is_active?: boolean
-  sort?: number
+export interface AreaBase {
   name: {
     en: string
     ar: string
@@ -9,4 +6,10 @@ export interface Area {
   country_id: number
   area_code: number | null
   location_url: string
+  is_active: boolean
+}
+
+export interface Area extends AreaBase {
+  id: number
+  sort: number
 }

@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { cloneItem } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { PaymentCommission } from '../interfaces/PaymentCommission'
+import type { PaymentCommission, PaymentCommissionBase } from '../interfaces/PaymentCommission'
 import { paymentCommissionService } from '../services/PaymentCommissionService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem } from '@/helpers/index'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -38,7 +38,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<PaymentCommission>({
+const formData = reactive<PaymentCommission | PaymentCommissionBase>({
   name: '',
   minimum: null,
   maximum: null,
@@ -57,8 +57,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة شريحة'
     : props.formAction === 'edit'
-    ? 'تعديل شريحة'
-    : 'عرض شريحة'
+      ? 'تعديل شريحة'
+      : 'عرض شريحة'
 })
 
 // #endregion
@@ -70,14 +70,17 @@ const formTitle = computed(() => {
 if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 
 // #endregion
+
+/***************************************
+ **** Section Functions  *********
+ **************************************/
+// #region Functions
 function edit() {
   paymentCommissionService
-    .editItem(formData)
+    .editItem(formData as PaymentCommission)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as PaymentCommission)
       showModal.value = false
     })
     .finally(() => {
@@ -106,6 +109,7 @@ const submit = () => {
     props.formAction === 'create' ? create() : edit()
   })
 }
+// #endregion
 </script>
 
 <template>

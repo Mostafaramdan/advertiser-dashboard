@@ -3,7 +3,6 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { listService } from '@/services/ListService'
 import { useAuthStore } from '@/stores/AuthStore'
-
 import type { Tag } from '../interfaces/Tag'
 import TagDetailsModal from '../modals/TagDetailsModal.vue'
 import TagFormModal from '../modals/TagFormModal.vue'
@@ -12,7 +11,7 @@ import { tagsService } from '../services/TagsService'
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
-// #region Variables
+// #region Variabless
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
 const MODEL_NAME = 'tags'

@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { ReadyReply } from './../interfaces/ReadyReply'
+import type { ReadyReply, ReadyReplyBase } from './../interfaces/ReadyReply'
 
 class ReadyRepliesService {
   contextPath = 'admin_replies'
@@ -15,7 +15,7 @@ class ReadyRepliesService {
   }
 
   /** **************** post ******************/
-  createItem(data: ReadyReply): AxiosPromise {
+  createItem(data: ReadyReplyBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

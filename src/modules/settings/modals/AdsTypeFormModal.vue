@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { cloneItem } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { AdsType } from '../interfaces/AdsType'
+import type { AdsType, AdsTypeBase } from '../interfaces/AdsType'
 import { adsTypesService } from '../services/AdsTypesService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem } from '@/helpers/index'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -38,7 +38,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive({
+const formData = reactive<AdsType | AdsTypeBase>({
   name: {
     ar: '',
     en: '',
@@ -56,8 +56,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة نوع'
     : props.formAction === 'edit'
-    ? 'تعديل نوع'
-    : 'عرض نوع'
+      ? 'تعديل نوع'
+      : 'عرض نوع'
 })
 
 // #endregion
@@ -69,14 +69,17 @@ const formTitle = computed(() => {
 if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 
 // #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
 function edit() {
   adsTypesService
-    .editItem(formData)
+    .editItem(formData as AdsType)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as AdsType)
       showModal.value = false
     })
     .finally(() => {
@@ -105,6 +108,7 @@ const submit = () => {
     props.formAction === 'create' ? create() : edit()
   })
 }
+// #endregion
 </script>
 
 <template>

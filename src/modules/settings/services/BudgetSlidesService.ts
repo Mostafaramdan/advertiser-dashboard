@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { BudgetSlide } from './../interfaces/BudgetSlide'
+import type { BudgetSlide, BudgetSlideBase } from './../interfaces/BudgetSlide'
 
 class BudgetSlidesService {
   contextPath = 'budget_slides'
@@ -11,7 +11,7 @@ class BudgetSlidesService {
   }
 
   /** **************** post ******************/
-  createItem(data: BudgetSlide): AxiosPromise {
+  createItem(data: BudgetSlideBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

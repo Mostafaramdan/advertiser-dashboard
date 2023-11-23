@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { cloneItem } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { Partner } from '../interfaces/Partner'
+import type { Partner, PartnerBase } from '../interfaces/Partner'
 import { partnerService } from '../services/PartnerService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem } from '@/helpers/index'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -43,7 +43,7 @@ const isLoading = reactive({
 
 const formRef = ref<any>(null)
 
-const formData = reactive<Partner>({
+const formData = reactive<Partner | PartnerBase>({
   name: '',
   description: '',
   is_active: true,
@@ -59,8 +59,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة شريك'
     : props.formAction === 'edit'
-    ? 'تعديل شريك'
-    : 'عرض شريك'
+      ? 'تعديل شريك'
+      : 'عرض شريك'
 })
 
 // #endregion
@@ -95,12 +95,10 @@ function getItemDetails(id: any) {
 }
 function edit() {
   partnerService
-    .editItem(formData)
+    .editItem(formData as Partner)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as Partner)
       showModal.value = false
     })
     .finally(() => {

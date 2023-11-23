@@ -38,7 +38,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<UnitBase>({
+const formData = reactive<UnitBase | Unit>({
   name: {
     ar: '',
     en: '',

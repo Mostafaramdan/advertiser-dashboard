@@ -3,7 +3,7 @@ import { cloneItem } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { Tag } from '../interfaces/Tag'
+import type { Tag, TagBase } from '../interfaces/Tag'
 import { tagsService } from '../services/TagsService'
 
 /***************************************
@@ -38,7 +38,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive({
+const formData = reactive<Tag | TagBase>({
   name: {
     ar: '',
     en: '',
@@ -56,8 +56,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة تصنيف'
     : props.formAction === 'edit'
-    ? 'تعديل تصنيف'
-    : 'عرض تصنيف'
+      ? 'تعديل تصنيف'
+      : 'عرض تصنيف'
 })
 
 // #endregion
@@ -76,12 +76,10 @@ if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 // #region Functions
 function edit() {
   tagsService
-    .editItem(formData)
+    .editItem(formData as Tag)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as Tag)
       showModal.value = false
     })
     .finally(() => {

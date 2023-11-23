@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { cloneItem } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { TermsConditionsItem } from '../interfaces/TermsConditionsItem'
+import type {
+  TermsConditionsItem,
+  TermsConditionsItemBase,
+} from '../interfaces/TermsConditionsItem'
 import { termsConditionsService } from '../services/TermsConditionsService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem } from '@/helpers/index'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -48,7 +51,7 @@ const isLoading = reactive({
 const formRef = ref<any>(null)
 const categoriesSelectRef = ref()
 
-const formData = reactive<TermsConditionsItem>({
+const formData = reactive<TermsConditionsItem | TermsConditionsItemBase>({
   name: '',
   description: '',
   type: null,
@@ -65,8 +68,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة شرط'
     : props.formAction === 'edit'
-    ? 'تعديل شرط'
-    : 'عرض شرط'
+      ? 'تعديل شرط'
+      : 'عرض شرط'
 })
 
 // #endregion
@@ -101,11 +104,9 @@ function getItemDetails(id: any) {
 }
 function edit() {
   termsConditionsService
-    .editItem(formData)
+    .editItem(formData as TermsConditionsItem)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
       emit('editItem', res.data.data)
       showModal.value = false
     })

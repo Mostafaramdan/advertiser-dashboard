@@ -1,6 +1,9 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { SubscriptionExtraPoint } from '../interfaces/SubscriptionExtraPoint'
+import type {
+  SubscriptionExtraPoint,
+  SubscriptionExtraPointBase,
+} from '../interfaces/SubscriptionExtraPoint'
 
 class SubscriptionExtraPointsService {
   contextPath = 'subscription_extra_points'
@@ -11,7 +14,7 @@ class SubscriptionExtraPointsService {
   }
 
   /** **************** post ******************/
-  createItem(data: SubscriptionExtraPoint): AxiosPromise {
+  createItem(data: SubscriptionExtraPointBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

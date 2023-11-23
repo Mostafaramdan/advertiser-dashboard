@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { USERS_TYPES } from '@/constants/settings'
+import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import QuestionsCategoriesSelect from '../components/QuestionsCategoriesSelect.vue'
-import type { Question } from '../interfaces/Question'
+import type { Question, QuestionBase } from '../interfaces/Question'
 import { questionsService } from '../services/QuestionsService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
-import { USERS_TYPES } from '@/constants/settings'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -46,7 +46,7 @@ const isLoading = reactive({
 const formRef = ref<any>(null)
 const categoriesSelectRef = ref()
 
-const formData = reactive({
+const formData = reactive<Question | QuestionBase>({
   question: '',
   answer: '',
   category_id: null,
@@ -64,8 +64,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة سؤال'
     : props.formAction === 'edit'
-    ? 'تعديل سؤال'
-    : 'عرض سؤال'
+      ? 'تعديل سؤال'
+      : 'عرض سؤال'
 })
 
 // #endregion
@@ -105,11 +105,9 @@ function getItemDetails(id: any) {
 
 function edit() {
   questionsService
-    .editItem(formData)
+    .editItem(formData as Question)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
       emit('editItem', res.data.data)
       showModal.value = false
     })

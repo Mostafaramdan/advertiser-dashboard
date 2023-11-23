@@ -5,7 +5,7 @@ import type { FormModalProps } from '@/interfaces/Forms'
 import type { File } from '@/interfaces/Shared'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { Channel } from '../interfaces/Channel'
+import type { Channel, ChannelBase } from '../interfaces/Channel'
 import { channelsService } from '../services/ChannelsService'
 
 /***************************************
@@ -40,7 +40,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<Channel>({
+const formData = reactive<Channel | ChannelBase>({
   name: {
     ar: '',
     en: '',
@@ -62,8 +62,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة قناة'
     : props.formAction === 'edit'
-    ? 'تعديل قناة'
-    : 'عرض قناة'
+      ? 'تعديل قناة'
+      : 'عرض قناة'
 })
 
 // #endregion
@@ -77,9 +77,14 @@ if (props.activeItem) {
 }
 
 // #endregion
+
+/***************************************
+ **** Section Functions  *********
+ **************************************/
+// #region Functions
 function edit() {
   channelsService
-    .editItem(formData)
+    .editItem(formData as Channel)
     .then((res) => {
       toast.success(res.data.message)
       emit('editItem', res.data.data)
@@ -115,6 +120,7 @@ const submit = () => {
     props.formAction === 'create' ? create() : edit()
   })
 }
+// #endregion
 </script>
 
 <template>

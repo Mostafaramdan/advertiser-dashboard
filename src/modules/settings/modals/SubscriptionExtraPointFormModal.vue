@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { cloneItem } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { SubscriptionExtraPoint } from '../interfaces/SubscriptionExtraPoint'
+import type {
+  SubscriptionExtraPoint,
+  SubscriptionExtraPointBase,
+} from '../interfaces/SubscriptionExtraPoint'
 import { subscriptionExtraPointsService } from '../services/SubscriptionExtraPointsService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem } from '@/helpers/index'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -38,7 +41,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive({
+const formData = reactive<SubscriptionExtraPoint | SubscriptionExtraPointBase>({
   name: {
     ar: '',
     en: '',
@@ -56,8 +59,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة بند'
     : props.formAction === 'edit'
-    ? 'تعديل بند'
-    : 'عرض بند'
+      ? 'تعديل بند'
+      : 'عرض بند'
 })
 
 // #endregion
@@ -69,14 +72,17 @@ const formTitle = computed(() => {
 if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 
 // #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
 function edit() {
   subscriptionExtraPointsService
-    .editItem(formData)
+    .editItem(formData as SubscriptionExtraPoint)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as SubscriptionExtraPoint)
       showModal.value = false
     })
     .finally(() => {
@@ -105,6 +111,7 @@ const submit = () => {
     props.formAction === 'create' ? create() : edit()
   })
 }
+// #endregion
 </script>
 
 <template>

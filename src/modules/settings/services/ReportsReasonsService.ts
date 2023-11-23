@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { ReportReason } from './../interfaces/ReportReason'
+import type { ReportReason, ReportReasonBase } from './../interfaces/ReportReason'
 
 class ReportsReasonsService {
   contextPath = 'report_reasons'
@@ -11,7 +11,7 @@ class ReportsReasonsService {
   }
 
   /** **************** post ******************/
-  createItem(data: ReportReason): AxiosPromise {
+  createItem(data: ReportReasonBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

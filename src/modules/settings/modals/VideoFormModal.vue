@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useVModel } from '@vueuse/core'
-import { useToast } from 'vue-toastification'
-import type { Video, VideoListItem } from '../interfaces/Video'
-import { videosService } from '../services/VideosService'
 import { USERS_TYPES } from '@/constants/settings'
 import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
-import type { File } from '@/interfaces/Shared'
+import type { DropdownMenuItem, File } from '@/interfaces/Shared'
 import { listService } from '@/services/ListService'
+import { useVModel } from '@vueuse/core'
+import { useToast } from 'vue-toastification'
+import type { Video, VideoBase } from '../interfaces/Video'
+import { videosService } from '../services/VideosService'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -47,9 +47,9 @@ const isLoading = reactive({
 const categoriesSelectRef = ref()
 const formRef = ref<any>(null)
 const MAX_FILE_SIZE = 350
-const videosLists = ref<VideoListItem[]>([])
+const videosLists = ref<DropdownMenuItem[]>([])
 
-const formData = reactive<Video>({
+const formData = reactive<Video | VideoBase>({
   name: '',
   is_active: true,
   show_in: null,
@@ -68,8 +68,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة فيديو'
     : props.formAction === 'edit'
-    ? 'تعديل فيديو'
-    : 'عرض فيديو'
+      ? 'تعديل فيديو'
+      : 'عرض فيديو'
 })
 
 // #endregion
@@ -78,9 +78,7 @@ const formTitle = computed(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-getVideosLists()
-if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
-
+initData()
 // #endregion
 
 /***************************************
@@ -99,12 +97,17 @@ function getVideosLists() {
     })
 }
 
+function initData() {
+  getVideosLists()
+  if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
+  if (props.formAction === 'edit') formData.show_in = props.activeItem.show_in.id
+}
+
 function edit() {
   videosService
-    .editItem(formData)
+    .editItem(formData as Video)
     .then((res) => {
       toast.success(res.data.message)
-
       emit('editItem', res.data.data)
       showModal.value = false
     })
@@ -135,8 +138,6 @@ const submit = () => {
     if (!valid) return
 
     isLoading.submit = true
-    if (typeof formData.show_in === 'object' && formData.show_in?.id)
-      formData.show_in = formData.show_in.id
     props.formAction === 'create' ? create() : edit()
   })
 }
@@ -195,7 +196,11 @@ const submit = () => {
                       'location-strategy': 'static',
                       'max-height': 200,
                     }"
-                  />
+                  >
+                    <template #selection="{ item }">
+                      <span v-if="item.title && !isLoading.videosLists">{{ item.title }}</span>
+                    </template>
+                  </AppSelect>
                 </div>
               </VCol>
               <VCol>

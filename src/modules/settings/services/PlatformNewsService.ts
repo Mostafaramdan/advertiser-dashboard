@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { PlatformNewsItem } from './../interfaces/PlatformNewsItem'
+import type { PlatformNewsItem, PlatformNewsItemBase } from './../interfaces/PlatformNewsItem'
 
 class PlatformNewsService {
   contextPath = 'page_news'
@@ -15,7 +15,7 @@ class PlatformNewsService {
   }
 
   /** **************** post ******************/
-  createItem(data: PlatformNewsItem): AxiosPromise {
+  createItem(data: PlatformNewsItemBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

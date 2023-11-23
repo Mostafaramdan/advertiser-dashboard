@@ -3,7 +3,7 @@ import { cloneItem } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { Area } from '../interfaces/Area'
+import type { Area, AreaBase } from '../interfaces/Area'
 import { areasService } from '../services/AreasService'
 
 /***************************************
@@ -39,7 +39,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<Area>({
+const formData = reactive<Area | AreaBase>({
   name: {
     ar: '',
     en: '',
@@ -60,8 +60,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة منطقة'
     : props.formAction === 'edit'
-    ? 'تعديل منطقة'
-    : 'عرض منطقة'
+      ? 'تعديل منطقة'
+      : 'عرض منطقة'
 })
 
 // #endregion
@@ -73,14 +73,17 @@ const formTitle = computed(() => {
 if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 
 // #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
 function edit() {
   areasService
-    .editItem(formData)
+    .editItem(formData as Area)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as Area)
       showModal.value = false
     })
     .finally(() => {
@@ -109,6 +112,7 @@ const submit = () => {
     props.formAction === 'create' ? create() : edit()
   })
 }
+// #endregion
 </script>
 
 <template>

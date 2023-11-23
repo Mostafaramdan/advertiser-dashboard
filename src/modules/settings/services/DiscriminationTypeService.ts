@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { DiscriminationType } from './../interfaces/DiscriminationType'
+import type { DiscriminationType, DiscriminationTypeBase } from './../interfaces/DiscriminationType'
 
 class DiscriminationTypeService {
   contextPath = 'discrimination_types'
@@ -11,7 +11,7 @@ class DiscriminationTypeService {
   }
 
   /** **************** post ******************/
-  createItem(data: DiscriminationType): AxiosPromise {
+  createItem(data: DiscriminationTypeBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

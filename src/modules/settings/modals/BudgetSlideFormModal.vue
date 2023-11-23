@@ -3,7 +3,7 @@ import { cloneItem } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { BudgetSlide } from '../interfaces/BudgetSlide'
+import type { BudgetSlide, BudgetSlideBase } from '../interfaces/BudgetSlide'
 import { budgetSlidesService } from '../services/BudgetSlidesService'
 
 /***************************************
@@ -38,7 +38,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<BudgetSlide>({
+const formData = reactive<BudgetSlide | BudgetSlideBase>({
   from: null,
   to: null,
   is_active: true,
@@ -54,8 +54,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة شريحة'
     : props.formAction === 'edit'
-    ? 'تعديل شريحة'
-    : 'عرض شريحة'
+      ? 'تعديل شريحة'
+      : 'عرض شريحة'
 })
 
 // #endregion
@@ -76,7 +76,7 @@ if (props.activeItem) {
 // #region Functions
 function edit() {
   budgetSlidesService
-    .editItem(formData)
+    .editItem(formData as BudgetSlide)
     .then((res) => {
       toast.success(res.data.message)
       emit('editItem', res.data.data)

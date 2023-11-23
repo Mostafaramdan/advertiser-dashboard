@@ -4,7 +4,7 @@ import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { ReadyReply } from '../interfaces/ReadyReply'
+import type { ReadyReply, ReadyReplyBase } from '../interfaces/ReadyReply'
 import { readyRepliesService } from '../services/ReadyRepliesService'
 
 /***************************************
@@ -39,7 +39,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<ReadyReply>({
+const formData = reactive<ReadyReply | ReadyReplyBase>({
   reply: '',
   types: [],
   is_active: true,
@@ -55,8 +55,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة رد'
     : props.formAction === 'edit'
-    ? 'تعديل رد'
-    : 'عرض رد'
+      ? 'تعديل رد'
+      : 'عرض رد'
 })
 
 // #endregion
@@ -77,12 +77,10 @@ if (props.activeItem?.id) {
 // #region Functions
 function edit() {
   readyRepliesService
-    .editItem(formData)
+    .editItem(formData as ReadyReply)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as ReadyReply)
       showModal.value = false
     })
     .finally(() => {

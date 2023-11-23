@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { useAuthStore } from '@/stores/AuthStore'
-
 import type { Country } from '../interfaces/Country'
 import CountryDetailsModal from '../modals/CountryDetailsModal.vue'
 import { countriesService } from '../services/CountriesService'
@@ -151,8 +150,8 @@ getPageData()
 
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn>
-              <VIcon icon="tabler-eye" @click="showViewModal(item)" />
+            <IconBtn @click="showViewModal(item)">
+              <VIcon icon="tabler-eye" />
             </IconBtn>
 
             <VBtn icon variant="text" size="small" color="medium-emphasis">

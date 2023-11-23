@@ -3,7 +3,6 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { listService } from '@/services/ListService'
 import { useAuthStore } from '@/stores/AuthStore'
-
 import type { Category } from '../interfaces/Category'
 import CategoryDetailsModal from '../modals/CategoryDetailsModal.vue'
 import CategoryFormModal from '../modals/CategoryFormModal.vue'

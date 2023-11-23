@@ -3,7 +3,7 @@ import { cloneItem } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { AccountCase } from '../interfaces/AccountCase'
+import type { AccountCase, AccountCaseBase } from '../interfaces/AccountCase'
 import { accountCaseService } from '../services/AccountCaseService'
 
 /***************************************
@@ -38,7 +38,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<AccountCase>({
+const formData = reactive<AccountCase | AccountCaseBase>({
   name: {
     ar: '',
     en: '',
@@ -60,8 +60,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة حالة'
     : props.formAction === 'edit'
-    ? 'تعديل حالة'
-    : 'عرض حالة'
+      ? 'تعديل حالة'
+      : 'عرض حالة'
 })
 
 // #endregion
@@ -73,14 +73,17 @@ const formTitle = computed(() => {
 if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 
 // #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
 function edit() {
   accountCaseService
-    .editItem(formData)
+    .editItem(formData as AccountCase)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as AccountCase)
       showModal.value = false
     })
     .finally(() => {
@@ -109,6 +112,7 @@ const submit = () => {
     props.formAction === 'create' ? create() : edit()
   })
 }
+// #endregion
 </script>
 
 <template>

@@ -1,16 +1,17 @@
-import type { File } from '@/interfaces/Shared'
+import type { DropdownMenuItem, File } from '@/interfaces/Shared'
 
-export interface VideoListItem {
-  id: string
-  label: string
-}
-
-export interface Video {
-  id?: number
+export interface VideoBase {
   name: string
-  show_in: VideoListItem | null | string
+  show_in: DropdownMenuItem | null | string
   for: string[]
-  is_active?: boolean
+  is_active: boolean
   video_id?: number | null
   video?: File | null
+}
+
+export interface Video extends VideoBase {
+  id: number
+  sort: number
+  show_in: DropdownMenuItem
+  video: File
 }

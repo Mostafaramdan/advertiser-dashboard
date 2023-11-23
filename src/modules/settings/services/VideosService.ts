@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { Video } from './../interfaces/Video'
+import type { Video, VideoBase } from './../interfaces/Video'
 
 class VideosService {
   contextPath = 'videos'
@@ -11,7 +11,7 @@ class VideosService {
   }
 
   /** **************** post ******************/
-  createItem(data: Video): AxiosPromise {
+  createItem(data: VideoBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

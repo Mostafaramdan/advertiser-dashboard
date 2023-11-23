@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { Entity } from './../interfaces/Entity'
+import type { Entity, EntityBase } from './../interfaces/Entity'
 
 class EntitiesService {
   contextPath = 'entities'
@@ -11,7 +11,7 @@ class EntitiesService {
   }
 
   /** **************** post ******************/
-  createItem(data: Entity): AxiosPromise {
+  createItem(data: EntityBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

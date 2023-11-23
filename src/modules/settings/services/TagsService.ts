@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { Tag } from './../interfaces/Tag'
+import type { Tag, TagBase } from './../interfaces/Tag'
 
 class TagsService {
   contextPath = 'tags'
@@ -11,7 +11,7 @@ class TagsService {
   }
 
   /** **************** post ******************/
-  createItem(data: Tag): AxiosPromise {
+  createItem(data: TagBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

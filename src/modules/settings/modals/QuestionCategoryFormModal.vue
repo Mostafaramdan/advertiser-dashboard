@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { USERS_TYPES } from '@/constants/settings'
+import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { QuestionCategory } from '../interfaces/QuestionCategory'
+import type { QuestionCategory, QuestionCategoryBase } from '../interfaces/QuestionCategory'
 import { questionsCategoriesService } from '../services/QuestionsCategoriesService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
-import { USERS_TYPES } from '@/constants/settings'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -39,7 +39,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive({
+const formData = reactive<QuestionCategory | QuestionCategoryBase>({
   name: '',
   for: [],
   is_active: true,
@@ -55,8 +55,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة قسم'
     : props.formAction === 'edit'
-    ? 'تعديل قسم'
-    : 'عرض قسم'
+      ? 'تعديل قسم'
+      : 'عرض قسم'
 })
 
 // #endregion
@@ -68,14 +68,17 @@ const formTitle = computed(() => {
 if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 
 // #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
 function edit() {
   questionsCategoriesService
-    .editItem(formData)
+    .editItem(formData as QuestionCategory)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as QuestionCategory)
       showModal.value = false
     })
     .finally(() => {
@@ -104,6 +107,7 @@ const submit = () => {
     props.formAction === 'create' ? create() : edit()
   })
 }
+// #endregion
 </script>
 
 <template>

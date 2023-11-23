@@ -1,6 +1,10 @@
-export interface QuestionCategory {
-  id?: number
+export interface QuestionCategoryBase {
   name: string
   for: string[]
-  is_active?: boolean
+  is_active: boolean
+}
+
+export interface QuestionCategory extends QuestionCategoryBase {
+  id: number
+  sort: number
 }

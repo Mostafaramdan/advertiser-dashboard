@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { AboutUsItem } from './../interfaces/AboutUsItem'
+import type { AboutUsItem, AboutUsItemBase } from './../interfaces/AboutUsItem'
 
 class AboutUsService {
   contextPath = 'abouts'
@@ -15,7 +15,7 @@ class AboutUsService {
   }
 
   /** **************** post ******************/
-  createItem(data: AboutUsItem): AxiosPromise {
+  createItem(data: AboutUsItemBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

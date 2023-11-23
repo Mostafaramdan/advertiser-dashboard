@@ -1,7 +1,10 @@
-export interface Category {
-  id?: number
-  sort?: number
+export interface CategoryBase {
   name: { en: string; ar: string }
-  tags: {id: number; label: string}[] || number[]
-  is_active?: boolean
+  is_active: boolean
+  tags: { id: number; label: string }[] | number[]
+}
+
+export interface Category extends CategoryBase {
+  id: number
+  sort: number
 }

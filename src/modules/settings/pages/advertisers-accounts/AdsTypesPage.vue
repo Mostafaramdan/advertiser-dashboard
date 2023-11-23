@@ -2,7 +2,6 @@
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-
 import type { AdsType } from '../../interfaces/AdsType'
 import AdsTypeDetailsModal from '../../modals/AdsTypeDetailsModal.vue'
 import AdsTypeFormModal from '../../modals/AdsTypeFormModal.vue'
@@ -146,8 +145,6 @@ getPageData()
             {{ item.name }}
           </span>
         </template>
-        <template #item.value_in_platform="{ item }"> {{ item.value_in_platform }} % </template>
-        <template #item.value_out_platform="{ item }"> {{ item.value_out_platform }} % </template>
         <template #item.is_active="{ item }">
           <ToggleActivationSwitch
             :id="item.id"
@@ -159,12 +156,12 @@ getPageData()
 
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
-            <IconBtn :disabled="!permissions.delete">
-              <VIcon icon="tabler-trash" @click="showConfirmDeleteItem(item)" />
+            <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
+              <VIcon icon="tabler-trash" />
             </IconBtn>
 
-            <IconBtn :disabled="!permissions.edit">
-              <VIcon icon="tabler-edit" @click="showEditModal(item)" />
+            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item)">
+              <VIcon icon="tabler-edit" />
             </IconBtn>
 
             <VBtn icon variant="text" size="small" color="medium-emphasis">

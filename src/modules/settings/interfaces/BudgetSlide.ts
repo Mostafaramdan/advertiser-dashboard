@@ -1,6 +1,10 @@
-export interface BudgetSlide {
-  id?: number
+export interface BudgetSlideBase {
   from: number | null
   to: number | null
-  is_active?: boolean
+  is_active: boolean
+}
+
+export interface BudgetSlide extends BudgetSlideBase {
+  id: number
+  sort: number
 }

@@ -4,7 +4,7 @@ import type { FormModalProps } from '@/interfaces/Forms'
 import type { File } from '@/interfaces/Shared'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { DiscriminationType } from '../interfaces/DiscriminationType'
+import type { DiscriminationType, DiscriminationTypeBase } from '../interfaces/DiscriminationType'
 import { discriminationTypeService } from '../services/DiscriminationTypeService'
 
 /***************************************
@@ -39,7 +39,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<DiscriminationType>({
+const formData = reactive<DiscriminationType | DiscriminationTypeBase>({
   name: {
     ar: '',
     en: '',
@@ -61,8 +61,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة تمييز'
     : props.formAction === 'edit'
-    ? 'تعديل تمييز'
-    : 'عرض تمييز'
+      ? 'تعديل تمييز'
+      : 'عرض تمييز'
 })
 
 // #endregion
@@ -74,9 +74,14 @@ const formTitle = computed(() => {
 if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 
 // #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
 function edit() {
   discriminationTypeService
-    .editItem(formData)
+    .editItem(formData as DiscriminationType)
     .then((res) => {
       toast.success(res.data.message)
       emit('editItem', res.data.data)
@@ -112,6 +117,7 @@ const submit = () => {
     props.formAction === 'create' ? create() : edit()
   })
 }
+// #endregion
 </script>
 
 <template>

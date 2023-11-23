@@ -3,7 +3,6 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { CHANNEL_TYPES } from '@/constants/settings'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-
 import type { Channel } from '../interfaces/Channel'
 import ChannelDetailsModal from '../modals/ChannelDetailsModal.vue'
 import ChannelFormModal from '../modals/ChannelFormModal.vue'
@@ -169,7 +168,7 @@ getPageData()
 
         <template #item.channel_type="{ item }">
           <VChip variant="outlined" color="primary" label>
-            {{ CHANNEL_TYPES[item.channel_type as 1 | 2] }}
+            {{ CHANNEL_TYPES[item.channel_type as '1' | '2'] }}
           </VChip>
         </template>
 

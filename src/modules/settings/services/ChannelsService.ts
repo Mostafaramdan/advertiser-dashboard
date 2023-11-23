@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { Channel } from './../interfaces/Channel'
+import type { Channel, ChannelBase } from './../interfaces/Channel'
 
 class ChannelsService {
   contextPath = 'channels'
@@ -11,7 +11,7 @@ class ChannelsService {
   }
 
   /** **************** post ******************/
-  createItem(data: Channel): AxiosPromise {
+  createItem(data: ChannelBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { USERS_TYPES } from '@/constants/settings'
+import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
+import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { AboutUsItem } from '../interfaces/AboutUsItem'
+import type { AboutUsItem, AboutUsItemBase } from '../interfaces/AboutUsItem'
 import { aboutUsService } from '../services/AboutUsService'
-import type { FormModalProps } from '@/interfaces/Forms'
-import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
-import { USERS_TYPES } from '@/constants/settings'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -44,7 +44,7 @@ const isLoading = reactive({
 
 const formRef = ref<any>(null)
 
-const formData = reactive<AboutUsItem>({
+const formData = reactive<AboutUsItem | AboutUsItemBase>({
   name: '',
   description: '',
   for: [],
@@ -61,8 +61,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة موضوع'
     : props.formAction === 'edit'
-    ? 'تعديل موضوع'
-    : 'عرض موضوع'
+      ? 'تعديل موضوع'
+      : 'عرض موضوع'
 })
 
 // #endregion
@@ -97,12 +97,10 @@ function getItemDetails(id: any) {
 }
 function edit() {
   aboutUsService
-    .editItem(formData)
+    .editItem(formData as AboutUsItem)
     .then((res) => {
       toast.success(res.data.message)
-
-      // emit('editItem', res.data)
-      emit('editItem', formData)
+      emit('editItem', formData as AboutUsItem)
       showModal.value = false
     })
     .finally(() => {

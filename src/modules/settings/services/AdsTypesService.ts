@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { Entity } from './../interfaces/Entity'
+import type { AdsType, AdsTypeBase } from './../interfaces/AdsType'
 
 class AdsTypesService {
   contextPath = 'ads_types'
@@ -11,12 +11,12 @@ class AdsTypesService {
   }
 
   /** **************** post ******************/
-  createItem(data: Entity): AxiosPromise {
+  createItem(data: AdsTypeBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 
   /** **************** put ******************/
-  editItem(data: Entity): AxiosPromise {
+  editItem(data: AdsType): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
   }
 

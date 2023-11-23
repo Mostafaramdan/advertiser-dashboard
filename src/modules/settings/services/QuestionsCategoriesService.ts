@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { QuestionCategory } from './../interfaces/QuestionCategory'
+import type { QuestionCategory, QuestionCategoryBase } from './../interfaces/QuestionCategory'
 
 class QuestionsCategoriesService {
   contextPath = 'support_categories'
@@ -11,7 +11,7 @@ class QuestionsCategoriesService {
   }
 
   /** **************** post ******************/
-  createItem(data: QuestionCategory): AxiosPromise {
+  createItem(data: QuestionCategoryBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

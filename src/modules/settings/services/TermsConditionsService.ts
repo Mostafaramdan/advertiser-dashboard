@@ -1,6 +1,9 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { TermsConditionsItem } from './../interfaces/TermsConditionsItem'
+import type {
+  TermsConditionsItem,
+  TermsConditionsItemBase,
+} from './../interfaces/TermsConditionsItem'
 
 class TermsConditionsService {
   contextPath = 'terms'
@@ -15,7 +18,7 @@ class TermsConditionsService {
   }
 
   /** **************** post ******************/
-  createItem(data: TermsConditionsItem): AxiosPromise {
+  createItem(data: TermsConditionsItemBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

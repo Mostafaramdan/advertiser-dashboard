@@ -1,5 +1,9 @@
-export interface ReportReason {
-  id?: number
+export interface ReportReasonBase {
   name: { en: string; ar: string }
-  is_active?: boolean
+  is_active: boolean
+}
+
+export interface ReportReason extends ReportReasonBase {
+  id: number
+  sort: number
 }
