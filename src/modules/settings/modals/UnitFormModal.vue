@@ -3,7 +3,7 @@ import { cloneItem } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { UnitFormData, UnitListItem } from '../interfaces/Unit'
+import type { Unit, UnitBase } from '../interfaces/Unit'
 import { unitsService } from '../services/UnitsService'
 
 /***************************************
@@ -22,8 +22,8 @@ const props = withDefaults(defineProps<FormModalProps>(), {
 // #region Emits
 const emit = defineEmits<{
   (e: 'update:showModal', value: boolean): void
-  (e: 'createItem', value: UnitFormData): void
-  (e: 'editItem', value: UnitListItem): void
+  (e: 'createItem', value: UnitBase): void
+  (e: 'editItem', value: UnitBase): void
 }>()
 
 // #endregion
@@ -38,7 +38,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<UnitListItem | UnitFormData>({
+const formData = reactive<UnitBase>({
   name: {
     ar: '',
     en: '',
@@ -76,10 +76,10 @@ if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
 // #region Functions
 function edit() {
   unitsService
-    .editItem(formData as UnitListItem)
+    .editItem(formData as Unit)
     .then((res) => {
       toast.success(res.data.message)
-      emit('editItem', formData as UnitListItem)
+      emit('editItem', formData as Unit)
       showModal.value = false
     })
     .finally(() => {

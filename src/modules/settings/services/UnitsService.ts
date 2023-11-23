@@ -1,9 +1,9 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { UnitFormData, UnitListItem } from '../interfaces/Unit'
+import type { Unit, UnitBase } from '../interfaces/Unit'
 
 class UnitsService {
-  contextPath = 'entities'
+  contextPath = 'units'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -11,12 +11,12 @@ class UnitsService {
   }
 
   /** **************** post ******************/
-  createItem(data: UnitFormData): AxiosPromise {
+  createItem(data: UnitBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 
   /** **************** put ******************/
-  editItem(data: UnitListItem): AxiosPromise {
+  editItem(data: Unit): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
   }
 

@@ -2,7 +2,7 @@
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import type { UnitListItem } from '../interfaces/Unit'
+import type { Unit } from '../interfaces/Unit'
 import UnitDetailsModal from '../modals/UnitDetailsModal.vue'
 import UnitFormModal from '../modals/UnitFormModal.vue'
 import { unitsService } from '../services/UnitsService'
@@ -42,7 +42,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<UnitListItem>(unitsService, params, MODEL_NAME)
+} = UseCrudHelpers<Unit>(unitsService, params, MODEL_NAME)
 
 const headers: any = [
   {
