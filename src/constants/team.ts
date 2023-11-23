@@ -1104,6 +1104,41 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'أسعار المشاهدات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_views_prices',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_views_price',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_views_price',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_views_price',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_views_price',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_views_price',
+          },
+        ],
+      },
     ],
   },
   {

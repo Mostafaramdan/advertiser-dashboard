@@ -176,6 +176,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'views-prices',
+    name: 'views-prices-settings',
+    component: () => import('./pages/ViewsPricesPage.vue'),
+    meta: {
+      requiredPermission: 'view_views_prices',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),

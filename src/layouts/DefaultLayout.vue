@@ -254,6 +254,11 @@ const navItems = computed(() => {
           to: { name: 'distances-settings' },
           show: hasPermission('view_distances'),
         },
+        {
+          title: 'أسعار المشاهدات',
+          to: { name: 'views-prices-settings' },
+          show: hasPermission('view_views_prices'),
+        },
       ],
     },
     {
