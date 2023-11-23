@@ -168,6 +168,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'distances',
+    name: 'distances-settings',
+    component: () => import('./pages/DistancesPage.vue'),
+    meta: {
+      requiredPermission: 'view_distances',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),

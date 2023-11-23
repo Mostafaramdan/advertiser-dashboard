@@ -1,12 +1,9 @@
-export interface BaseUnit {
+export interface UnitBase {
   name: { en: string; ar: string }
   is_active: boolean
 }
 
-export interface UnitListItem extends BaseUnit {
+export interface Unit extends UnitBase {
   id: number
-}
-
-export interface UnitFormData extends BaseUnit {
-  id?: number
+  sort: number
 }

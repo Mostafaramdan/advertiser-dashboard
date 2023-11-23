@@ -249,6 +249,11 @@ const navItems = computed(() => {
           to: { name: 'units-settings' },
           show: hasPermission('view_units'),
         },
+        {
+          title: 'المسافات',
+          to: { name: 'distances-settings' },
+          show: hasPermission('view_distances'),
+        },
       ],
     },
     {

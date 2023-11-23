@@ -20,6 +20,16 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
     title: 'صلاحيات عامة',
     groups: [
       {
+        title: 'الاعدادت العامة',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_settings',
+          },
+        ],
+      },
+      {
         title: 'الاشعارات',
         permissions: [
           {
@@ -1059,6 +1069,41 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'المسافات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_distances',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_distance',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_distance',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_distance',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_distance',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_distance',
+          },
+        ],
+      },
     ],
   },
   {
@@ -1445,7 +1490,7 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'تعديل',
             checked: false,
-            key: 'delete_advertiser_coupon',
+            key: 'update_advertiser_coupon',
           },
           {
             label: 'حذف',
