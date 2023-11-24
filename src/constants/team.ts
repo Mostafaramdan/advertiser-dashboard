@@ -1174,6 +1174,41 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'مهل دفع العرض',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_offer_deadlines',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_offer_deadline',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_offer_deadline',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_offer_deadline',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_offer_deadline',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_offer_deadline',
+          },
+        ],
+      },
     ],
   },
   {

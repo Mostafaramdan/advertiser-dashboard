@@ -264,6 +264,11 @@ const navItems = computed(() => {
           to: { name: 'offer-payment-methods-settings' },
           show: hasPermission('view_offer_payment_methods'),
         },
+        {
+          title: 'مهل دفع العرض',
+          to: { name: 'offer-deadlines-settings' },
+          show: hasPermission('view_offer_deadlines'),
+        },
       ],
     },
     {

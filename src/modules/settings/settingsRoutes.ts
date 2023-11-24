@@ -192,6 +192,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'offer-deadlines',
+    name: 'offer-deadlines-settings',
+    component: () => import('./pages/OfferDeadlinesPage.vue'),
+    meta: {
+      requiredPermission: 'view_offer_deadlines',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),

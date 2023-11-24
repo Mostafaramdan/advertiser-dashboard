@@ -72,3 +72,11 @@ export const OFFER_PAYMENT_METHODS = {
   on_delivery: 'دفع عند الإستلام',
   in_advance_by_platform: 'مقدما عن طريق المنصة',
 }
+
+// offer deadlines
+export const OFFER_DEADLINES_TIMES = {
+  request: 'الطلب',
+  request_approval: 'الموافقة على الطلب',
+  pricing_approval: 'الموافقة على التسعير',
+  receiving: 'الإستلام',
+}
