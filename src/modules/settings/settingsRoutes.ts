@@ -184,6 +184,14 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'offer-payment-methods',
+    name: 'offer-payment-methods-settings',
+    component: () => import('./pages/OfferPaymentMethodsPage.vue'),
+    meta: {
+      requiredPermission: 'view_offer_payment_methods',
+    },
+  },
+  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),

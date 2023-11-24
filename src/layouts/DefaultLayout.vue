@@ -259,6 +259,11 @@ const navItems = computed(() => {
           to: { name: 'views-prices-settings' },
           show: hasPermission('view_views_prices'),
         },
+        {
+          title: 'طرق دفع العرض',
+          to: { name: 'offer-payment-methods-settings' },
+          show: hasPermission('view_offer_payment_methods'),
+        },
       ],
     },
     {

@@ -1139,6 +1139,41 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'طرق دفع العرض',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_offer_payment_methods',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_offer_payment_method',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_offer_payment_method',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_offer_payment_method',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_offer_payment_method',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_offer_payment_method',
+          },
+        ],
+      },
     ],
   },
   {

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { OFFER_PAYMENT_METHODS } from '@/constants/settings'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import type { Unit } from '../interfaces/Unit'
-import UnitDetailsModal from '../modals/UnitDetailsModal.vue'
-import UnitFormModal from '../modals/UnitFormModal.vue'
-import { unitsService } from '../services/UnitsService'
+import type { OfferPaymentMethod } from '../interfaces/OfferPaymentMethod'
+import OfferPaymentMethodDetailsModal from '../modals/OfferPaymentMethodDetailsModal.vue'
+import OfferPaymentMethodFormModal from '../modals/OfferPaymentMethodFormModal.vue'
+import { offerPaymentMethodsService } from '../services/OfferPaymentMethodsService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -13,7 +14,7 @@ import { unitsService } from '../services/UnitsService'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'units'
+const MODEL_NAME = 'offer_payment_methods'
 
 const params = reactive({
   page: 1,
@@ -42,7 +43,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<Unit>(unitsService, params, MODEL_NAME)
+} = UseCrudHelpers<OfferPaymentMethod>(offerPaymentMethodsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -50,12 +51,16 @@ const headers: any = [
     key: 'sort',
   },
   {
-    title: 'الاسم عربي',
-    key: 'name.ar',
+    title: 'نسبة المقدم',
+    key: 'down_payment_percentage',
   },
   {
-    title: 'الاسم انجليزي',
-    key: 'name.en',
+    title: 'تسليم المقدم',
+    key: 'down_payment_delivering',
+  },
+  {
+    title: 'تسليم الباقي',
+    key: 'remaining_payment_delivering',
   },
   {
     title: 'الحالة',
@@ -75,11 +80,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_unit'),
-  edit: hasPermission('update_unit'),
-  delete: hasPermission('delete_unit'),
-  changeStatus: hasPermission('change_status_unit'),
-  sort: hasPermission('sort_unit'),
+  create: hasPermission('create_offer_payment_method'),
+  edit: hasPermission('update_offer_payment_method'),
+  delete: hasPermission('delete_offer_payment_method'),
+  changeStatus: hasPermission('change_status_offer_payment_method'),
+  sort: hasPermission('sort_offer_payment_method'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -98,14 +103,24 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-getPageData()
+// getPageData()
+tableData.value = [
+  {
+    id: 1,
+    sort: 1,
+    is_active: true,
+    down_payment_percentage: 20,
+    down_payment_delivering: 'in_advance_direct_to_merchant',
+    remaining_payment_delivering: 'in_advance_by_platform',
+  },
+]
 
 // #endregion
 </script>
 
 <template>
   <ConfirmModal ref="confirmModal" />
-  <UnitFormModal
+  <OfferPaymentMethodFormModal
     v-if="showFormModal"
     v-model:showModal="showFormModal"
     :form-action="FormAction"
@@ -113,8 +128,8 @@ getPageData()
     @create-item="onCreateItem"
     @edit-item="onEditItem"
   />
-  <UnitDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
-  <VCard title="الوحدات" class="page-card">
+  <OfferPaymentMethodDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+  <VCard title="طرق دفع العرض" class="page-card">
     <VCardText>
       <PageActions
         :page-actions-buttons="pageActionsButtons"
@@ -138,14 +153,25 @@ getPageData()
         class="app-table"
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
-        <template #item.name.ar="{ item }">
+        <template #item.down_payment_percentage="{ item }">
+          <div class="text-no-wrap">{{ item.down_payment_percentage }} %</div>
+        </template>
+        <template #item.down_payment_delivering="{ item }">
           <span style="min-inline-size: 150px">
-            {{ item.name.ar }}
+            {{
+              OFFER_PAYMENT_METHODS[
+                item.down_payment_delivering as keyof typeof OFFER_PAYMENT_METHODS
+              ]
+            }}
           </span>
         </template>
-        <template #item.name.en="{ item }">
+        <template #item.remaining_payment_delivering="{ item }">
           <span style="min-inline-size: 150px">
-            {{ item.name.en }}
+            {{
+              OFFER_PAYMENT_METHODS[
+                item.remaining_payment_delivering as keyof typeof OFFER_PAYMENT_METHODS
+              ]
+            }}
           </span>
         </template>
         <template #item.is_active="{ item }">
