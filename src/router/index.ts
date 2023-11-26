@@ -174,6 +174,33 @@ const router = createRouter({
       },
     },
     {
+      path: '/banners',
+      name: 'banners-page',
+      component: () => import('@/pages/BannersPage.vue'),
+      meta: {
+        layout: 'default',
+        requiredPermission: 'view_banners',
+      },
+    },
+    {
+      path: '/banners/create',
+      name: 'banners-create-page',
+      component: () => import('@/pages/BannerCreatePage.vue'),
+      meta: {
+        layout: 'default',
+        requiredPermission: 'create_banner',
+      },
+    },
+    {
+      path: '/banners/:id/edit',
+      name: 'banners-edit-page',
+      component: () => import('@/pages/BannerEditPage.vue'),
+      meta: {
+        layout: 'default',
+        requiredPermission: 'update_banner',
+      },
+    },
+    {
       path: '/coupons',
       name: 'coupons',
       component: () => import('@/modules/coupons/CouponsModule.vue'),

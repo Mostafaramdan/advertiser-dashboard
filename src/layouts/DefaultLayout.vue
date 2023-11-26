@@ -358,6 +358,12 @@ const navItems = computed(() => {
       show: true,
     },
     {
+      title: 'البنرات',
+      to: { name: 'banners-page' },
+      icon: { icon: 'tabler-photo-share' },
+      show: hasPermission('view_banners'),
+    },
+    {
       title: 'الكوبونات',
       icon: { icon: 'tabler-discount-2' },
       show: hasAtLeaseOnePermission([

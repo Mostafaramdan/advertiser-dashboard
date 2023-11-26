@@ -1532,7 +1532,7 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
     ],
   },
   {
-    title: 'الكوبونات',
+    title: 'الكوبونات و البنرات',
     groups: [
       {
         title: 'كوبونات المنصة',
@@ -1671,6 +1671,41 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'الاعتماد من المنصة',
             checked: false,
             key: 'change_confirm_status_store',
+          },
+        ],
+      },
+      {
+        title: 'البنرات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_banners',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_banner',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_banner',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_banner',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_banner',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_banner',
           },
         ],
       },

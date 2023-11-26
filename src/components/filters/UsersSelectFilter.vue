@@ -14,11 +14,13 @@ interface Props {
   userRole?: string | null
   id: string
   keyword?: string
+  locationStrategy?: 'static' | 'connected'
 }
 const props = withDefaults(defineProps<Props>(), {
   label: 'اختر مستخدم',
   userRole: 'user',
   keyword: '',
+  locationStrategy: 'static',
 })
 // #endregion
 
@@ -128,7 +130,7 @@ const handleDebounceSearch = debounce((value: any) => {
       :menu-props="{
         contentClass: `filter-select users-select-menu ${id}`,
         attach: usersSelectRef,
-        locationStrategy: 'static',
+        locationStrategy,
         maxHeight: '250px',
       }"
     >
