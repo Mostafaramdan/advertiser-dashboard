@@ -99,17 +99,7 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-// getPageData()
-tableData.value = [
-  {
-    id: 1,
-    sort: 1,
-    is_active: true,
-    hours: 20,
-    from_time: 'pricing_approval',
-  },
-]
-
+getPageData()
 // #endregion
 </script>
 

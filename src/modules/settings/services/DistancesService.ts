@@ -3,7 +3,7 @@ import axios from 'axios'
 import type { Distance, DistanceBase } from '../interfaces/Distance'
 
 class DistancesService {
-  contextPath = 'entities'
+  contextPath = 'distances'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {

@@ -3,8 +3,8 @@ import { cloneItem } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { Distance, DistanceBase } from '../interfaces/Distance'
-import { distancesService } from '../services/DistancesService'
+import type { ViewsPrice, ViewsPriceBase } from '../interfaces/ViewsPrice'
+import { viewsPricesService } from '../services/ViewsPricesService'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -22,8 +22,8 @@ const props = withDefaults(defineProps<FormModalProps>(), {
 // #region Emits
 const emit = defineEmits<{
   (e: 'update:showModal', value: boolean): void
-  (e: 'createItem', value: DistanceBase): void
-  (e: 'editItem', value: DistanceBase): void
+  (e: 'createItem', value: ViewsPriceBase): void
+  (e: 'editItem', value: ViewsPriceBase): void
 }>()
 
 // #endregion
@@ -38,8 +38,8 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<DistanceBase | Distance>({
-  value: '',
+const formData = reactive<ViewsPriceBase | ViewsPrice>({
+  price: '',
   is_active: true,
 })
 
@@ -72,11 +72,11 @@ if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
  **************************************/
 // #region Functions
 function edit() {
-  distancesService
-    .editItem(formData as Distance)
+  viewsPricesService
+    .editItem(formData as ViewsPrice)
     .then((res) => {
       toast.success(res.data.message)
-      emit('editItem', formData as Distance)
+      emit('editItem', formData as ViewsPrice)
       showModal.value = false
     })
     .finally(() => {
@@ -85,7 +85,7 @@ function edit() {
 }
 
 function create() {
-  distancesService
+  viewsPricesService
     .createItem(formData)
     .then((res) => {
       toast.success(res.data.message)
@@ -121,9 +121,9 @@ function submit() {
             <VRow>
               <VCol cols="12">
                 <AppTextField
-                  v-model="formData.value"
+                  v-model="formData.price"
                   label="قيمة السعر"
-                  name="value"
+                  name="price"
                   rules="required|numeric"
                 />
               </VCol>

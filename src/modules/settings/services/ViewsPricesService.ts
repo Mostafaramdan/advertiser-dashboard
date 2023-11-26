@@ -1,9 +1,9 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { Distance, DistanceBase } from '../interfaces/Distance'
+import type { ViewsPrice, ViewsPriceBase } from '../interfaces/ViewsPrice'
 
 class ViewsPricesService {
-  contextPath = 'entities'
+  contextPath = 'prices'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -11,12 +11,12 @@ class ViewsPricesService {
   }
 
   /** **************** post ******************/
-  createItem(data: DistanceBase): AxiosPromise {
+  createItem(data: ViewsPriceBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 
   /** **************** put ******************/
-  editItem(data: Distance): AxiosPromise {
+  editItem(data: ViewsPrice): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
   }
 

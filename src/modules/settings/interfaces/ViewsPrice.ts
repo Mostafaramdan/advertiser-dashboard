@@ -1,5 +1,5 @@
 export interface ViewsPriceBase {
-  value: string
+  price: string
   is_active: boolean
 }
 

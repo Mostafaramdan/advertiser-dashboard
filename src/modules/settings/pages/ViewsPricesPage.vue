@@ -13,7 +13,7 @@ import { viewsPricesService } from '../services/ViewsPricesService'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'views_prices'
+const MODEL_NAME = 'prices'
 
 const params = reactive({
   page: 1,
@@ -51,7 +51,7 @@ const headers: any = [
   },
   {
     title: 'قيمة السعر',
-    key: 'value',
+    key: 'price',
   },
   {
     title: 'الحالة',
@@ -134,9 +134,9 @@ getPageData()
         class="app-table"
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
-        <template #item.value="{ item }">
+        <template #item.price="{ item }">
           <div class="text-no-wrap">
-            {{ item.value }}
+            {{ item.price }}
           </div>
         </template>
         <template #item.is_active="{ item }">
