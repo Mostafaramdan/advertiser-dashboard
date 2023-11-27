@@ -1,7 +1,6 @@
 import { File } from '@/interfaces/Shared'
 
-export interface PlatformCoupon {
-  id?: number
+export interface PlatformCouponBase {
   code: string
   discount: number | null
   started_at: string
@@ -9,10 +8,14 @@ export interface PlatformCoupon {
   uses: number | null
   description: string
   marketer_ratio: number | null
-  is_active?: boolean
+  is_active: boolean
   image_id?: number | null
   image?: File | null
   type?: string
+}
+
+export interface PlatformCoupon extends PlatformCouponBase {
+  id: number
 }
 
 export interface SubscribersHistoryItem {

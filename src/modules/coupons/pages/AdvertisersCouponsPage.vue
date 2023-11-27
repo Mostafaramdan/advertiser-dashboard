@@ -6,7 +6,6 @@ import { formatUrl } from '@/helpers/index'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useCouponsStore } from '@/stores/CouponsStore'
-
 import type { AdvertiserCoupon } from '../interfaces/AdvertiserCoupon'
 import AdvertisersCouponDetailsModal from '../modals/AdvertisersCouponDetailsModal.vue'
 import AdvertisersCouponFormModal from '../modals/AdvertisersCouponFormModal.vue'

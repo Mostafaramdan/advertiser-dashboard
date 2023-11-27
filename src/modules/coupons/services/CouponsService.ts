@@ -1,7 +1,7 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
 import type { AdvertiserCouponFormProps } from '../interfaces/AdvertiserCoupon'
-import type { PlatformCoupon } from './../interfaces/PlatformCoupon'
+import type { PlatformCoupon, PlatformCouponBase } from './../interfaces/PlatformCoupon'
 import type { UserCoupon } from './../interfaces/UsersCoupon'
 
 class CouponsService {
@@ -25,7 +25,7 @@ class CouponsService {
   }
 
   /** **************** post ******************/
-  createItem(data: PlatformCoupon | AdvertiserCouponFormProps | UserCoupon): AxiosPromise {
+  createItem(data: PlatformCouponBase | AdvertiserCouponFormProps | UserCoupon): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 

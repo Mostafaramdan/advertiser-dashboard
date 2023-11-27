@@ -5,7 +5,7 @@ import type { FormModalProps } from '@/interfaces/Forms'
 import type { File } from '@/interfaces/Shared'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { PlatformCoupon } from '../interfaces/PlatformCoupon'
+import type { PlatformCoupon, PlatformCouponBase } from '../interfaces/PlatformCoupon'
 import { couponsService } from '../services/CouponsService'
 
 /***************************************
@@ -40,7 +40,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<PlatformCoupon>({
+const formData = reactive<PlatformCoupon | PlatformCouponBase>({
   code: '',
   is_active: true,
   image: null,
@@ -64,8 +64,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة كوبون'
     : props.formAction === 'edit'
-    ? 'تعديل كوبون'
-    : 'عرض كوبون'
+      ? 'تعديل كوبون'
+      : 'عرض كوبون'
 })
 
 // #endregion
@@ -79,9 +79,14 @@ if (props.activeItem) {
 }
 
 // #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
 function edit() {
   couponsService
-    .editItem(formData)
+    .editItem(formData as PlatformCoupon)
     .then((res) => {
       toast.success(res.data.message)
       emit('editItem', res.data.data)
@@ -109,7 +114,7 @@ function updateImageId(image: File) {
   if (image) formData.image_id = image.id
 }
 
-const submit = () => {
+function submit() {
   formRef.value.validate().then(({ valid }: any) => {
     if (!valid) return
 
@@ -117,6 +122,7 @@ const submit = () => {
     props.formAction === 'create' ? create() : edit()
   })
 }
+// #endregion
 </script>
 
 <template>
@@ -204,8 +210,8 @@ const submit = () => {
                       minDate: formData.started_at
                         ? new Date(formData.started_at)
                         : formAction === 'create'
-                        ? new Date()
-                        : null,
+                          ? new Date()
+                          : null,
                     }"
                     @update:model-value="handleChange"
                   />

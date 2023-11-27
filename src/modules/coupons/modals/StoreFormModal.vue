@@ -4,7 +4,7 @@ import type { FormModalProps } from '@/interfaces/Forms'
 import type { File } from '@/interfaces/Shared'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { Store } from '../interfaces/Store'
+import type { Store, StoreBase } from '../interfaces/Store'
 import { storesService } from '../services/StoresService'
 
 /***************************************
@@ -39,7 +39,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<Store>({
+const formData = reactive<Store | StoreBase>({
   is_active: true,
   from_app: true,
   image: null,
@@ -60,8 +60,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة متجر'
     : props.formAction === 'edit'
-    ? 'تعديل متجر'
-    : 'عرض متجر'
+      ? 'تعديل متجر'
+      : 'عرض متجر'
 })
 
 // #endregion
@@ -77,7 +77,7 @@ if (props.activeItem) {
 // #endregion
 function edit() {
   storesService
-    .editItem(formData)
+    .editItem(formData as Store)
     .then((res) => {
       toast.success(res.data.message)
       emit('editItem', res.data.data)

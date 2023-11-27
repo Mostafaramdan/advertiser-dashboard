@@ -5,7 +5,6 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { COUPONS_TYPES } from '@/constants/coupons'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-
 import type { PlatformCoupon } from '../interfaces/PlatformCoupon'
 import PlatformCouponDetailsModal from '../modals/PlatformCouponDetailsModal.vue'
 import PlatformCouponFormModal from '../modals/PlatformCouponFormModal.vue'

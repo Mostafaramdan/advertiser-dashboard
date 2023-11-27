@@ -3,7 +3,6 @@ a
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-
 import type { Store } from '../interfaces/Store'
 import StoreDetailsModal from '../modals/StoreDetailsModal.vue'
 import StoreFormModal from '../modals/StoreFormModal.vue'
