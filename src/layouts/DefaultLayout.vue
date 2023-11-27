@@ -364,6 +364,12 @@ const navItems = computed(() => {
       show: hasPermission('view_banners'),
     },
     {
+      title: 'العروض',
+      to: { name: 'offers-page' },
+      icon: { icon: 'tabler-basket-discount' },
+      show: hasPermission('view_offers'),
+    },
+    {
       title: 'الكوبونات',
       icon: { icon: 'tabler-discount-2' },
       show: hasAtLeaseOnePermission([

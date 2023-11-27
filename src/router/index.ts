@@ -201,6 +201,42 @@ const router = createRouter({
       },
     },
     {
+      path: '/offers',
+      name: 'offers-page',
+      component: () => import('@/pages/OffersPage.vue'),
+      meta: {
+        layout: 'default',
+        requiredPermission: 'view_offers',
+      },
+    },
+    {
+      path: '/offers/create',
+      name: 'offer-create-page',
+      component: () => import('@/pages/OfferCreatePage.vue'),
+      meta: {
+        layout: 'default',
+        requiredPermission: 'create_offer',
+      },
+    },
+    {
+      path: '/offers/:id/edit',
+      name: 'offer-edit-page',
+      component: () => import('@/pages/OfferEditPage.vue'),
+      meta: {
+        layout: 'default',
+        requiredPermission: 'update_offer',
+      },
+    },
+    {
+      path: '/offers/:id/details',
+      name: 'offer-details-page',
+      component: () => import('@/pages/OfferDetailsPage.vue'),
+      meta: {
+        layout: 'default',
+        requiredPermission: 'update_offer',
+      },
+    },
+    {
       path: '/coupons',
       name: 'coupons',
       component: () => import('@/modules/coupons/CouponsModule.vue'),
