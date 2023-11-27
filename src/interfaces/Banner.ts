@@ -16,7 +16,18 @@ export interface BannerBase {
   linkable_id: null | number
 }
 
+type AdvertiserModel = {
+  id: number
+  username: string
+}
+
+type OfferModel = {
+  id: number
+  name: string
+}
+
 export interface Banner extends BannerBase {
   id: number
   sort: number
+  model: AdvertiserModel | OfferModel
 }

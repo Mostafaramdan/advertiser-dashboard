@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LINK_TYPES } from '@/constants/banners'
+import { LINKABLE_TYPES, LINK_TYPES } from '@/constants/banners'
 import { FILES_TYPES } from '@/constants/index'
 import { getFileType } from '@/helpers/file'
 import { formatUrl } from '@/helpers/index'
@@ -38,7 +38,7 @@ const showModal = useVModel(props, 'showModal', emit)
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-const isVideo = computed(() => props.activeItem?.type === 'video')
+const isImage = computed(() => getFileType(props.activeItem.file.mimetype) === FILES_TYPES.image)
 // #endregion
 
 /***************************************
@@ -75,13 +75,11 @@ const isVideo = computed(() => props.activeItem?.type === 'video')
               <VListItem class="px-2 py-2" title="نوع الملف" border>
                 <div class="my-2">
                   <VChip variant="outlined" color="primary" label v-if="activeItem.file">
-                    {{
-                      getFileType(activeItem.file.mimetype) === FILES_TYPES.image ? 'صورة' : 'فيديو'
-                    }}
+                    {{ isImage ? 'صورة' : 'فيديو' }}
                   </VChip>
                 </div>
-                <video v-if="isVideo" controls :src="activeItem.file.path" class="w-100 my-2" />
-                <VImg v-else :src="activeItem.file.path" max-width="100" class="my-2" />
+                <VImg v-if="isImage" :src="activeItem.file.path" max-width="100" class="my-2" />
+                <video v-else controls :src="activeItem.file.path" class="w-100 my-2" />
               </VListItem>
               <VListItem
                 class="px-2 py-2"
@@ -102,6 +100,43 @@ const isVideo = computed(() => props.activeItem?.type === 'video')
                   >{{ activeItem.external_link }}</a
                 >
               </VListItem>
+
+              <template v-else-if="activeItem.link_type === 'internal'">
+                <VListItem
+                  class="px-2 py-2"
+                  title="نوع الربط"
+                  :subtitle="
+                    LINKABLE_TYPES[activeItem.linkable_type as keyof typeof LINKABLE_TYPES]
+                  "
+                  border
+                />
+
+                <VListItem
+                  class="px-2 py-2"
+                  title="المعلن"
+                  border
+                  v-if="activeItem.linkable_type === 'users'"
+                >
+                  <router-link
+                    :to="{
+                      name: 'advertisers-profile-page',
+                      params: { id: activeItem.model.id },
+                      query: { tab: 'details' },
+                    }"
+                    class="d-inline-flex"
+                  >
+                    {{ activeItem.model.username }}
+                  </router-link></VListItem
+                >
+                <!-- TODO: add offer link after creating offers page -->
+                <VListItem
+                  v-else-if="activeItem.linkable_type === 'offers'"
+                  class="px-2 py-2"
+                  title="العرض"
+                  :subtitle="activeItem.model.name"
+                  border
+                />
+              </template>
             </VList>
             <AppSwitch :model-value="activeItem.is_active" label="الحالة" name="is_active" />
           </VCardText>

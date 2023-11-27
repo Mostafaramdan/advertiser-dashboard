@@ -11,14 +11,12 @@ import { debounce } from 'lodash'
 interface Props {
   modelValue: any
   label?: string
-  userRole?: string | null
   id: string
   keyword?: string
   locationStrategy?: 'static' | 'connected'
 }
 const props = withDefaults(defineProps<Props>(), {
-  label: 'اختر مستخدم',
-  userRole: 'user',
+  label: 'اختر عرض',
   keyword: '',
   locationStrategy: 'static',
 })
@@ -43,7 +41,6 @@ const params: any = reactive({
   page: 1,
   itemPerPage: 20,
   keyword: props.keyword,
-  role: props.userRole,
 })
 // #endregion
 
@@ -79,7 +76,7 @@ onMounted(() => {
 function getData() {
   isLoading.value = true
   listService
-    .getUsers(params)
+    .getOffers(params)
     .then((res) => {
       const { data, meta } = res.data
       if (params.page === 1) usersList.value = data
@@ -128,7 +125,7 @@ const handleDebounceSearch = debounce((value: any) => {
       v-bind="$attrs"
       v-model="selectedValue"
       :menu-props="{
-        contentClass: `filter-select users-select-menu ${id}`,
+        contentClass: `filter-select dropdown-select-menu ${id}`,
         attach: usersSelectRef,
         locationStrategy,
         maxHeight: '250px',
@@ -165,7 +162,7 @@ const handleDebounceSearch = debounce((value: any) => {
   inset-block-start: 0;
 }
 
-:deep(.users-select-menu) {
+:deep(.dropdown-select-menu) {
   inline-size: 100%;
   inset-block-start: 100%;
 

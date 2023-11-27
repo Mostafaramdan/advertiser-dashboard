@@ -80,6 +80,10 @@ class ListService {
   getEmployeesRoles(): AxiosPromise {
     return axios.get(`${this.contextPath}/roles`)
   }
+
+  getOffers(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/offers`, { params })
+  }
 }
 
 export const listService = new ListService()

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { LINK_TYPES, LINKABLE_TYPES } from '@/constants/banners'
-import { getOptionsArrayFromObject } from '@/helpers/index'
+import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { Banner, BannerBase } from '@/interfaces/Banner'
 import type { FormActionType } from '@/interfaces/Forms'
 import type { File } from '@/interfaces/Shared'
@@ -37,6 +37,7 @@ const route = useRoute()
 const router = useRouter()
 const formRef = ref<any>(null)
 const bannerId: number = +route.params.id
+const linkableKeyword = ref('')
 
 const isLoading = reactive({
   data: false,
@@ -88,7 +89,7 @@ function getBannerData() {
   bannersService
     .getSingleItem(bannerId)
     .then((res) => {
-      Object.assign(formData, res.data.data)
+      prepareFormData(res.data.data)
     })
     .finally(() => {
       isLoading.data = false
@@ -99,6 +100,24 @@ function initData() {
   if (props.formAction === 'edit') getBannerData()
 }
 
+function prepareFormData(data: any) {
+  if (data.file) {
+    data.file_id = data.file?.id
+    delete data.file.id
+  }
+  if (data.model) {
+    data.linkable_id = data.model.id
+    linkableKeyword.value = data.model.name || data.model.username
+    delete data.model
+  }
+
+  Object.assign(formData, data)
+  // reset linkable keyword
+  nextTick(() => {
+    linkableKeyword.value = ''
+  })
+}
+
 function goToBannersPage() {
   router.push({ name: 'banners-page' })
 }
@@ -107,12 +126,25 @@ function updateFileId(file: File) {
   if (file) formData.file_id = file.id
 }
 
-function edit() {
+function getFormData(): BannerBase | Banner {
+  const payload = cloneItem(formData)
+  if (!payload.linkable_type) delete payload.linkable_type
+  if (!payload.linkable_id) delete payload.linkable_id
+  if (!payload.external_link) delete payload.external_link
+  return payload
+}
+
+function resetLinkableData() {
+  formData.linkable_id = null
+  formData.external_link = null
+}
+
+function edit(payload: Banner) {
   bannersService
-    .editItem(formData as Banner)
+    .editItem(payload)
     .then((res) => {
       toast.success(res.data.message)
-      emit('editItem', formData as Banner)
+      emit('editItem', payload)
       goToBannersPage()
     })
     .finally(() => {
@@ -120,9 +152,9 @@ function edit() {
     })
 }
 
-function create() {
+function create(payload: BannerBase) {
   bannersService
-    .createItem(formData)
+    .createItem(payload)
     .then((res) => {
       toast.success(res.data.message)
       emit('createItem', res.data)
@@ -138,7 +170,8 @@ function submit() {
     if (!valid) return
 
     isLoading.submit = true
-    props.formAction === 'create' ? create() : edit()
+    const payload = getFormData()
+    props.formAction === 'create' ? create(payload) : edit(payload as Banner)
   })
 }
 // #endregion
@@ -252,6 +285,7 @@ function submit() {
                 item-title="label"
                 item-value="value"
                 clearable
+                @update:model-value="resetLinkableData"
               />
             </VCol>
 
@@ -275,6 +309,7 @@ function submit() {
                   item-title="label"
                   item-value="value"
                   clearable
+                  @update:model-value="resetLinkableData"
                 />
               </VCol>
 
@@ -299,6 +334,32 @@ function submit() {
                     @blur="handleBlur"
                     clearable
                     location-strategy="connected"
+                    :keyword="linkableKeyword"
+                  />
+                </VeeField>
+              </VCol>
+
+              <VCol cols="12" v-else-if="formData.linkable_type === 'offers'">
+                <VeeField
+                  v-slot="{ errorMessage, value, handleChange, handleBlur }"
+                  v-model="formData.linkable_id"
+                  name="linkable_id"
+                  label="العرض"
+                  rules="required"
+                >
+                  <VLabel class="text-body-2 text-high-emphasis" text="العرض" />
+                  <OffersSelectFilter
+                    label=""
+                    :model-value="value"
+                    :error-messages="errorMessage"
+                    :error="!!errorMessage"
+                    id="offers-select-filter"
+                    class="mt-2"
+                    @update:model-value="handleChange"
+                    @blur="handleBlur"
+                    clearable
+                    location-strategy="connected"
+                    :keyword="linkableKeyword"
                   />
                 </VeeField>
               </VCol>
