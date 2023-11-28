@@ -233,7 +233,7 @@ const router = createRouter({
       component: () => import('@/pages/OfferDetailsPage.vue'),
       meta: {
         layout: 'default',
-        requiredPermission: 'update_offer',
+        requiredPermission: 'view_offers',
       },
     },
     {

@@ -84,6 +84,10 @@ class ListService {
   getOffers(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/offers`, { params })
   }
+
+  getUnits(): AxiosPromise {
+    return axios.get(`${this.contextPath}/units`)
+  }
 }
 
 export const listService = new ListService()
