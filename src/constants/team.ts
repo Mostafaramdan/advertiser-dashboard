@@ -1532,7 +1532,7 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
     ],
   },
   {
-    title: 'الكوبونات و البنرات',
+    title: 'الكوبونات',
     groups: [
       {
         title: 'كوبونات المنصة',
@@ -1671,6 +1671,56 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'الاعتماد من المنصة',
             checked: false,
             key: 'change_confirm_status_store',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'العروض و البنرات',
+    groups: [
+      {
+        title: 'العروض',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_offers',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_offer',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_offer',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_offer',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_offer',
+          },
+          {
+            label: 'قبول',
+            checked: false,
+            key: 'accept_offer',
+          },
+          {
+            label: 'رفض',
+            checked: false,
+            key: 'reject_offer',
+          },
+          {
+            label: 'إعادة نشر',
+            checked: false,
+            key: 'repost_offer',
           },
         ],
       },
