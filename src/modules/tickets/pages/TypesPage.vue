@@ -4,7 +4,6 @@ import { USERS_TYPES } from '@/constants/tickets'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useTicketsStore } from '@/stores/TicketsStore'
-
 import type { Type } from '../interfaces/Type'
 import TypeDetailsModal from '../modals/TypeDetailsModal.vue'
 import TypeFormModal from '../modals/TypeFormModal.vue'

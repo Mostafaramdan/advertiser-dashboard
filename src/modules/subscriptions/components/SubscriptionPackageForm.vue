@@ -58,8 +58,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة باقة'
     : props.formAction === 'edit'
-    ? 'تعديل باقة'
-    : 'عرض باقة'
+      ? 'تعديل باقة'
+      : 'عرض باقة'
 })
 
 // at least one period must be active
@@ -356,12 +356,16 @@ function drop(event: DragEvent, listIndex: string, itemIndex: number, items: any
                   <VCheckbox
                     label="تفعيل الكل"
                     :model-value="group.items.every((item: any) => item.checked)"
-                    @update:model-value="toggleGroupItems($event, 'checked', group.items)"
+                    @update:model-value="
+                      toggleGroupItems($event as boolean, 'checked', group.items)
+                    "
                   />
                   <VCheckbox
                     label="اظهار الكل"
                     :model-value="group.items.every((item: any) => item.is_visible)"
-                    @update:model-value="toggleGroupItems($event, 'is_visible', group.items)"
+                    @update:model-value="
+                      toggleGroupItems($event as boolean, 'is_visible', group.items)
+                    "
                   />
                 </div>
               </div>

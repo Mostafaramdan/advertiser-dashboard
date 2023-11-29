@@ -30,7 +30,7 @@ class ListService {
   }
 
   getPackagePeriods(package_id: number): AxiosPromise {
-    return axios.get(`${this.contextPath}/get_periods_of_packages?package_id=${package_id}`)
+    return axios.get(`${this.contextPath}/periods_of_packages?package_id=${package_id}`)
   }
 
   getCategories(params: any = {}): AxiosPromise {
@@ -38,7 +38,7 @@ class ListService {
   }
 
   getUsers(params: any): AxiosPromise {
-    return axios.get(`${this.contextPath}/get_users`, { params })
+    return axios.get(`${this.contextPath}/users`, { params })
   }
 
   getStores(): AxiosPromise {

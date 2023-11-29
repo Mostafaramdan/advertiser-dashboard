@@ -4,7 +4,6 @@ import { USERS_ROLES } from '@/constants/index'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useDisputesStore } from '@/stores/DisputesStore'
-
 import type { Type } from '../interfaces/Type'
 import TypeDetailsModal from '../modals/TypeDetailsModal.vue'
 import TypeFormModal from '../modals/TypeFormModal.vue'
@@ -156,7 +155,7 @@ getPageData()
         <template #item.admins="{ item }">
           <div class="d-flex">
             <VChip variant="outlined" color="primary" label>
-              {{ item.admins[0].label }}
+              {{ item.admins[0]?.label }}
             </VChip>
             <span class="ms-1" v-if="item.admins.length > 1"> +{{ item.admins.length - 1 }}</span>
           </div>

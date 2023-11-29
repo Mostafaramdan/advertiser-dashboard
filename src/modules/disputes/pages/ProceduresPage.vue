@@ -3,7 +3,6 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { DISPUTES_STATUSES } from '@/constants/disputes'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-
 import type { Procedure } from '../interfaces/Procedure'
 import ProcedureDetailsModal from '../modals/ProcedureDetailsModal.vue'
 import ProcedureFormModal from '../modals/ProcedureFormModal.vue'
@@ -148,7 +147,7 @@ getPageData()
         <template #item.status="{ item }">
           <div class="d-flex">
             <VChip variant="outlined" color="primary" label>
-              {{ DISPUTES_STATUSES.get(item.status)?.label }}
+              {{ DISPUTES_STATUSES.get(item.status as string)?.label }}
             </VChip>
           </div>
         </template>

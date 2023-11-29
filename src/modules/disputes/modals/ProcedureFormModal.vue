@@ -4,7 +4,7 @@ import { cloneItem } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { Procedure } from '../interfaces/Procedure'
+import type { Procedure, ProcedureBase } from '../interfaces/Procedure'
 import { proceduresService } from '../services/ProceduresService'
 
 /***************************************
@@ -39,7 +39,7 @@ const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
 const formRef = ref<any>(null)
 
-const formData = reactive<Procedure>({
+const formData = reactive<Procedure | ProcedureBase>({
   name: '',
   status: null,
   is_active: true,
@@ -55,8 +55,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة إجراء'
     : props.formAction === 'edit'
-    ? 'تعديل إجراء'
-    : 'عرض إجراء'
+      ? 'تعديل إجراء'
+      : 'عرض إجراء'
 })
 
 // #endregion
@@ -77,7 +77,7 @@ if (props.activeItem) {
 // #region Functions
 function edit() {
   proceduresService
-    .editItem(formData)
+    .editItem(formData as Procedure)
     .then((res) => {
       toast.success(res.data.message)
       emit('editItem', res.data.data)

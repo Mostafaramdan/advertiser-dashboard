@@ -6,7 +6,7 @@ import { listService } from '@/services/ListService'
 import { useTicketsStore } from '@/stores/TicketsStore'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
-import type { Type } from '../interfaces/Type'
+import type { Type, TypeFormData } from '../interfaces/Type'
 import { typesService } from '../services/TypesService'
 
 /***************************************
@@ -46,7 +46,7 @@ const isLoading = reactive({
   submit: false,
 })
 
-const formData = reactive<Type>({
+const formData = reactive<Type | TypeFormData>({
   name: '',
   user_types: [],
   admins: [],
@@ -63,8 +63,8 @@ const formTitle = computed(() => {
   return props.formAction === 'create'
     ? 'اضافة نوع'
     : props.formAction === 'edit'
-    ? 'تعديل نوع'
-    : 'عرض نوع'
+      ? 'تعديل نوع'
+      : 'عرض نوع'
 })
 
 const adminsList = computed(() => ticketsStore.adminsList)
@@ -102,7 +102,7 @@ function getAdminsList() {
 
 function edit() {
   typesService
-    .editItem(formData)
+    .editItem(formData as Type)
     .then((res) => {
       toast.success(res.data.message)
       emit('editItem', res.data.data)
@@ -115,7 +115,7 @@ function edit() {
 
 function create() {
   typesService
-    .createItem(formData)
+    .createItem(formData as TypeFormData)
     .then((res) => {
       toast.success(res.data.message)
       emit('createItem', res.data)

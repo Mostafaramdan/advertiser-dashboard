@@ -4,7 +4,6 @@ import { USERS_TYPES } from '@/constants/tickets'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useTicketsStore } from '@/stores/TicketsStore'
-
 import type { Category } from '../interfaces/Category'
 import CategoryDetailsModal from '../modals/CategoryDetailsModal.vue'
 import CategoryFormModal from '../modals/CategoryFormModal.vue'
