@@ -1722,6 +1722,11 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             checked: false,
             key: 'repost_offer',
           },
+          {
+            label: 'عرض السجل',
+            checked: false,
+            key: 'view_offer_logs',
+          },
         ],
       },
       {

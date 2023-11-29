@@ -194,7 +194,7 @@ function openNotificationModal(user: User) {
           <template #item.offer_type="{ item }">
             <div style="min-inline-size: 120px">
               <span>{{ OFFER_TYPES.get(item.offer_type)?.label }}</span>
-              <span class="text-sm text-disabled d-block"> TODO: Category name</span>
+              <span class="text-sm text-disabled d-block">{{ item.category_name }}</span>
             </div>
           </template>
           <template #item.discount_price="{ item }">

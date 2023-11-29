@@ -1,1 +1,7 @@
-<template>TODO</template>
+<script setup lang="ts">
+import OfferForm from '@/components/offers/OfferForm.vue'
+</script>
+
+<template>
+  <OfferForm form-action="create" />
+</template>

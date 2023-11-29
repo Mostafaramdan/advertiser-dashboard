@@ -19,5 +19,5 @@ export const PRODUCT_STATUSES = new Map([
 
 export const STORES_TYPES = new Map([
   ['website', { label: 'متجر إلكتروني' }],
-  ['متجر إلكتروني', { label: 'منفذ بيع' }],
+  ['marketplace', { label: 'منفذ بيع' }],
 ])

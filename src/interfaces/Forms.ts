@@ -31,7 +31,7 @@ export interface FormFileProps {
   modelValue: any
   name: string
   label: string
-  rules: string
+  rules?: string
   hideLabel?: boolean
   acceptedTypes?: string[]
   maxFileSize?: number
