@@ -60,7 +60,7 @@ export interface PageTabNavItem {
 export interface Location {
   lat: number
   lng: number
-  name: string
+  address: string
 }
 export interface GeoLocationModalProps {
   showModal: boolean

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import GeoLocationModal from '@/components/shared/GeoLocationModal.vue'
+import type { Location } from '@/interfaces/Shared'
 import { listService } from '@/services/ListService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
@@ -51,9 +52,9 @@ const formData = reactive<PlatformFormData | any>({
     value: '',
     show: true,
   },
-  address: {
+  location: {
     value: {
-      name: '',
+      address: '',
       lat: null,
       lng: null,
     },
@@ -107,8 +108,8 @@ function toggleShow(field: string): void {
   formData[field].show = !formData[field].show
 }
 
-function updateAddress(address: any) {
-  formData.address.value = { ...address }
+function updateLocation(location: Location) {
+  formData.location.value = { ...location }
 }
 
 function getCountries() {
@@ -165,8 +166,8 @@ function submit() {
     <GeoLocationModal
       v-if="showGeoLocationModal"
       v-model:showModal="showGeoLocationModal"
-      :location="{ ...formData.address.value }"
-      @update:location="updateAddress"
+      :location="{ ...formData.location.value }"
+      @update:location="updateLocation"
     />
     <VRow>
       <VCol col="12" md="6" lg="5" class="mb-4">
@@ -262,7 +263,7 @@ function submit() {
               </VCol>
               <VCol cols="12">
                 <AppTextField
-                  v-model="formData.address.value.name"
+                  v-model="formData.location.value.address"
                   label="العنوان"
                   name="location"
                   rules="required|min:3"
@@ -277,9 +278,9 @@ function submit() {
                     />
                   </template>
                   <template #append>
-                    <VBtn size="38" variant="outlined" @click="toggleShow('address')">
+                    <VBtn size="38" variant="outlined" @click="toggleShow('location')">
                       <VIcon
-                        :icon="formData.address.show ? 'tabler-eye' : 'tabler-eye-off'"
+                        :icon="formData.location.show ? 'tabler-eye' : 'tabler-eye-off'"
                         size="22"
                       />
                     </VBtn>

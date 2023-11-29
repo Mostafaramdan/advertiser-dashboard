@@ -249,10 +249,10 @@ async function showConfirmDeleteModal(): Promise<void> {
                         class="content-list__link"
                         :href="`https://www.google.com/maps/search/?api=1&query=${item.value.lat},${item.value.lng}`"
                         target="_blank"
-                        >{{ item.value.name }}</a
+                        >{{ item.value.address }}</a
                       >
                       <span v-else>
-                        {{ item.value.name }}
+                        {{ item.value.address }}
                       </span>
                     </template>
                     <template v-else-if="item.key === 'image'">

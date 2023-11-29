@@ -40,7 +40,7 @@ const autoComplete = ref<any>(null)
 const location = reactive<Location>({
   lat: props.location.lat || 24.774265,
   lng: props.location.lng || 46.738586,
-  name: props.location.name,
+  address: props.location.address,
 })
 
 const loader = new Loader({
@@ -75,7 +75,7 @@ function onPlaceChanged(): void {
   const lat = geometry.location.lat()
   const lng = geometry.location.lng()
 
-  location.name = name
+  location.address = name
   location.lat = lat
   location.lng = lng
   marker.value.setPosition({
@@ -106,7 +106,7 @@ function getLocationName(lat: number, lng: number): void {
       if (status === 'OK' && results[0]) {
         const locationName = results[0].formatted_address
 
-        location.name = locationName
+        location.address = locationName
       }
     },
   )
@@ -122,7 +122,7 @@ function initGoogle(): void {
     lng: location.lng,
   }
 
-  if (!location.name) getLocationName(location.lat, location.lng)
+  if (!location.address) getLocationName(location.lat, location.lng)
 
   map.value = new google.maps.Map(mapRef.value, {
     center: latLng,
@@ -201,7 +201,7 @@ function save() {
       <div>
         <VCard title="حدد موقعك على الخريطة">
           <VCardText>
-            <VTextField id="autoCompleteRef" v-model="location.name" placeholder="بحث">
+            <VTextField id="autoCompleteRef" v-model="location.address" placeholder="بحث">
               <template #append>
                 <VBtn size="38" variant="outlined" @click="getUserLocation">
                   <VIcon icon=" tabler-current-location " size="22" />

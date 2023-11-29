@@ -70,7 +70,7 @@ const formData = reactive<EmployeeFormProps>({
   role_category_id: null,
   roles: [],
   location: {
-    name: '',
+    address: '',
     lat: 0,
     lng: 0,
   },
@@ -423,7 +423,7 @@ function submit() {
               </VCol>
               <VCol cols="12" md="6">
                 <AppTextField
-                  v-model="formData.location.name"
+                  v-model="formData.location.address"
                   label="العنوان"
                   placeholder="العنوان"
                   name="location"

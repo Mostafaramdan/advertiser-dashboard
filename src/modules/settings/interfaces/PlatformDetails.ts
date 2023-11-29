@@ -1,4 +1,4 @@
-import type { File } from '@/interfaces/Shared'
+import type { File, Location } from '@/interfaces/Shared'
 
 export interface PlatformInfo {
   verified_users: number
@@ -24,7 +24,10 @@ export interface PlatformFormData {
   name_en: platformFormItem
   email: platformFormItem
   unified_number: platformFormItem
-  address: platformFormItem
+  address: {
+    value: Location
+    show: boolean
+  }
   fax: platformFormItem
   whatsapp: platformFormItem
   tax_registration_number: platformFormItem
