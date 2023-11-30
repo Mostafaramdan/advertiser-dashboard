@@ -12,9 +12,9 @@ export const OFFER_TYPES = new Map([
 ])
 
 export const PRODUCT_STATUSES = new Map([
-  ['new', { label: 'جديد' }],
-  ['used', { label: 'مستعمل' }],
-  ['expiry', { label: 'بتاريخ صلاحية' }],
+  ['new_product', { label: 'جديد' }],
+  ['used_product', { label: 'مستعمل' }],
+  ['expires_soon', { label: 'بتاريخ صلاحية' }],
 ])
 
 export const STORES_TYPES = new Map([

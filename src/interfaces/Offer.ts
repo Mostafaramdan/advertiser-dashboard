@@ -1,4 +1,4 @@
-import type { File } from './Shared'
+import type { DropdownMenuItem, File, Location } from './Shared'
 export interface User {
   id: number
   username: string
@@ -26,44 +26,21 @@ export interface Offer {
   is_deleted: boolean
 }
 
-export interface OfferFormData {
+export interface OfferDetailsBase {
   image: File | null
-  image_id: number | null
   name: string
-  offer_type: OfferType | null
   from_date: string
   to_date: string
-  user_id: number | null
-  category_id: number | null
-  description: string
-  product_condition: null | 'new_product' | 'used_product' | 'expires_soon'
-  used_description: string
   expire_date: string
   is_active: boolean
   hide_contact_data: boolean
+  description: string
+  location: Location
   store: {
     name: string
     url: string
     type: null | 'website' | 'marketplace'
   }
-  location: {
-    lat: number
-    lng: number
-    address: string
-  }
-  countries: number[]
-  areas: number[]
-  main_unit_id: number | null
-  sub_unit_id: number | null
-  sub_unit_value: number | null
-  main_price: number | null
-  discount_price: number | null
-  offer_quantity: number | null
-  show_offer_quantity: boolean
-  available_quantity: number | null
-  show_available_quantity: boolean
-  minimum_quantity: number | null
-  maximum_quantity: number | null
   responsible: {
     name: string
     email: string
@@ -72,6 +49,27 @@ export interface OfferFormData {
     hide_email: boolean
     hide_phone: boolean
   }
+  offer_type: OfferType | null
+  product_condition: null | 'new_product' | 'used_product' | 'expires_soon'
+  main_price: number | null
+  discount_price: number | null
+  offer_quantity: number | null
+  show_offer_quantity: boolean
+  available_quantity: number | null
+  show_available_quantity: boolean
+  minimum_quantity: number | null
+  maximum_quantity: number | null
+  sub_unit_value: number | null
+}
+
+export interface OfferFormData extends OfferDetailsBase {
+  image_id: number | null
+  user_id: number | null
+  category_id: number | null
+  countries: number[]
+  areas: number[]
+  main_unit_id: number | null
+  sub_unit_id: number | null
   prices: {
     minimum_quantity: number | null
     maximum_quantity: number | null
@@ -79,4 +77,22 @@ export interface OfferFormData {
   }[]
   attachments: number[]
   attachmentsFiles: File[] | any[]
+}
+
+export interface OfferDetails extends OfferDetailsBase {
+  user: User
+  category: DropdownMenuItem
+  countries: DropdownMenuItem[]
+  areas: DropdownMenuItem[]
+  main_unit: DropdownMenuItem
+  sub_unit: DropdownMenuItem
+  prices: {
+    minimum_quantity: number
+    maximum_quantity: number
+    price: number
+  }
+  attachments: File[]
+  created_at: string
+  is_deleted: boolean
+  status: string
 }

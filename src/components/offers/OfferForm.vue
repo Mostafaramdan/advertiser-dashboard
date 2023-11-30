@@ -57,7 +57,6 @@ const formData = reactive<OfferFormData>({
   category_id: null,
   description: '',
   product_condition: null,
-  used_description: '',
   expire_date: '',
   is_active: true,
   hide_contact_data: false,
@@ -196,8 +195,8 @@ function prepareFormData(data: any) {
   data.main_unit_id = data.main_unit.id
   data.sub_unit_id = data.sub_unit.id
   data.category_id = data.category.id
-  data.image_id = data.image.id
-  delete data.image.id
+  data.image_id = data.image?.id
+  delete data.image?.id
   data.attachmentsFiles = data.attachments.map((attachment: File) => attachment)
 
   Object.assign(formData, data)
@@ -223,7 +222,6 @@ function goToOffersPage() {
 }
 
 function onProductStatusChange() {
-  formData.used_description = ''
   formData.expire_date = ''
 }
 
@@ -288,6 +286,7 @@ function getFormData() {
   delete payload.image
   payload.attachments = payload.attachmentsFiles.map((attachment: File) => attachment.id)
   delete payload.attachmentsFiles
+  if (!payload.expire_date) delete payload.expire_date
 
   return payload
 }
@@ -478,16 +477,7 @@ function submit() {
                 @update:model-value="onProductStatusChange"
               />
             </VCol>
-            <VCol cols="12" v-if="formData.product_condition === 'used_product'">
-              <AppTextarea
-                v-model="formData.used_description"
-                name="used_description"
-                label="وصف الاستخدام"
-                rows="4"
-                rules="required|min:10|max:500"
-              />
-            </VCol>
-            <VCol cols="12" v-else-if="formData.product_condition === 'expires_soon'">
+            <VCol cols="12" v-if="formData.product_condition === 'expires_soon'">
               <VeeField
                 v-slot="{ errorMessage, value, handleChange }"
                 v-model="formData.expire_date"
@@ -559,7 +549,7 @@ function submit() {
                 v-model="formData.location.address"
                 label="مكان الشراء والتسليم"
                 name="location"
-                rules="required|min:3"
+                :rules="{ required: formData.store.type === 'marketplace', min: 3 }"
               >
                 <template #append-inner>
                   <VIcon
@@ -605,7 +595,7 @@ function submit() {
                 item-title="label"
                 item-value="id"
                 label="المدن"
-                rules="required"
+                :rules="{ required: formData.countries.length === 1 }"
                 :loading="isLoading.areas"
                 :disabled="isLoading.areas || formData.countries.length !== 1"
                 clearable

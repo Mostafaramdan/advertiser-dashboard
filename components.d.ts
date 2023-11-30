@@ -90,6 +90,8 @@ declare module 'vue' {
     NotificationsFilter: typeof import('./src/components/notifications/NotificationsFilter.vue')['default']
     NotificationsHistory: typeof import('./src/components/user-profile/licenses-documents-tab/NotificationsHistory.vue')['default']
     NotificationsMenu: typeof import('./src/components/dashboard-notifications/NotificationsMenu.vue')['default']
+    OfferBasicData: typeof import('./src/components/offers/OfferBasicData.vue')['default']
+    OfferDetailsTab: typeof import('./src/components/offers/OfferDetailsTab.vue')['default']
     OfferForm: typeof import('./src/components/offers/OfferForm.vue')['default']
     OffersFilter: typeof import('./src/components/offers/OffersFilter.vue')['default']
     OffersForm: (typeof import('./src/components/offers/OfferForm.vue'))['default']

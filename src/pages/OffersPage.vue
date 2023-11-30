@@ -18,7 +18,7 @@ const { t } = useI18n()
 const toast = useToast()
 const router = useRouter()
 const { hasPermission } = useAuthStore()
-const { formatDateTime } = UseGeneralHelpers()
+const { formatDate } = UseGeneralHelpers()
 const MODEL_NAME = 'offers'
 const showNotificationModal = ref<boolean>(false)
 const showFilter = ref<boolean>(false)
@@ -246,8 +246,8 @@ function rowProps({ item }: { item: Offer }) {
           </template>
           <template #item.from_date="{ item }">
             <div class="text-no-wrap" style="min-inline-size: 80px">
-              {{ formatDateTime(item.from_date) }}
-              <span class="text-sm text-disabled d-block"> {{ formatDateTime(item.to_date) }}</span>
+              {{ formatDate(item.from_date) }}
+              <span class="text-sm text-disabled d-block"> {{ formatDate(item.to_date) }}</span>
             </div>
           </template>
           <template #item.offer_type="{ item }">
