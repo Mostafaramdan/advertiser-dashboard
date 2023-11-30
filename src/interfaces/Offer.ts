@@ -23,6 +23,7 @@ export interface Offer {
   main_price: number
   discount_price: number
   category_name: string
+  is_deleted: boolean
 }
 
 export interface OfferFormData {

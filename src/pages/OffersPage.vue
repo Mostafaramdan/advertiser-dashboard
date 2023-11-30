@@ -7,17 +7,22 @@ import type { Offer, User } from '@/interfaces/Offer'
 import type { pageAction } from '@/interfaces/Shared'
 import { offersService } from '@/services/OffersService'
 import { useAuthStore } from '@/stores/AuthStore'
+import { useToast } from 'vue-toastification'
 
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
+const FilterComponent = defineAsyncComponent(() => import('@/components/offers/OffersFilter.vue'))
 const { t } = useI18n()
+const toast = useToast()
 const router = useRouter()
 const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
 const MODEL_NAME = 'offers'
 const showNotificationModal = ref<boolean>(false)
+const showFilter = ref<boolean>(false)
+const loadFilter = ref<boolean>(false)
 const activeUser = ref<User | null>(null)
 
 const params: any = reactive({
@@ -37,7 +42,6 @@ const {
   onReloadData,
   onChangeItemsPerPage,
   onChangeSearch,
-  showConfirmDeleteItem,
 } = UseCrudHelpers<Offer>(offersService, params, MODEL_NAME)
 
 const headers: any = [
@@ -93,6 +97,11 @@ const pageActionsButtons = computed<pageAction[]>(() => {
       show: permissions.value.create as boolean,
       handler: goToCreatePage,
     },
+    {
+      icon: 'tabler-filter',
+      show: true,
+      handler: handleShowFilter,
+    },
   ]
 })
 
@@ -118,6 +127,44 @@ function openNotificationModal(user: User) {
   activeUser.value = user
   showNotificationModal.value = true
 }
+
+function handleShowFilter() {
+  showFilter.value = !showFilter.value
+  if (!loadFilter.value) loadFilter.value = true
+}
+
+function onApplyFilter(filters: any) {
+  Object.assign(params, { ...filters, page: 1 })
+  getPageData()
+}
+
+function deleteItem(item: Offer) {
+  IsLoadingData.value = true
+  offersService
+    .deleteItem(item.id)
+    .then((res) => {
+      item.is_deleted = true
+      toast.success(res.data.message)
+    })
+    .catch(() => {
+      item.is_deleted = false
+    })
+    .finally(() => {
+      IsLoadingData.value = false
+    })
+}
+
+async function showConfirmDeleteItem(item: Offer): Promise<void> {
+  const confirm = await confirmModal.value.open('يرجي التاكيد', 'هل انت متاكد من الحذف')
+
+  if (confirm) deleteItem(item)
+}
+
+function rowProps({ item }: { item: Offer }) {
+  return {
+    class: item.is_deleted && 'bg-background',
+  }
+}
 // #endregion
 </script>
 
@@ -128,6 +175,13 @@ function openNotificationModal(user: User) {
       v-if="activeUser && showNotificationModal"
       v-model:showModal="showNotificationModal"
       :user="activeUser"
+    />
+    <Component
+      :is="FilterComponent"
+      v-if="loadFilter"
+      v-model:showFilter="showFilter"
+      @apply-filter="onApplyFilter"
+      :init-filters="params"
     />
     <VCard title="العروض" class="page-card">
       <VCardText>
@@ -150,8 +204,10 @@ function openNotificationModal(user: User) {
           show-select
           :items-length="metaData?.total || 0"
           item-value="id"
+          :item-selectable="(item) => !item.is_deleted"
           class="app-table"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
+          :row-props="rowProps"
         >
           <template #item.name="{ item }">
             <div class="d-flex align-center">
@@ -160,6 +216,9 @@ function openNotificationModal(user: User) {
                   <VImg v-if="item.image_path" :src="item.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
+                <VChip v-if="item.is_deleted" class="px-0 mt-1" color="error" label size="x-small">
+                  محذوف
+                </VChip>
               </div>
               <div style="min-inline-size: 150px">
                 {{ item.name }}
@@ -208,7 +267,7 @@ function openNotificationModal(user: User) {
               :id="item.id"
               v-model="item.is_active"
               :model="MODEL_NAME"
-              :disabled="!permissions.changeStatus"
+              :disabled="!permissions.changeStatus || item.is_deleted"
             />
           </template>
 
@@ -227,7 +286,11 @@ function openNotificationModal(user: User) {
 
                 <VMenu activator="parent">
                   <VList>
-                    <VListItem :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
+                    <VListItem
+                      v-if="!item.is_deleted"
+                      :disabled="!permissions.delete"
+                      @click="showConfirmDeleteItem(item)"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-trash" />
                       </template>

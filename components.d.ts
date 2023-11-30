@@ -91,6 +91,7 @@ declare module 'vue' {
     NotificationsHistory: typeof import('./src/components/user-profile/licenses-documents-tab/NotificationsHistory.vue')['default']
     NotificationsMenu: typeof import('./src/components/dashboard-notifications/NotificationsMenu.vue')['default']
     OfferForm: typeof import('./src/components/offers/OfferForm.vue')['default']
+    OffersFilter: typeof import('./src/components/offers/OffersFilter.vue')['default']
     OffersForm: (typeof import('./src/components/offers/OfferForm.vue'))['default']
     OffersSelectFilter: typeof import('./src/components/filters/OffersSelectFilter.vue')['default']
     PageActions: typeof import('./src/components/shared/PageActions.vue')['default']

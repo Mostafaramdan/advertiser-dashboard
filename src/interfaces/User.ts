@@ -5,6 +5,7 @@ export interface User {
   created_at: string
   rate: number
   account_name: string
+  username: string
   image_path: string | null
   country_name: string
   area_name: string
