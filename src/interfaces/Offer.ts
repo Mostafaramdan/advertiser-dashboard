@@ -8,7 +8,7 @@ export interface User {
   image_path: string
 }
 
-type OfferType = 'in' | 'out'
+type OfferType = 'in_platform' | 'out_platform'
 
 export interface Offer {
   id: number
@@ -36,7 +36,7 @@ export interface OfferFormData {
   user_id: number | null
   category_id: number | null
   description: string
-  product_status: null | 'new' | 'used' | 'expiry'
+  product_condition: null | 'new_product' | 'used_product' | 'expires_soon'
   used_description: string
   expire_date: string
   is_active: boolean

@@ -56,7 +56,7 @@ const formData = reactive<OfferFormData>({
   user_id: null,
   category_id: null,
   description: '',
-  product_status: null,
+  product_condition: null,
   used_description: '',
   expire_date: '',
   is_active: true,
@@ -462,8 +462,8 @@ function submit() {
             </VCol>
             <VCol cols="12">
               <AppAutocomplete
-                v-model="formData.product_status"
-                name="product_status"
+                v-model="formData.product_condition"
+                name="product_condition"
                 :items="
                   Array.from(PRODUCT_STATUSES, ([key, value]) => ({
                     id: key,
@@ -478,7 +478,7 @@ function submit() {
                 @update:model-value="onProductStatusChange"
               />
             </VCol>
-            <VCol cols="12" v-if="formData.product_status === 'used'">
+            <VCol cols="12" v-if="formData.product_condition === 'used_product'">
               <AppTextarea
                 v-model="formData.used_description"
                 name="used_description"
@@ -487,7 +487,7 @@ function submit() {
                 rules="required|min:10|max:500"
               />
             </VCol>
-            <VCol cols="12" v-else-if="formData.product_status === 'expiry'">
+            <VCol cols="12" v-else-if="formData.product_condition === 'expires_soon'">
               <VeeField
                 v-slot="{ errorMessage, value, handleChange }"
                 v-model="formData.expire_date"
@@ -604,7 +604,7 @@ function submit() {
                 :items="areasList"
                 item-title="label"
                 item-value="id"
-                label="المدينة"
+                label="المدن"
                 rules="required"
                 :loading="isLoading.areas"
                 :disabled="isLoading.areas || formData.countries.length !== 1"

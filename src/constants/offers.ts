@@ -7,8 +7,8 @@ export const OFFER_STATUSES = new Map([
 ])
 
 export const OFFER_TYPES = new Map([
-  ['in', { label: 'داخل المنصة' }],
-  ['out', { label: 'خارج المنصة' }],
+  ['in_platform', { label: 'داخل المنصة' }],
+  ['out_platform', { label: 'خارج المنصة' }],
 ])
 
 export const PRODUCT_STATUSES = new Map([
