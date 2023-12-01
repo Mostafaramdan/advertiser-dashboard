@@ -8,6 +8,9 @@ import { useAuthStore } from '@/stores/AuthStore'
 const OfferDetailsTab = defineAsyncComponent(
   () => import('@/components/offers/OfferDetailsTab.vue'),
 )
+const OfferLogsTab = defineAsyncComponent(() => import('@/components/offers/OfferLogsTab.vue'))
+const OfferNotesTab = defineAsyncComponent(() => import('@/components/offers/OfferNotesTab.vue'))
+
 const route = useRoute()
 const router = useRouter()
 const { hasPermission } = useAuthStore()
@@ -27,18 +30,18 @@ const tabs = computed(() => {
       component: OfferDetailsTab,
       show: true,
     },
-    // {
-    //   title: 'سجل العمليات',
-    //   value: 'logs',
-    //   component: TicketConversationsTab,
-    //   show: hasPermission('view_offer_logs'),
-    // },
-    // {
-    //   title: 'سجل الملاحظات',
-    //   value: 'notes',
-    //   component: TicketLogsTab,
-    //   show: hasPermission('view_offer_notes'),
-    // },
+    {
+      title: 'سجل العمليات',
+      value: 'logs',
+      component: OfferLogsTab,
+      show: hasPermission('view_offer_logs'),
+    },
+    {
+      title: 'سجل الملاحظات',
+      value: 'notes',
+      component: OfferNotesTab,
+      show: hasPermission('view_offer_notes'),
+    },
   ]
 })
 // #endregion

@@ -1,68 +1,61 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
-import type { AdComment } from '@/interfaces/Ads'
-import { adsService } from '@/services/AdsService'
-import { useAdsStore } from '@/stores/AdsStore'
+import type { OfferNotesItem } from '@/interfaces/Offer'
+import type { pageAction } from '@/interfaces/Shared'
+import { offersService } from '@/services/OffersService'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
+import OfferNoteDetailsModal from './OfferNoteDetailsModal.vue'
+import OfferNoteFormModal from './OfferNoteFormModal.vue'
 
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
 const { t } = useI18n()
-const toast = useToast()
 const route = useRoute()
-const adsStore = useAdsStore()
+const toast = useToast()
 const { hasPermission } = useAuthStore()
 const { formatDateTime } = UseGeneralHelpers()
-const MODEL_NAME = 'comments'
-const showNotificationModal = ref<boolean>(false)
-const activeUser = ref(null)
-const adId = +route.params.id
-
+const MODEL_NAME = 'offer_notes'
+const offerId = +route.params.id
 const params = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
-  user_id: null,
 })
 
 const {
   selectedItems,
   tableData,
   metaData,
+  showDetailsModal,
   confirmModal,
+  activeItem,
   IsLoadingData,
+  FormAction,
+  showFormModal,
   deleteItemFromTableData,
   deleteItemFromSelectedItems,
-} = UseCrudHelpers<AdComment>(null, params, MODEL_NAME)
+  showCrateModal,
+  showEditModal,
+  showViewModal,
+  onEditItem,
+} = UseCrudHelpers<OfferNotesItem>(null, params, MODEL_NAME)
 
 const headers: any = [
   {
-    title: 'اسم المعلق',
-    key: 'commenter.account_name',
+    title: 'اسم المسؤول',
+    key: 'admin',
   },
   {
-    title: 'تاريخ التعليق',
+    title: 'التاريخ',
     key: 'created_at',
   },
   {
-    title: 'الاعجابات',
-    key: 'likes_count',
-  },
-  {
-    title: 'نص التعليق',
-    key: 'comment',
-  },
-  {
-    title: 'رقم الجوال',
-    key: 'commenter.phone',
-  },
-  {
-    title: 'الدولة',
-    key: 'commenter.country_name',
+    title: 'الوصف',
+    key: 'note',
   },
   {
     title: 'العمليات',
@@ -78,27 +71,22 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  delete: hasPermission('delete_comment'),
-  sendNotification: hasPermission('notify_users'),
+  create: hasPermission('create_offer_note'),
+  edit: hasPermission('update_offer_note'),
+  delete: hasPermission('delete_offer_note'),
+  sort: hasPermission('sort_entity'),
 }))
 
-const commentsOptions = computed(() => {
-  if (!adsStore.adDetails) return []
-  const options = [
+const pageActionsButtons = computed<pageAction[]>(() => {
+  return [
     {
-      label: 'تعليقات المعلن',
-      value: adsStore.adDetails.advertiser.id,
+      icon: 'tabler-plus',
+      show: permissions.value.create as boolean,
+      handler: showCrateModal,
     },
   ]
-
-  if (adsStore.adDetails.user) {
-    options.push({
-      label: 'تعليقات العميل',
-      value: adsStore.adDetails.user.id,
-    })
-  }
-  return options
 })
+
 // #endregion
 
 /***************************************
@@ -115,8 +103,8 @@ getPageData()
 // #region Functions
 function getPageData(): void {
   IsLoadingData.value = true
-  adsService
-    .getComments({ id: adId, params })
+  offersService
+    .getOfferNotes(offerId, params)
     .then((res: any) => {
       const { data, meta } = res.data
       tableData.value = data
@@ -169,12 +157,12 @@ function onReloadData(): void {
  * @param  {any} item
  * @return  {void}
  */
-function deleteItem(item: AdComment): void {
+function deleteItem(item: OfferNotesItem): void {
   deleteItemFromSelectedItems(item)
 
   IsLoadingData.value = true
-  adsService
-    .deleteComment(item.id as number)
+  offersService
+    .deleteOfferNote({ offerId, noteId: item.id })
     .then((res: any) => {
       toast.success(res.data.message)
       deleteItemFromTableData(item)
@@ -194,25 +182,25 @@ async function showConfirmDeleteItem(item: any): Promise<void> {
 
   if (confirm) deleteItem(item)
 }
-
-function openNotificationModal(user: any) {
-  activeUser.value = user
-  showNotificationModal.value = true
-}
-
 // #endregion
 </script>
 
 <template>
   <section>
-    <NotificationModal
-      v-if="activeUser && showNotificationModal"
-      v-model:showModal="showNotificationModal"
-      :user="activeUser"
-    />
-    <ConfirmModal ref="confirmModal" />
     <div>
+      <ConfirmModal ref="confirmModal" />
+      <OfferNoteFormModal
+        v-if="showFormModal"
+        v-model:showModal="showFormModal"
+        :form-action="FormAction"
+        :active-item="activeItem"
+        @create-item="reloadPageData"
+        @edit-item="onEditItem"
+        :offer-id="offerId"
+      />
+      <OfferNoteDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
       <PageActions
+        :page-actions-buttons="pageActionsButtons"
         :items-per-page="params.itemPerPage"
         :show-multi-delete="permissions.delete"
         :model="MODEL_NAME"
@@ -220,25 +208,7 @@ function openNotificationModal(user: any) {
         @update:items-per-page="onChangeItemsPerPage"
         @update:search="onChangeSearch"
         @reload-data="onReloadData"
-      >
-        <div class="v-col-md-4 pa-0">
-          <AppSelect
-            v-model="params.user_id"
-            name="type"
-            :items="commentsOptions"
-            :loading="!commentsOptions.length"
-            :disabled="!commentsOptions.length"
-            item-title="label"
-            item-value="value"
-            label="نوع التعليقات"
-            hide-default-label
-            @update:model-value="onReloadData"
-            clearable
-          >
-          </AppSelect>
-        </div>
-        <span class="me-auto" />
-      </PageActions>
+      />
       <VDataTableServer
         v-model="selectedItems"
         v-loading="IsLoadingData"
@@ -250,36 +220,33 @@ function openNotificationModal(user: any) {
         class="app-table"
         :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
       >
-        <template #item.commenter.account_name="{ item }">
-          <div style="min-inline-size: 150px">
-            {{ item.commenter.account_name }}
-          </div>
-        </template>
-        <template #item.comment="{ item }">
-          <div style="inline-size: 250px">
-            {{ item.comment }}
-          </div>
-        </template>
-        <template #item.commenter.country_name="{ item }">
-          <div style="min-inline-size: 100px">
-            {{ item.commenter.country_name || '-' }}
-          </div>
+        <template #item.admin="{ item }">
+          <router-link :to="{ name: 'employees-details-page', params: { id: item.admin.id } }">
+            <span>{{ item.admin.username }}</span>
+          </router-link>
         </template>
         <template #item.created_at="{ item }">
           <div class="text-no-wrap">
             {{ formatDateTime(item.created_at) }}
           </div>
         </template>
+        <template #item.note="{ item }">
+          <span style="min-inline-size: 150px">
+            {{ item.note || '-' }}
+          </span>
+        </template>
         <template #item.actions="{ item }">
           <div class="d-flex justify-center">
+            <IconBtn @click="showViewModal(item)">
+              <VIcon icon="tabler-eye" />
+            </IconBtn>
+
+            <IconBtn :disabled="!permissions.edit" @click="showEditModal(item)">
+              <VIcon icon="tabler-edit" />
+            </IconBtn>
+
             <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
               <VIcon icon="tabler-trash" />
-            </IconBtn>
-            <IconBtn
-              :disabled="!permissions.sendNotification"
-              @click="openNotificationModal(item.commenter)"
-            >
-              <VIcon icon="tabler-mail" />
             </IconBtn>
           </div>
         </template>
@@ -297,7 +264,12 @@ function openNotificationModal(user: any) {
 </template>
 
 <style lang="scss" scoped>
-:deep(.search-input) {
-  margin: 0 !important;
+:deep(.v-data-table .v-table__wrapper > table td) {
+  max-inline-size: 250px;
+  word-wrap: break-word;
+
+  span {
+    @include max-lines(2);
+  }
 }
 </style>

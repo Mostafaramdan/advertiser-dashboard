@@ -307,7 +307,7 @@ function getProfileUrl(user: User) {
         <VExpansionPanel elevation="0">
           <VExpansionPanelTitle>تسعير شرائح البيع</VExpansionPanelTitle>
           <VExpansionPanelText>
-            <VTable density="compact">
+            <VTable density="compact" v-if="data.prices.length">
               <thead>
                 <tr class="bg-background">
                   <th class="text-uppercase">من</th>
@@ -330,6 +330,7 @@ function getProfileUrl(user: User) {
                 </tr>
               </tbody>
             </VTable>
+            <p v-else class="text-body-1 mb-0">لا يوجد بيانات</p>
           </VExpansionPanelText>
         </VExpansionPanel>
       </VExpansionPanels>

@@ -1,3 +1,4 @@
+import { FormModalProps } from './Forms'
 import type { DropdownMenuItem, File, Location } from './Shared'
 export interface User {
   id: number
@@ -95,4 +96,37 @@ export interface OfferDetails extends OfferDetailsBase {
   created_at: string
   is_deleted: boolean
   status: string
+}
+
+export interface OfferLogsItem {
+  id: number
+  action_name: string
+  created_at: string
+  details: string
+  action_by: User
+}
+
+export interface OfferNotesItem {
+  id: number
+  created_at: string
+  note: string
+  admin: User
+}
+
+export interface OfferNoteCreteData {
+  note: string
+}
+
+export interface OfferNoteUpdateData {
+  id: number
+  note: string
+}
+
+export interface OfferNoteModalProps extends FormModalProps {
+  offerId: number
+}
+
+export interface OfferNoteModalPayload {
+  offerId: number
+  data: OfferNoteCreteData | OfferNoteUpdateData
 }
