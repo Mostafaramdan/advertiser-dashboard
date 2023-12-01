@@ -1,6 +1,6 @@
 export interface QuestionCategoryBase {
   name: string
-  for: string[]
+  user_types: string[]
   is_active: boolean
 }
 

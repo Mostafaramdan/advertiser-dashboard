@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useVModel } from '@vueuse/core'
 import { USERS_TYPES } from '@/constants/settings'
 import type { FormModalProps } from '@/interfaces/Forms'
+import { useVModel } from '@vueuse/core'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -60,7 +60,7 @@ const showModal = useVModel(props, 'showModal', emit)
               <VListItem class="px-2 py-2" title="الاسم" :subtitle="activeItem.name" border />
               <VListItem class="px-2 py-2" title="نوع المستخدمين" border>
                 <VChip
-                  v-for="type in activeItem.for as unknown"
+                  v-for="type in activeItem.user_types as unknown"
                   :key="type"
                   class="my-2 me-2 text-center"
                   color="primary"

@@ -56,7 +56,7 @@ const headers: any = [
   },
   {
     title: 'نوع المستخدمين',
-    key: 'for',
+    key: 'user_types',
   },
   {
     title: 'الحالة',
@@ -144,10 +144,10 @@ getPageData()
         </span>
       </template>
 
-      <template #item.for="{ item }">
+      <template #item.user_types="{ item }">
         <div class="d-flex gap-2">
           <VChip
-            v-for="type in item.for as unknown"
+            v-for="type in item.user_types as unknown"
             :key="type"
             variant="outlined"
             color="primary"

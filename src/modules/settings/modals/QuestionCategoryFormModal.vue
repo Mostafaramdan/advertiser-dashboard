@@ -41,7 +41,7 @@ const formRef = ref<any>(null)
 
 const formData = reactive<QuestionCategory | QuestionCategoryBase>({
   name: '',
-  for: [],
+  user_types: [],
   is_active: true,
 })
 
@@ -131,9 +131,9 @@ const submit = () => {
               </VCol>
               <VCol>
                 <AppCheckbox
-                  v-model="formData.for"
+                  v-model="formData.user_types"
                   :options="getOptionsArrayFromObject(USERS_TYPES)"
-                  name="type"
+                  name="user_types"
                   label="نوع المستخدمين"
                   rules="required"
                   option-label="label"
