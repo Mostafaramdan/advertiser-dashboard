@@ -950,6 +950,21 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
         ],
       },
       {
+        title: 'إعدادات التذاكر',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_ticket_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_ticket_settings',
+          },
+        ],
+      },
+      {
         title: 'إعدادات الشات',
         permissions: [
           {
@@ -1789,21 +1804,6 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
   {
     title: 'التذاكر',
     groups: [
-      {
-        title: 'إعدادات التذاكر',
-        permissions: [
-          {
-            label: 'عرض',
-            checked: false,
-            key: 'view_ticket_settings',
-          },
-          {
-            label: 'تعديل',
-            checked: false,
-            key: 'update_ticket_settings',
-          },
-        ],
-      },
       {
         title: 'أنواع التذاكر',
         permissions: [
