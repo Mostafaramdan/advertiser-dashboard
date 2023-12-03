@@ -78,6 +78,7 @@ export function UseNotificationsHelpers() {
       case 'ended_attachment':
       case 'confirm_attachment':
       case 'reject_attachment':
+      case 'delete_attachment':
         router.push({
           name: model?.role === 'advertiser' ? 'advertisers-profile-page' : 'user-profile-page',
           params: { id: modelId },
