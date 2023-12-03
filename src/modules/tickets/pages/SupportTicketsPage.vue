@@ -269,8 +269,8 @@ function onApplyFilter(filters: any) {
               <span
                 class="text-sm text-disabled d-block"
                 :class="{
-                  'text-error': item.primary_admin.status === 'failed',
-                  'text-success': item.primary_admin.status === 'success',
+                  'text-error': item.secondary_admin.status === 'failed',
+                  'text-success': item.secondary_admin.status === 'success',
                 }"
                 >{{ item.secondary_admin.hours }}</span
               >
