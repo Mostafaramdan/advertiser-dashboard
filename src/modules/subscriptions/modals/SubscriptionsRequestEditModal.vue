@@ -331,7 +331,7 @@ function onChangeRequestStatus() {
                     item-title="label"
                     item-value="id"
                     name="period_id"
-                    label="مدة التجديد"
+                    label="المدة"
                     clearable
                     rules="required"
                     :loading="isLoading.periods"
