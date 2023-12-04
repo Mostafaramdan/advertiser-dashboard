@@ -55,6 +55,10 @@ class OffersService {
     return axios.put(`${this.contextPath}/${id}/reject`)
   }
 
+  cancelOffer(id: number): AxiosPromise {
+    return axios.put(`${this.contextPath}/${id}/cancel`)
+  }
+
   /** **************** delete ******************/
   deleteItem(id: number): AxiosPromise {
     return axios.delete(`${this.contextPath}/${id}`)

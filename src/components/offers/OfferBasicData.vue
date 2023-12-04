@@ -39,6 +39,7 @@ const permissions = computed(() => ({
   sendNotification: hasPermission('notify_users'),
   acceptOffer: hasPermission('accept_offer'),
   rejectOffer: hasPermission('reject_offer'),
+  cancelOffer: hasPermission('cancel_offer'),
 }))
 
 const data = computed(() => offersStore.offerDetails)
@@ -106,6 +107,19 @@ function rejectOffer() {
     .then((res) => {
       toast.success(res.data.message)
       offersStore.updateOfferStatus('rejected')
+    })
+    .finally(() => {
+      isLoading.data = false
+    })
+}
+
+function cancelOffer() {
+  isLoading.data = true
+  offersService
+    .cancelOffer(offerId)
+    .then((res) => {
+      toast.success(res.data.message)
+      offersStore.updateOfferStatus('cancelled')
     })
     .finally(() => {
       isLoading.data = false
@@ -201,6 +215,17 @@ function rejectOffer() {
                             <VIcon icon="tabler-trash" />
                           </template>
                           <VListItemTitle>حذف</VListItemTitle>
+                        </VListItem>
+                        <VListItem
+                          v-if="['pending', 'accepted'].includes(data.status)"
+                          :disabled="!permissions.cancelOffer"
+                          @click="cancelOffer"
+                        >
+                          <template #prepend>
+                            <VIcon icon="tabler-circle-x" />
+                          </template>
+
+                          <VListItemTitle>إلغاء العرض</VListItemTitle>
                         </VListItem>
                         <template v-if="data.status === 'pending'">
                           <VListItem :disabled="!permissions.rejectOffer" @click="rejectOffer">

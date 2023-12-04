@@ -93,6 +93,7 @@ const permissions = computed(() => ({
   changeStatus: hasPermission('change_status_offer'),
   acceptOffer: hasPermission('accept_offer'),
   rejectOffer: hasPermission('reject_offer'),
+  cancelOffer: hasPermission('cancel_offer'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -182,7 +183,6 @@ function onAcceptOffer(offerId: number) {
 }
 
 function rejectOffer(item: Offer) {
-  console.log(item)
   IsLoadingData.value = true
   offersService
     .rejectOffer(item.id)
@@ -194,6 +194,20 @@ function rejectOffer(item: Offer) {
       IsLoadingData.value = false
     })
 }
+
+function cancelOffer(item: Offer) {
+  IsLoadingData.value = true
+  offersService
+    .cancelOffer(item.id)
+    .then((res) => {
+      item.status = 'cancelled'
+      toast.success(res.data.message)
+    })
+    .finally(() => {
+      IsLoadingData.value = false
+    })
+}
+
 // #endregion
 </script>
 
@@ -341,6 +355,17 @@ function rejectOffer(item: Offer) {
                       </template>
 
                       <VListItemTitle>تعديل</VListItemTitle>
+                    </VListItem>
+                    <VListItem
+                      v-if="['pending', 'accepted'].includes(item.status)"
+                      :disabled="!permissions.cancelOffer"
+                      @click="cancelOffer(item)"
+                    >
+                      <template #prepend>
+                        <VIcon icon="tabler-circle-x" />
+                      </template>
+
+                      <VListItemTitle>إلغاء العرض</VListItemTitle>
                     </VListItem>
                     <template v-if="item.status === 'pending'">
                       <VListItem :disabled="!permissions.rejectOffer" @click="rejectOffer(item)">

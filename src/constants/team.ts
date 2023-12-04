@@ -1733,6 +1733,11 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             key: 'reject_offer',
           },
           {
+            label: 'إلغاء',
+            checked: false,
+            key: 'cancel_offer',
+          },
+          {
             label: 'إعادة نشر',
             checked: false,
             key: 'repost_offer',
