@@ -92,6 +92,7 @@ const permissions = computed(() => ({
   delete: hasPermission('delete_offer'),
   changeStatus: hasPermission('change_status_offer'),
   acceptOffer: hasPermission('accept_offer'),
+  rejectOffer: hasPermission('reject_offer'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -178,6 +179,20 @@ function openAcceptNotificationModal(item: Offer) {
 function onAcceptOffer(offerId: number) {
   const targetItem = tableData.value.find((item: Offer) => item.id === offerId)
   if (targetItem) targetItem.status = 'accepted'
+}
+
+function rejectOffer(item: Offer) {
+  console.log(item)
+  IsLoadingData.value = true
+  offersService
+    .rejectOffer(item.id)
+    .then((res) => {
+      item.status = 'rejected'
+      toast.success(res.data.message)
+    })
+    .finally(() => {
+      IsLoadingData.value = false
+    })
 }
 // #endregion
 </script>
@@ -327,17 +342,25 @@ function onAcceptOffer(offerId: number) {
 
                       <VListItemTitle>تعديل</VListItemTitle>
                     </VListItem>
-                    <VListItem
-                      :disabled="!permissions.acceptOffer"
-                      @click="openAcceptNotificationModal(item)"
-                      v-if="item.status === 'pending'"
-                    >
-                      <template #prepend>
-                        <VIcon icon="tabler-circle-check" />
-                      </template>
+                    <template v-if="item.status === 'pending'">
+                      <VListItem :disabled="!permissions.rejectOffer" @click="rejectOffer(item)">
+                        <template #prepend>
+                          <VIcon icon="tabler-ban" />
+                        </template>
 
-                      <VListItemTitle>الموافقة على العرض</VListItemTitle>
-                    </VListItem>
+                        <VListItemTitle>رفض العرض</VListItemTitle>
+                      </VListItem>
+                      <VListItem
+                        :disabled="!permissions.acceptOffer"
+                        @click="openAcceptNotificationModal(item)"
+                      >
+                        <template #prepend>
+                          <VIcon icon="tabler-circle-check" />
+                        </template>
+
+                        <VListItemTitle>الموافقة على العرض</VListItemTitle>
+                      </VListItem>
+                    </template>
                     <VListItem
                       v-if="permissions.sendNotification"
                       @click="openNotificationModal(item.user)"

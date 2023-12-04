@@ -51,6 +51,10 @@ class OffersService {
     return axios.put(`${this.contextPath}/${payload.offerId}/accept`, payload.data)
   }
 
+  rejectOffer(id: number): AxiosPromise {
+    return axios.put(`${this.contextPath}/${id}/reject`)
+  }
+
   /** **************** delete ******************/
   deleteItem(id: number): AxiosPromise {
     return axios.delete(`${this.contextPath}/${id}`)
