@@ -47,7 +47,7 @@ const tabs = computed(() => {
       title: 'الاحصائيات',
       value: 'statistics',
       component: OfferStatsTab,
-      show: true,
+      show: hasPermission('view_offer_statistics'),
     },
   ]
 })

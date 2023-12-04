@@ -94,6 +94,8 @@ const permissions = computed(() => ({
   acceptOffer: hasPermission('accept_offer'),
   rejectOffer: hasPermission('reject_offer'),
   cancelOffer: hasPermission('cancel_offer'),
+  changeOfferStatus: hasPermission('change_publish_status_offer'),
+  changeQuantityStatus: hasPermission('change_quantity_status_offer'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -326,6 +328,7 @@ function cancelOffer(item: Offer) {
                 :to="{
                   name: 'offer-details-page',
                   params: { id: item.id },
+                  query: { tab: 'details' },
                 }"
               >
                 <VIcon icon="tabler-eye" />
@@ -333,7 +336,7 @@ function cancelOffer(item: Offer) {
               <VBtn icon variant="text" size="small" color="medium-emphasis">
                 <VIcon size="24" icon="tabler-dots-vertical" />
 
-                <VMenu activator="parent">
+                <VMenu activator="parent" max-height="265">
                   <VList>
                     <VListItem
                       v-if="!item.is_deleted"
@@ -394,6 +397,28 @@ function cancelOffer(item: Offer) {
                         <VIcon icon="tabler-mail" />
                       </template>
                       <VListItemTitle>ارسال اشعار للمستخدم</VListItemTitle>
+                    </VListItem>
+                    <VListItem v-if="permissions.changeOfferStatus" @click.stop>
+                      <VListItemTitle class="ps-2">
+                        <ToggleActivationSwitch
+                          :id="item.id"
+                          v-model="item.publish_status"
+                          :model="MODEL_NAME"
+                          column="publish_status"
+                          label="حالة العرض"
+                        />
+                      </VListItemTitle>
+                    </VListItem>
+                    <VListItem v-if="permissions.changeQuantityStatus" @click.stop>
+                      <VListItemTitle class="ps-2">
+                        <ToggleActivationSwitch
+                          :id="item.id"
+                          v-model="item.quantity_status"
+                          :model="MODEL_NAME"
+                          column="quantity_status"
+                          label="حالة كمية العرض"
+                        />
+                      </VListItemTitle>
                     </VListItem>
                   </VList>
                 </VMenu>

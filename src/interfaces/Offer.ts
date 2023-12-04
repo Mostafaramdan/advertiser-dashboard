@@ -26,6 +26,8 @@ export interface Offer {
   discount_price: number
   category_name: string
   is_deleted: boolean
+  publish_status: boolean
+  quantity_status: boolean
 }
 
 export interface OfferDetailsBase {
@@ -97,6 +99,8 @@ export interface OfferDetails extends OfferDetailsBase {
   created_at: string
   is_deleted: boolean
   status: string
+  publish_status: boolean
+  quantity_status: boolean
 }
 
 export interface OfferLogsItem {
