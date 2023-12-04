@@ -10,6 +10,7 @@ const OfferDetailsTab = defineAsyncComponent(
 )
 const OfferLogsTab = defineAsyncComponent(() => import('@/components/offers/OfferLogsTab.vue'))
 const OfferNotesTab = defineAsyncComponent(() => import('@/components/offers/OfferNotesTab.vue'))
+const OfferStatsTab = defineAsyncComponent(() => import('@/components/offers/OfferStatsTab.vue'))
 
 const route = useRoute()
 const router = useRouter()
@@ -41,6 +42,12 @@ const tabs = computed(() => {
       value: 'notes',
       component: OfferNotesTab,
       show: hasPermission('view_offer_notes'),
+    },
+    {
+      title: 'الاحصائيات',
+      value: 'statistics',
+      component: OfferStatsTab,
+      show: true,
     },
   ]
 })

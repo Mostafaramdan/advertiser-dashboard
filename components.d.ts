@@ -100,6 +100,7 @@ declare module 'vue' {
     OffersFilter: typeof import('./src/components/offers/OffersFilter.vue')['default']
     OffersForm: (typeof import('./src/components/offers/OfferForm.vue'))['default']
     OffersSelectFilter: typeof import('./src/components/filters/OffersSelectFilter.vue')['default']
+    OfferStatsTab: typeof import('./src/components/offers/OfferStatsTab.vue')['default']
     PageActions: typeof import('./src/components/shared/PageActions.vue')['default']
     PageBackBtn: typeof import('./src/components/shared/PageBackBtn.vue')['default']
     PagePagination: typeof import('./src/components/shared/PagePagination.vue')['default']

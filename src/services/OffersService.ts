@@ -22,6 +22,10 @@ class OffersService {
     return axios.get(`${this.contextPath}/${id}/offer_notes`, { params })
   }
 
+  getStatistics(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/statistics`)
+  }
+
   /** **************** post ******************/
   createItem(data: any): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)

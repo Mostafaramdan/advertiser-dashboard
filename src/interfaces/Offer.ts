@@ -10,6 +10,7 @@ export interface User {
 }
 
 type OfferType = 'in_platform' | 'out_platform'
+type ProductCondition = 'new_product' | 'used_product' | 'expires_soon'
 
 export interface Offer {
   id: number
@@ -51,7 +52,7 @@ export interface OfferDetailsBase {
     hide_phone: boolean
   }
   offer_type: OfferType | null
-  product_condition: null | 'new_product' | 'used_product' | 'expires_soon'
+  product_condition: null | ProductCondition
   main_price: number | null
   discount_price: number | null
   offer_quantity: number | null
@@ -129,4 +130,23 @@ export interface OfferNoteModalProps extends FormModalProps {
 export interface OfferNoteModalPayload {
   offerId: number
   data: OfferNoteCreteData | OfferNoteUpdateData
+}
+
+export interface OfferStatsData {
+  created_at: string
+  days_count: number
+  offer_type: OfferType
+  posts_count: number
+  product_condition: ProductCondition
+  seen_count: number
+  goes_count: number
+  shares_count: number
+  reports_count: number
+  rate: number | null
+  rate_count: number
+  offer_start_reminder_count: number
+  offer_availability_reminder_count: number
+  offer_open_chats_count: number
+  favorites_count: number
+  user_favorites_count: number
 }
