@@ -1738,9 +1738,24 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             key: 'cancel_offer',
           },
           {
+            label: 'تغيير حالة العرض',
+            checked: false,
+            key: 'change_publish_status_offer',
+          },
+          {
+            label: 'تغيير حالة كمية العرض',
+            checked: false,
+            key: 'change_quantity_status_offer',
+          },
+          {
             label: 'إعادة نشر',
             checked: false,
             key: 'repost_offer',
+          },
+          {
+            label: 'عرض الاحصائيات',
+            checked: false,
+            key: 'view_offer_statistics',
           },
           {
             label: 'عرض سجل العمليات',
