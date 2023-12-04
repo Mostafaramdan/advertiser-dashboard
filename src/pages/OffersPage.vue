@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import OfferAcceptModal from '@/components/offers/OfferAcceptModal.vue'
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { USERS_ROLES } from '@/constants/index'
@@ -21,6 +22,7 @@ const { hasPermission } = useAuthStore()
 const { formatDate } = UseGeneralHelpers()
 const MODEL_NAME = 'offers'
 const showNotificationModal = ref<boolean>(false)
+const showAcceptOfferModal = ref<boolean>(false)
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
 const activeUser = ref<User | null>(null)
@@ -38,6 +40,7 @@ const {
   metaData,
   confirmModal,
   IsLoadingData,
+  activeItem,
   getPageData,
   onReloadData,
   onChangeItemsPerPage,
@@ -88,6 +91,7 @@ const permissions = computed(() => ({
   edit: hasPermission('update_offer'),
   delete: hasPermission('delete_offer'),
   changeStatus: hasPermission('change_status_offer'),
+  acceptOffer: hasPermission('accept_offer'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -165,6 +169,16 @@ function rowProps({ item }: { item: Offer }) {
     class: item.is_deleted && 'bg-background',
   }
 }
+
+function openAcceptNotificationModal(item: Offer) {
+  activeItem.value = item
+  showAcceptOfferModal.value = true
+}
+
+function onAcceptOffer(offerId: number) {
+  const targetItem = tableData.value.find((item: Offer) => item.id === offerId)
+  if (targetItem) targetItem.status = 'accepted'
+}
 // #endregion
 </script>
 
@@ -175,6 +189,12 @@ function rowProps({ item }: { item: Offer }) {
       v-if="activeUser && showNotificationModal"
       v-model:showModal="showNotificationModal"
       :user="activeUser"
+    />
+    <OfferAcceptModal
+      v-model:showModal="showAcceptOfferModal"
+      :offer-id="activeItem.id"
+      v-if="activeItem && showAcceptOfferModal"
+      @accept-offer="onAcceptOffer"
     />
     <Component
       :is="FilterComponent"
@@ -306,6 +326,17 @@ function rowProps({ item }: { item: Offer }) {
                       </template>
 
                       <VListItemTitle>تعديل</VListItemTitle>
+                    </VListItem>
+                    <VListItem
+                      :disabled="!permissions.acceptOffer"
+                      @click="openAcceptNotificationModal(item)"
+                      v-if="item.status === 'pending'"
+                    >
+                      <template #prepend>
+                        <VIcon icon="tabler-circle-check" />
+                      </template>
+
+                      <VListItemTitle>الموافقة على العرض</VListItemTitle>
                     </VListItem>
                     <VListItem
                       v-if="permissions.sendNotification"

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import OfferAcceptModal from '@/components/offers/OfferAcceptModal.vue'
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { OFFER_STATUSES } from '@/constants/offers'
 import { offersService } from '@/services/OffersService'
@@ -19,6 +20,7 @@ const MODEL_NAME = 'offers'
 const offerId = +route.params.id
 const confirmModal = ref<any>()
 const showNotificationModal = ref<boolean>(false)
+const showAcceptOfferModal = ref<boolean>(false)
 const activeUser = ref(null)
 const isLoading = reactive({
   data: false,
@@ -35,6 +37,7 @@ const permissions = computed(() => ({
   edit: hasPermission('update_offer'),
   changeStatus: hasPermission('change_status_offer'),
   sendNotification: hasPermission('notify_users'),
+  acceptOffer: hasPermission('accept_offer'),
 }))
 
 const data = computed(() => offersStore.offerDetails)
@@ -90,6 +93,10 @@ async function showConfirmModal(): Promise<void> {
 
   deleteItem()
 }
+
+function onAcceptOffer() {
+  offersStore.updateOfferStatus('accepted')
+}
 // #endregion
 </script>
 
@@ -99,6 +106,12 @@ async function showConfirmModal(): Promise<void> {
       v-if="activeUser && showNotificationModal"
       v-model:showModal="showNotificationModal"
       :user="activeUser"
+    />
+    <OfferAcceptModal
+      v-model:showModal="showAcceptOfferModal"
+      :offer-id="data.id"
+      v-if="data && showAcceptOfferModal"
+      @accept-offer="onAcceptOffer"
     />
     <ConfirmModal ref="confirmModal" />
     <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
@@ -174,6 +187,17 @@ async function showConfirmModal(): Promise<void> {
                             <VIcon icon="tabler-trash" />
                           </template>
                           <VListItemTitle>حذف</VListItemTitle>
+                        </VListItem>
+                        <VListItem
+                          :disabled="!permissions.acceptOffer"
+                          @click="showAcceptOfferModal = true"
+                          v-if="data.status === 'pending'"
+                        >
+                          <template #prepend>
+                            <VIcon icon="tabler-circle-check" />
+                          </template>
+
+                          <VListItemTitle>الموافقة على العرض</VListItemTitle>
                         </VListItem>
                         <VListItem
                           :disabled="!permissions.sendNotification"

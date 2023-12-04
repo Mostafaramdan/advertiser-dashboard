@@ -1,4 +1,4 @@
-import type { OfferNoteModalPayload } from '@/interfaces/Offer'
+import type { OfferAcceptModalFormPayload, OfferNoteModalPayload } from '@/interfaces/Offer'
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
 
@@ -45,6 +45,10 @@ class OffersService {
       `${this.contextPath}/${payload.offerId}/offer_notes/${payload.data.id}`,
       payload.data,
     )
+  }
+
+  acceptOffer(payload: OfferAcceptModalFormPayload): AxiosPromise {
+    return axios.put(`${this.contextPath}/${payload.offerId}/accept`, payload.data)
   }
 
   /** **************** delete ******************/

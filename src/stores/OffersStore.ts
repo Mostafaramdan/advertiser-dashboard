@@ -14,5 +14,8 @@ export const useOffersStore = defineStore('offers', {
     setOfferDetails(payload: any) {
       this.offerDetails = payload
     },
+    updateOfferStatus(status: string) {
+      this.offerDetails.status = status
+    },
   },
 })

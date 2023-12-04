@@ -150,3 +150,17 @@ export interface OfferStatsData {
   favorites_count: number
   user_favorites_count: number
 }
+
+export interface OfferAcceptModalProps {
+  offerId: number
+  showModal: boolean
+}
+
+export interface OfferAcceptModalFormData {
+  from_date: string | null
+}
+
+export interface OfferAcceptModalFormPayload {
+  offerId: number
+  data: OfferAcceptModalFormData
+}
