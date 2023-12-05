@@ -3,6 +3,7 @@ import type { DropdownMenuItem, File, Location } from './Shared'
 export interface User {
   id: number
   username: string
+  account_name?: string
   role: string
   email: string
   phone: string
@@ -110,6 +111,18 @@ export interface OfferLogsItem {
   details: string
   action_by: User
 }
+
+interface OfferReminderRequest {
+  id: number
+  created_at: string
+  user: User
+  from_quantity: number
+  to_quantity: number
+  emails: string[] | null
+}
+
+export interface OfferStartReminder extends OfferReminderRequest {}
+export interface OfferQtyAvailabilityReminder extends OfferReminderRequest {}
 
 export interface OfferNotesItem {
   id: number

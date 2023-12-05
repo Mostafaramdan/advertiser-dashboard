@@ -11,6 +11,12 @@ const OfferDetailsTab = defineAsyncComponent(
 const OfferLogsTab = defineAsyncComponent(() => import('@/components/offers/OfferLogsTab.vue'))
 const OfferNotesTab = defineAsyncComponent(() => import('@/components/offers/OfferNotesTab.vue'))
 const OfferStatsTab = defineAsyncComponent(() => import('@/components/offers/OfferStatsTab.vue'))
+const OfferStartRemindersTab = defineAsyncComponent(
+  () => import('@/components/offers/OfferStartRemindersTab.vue'),
+)
+const OfferQtyAvailabilityRemindersTab = defineAsyncComponent(
+  () => import('@/components/offers/OfferQtyAvailabilityRemindersTab.vue'),
+)
 
 const route = useRoute()
 const router = useRouter()
@@ -48,6 +54,18 @@ const tabs = computed(() => {
       value: 'statistics',
       component: OfferStatsTab,
       show: hasPermission('view_offer_statistics'),
+    },
+    {
+      title: 'طلبات تنبية بدء العرض',
+      value: 'start-reminders',
+      component: OfferStartRemindersTab,
+      show: hasPermission('view_start_reminder_requests'),
+    },
+    {
+      title: 'طلبات تنبية توفر الكمية',
+      value: 'quantity-availability-reminders',
+      component: OfferQtyAvailabilityRemindersTab,
+      show: hasPermission('view_availability_reminder_requests'),
     },
   ]
 })

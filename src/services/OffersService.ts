@@ -26,6 +26,14 @@ class OffersService {
     return axios.get(`${this.contextPath}/${id}/statistics`)
   }
 
+  getOfferStartReminders(id: number, params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/start_reminder_requests`, { params })
+  }
+
+  getOfferQtyAvailabilityReminders(id: number, params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/availability_reminder_requests`, { params })
+  }
+
   /** **************** post ******************/
   createItem(data: any): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
