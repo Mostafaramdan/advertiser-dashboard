@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
+import type { AdsRequestHistoryTabData } from '@/interfaces/AdsRequest'
 import { useAdsRequestsStore } from '@/stores/AdsRequestsStore'
 
 /***************************************
@@ -35,7 +36,7 @@ const headers: any = [
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-const data = computed(() => {
+const data = computed<AdsRequestHistoryTabData>(() => {
   return {
     advertiser: adsRequestsStore.adsRequestDetails.advertiser,
     user: adsRequestsStore.adsRequestDetails.user,

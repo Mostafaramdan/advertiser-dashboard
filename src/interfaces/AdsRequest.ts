@@ -83,6 +83,14 @@ export type AdsRequestPlatformCommission = {
   commission_value: number
 } | null
 
+type AdsRequestLogsItem = {
+  id: number
+  title: string
+  description: string
+  user: string
+  created_at: string
+  time_ago: string
+}
 export interface AdsRequestsDetails {
   id: number
   created_at: string
@@ -138,14 +146,7 @@ export interface AdsRequestsDetails {
     notes: string | null
     ads_plan: string | null
   }
-  ads_request_logs: {
-    id: number
-    title: string
-    description: string
-    user: string
-    created_at: string
-    time_ago: string
-  }[]
+  ads_request_logs: AdsRequestLogsItem[]
   campaign_type: null | 'single' | 'campaign'
   campaign: {
     goals: string
@@ -153,4 +154,10 @@ export interface AdsRequestsDetails {
     areas: { id: number; label: string }[]
     countries: { id: number; label: string }[]
   } | null
+}
+
+export interface AdsRequestHistoryTabData {
+  advertiser: User
+  user: User
+  history: AdsRequestLogsItem[]
 }
