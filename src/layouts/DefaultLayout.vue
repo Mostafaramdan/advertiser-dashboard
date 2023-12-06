@@ -347,9 +347,16 @@ const navItems = computed(() => {
     },
     {
       title: 'المحافظ و الدفع الالكترونى',
-      to: { name: 'wallets-and-payments-page' },
       icon: { icon: 'tabler-wallet' },
       show: true,
+      to: null,
+      children: [
+        {
+          title: 'سجل العمليات',
+          to: { name: 'payments-logs-page' },
+          show: true,
+        },
+      ],
     },
     {
       title: 'النقاط والمكافآت',

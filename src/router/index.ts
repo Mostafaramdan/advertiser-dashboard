@@ -1,5 +1,6 @@
 import { couponsRoutes } from '@/modules/coupons/couponsRoutes'
 import { disputesRoutes } from '@/modules/disputes/disputesRoutes'
+import { paymentsRoutes } from '@/modules/payments/paymentsRoutes'
 import { reportsRoutes } from '@/modules/reports/reportsRoutes'
 import { settingsRoutes } from '@/modules/settings/settingsRoutes'
 import { statisticsRoutes } from '@/modules/statistics/statisticsRoutes'
@@ -157,14 +158,6 @@ const router = createRouter({
       },
     },
     {
-      path: '/wallets-and-payments',
-      name: 'wallets-and-payments-page',
-      component: () => import('@/pages/WalletsAndPaymentsPage.vue'),
-      meta: {
-        layout: 'default',
-      },
-    },
-    {
       path: '/points-and-prizes',
       name: 'points-and-prizes-page',
       component: () => import('@/pages/PointsAndPrizesPage.vue'),
@@ -305,6 +298,15 @@ const router = createRouter({
         requireAtLeastOnePermission: ['view_admins', 'view_role_categories', 'view_roles'],
       },
       children: teamRoutes,
+    },
+    {
+      path: '/payments',
+      name: 'payments',
+      component: () => import('@/modules/payments/PaymentsModule.vue'),
+      meta: {
+        layout: 'default',
+      },
+      children: paymentsRoutes,
     },
     {
       path: '/statistics',
