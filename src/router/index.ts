@@ -67,7 +67,6 @@ const router = createRouter({
       component: () => import('@/modules/settings/settingsModule.vue'),
       meta: {
         layout: 'default',
-        requiredPermission: 'view_settings',
       },
       children: settingsRoutes,
     },

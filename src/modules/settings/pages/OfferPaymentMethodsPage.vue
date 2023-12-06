@@ -103,18 +103,7 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-// getPageData()
-tableData.value = [
-  {
-    id: 1,
-    sort: 1,
-    is_active: true,
-    down_payment_percentage: 20,
-    down_payment_delivering: 'in_advance_direct_to_merchant',
-    remaining_payment_delivering: 'in_advance_by_platform',
-  },
-]
-
+getPageData()
 // #endregion
 </script>
 

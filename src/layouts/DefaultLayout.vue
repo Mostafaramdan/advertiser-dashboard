@@ -50,7 +50,7 @@ const navItems = computed(() => {
     {
       title: 'الاعدادات',
       icon: { icon: 'tabler-settings' },
-      show: hasPermission('view_settings'),
+      show: true,
       to: null,
       children: [
         {

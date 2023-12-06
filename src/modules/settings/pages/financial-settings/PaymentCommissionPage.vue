@@ -41,6 +41,7 @@ const {
   onEditItem,
   onCreateItem,
   showConfirmDeleteItem,
+  sortItems,
 } = UseCrudHelpers<PaymentCommission>(paymentCommissionService, params, MODEL_NAME)
 
 const headers: any = [
@@ -192,6 +193,17 @@ getPageData()
                     </template>
 
                     <VListItemTitle>عرض</VListItemTitle>
+                  </VListItem>
+
+                  <VListItem
+                    v-if="permissions.sort"
+                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    @click="sortItems(item.id)"
+                  >
+                    <template #prepend>
+                      <VIcon icon="tabler-transfer-in" />
+                    </template>
+                    <VListItemTitle>نقل</VListItemTitle>
                   </VListItem>
                 </VList>
               </VMenu>

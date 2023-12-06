@@ -20,16 +20,6 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
     title: 'صلاحيات عامة',
     groups: [
       {
-        title: 'الاعدادت العامة',
-        permissions: [
-          {
-            label: 'عرض',
-            checked: false,
-            key: 'view_settings',
-          },
-        ],
-      },
-      {
         title: 'الاشعارات',
         permissions: [
           {
