@@ -8,14 +8,6 @@
   padding-inline: 0;
 }
 
-.v-switch__thumb {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-
-.text-primary .v-switch__thumb {
-  background: rgba(var(--v-theme-primary), 1);
-}
-
 .v-switch.v-input--readonly {
   pointer-events: none;
 }

@@ -85,9 +85,16 @@ function toggleActivation() {
     hide-details
     v-bind="$attrs"
     :loading="isLoading"
-    :disabled="isLoading || disabled"
+    :readonly="isLoading || disabled"
     density="comfortable"
     :inset="false"
     @update:model-value="toggleActivation"
+    :class="{ 'opacity-75': disabled }"
   />
 </template>
+
+<style lang="scss" scoped>
+.opacity-75 {
+  opacity: 0.75;
+}
+</style>
