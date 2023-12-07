@@ -125,8 +125,8 @@ getPageData()
             class="d-inline-flex align-center"
             style="min-inline-size: 120px"
           >
-            <VAvatar size="38" variant="tonal" class="me-3" cover>
-              <VImg v-if="item.image" :src="item.image" cover />
+            <VAvatar size="38" class="me-3" rounded="0">
+              <VImg v-if="item.image" :src="item.image" contain />
               <span v-else>!</span>
             </VAvatar>
             <span>
