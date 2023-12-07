@@ -2,6 +2,7 @@
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { USERS_ROLES } from '@/constants/index'
+import LogsStats from '../components/LogsStats.vue'
 import type { LogsItem } from '../interfaces/Logs'
 import { logsService } from '../services/LogsService'
 
@@ -73,28 +74,7 @@ const headers: any = [
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-// getPageData()
-tableData.value = [
-  {
-    id: 428,
-    user: {
-      username: 'BeTrend',
-      role: 'user',
-    },
-    other_user: {
-      username: 'BeTrend advertiser',
-      role: 'advertiser',
-    },
-    type: 'الدفع أون لاين',
-    operation_type: 'دفع فاتورة الطلب',
-    created_at: '2023-06-02',
-    total: 200,
-    commission: 100,
-    payment_type: 'خارج المنصة',
-    points: 855,
-    points_balance: 9000,
-  },
-]
+getPageData()
 
 // #endregion
 </script>
@@ -103,6 +83,7 @@ tableData.value = [
   <section>
     <VCard class="page-card" title="سجل العمليات">
       <VCardText>
+        <LogsStats />
         <PageActions
           :items-per-page="params.itemPerPage"
           @update:items-per-page="onChangeItemsPerPage"
@@ -154,8 +135,8 @@ tableData.value = [
           </template>
           <template #item.points="{ item }">
             <div style="min-inline-size: 100px">
-              {{ item.points }}
-              <span class="text-sm text-disabled d-block">{{ item.points_balance }}</span>
+              {{ item.points || '-' }}
+              <span class="text-sm text-disabled d-block">{{ item.points_balance || '-' }}</span>
             </div>
           </template>
           <template #bottom>

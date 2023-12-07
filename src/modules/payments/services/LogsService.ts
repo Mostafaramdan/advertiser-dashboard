@@ -8,6 +8,10 @@ class LogsService {
   getItem(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}`, { params })
   }
+
+  getLogsStats(): AxiosPromise {
+    return axios.get('payments_log_statistics')
+  }
 }
 
 export const logsService = new LogsService()
