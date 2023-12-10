@@ -15,6 +15,7 @@ export interface LogsItem {
   commission: string
   points: string
   points_balance: string
+  type_key: string
 }
 
 export interface LogsStats {
