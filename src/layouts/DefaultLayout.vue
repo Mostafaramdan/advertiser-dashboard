@@ -28,7 +28,7 @@ const { switchToVerticalNavOnLtOverlayNavBreakpoint, isLessThanOverlayNavBreakpo
 // Remove below composable usage if you are not using horizontal nav layout in your app
 const { layoutAttrs, injectSkinClasses } = useSkins()
 
-const { setUserPermissions, getPermissions } = useAuthStore()
+const { getPermissions } = useAuthStore()
 const isLoading = ref<boolean>(false)
 
 const { hasAtLeaseOnePermission, hasPermission } = useAuthStore()
@@ -244,30 +244,62 @@ const navItems = computed(() => {
           to: { name: 'budget-slides-settings' },
           show: hasPermission('view_budget_slides'),
         },
+      ],
+    },
+    {
+      title: 'العروض',
+      icon: { icon: 'tabler-basket-discount' },
+      show: hasAtLeaseOnePermission([
+        'view_units',
+        'view_offer_deadlines',
+        'view_offer_payment_methods',
+        'view_banners',
+        'view_offers',
+      ]),
+      to: null,
+      children: [
         {
           title: 'الوحدات',
-          to: { name: 'units-settings' },
+          to: { name: 'offers-units' },
           show: hasPermission('view_units'),
         },
         {
+          title: 'مهل دفع العرض',
+          to: { name: 'offer-deadlines' },
+          show: hasPermission('view_offer_deadlines'),
+        },
+        {
+          title: 'طرق دفع العرض',
+          to: { name: 'offer-payment-methods' },
+          show: hasPermission('view_offer_payment_methods'),
+        },
+        {
+          title: 'البنرات',
+          to: { name: 'offers-banners' },
+          show: hasPermission('view_banners'),
+        },
+        {
+          title: 'العروض',
+          to: { name: 'offers-page' },
+          show: hasPermission('view_offers'),
+        },
+      ],
+    },
+    {
+      title: 'المساحات',
+      icon: { icon: 'tabler-ad-circle' },
+      show: hasAtLeaseOnePermission(['view_distances', 'view_views_prices']),
+      to: null,
+      children: [
+        {
           title: 'المسافات',
-          to: { name: 'distances-settings' },
+          to: { name: 'ads-spaces-distances' },
           show: hasPermission('view_distances'),
         },
         {
           title: 'أسعار المشاهدات',
-          to: { name: 'views-prices-settings' },
+          to: { name: 'ads-spaces-views-prices' },
           show: hasPermission('view_views_prices'),
-        },
-        {
-          title: 'طرق دفع العرض',
-          to: { name: 'offer-payment-methods-settings' },
-          show: hasPermission('view_offer_payment_methods'),
-        },
-        {
-          title: 'مهل دفع العرض',
-          to: { name: 'offer-deadlines-settings' },
-          show: hasPermission('view_offer_deadlines'),
         },
       ],
     },
@@ -363,18 +395,6 @@ const navItems = computed(() => {
       to: { name: 'points-and-prizes-page' },
       icon: { icon: 'tabler-gift' },
       show: true,
-    },
-    {
-      title: 'البنرات',
-      to: { name: 'banners-page' },
-      icon: { icon: 'tabler-photo-share' },
-      show: hasPermission('view_banners'),
-    },
-    {
-      title: 'العروض',
-      to: { name: 'offers-page' },
-      icon: { icon: 'tabler-basket-discount' },
-      show: hasPermission('view_offers'),
     },
     {
       title: 'الكوبونات',

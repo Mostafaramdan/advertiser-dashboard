@@ -35,3 +35,29 @@ export const FILTER_TYPES = {
   incoming: 'العروض القادمة',
   this_week: 'عروض الاسبوع',
 }
+
+export const BANNER_LINK_TYPES = {
+  none: 'بدون رابط',
+  internal: 'رابط داخلي',
+  external: 'رابط خارجي',
+}
+
+export const BANNER_LINKABLE_TYPES = {
+  offers: 'عروض',
+  users: 'معلنين',
+}
+
+// offer payment methods
+export const OFFER_PAYMENT_METHODS = {
+  in_advance_direct_to_merchant: 'مقدما إلى حساب التاجر مباشرة',
+  on_delivery: 'دفع عند الإستلام',
+  in_advance_by_platform: 'مقدما عن طريق المنصة',
+}
+
+// offer deadlines
+export const OFFER_DEADLINES_TIMES = {
+  request: 'الطلب',
+  request_approval: 'الموافقة على الطلب',
+  pricing_approval: 'الموافقة على التسعير',
+  receiving: 'الإستلام',
+}

@@ -1,5 +1,7 @@
+import { adsSpacesRoutes } from '@/modules/ads-spaces/adsSpacesRoutes'
 import { couponsRoutes } from '@/modules/coupons/couponsRoutes'
 import { disputesRoutes } from '@/modules/disputes/disputesRoutes'
+import { offersRoutes } from '@/modules/offers/offersRoutes'
 import { paymentsRoutes } from '@/modules/payments/paymentsRoutes'
 import { reportsRoutes } from '@/modules/reports/reportsRoutes'
 import { settingsRoutes } from '@/modules/settings/settingsRoutes'
@@ -70,6 +72,32 @@ const router = createRouter({
         layout: 'default',
       },
       children: settingsRoutes,
+    },
+    {
+      path: '/offers',
+      name: 'offers',
+      component: () => import('@/modules/offers/OffersModule.vue'),
+      meta: {
+        layout: 'default',
+        requireAtLeastOnePermission: [
+          'view_units',
+          'view_offer_deadlines',
+          'view_offer_payment_methods',
+          'view_banners',
+          'view_offers',
+        ],
+      },
+      children: offersRoutes,
+    },
+    {
+      path: '/ads-spaces',
+      name: 'ads-spaces',
+      component: () => import('@/modules/ads-spaces/AdsSpacesModule.vue'),
+      meta: {
+        layout: 'default',
+        requireAtLeastOnePermission: ['view_distances', 'view_views_prices'],
+      },
+      children: adsSpacesRoutes,
     },
     {
       path: '/subscriptions',
@@ -163,69 +191,6 @@ const router = createRouter({
       component: () => import('@/pages/PointsAndPrizesPage.vue'),
       meta: {
         layout: 'default',
-      },
-    },
-    {
-      path: '/banners',
-      name: 'banners-page',
-      component: () => import('@/pages/BannersPage.vue'),
-      meta: {
-        layout: 'default',
-        requiredPermission: 'view_banners',
-      },
-    },
-    {
-      path: '/banners/create',
-      name: 'banners-create-page',
-      component: () => import('@/pages/BannerCreatePage.vue'),
-      meta: {
-        layout: 'default',
-        requiredPermission: 'create_banner',
-      },
-    },
-    {
-      path: '/banners/:id/edit',
-      name: 'banners-edit-page',
-      component: () => import('@/pages/BannerEditPage.vue'),
-      meta: {
-        layout: 'default',
-        requiredPermission: 'update_banner',
-      },
-    },
-    {
-      path: '/offers',
-      name: 'offers-page',
-      component: () => import('@/pages/OffersPage.vue'),
-      meta: {
-        layout: 'default',
-        requiredPermission: 'view_offers',
-      },
-    },
-    {
-      path: '/offers/create',
-      name: 'offer-create-page',
-      component: () => import('@/pages/OfferCreatePage.vue'),
-      meta: {
-        layout: 'default',
-        requiredPermission: 'create_offer',
-      },
-    },
-    {
-      path: '/offers/:id/edit',
-      name: 'offer-edit-page',
-      component: () => import('@/pages/OfferEditPage.vue'),
-      meta: {
-        layout: 'default',
-        requiredPermission: 'update_offer',
-      },
-    },
-    {
-      path: '/offers/:id/details',
-      name: 'offer-details-page',
-      component: () => import('@/pages/OfferDetailsPage.vue'),
-      meta: {
-        layout: 'default',
-        requiredPermission: 'view_offers',
       },
     },
     {

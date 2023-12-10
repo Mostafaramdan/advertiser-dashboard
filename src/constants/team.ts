@@ -1039,6 +1039,11 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+    ],
+  },
+  {
+    title: 'العروض',
+    groups: [
       {
         title: 'الوحدات',
         permissions: [
@@ -1074,6 +1079,216 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'مهل دفع العرض',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_offer_deadlines',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_offer_deadline',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_offer_deadline',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_offer_deadline',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_offer_deadline',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_offer_deadline',
+          },
+        ],
+      },
+      {
+        title: 'طرق دفع العرض',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_offer_payment_methods',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_offer_payment_method',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_offer_payment_method',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_offer_payment_method',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_offer_payment_method',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_offer_payment_method',
+          },
+        ],
+      },
+      {
+        title: 'البنرات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_banners',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_banner',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_banner',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_banner',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_banner',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'sort_banner',
+          },
+        ],
+      },
+      {
+        title: 'العروض',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_offers',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_offer',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_offer',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_offer',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_offer',
+          },
+          {
+            label: 'قبول',
+            checked: false,
+            key: 'accept_offer',
+          },
+          {
+            label: 'رفض',
+            checked: false,
+            key: 'reject_offer',
+          },
+          {
+            label: 'إلغاء',
+            checked: false,
+            key: 'cancel_offer',
+          },
+          {
+            label: 'تغيير حالة العرض',
+            checked: false,
+            key: 'change_publish_status_offer',
+          },
+          {
+            label: 'تغيير حالة كمية العرض',
+            checked: false,
+            key: 'change_quantity_status_offer',
+          },
+          {
+            label: 'إعادة نشر',
+            checked: false,
+            key: 'repost_offer',
+          },
+          {
+            label: 'عرض الاحصائيات',
+            checked: false,
+            key: 'view_offer_statistics',
+          },
+          {
+            label: 'عرض طلبات تنبية بدء العرض',
+            checked: false,
+            key: 'view_start_reminder_requests',
+          },
+          {
+            label: 'عرض طلبات تنبية توفر الكمية',
+            checked: false,
+            key: 'view_availability_reminder_requests',
+          },
+          {
+            label: 'عرض سجل العمليات',
+            checked: false,
+            key: 'view_offer_logs',
+          },
+          {
+            label: 'عرض سجل الملاحظات',
+            checked: false,
+            key: 'view_offer_notes',
+          },
+          {
+            label: 'إضافة ملاحظة',
+            checked: false,
+            key: 'create_offer_note',
+          },
+          {
+            label: 'تعديل ملاحظة',
+            checked: false,
+            key: 'update_offer_note',
+          },
+          {
+            label: 'حذف ملاحظة',
+            checked: false,
+            key: 'delete_offer_note',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'المساحات',
+    groups: [
       {
         title: 'المسافات',
         permissions: [
@@ -1141,76 +1356,6 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'ترتيب',
             checked: false,
             key: 'sort_views_price',
-          },
-        ],
-      },
-      {
-        title: 'طرق دفع العرض',
-        permissions: [
-          {
-            label: 'عرض الكل',
-            checked: false,
-            key: 'view_offer_payment_methods',
-          },
-          {
-            label: 'إضافة',
-            checked: false,
-            key: 'create_offer_payment_method',
-          },
-          {
-            label: 'تعديل',
-            checked: false,
-            key: 'update_offer_payment_method',
-          },
-          {
-            label: 'حذف',
-            checked: false,
-            key: 'delete_offer_payment_method',
-          },
-          {
-            label: 'تغيير الحالة',
-            checked: false,
-            key: 'change_status_offer_payment_method',
-          },
-          {
-            label: 'ترتيب',
-            checked: false,
-            key: 'sort_offer_payment_method',
-          },
-        ],
-      },
-      {
-        title: 'مهل دفع العرض',
-        permissions: [
-          {
-            label: 'عرض الكل',
-            checked: false,
-            key: 'view_offer_deadlines',
-          },
-          {
-            label: 'إضافة',
-            checked: false,
-            key: 'create_offer_deadline',
-          },
-          {
-            label: 'تعديل',
-            checked: false,
-            key: 'update_offer_deadline',
-          },
-          {
-            label: 'حذف',
-            checked: false,
-            key: 'delete_offer_deadline',
-          },
-          {
-            label: 'تغيير الحالة',
-            checked: false,
-            key: 'change_status_offer_deadline',
-          },
-          {
-            label: 'ترتيب',
-            checked: false,
-            key: 'sort_offer_deadline',
           },
         ],
       },
@@ -1676,146 +1821,6 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'الاعتماد من المنصة',
             checked: false,
             key: 'change_confirm_status_store',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    title: 'العروض و البنرات',
-    groups: [
-      {
-        title: 'العروض',
-        permissions: [
-          {
-            label: 'عرض الكل',
-            checked: false,
-            key: 'view_offers',
-          },
-          {
-            label: 'إضافة',
-            checked: false,
-            key: 'create_offer',
-          },
-          {
-            label: 'تعديل',
-            checked: false,
-            key: 'update_offer',
-          },
-          {
-            label: 'حذف',
-            checked: false,
-            key: 'delete_offer',
-          },
-          {
-            label: 'تغيير الحالة',
-            checked: false,
-            key: 'change_status_offer',
-          },
-          {
-            label: 'قبول',
-            checked: false,
-            key: 'accept_offer',
-          },
-          {
-            label: 'رفض',
-            checked: false,
-            key: 'reject_offer',
-          },
-          {
-            label: 'إلغاء',
-            checked: false,
-            key: 'cancel_offer',
-          },
-          {
-            label: 'تغيير حالة العرض',
-            checked: false,
-            key: 'change_publish_status_offer',
-          },
-          {
-            label: 'تغيير حالة كمية العرض',
-            checked: false,
-            key: 'change_quantity_status_offer',
-          },
-          {
-            label: 'إعادة نشر',
-            checked: false,
-            key: 'repost_offer',
-          },
-          {
-            label: 'عرض الاحصائيات',
-            checked: false,
-            key: 'view_offer_statistics',
-          },
-          {
-            label: 'عرض طلبات تنبية بدء العرض',
-            checked: false,
-            key: 'view_start_reminder_requests',
-          },
-          {
-            label: 'عرض طلبات تنبية توفر الكمية',
-            checked: false,
-            key: 'view_availability_reminder_requests',
-          },
-          {
-            label: 'عرض سجل العمليات',
-            checked: false,
-            key: 'view_offer_logs',
-          },
-          {
-            label: 'عرض سجل الملاحظات',
-            checked: false,
-            key: 'view_offer_notes',
-          },
-          {
-            label: 'إضافة ملاحظة',
-            checked: false,
-            key: 'create_offer_note',
-          },
-          {
-            label: 'تعديل ملاحظة',
-            checked: false,
-            key: 'update_offer_note',
-          },
-          {
-            label: 'حذف ملاحظة',
-            checked: false,
-            key: 'delete_offer_note',
-          },
-        ],
-      },
-      {
-        title: 'البنرات',
-        permissions: [
-          {
-            label: 'عرض الكل',
-            checked: false,
-            key: 'view_banners',
-          },
-          {
-            label: 'إضافة',
-            checked: false,
-            key: 'create_banner',
-          },
-          {
-            label: 'تعديل',
-            checked: false,
-            key: 'update_banner',
-          },
-          {
-            label: 'حذف',
-            checked: false,
-            key: 'delete_banner',
-          },
-          {
-            label: 'تغيير الحالة',
-            checked: false,
-            key: 'change_status_banner',
-          },
-          {
-            label: 'ترتيب',
-            checked: false,
-            key: 'sort_banner',
           },
         ],
       },

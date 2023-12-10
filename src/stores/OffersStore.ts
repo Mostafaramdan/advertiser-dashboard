@@ -1,4 +1,4 @@
-import type { OfferDetails } from '@/interfaces/Offer'
+import type { OfferDetails } from '@/modules/offers/interfaces/Offer'
 import { defineStore } from 'pinia'
 
 interface State {

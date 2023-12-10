@@ -160,46 +160,6 @@ export const settingsRoutes = [
     },
   },
   {
-    path: 'units',
-    name: 'units-settings',
-    component: () => import('./pages/UnitsPage.vue'),
-    meta: {
-      requiredPermission: 'view_units',
-    },
-  },
-  {
-    path: 'distances',
-    name: 'distances-settings',
-    component: () => import('./pages/DistancesPage.vue'),
-    meta: {
-      requiredPermission: 'view_distances',
-    },
-  },
-  {
-    path: 'views-prices',
-    name: 'views-prices-settings',
-    component: () => import('./pages/ViewsPricesPage.vue'),
-    meta: {
-      requiredPermission: 'view_views_prices',
-    },
-  },
-  {
-    path: 'offer-payment-methods',
-    name: 'offer-payment-methods-settings',
-    component: () => import('./pages/OfferPaymentMethodsPage.vue'),
-    meta: {
-      requiredPermission: 'view_offer_payment_methods',
-    },
-  },
-  {
-    path: 'offer-deadlines',
-    name: 'offer-deadlines-settings',
-    component: () => import('./pages/OfferDeadlinesPage.vue'),
-    meta: {
-      requiredPermission: 'view_offer_deadlines',
-    },
-  },
-  {
     path: 'platform',
     name: 'platform-settings',
     component: () => import('./pages/platform/IndexPage.vue'),
