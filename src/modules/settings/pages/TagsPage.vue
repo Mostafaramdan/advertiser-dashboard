@@ -202,8 +202,7 @@ function rowProps({ item }: { item: Tag }) {
             :id="item.id"
             v-model="item.is_active"
             :model="MODEL_NAME"
-            :disabled="!permissions.changeStatus"
-            :readonly="!item.can_control"
+            :disabled="!permissions.changeStatus || !item.can_control"
           />
         </template>
 
