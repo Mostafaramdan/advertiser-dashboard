@@ -131,8 +131,8 @@ getPageData()
     <template #title>
       <div v-if="country" class="d-flex align-center">
         <PageBackBtn :link="{ name: 'countries-settings' }" />
-        <VAvatar size="38" variant="tonal" class="me-3" cover>
-          <VImg cover :src="country.image" />
+        <VAvatar size="38" class="me-3" rounded="0">
+          <VImg contain :src="country.image" />
         </VAvatar>
         <div>
           مناطق

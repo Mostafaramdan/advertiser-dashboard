@@ -160,7 +160,7 @@ getPageData()
               <VMenu activator="parent">
                 <VList>
                   <VListItem
-                    v-if="permissions.viewAreas"
+                    :disabled="!permissions.viewAreas"
                     :to="{ name: 'areas-settings', params: { id: item.id } }"
                   >
                     <template #prepend>
