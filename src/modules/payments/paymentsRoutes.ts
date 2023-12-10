@@ -7,4 +7,12 @@ export const paymentsRoutes = [
       // requiredPermission: '',
     },
   },
+  {
+    path: 'exchange-records',
+    name: 'exchange-records-page',
+    component: () => import('./pages/ExchangeRecordsPage.vue'),
+    meta: {
+      // requiredPermission: '',
+    },
+  },
 ]

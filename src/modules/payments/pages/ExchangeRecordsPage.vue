@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
-import { USERS_ROLES } from '@/constants/index'
-import LogsStats from '../components/LogsStats.vue'
-import type { LogsItem } from '../interfaces/Logs'
-import { logsService } from '../services/LogsService'
+import type { ExchangeRecord } from '../interfaces/ExchangeRecord'
+import { exchangeRecordsService } from '../services/ExchangeRecordsService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -27,7 +25,7 @@ const {
   onReloadData,
   onChangeItemsPerPage,
   onChangeSearch,
-} = UseCrudHelpers<LogsItem>(logsService, params, '')
+} = UseCrudHelpers<ExchangeRecord>(exchangeRecordsService, params, '')
 
 const headers: any = [
   {
@@ -35,28 +33,33 @@ const headers: any = [
     key: 'id',
   },
   {
-    title: 'صاحب العلاقة/النوع',
+    title: 'المستخدم',
     key: 'user',
   },
   {
-    title: 'الطرف الأخر',
-    key: 'other_user',
+    title: 'تاريخ العملية',
+    key: 'created_at',
   },
   {
-    title: 'طريقة الدفع/التاريخ',
-    key: 'payment_type',
-  },
-  {
-    title: 'نوع العملية/بيان العملية',
-    key: 'type',
-  },
-  {
-    title: 'المبلغ/عمولة المنصة',
+    title: 'مبلغ الصرف',
     key: 'total',
   },
   {
-    title: 'عدد النقاط/قيمة النقاط',
-    key: 'points',
+    title: 'حساب الصرف',
+    key: 'card.label',
+  },
+  {
+    title: 'قناة الصرف',
+    key: 'card.type',
+  },
+  {
+    title: 'النوع',
+    key: 'type',
+  },
+  {
+    title: 'حالة الاستلام',
+    key: 'status',
+    align: 'center',
   },
 ]
 
@@ -80,9 +83,8 @@ getPageData()
 
 <template>
   <section>
-    <VCard class="page-card" title="سجل العمليات">
+    <VCard class="page-card" title="سجل الصرف">
       <VCardText>
-        <LogsStats />
         <PageActions
           :items-per-page="params.itemPerPage"
           @update:items-per-page="onChangeItemsPerPage"
@@ -102,41 +104,28 @@ getPageData()
           </template>
           <template #item.user="{ item }">
             <div style="min-inline-size: 200px">
-              {{ item.user.username }}
-              <span class="text-sm text-disabled d-block">{{ USERS_ROLES[item.user.role] }}</span>
+              <span> {{ item.user.username }}</span>
             </div>
           </template>
-          <template #item.other_user="{ item }">
-            <div style="min-inline-size: 200px">
-              {{ item.other_user.username }}
-              <span class="text-sm text-disabled d-block">{{
-                USERS_ROLES[item.other_user.role]
-              }}</span>
-            </div>
-          </template>
-          <template #item.payment_type="{ item }">
-            <div class="text-no-wrap">
-              {{ item.payment_type }}
-              <span class="text-sm text-disabled d-block">{{ formatDate(item.created_at) }}</span>
-            </div>
-          </template>
-          <template #item.type="{ item }">
-            <div style="min-inline-size: 100px">
-              {{ item.type }}
-              <span class="text-sm text-disabled d-block">{{ item.operation_type }}</span>
-            </div>
+          <template #item.created_at="{ item }">
+            <div class="text-no-wrap">{{ formatDate(item.created_at) }}</div>
           </template>
           <template #item.total="{ item }">
-            <div style="min-inline-size: 100px">
-              {{ item.total }}
-              <span class="text-sm text-disabled d-block">{{ item.commission }}</span>
-            </div>
+            <div class="text-no-wrap">{{ item.total }} {{ item.currency }}</div>
           </template>
-          <template #item.points="{ item }">
-            <div style="min-inline-size: 100px">
-              {{ item.points || '-' }}
-              <span class="text-sm text-disabled d-block">{{ item.points_balance || '-' }}</span>
-            </div>
+          <template #item.card.label="{ item }">
+            <span class="d-block" style="min-inline-size: 100px">{{ item.card.label }}</span>
+          </template>
+          <template #item.card.type="{ item }">
+            <span class="d-block" style="min-inline-size: 100px">{{ item.card.type }}</span>
+          </template>
+          <template #item.type="{ item }">
+            <span class="d-block" style="min-inline-size: 100px">{{ item.type }}</span>
+          </template>
+          <template #item.status="{ item }">
+            <VChip color="dark">
+              {{ item.status }}
+            </VChip>
           </template>
           <template #bottom>
             <PagePagination
@@ -155,5 +144,9 @@ getPageData()
 :deep(.v-data-table .v-table__wrapper > table td) {
   max-inline-size: 200px;
   word-wrap: break-word;
+
+  span {
+    @include max-lines(2);
+  }
 }
 </style>

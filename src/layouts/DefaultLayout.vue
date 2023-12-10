@@ -388,6 +388,11 @@ const navItems = computed(() => {
           to: { name: 'payments-logs-page' },
           show: true,
         },
+        {
+          title: 'سجل الصرف',
+          to: { name: 'exchange-records-page' },
+          show: true,
+        },
       ],
     },
     {
