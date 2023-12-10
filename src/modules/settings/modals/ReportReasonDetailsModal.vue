@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useVModel } from '@vueuse/core'
 import type { FormModalProps } from '@/interfaces/Forms'
+import { useVModel } from '@vueuse/core'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -69,7 +69,7 @@ const showModal = useVModel(props, 'showModal', emit)
                 border
               />
             </VList>
-            <AppSwitch :model-value="activeItem.is_active" label="البلاغ" name="is_active" />
+            <AppSwitch :model-value="activeItem.is_active" label="الحالة" name="is_active" />
           </VCardText>
         </VCard>
       </div>

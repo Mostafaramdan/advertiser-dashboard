@@ -133,7 +133,7 @@ const submit = () => {
                 />
               </VCol>
               <VCol cols="12" class="pt-0">
-                <AppSwitch v-model="formData.is_active" label="البلاغ" name="is_active" />
+                <AppSwitch v-model="formData.is_active" label="الحالة" name="is_active" />
               </VCol>
             </VRow>
           </VCardText>
