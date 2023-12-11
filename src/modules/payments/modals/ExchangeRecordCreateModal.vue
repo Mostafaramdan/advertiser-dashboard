@@ -37,13 +37,11 @@ const { t } = useI18n()
 const toast = useToast()
 const showModal = useVModel(props, 'showModal', emit)
 const formRef = ref<any>(null)
-const requestsList = ref<DropdownMenuItem[]>([])
 const bankAccountsList = ref<DropdownMenuItem[]>([])
 const withdrawData = ref<ExchangeRecordWithdrawData | null>(null)
 
 const isLoading = reactive({
   data: false,
-  requests: false,
   submit: false,
 })
 const formData = reactive<ExchangeRecordFormData>({
@@ -173,18 +171,27 @@ function submit() {
                   />
                 </VeeField>
               </VCol>
-              <VCol cols="12">
-                <AppSelect
+              <VCol cols="12" v-if="formData.user_id">
+                <VeeField
+                  v-slot="{ errorMessage, value, handleChange, handleBlur }"
                   v-model="formData.request_id"
-                  :items="requestsList"
-                  item-title="label"
-                  item-value="id"
                   name="request_id"
-                  label="رقم الطلب"
-                  clearable
+                  label="الطلب"
                   rules="required"
-                  :disabled="!formData.user_id"
-                />
+                >
+                  <VLabel class="text-body-2 text-high-emphasis" text="الطلب" />
+                  <PendingRequestsFilter
+                    label=""
+                    :model-value="value"
+                    :error-messages="errorMessage"
+                    :error="!!errorMessage"
+                    id="requests-select-filter"
+                    @update:model-value="handleChange"
+                    @blur="handleBlur"
+                    clearable
+                    :user_id="formData.user_id"
+                  />
+                </VeeField>
               </VCol>
               <VCol cols="12">
                 <AppSelect

@@ -88,6 +88,10 @@ class ListService {
   getUnits(): AxiosPromise {
     return axios.get(`${this.contextPath}/units`)
   }
+
+  getPendingRequests(params: any): AxiosPromise {
+    return axios.get(`exchange-pending-requests`, { params })
+  }
 }
 
 export const listService = new ListService()
