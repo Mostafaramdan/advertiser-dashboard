@@ -3,7 +3,7 @@ import axios from 'axios'
 import type { ViewsPrice, ViewsPriceBase } from '../interfaces/ViewsPrice'
 
 class ViewsPricesService {
-  contextPath = 'prices'
+  contextPath = 'views_prices'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {

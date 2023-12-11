@@ -13,7 +13,7 @@ import { viewsPricesService } from '../services/ViewsPricesService'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'prices'
+const MODEL_NAME = 'views_prices'
 
 const params = reactive({
   page: 1,
