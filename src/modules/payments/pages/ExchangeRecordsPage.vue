@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { USERS_ROLES } from '@/constants/index'
+import { pageAction } from '@/interfaces/Shared'
 import type { ExchangeRecord } from '../interfaces/ExchangeRecord'
+import ExchangeRecordCreateModal from '../modals/ExchangeRecordCreateModal.vue'
+import ExchangeRecordDetailsModal from '../modals/ExchangeRecordDetailsModal.vue'
 import { exchangeRecordsService } from '../services/ExchangeRecordsService'
 
 /***************************************
@@ -10,7 +14,7 @@ import { exchangeRecordsService } from '../services/ExchangeRecordsService'
 // #region Variables
 const { t } = useI18n()
 const { formatDate } = UseGeneralHelpers()
-
+const showCreateModal = ref<boolean>(false)
 const params: any = reactive({
   page: 1,
   itemPerPage: 10,
@@ -21,10 +25,13 @@ const {
   tableData,
   metaData,
   IsLoadingData,
+  showDetailsModal,
+  activeItem,
   getPageData,
   onReloadData,
   onChangeItemsPerPage,
   onChangeSearch,
+  showViewModal,
 } = UseCrudHelpers<ExchangeRecord>(exchangeRecordsService, params, '')
 
 const headers: any = [
@@ -69,7 +76,15 @@ const headers: any = [
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-
+const pageActionsButtons = computed<pageAction[]>(() => {
+  return [
+    {
+      icon: 'tabler-plus',
+      show: true,
+      handler: openCreateModal,
+    },
+  ]
+})
 // #endregion
 
 /***************************************
@@ -79,13 +94,33 @@ const headers: any = [
 getPageData()
 
 // #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
+function openCreateModal() {
+  showCreateModal.value = true
+}
+// #endregion
 </script>
 
 <template>
   <section>
+    <ExchangeRecordDetailsModal
+      v-if="showDetailsModal"
+      v-model:showModal="showDetailsModal"
+      :active-item="activeItem"
+    />
+    <ExchangeRecordCreateModal
+      v-if="showCreateModal"
+      v-model:showModal="showCreateModal"
+      @create-item="onReloadData"
+    />
     <VCard class="page-card" title="سجل الصرف">
       <VCardText>
         <PageActions
+          :page-actions-buttons="pageActionsButtons"
           :items-per-page="params.itemPerPage"
           @update:items-per-page="onChangeItemsPerPage"
           @update:search="onChangeSearch"
@@ -100,11 +135,12 @@ getPageData()
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
           <template #item.id="{ item }">
-            <a href="#">{{ item.id }}</a>
+            <a href="#" @click.prevent="showViewModal(item)">{{ item.id }}</a>
           </template>
           <template #item.user="{ item }">
             <div style="min-inline-size: 200px">
-              <span> {{ item.user.username }}</span>
+              {{ item.user.username }}
+              <span class="text-sm text-disabled d-block">{{ USERS_ROLES[item.user.role] }}</span>
             </div>
           </template>
           <template #item.created_at="{ item }">
@@ -114,13 +150,19 @@ getPageData()
             <div class="text-no-wrap">{{ item.total }} {{ item.currency }}</div>
           </template>
           <template #item.card.label="{ item }">
-            <span class="d-block" style="min-inline-size: 100px">{{ item.card.label }}</span>
+            <div style="min-inline-size: 100px">
+              <span>{{ item.card.label }}</span>
+            </div>
           </template>
           <template #item.card.type="{ item }">
-            <span class="d-block" style="min-inline-size: 100px">{{ item.card.type }}</span>
+            <div style="min-inline-size: 100px">
+              <span>{{ item.card.type }}</span>
+            </div>
           </template>
           <template #item.type="{ item }">
-            <span class="d-block" style="min-inline-size: 100px">{{ item.type }}</span>
+            <div style="min-inline-size: 100px">
+              <span>{{ item.type }}</span>
+            </div>
           </template>
           <template #item.status="{ item }">
             <VChip color="dark">
