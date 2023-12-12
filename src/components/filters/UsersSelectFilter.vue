@@ -138,7 +138,7 @@ const handleDebounceSearch = debounce((value: any) => {
         <span v-if="item.title && !isLoading">{{ item.title }}</span>
       </template>
       <template #prepend-item>
-        <div class="search-input pa-1">
+        <div class="search-box pa-1">
           <v-progress-linear
             indeterminate
             height="1"
@@ -158,7 +158,7 @@ const handleDebounceSearch = debounce((value: any) => {
 </template>
 
 <style lang="scss" scoped>
-.search-input {
+.search-box {
   position: sticky;
   z-index: 1;
   background: rgba(var(--v-theme-white), 1);

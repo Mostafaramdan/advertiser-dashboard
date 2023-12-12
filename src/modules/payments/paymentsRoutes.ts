@@ -8,6 +8,14 @@ export const paymentsRoutes = [
     },
   },
   {
+    path: 'users-wallets',
+    name: 'users-wallets-page',
+    component: () => import('./pages/UsersWalletsPage.vue'),
+    meta: {
+      // requiredPermission: '',
+    },
+  },
+  {
     path: 'exchange-records',
     name: 'exchange-records-page',
     component: () => import('./pages/ExchangeRecordsPage.vue'),

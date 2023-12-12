@@ -19,6 +19,7 @@ const params: any = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
+  user_id: null,
 })
 
 const {
@@ -66,6 +67,11 @@ const headers: any = [
   {
     title: 'حالة الاستلام',
     key: 'status',
+    align: 'center',
+  },
+  {
+    title: 'العمليات',
+    key: 'actions',
     align: 'center',
   },
 ]
@@ -125,7 +131,20 @@ function openCreateModal() {
           @update:items-per-page="onChangeItemsPerPage"
           @update:search="onChangeSearch"
           @reload-data="onReloadData"
-        />
+        >
+          <div class="v-col-md-4 pa-0">
+            <UsersSelectFilter
+              id="users-select-filter"
+              label="المستخدم"
+              :userRole="null"
+              v-model="params.user_id"
+              hide-default-label
+              @update:model-value="onReloadData"
+              clearable
+            />
+          </div>
+          <span class="me-auto" />
+        </PageActions>
         <VDataTableServer
           v-loading="IsLoadingData"
           :headers="headers"
@@ -134,9 +153,6 @@ function openCreateModal() {
           class="app-table"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
-          <template #item.id="{ item }">
-            <a href="#" @click.prevent="showViewModal(item)">{{ item.id }}</a>
-          </template>
           <template #item.user="{ item }">
             <div style="min-inline-size: 200px">
               {{ item.user.username }}
@@ -169,6 +185,13 @@ function openCreateModal() {
               {{ item.status }}
             </VChip>
           </template>
+          <template #item.actions="{ item }">
+            <div class="d-flex justify-center">
+              <IconBtn @click="showViewModal(item)">
+                <VIcon icon="tabler-eye" />
+              </IconBtn>
+            </div>
+          </template>
           <template #bottom>
             <PagePagination
               v-model:page="params.page"
@@ -190,5 +213,13 @@ function openCreateModal() {
   span {
     @include max-lines(2);
   }
+}
+
+:deep(.search-input) {
+  margin: 0 !important;
+}
+
+:deep(.v-input--horizontal) {
+  margin-block-start: 0 !important;
 }
 </style>

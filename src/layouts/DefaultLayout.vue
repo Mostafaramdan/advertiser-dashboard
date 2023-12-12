@@ -389,6 +389,11 @@ const navItems = computed(() => {
           show: true,
         },
         {
+          title: 'محافظ المستخدمين',
+          to: { name: 'users-wallets-page' },
+          show: true,
+        },
+        {
           title: 'سجل الصرف',
           to: { name: 'exchange-records-page' },
           show: true,
