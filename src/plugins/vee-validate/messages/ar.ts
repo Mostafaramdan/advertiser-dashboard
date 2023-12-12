@@ -15,6 +15,7 @@ const arMessages = {
   validIcloud: 'الرجاء إدخال حساب iCloud صالح',
   minDate: 'يجب أن يكون التاريخ أكبر من أو يساوي 0:{min}',
   lessThanValue: 'يجب أن يكون القيمة أقل من 0:{max}',
+  greaterThanValue: 'يجب أن يكون القيمة أكبر من 0:{val}',
 }
 
 export default arMessages

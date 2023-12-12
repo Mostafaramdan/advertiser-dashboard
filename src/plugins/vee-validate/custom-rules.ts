@@ -38,6 +38,12 @@ export function lessThanValue(value: string, [max]: any) {
   return true
 }
 
+export function greaterThanValue(value: string, [val]: any) {
+  if (!value || !value.length || !val) return true
+  else if (Number(value) <= Number(val)) return false
+  return true
+}
+
 export function validUrl(value: string) {
   if (!value || !value.length) return true
   else {

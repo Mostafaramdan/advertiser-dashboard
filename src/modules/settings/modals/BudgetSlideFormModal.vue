@@ -137,7 +137,7 @@ const submit = () => {
                   label="الي"
                   name="to"
                   type="number"
-                  :rules="{ required: true, min_value: formData.from || 0 }"
+                  :rules="{ required: true, greaterThanValue: formData.from || 0 }"
                 />
               </VCol>
               <VCol cols="12" class="pt-0">

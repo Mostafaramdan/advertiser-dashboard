@@ -6,6 +6,7 @@ import {
   isNumber,
   lessThanTime,
   lessThanValue,
+  greaterThanValue,
   minDate,
   minWords,
   validIcloud,
@@ -30,6 +31,7 @@ export default (app: any) => {
   defineRule('validIcloud', validIcloud)
   defineRule('minDate', minDate)
   defineRule('lessThanValue', lessThanValue)
+  defineRule('greaterThanValue', greaterThanValue)
 
   configure({
     generateMessage: localize({
