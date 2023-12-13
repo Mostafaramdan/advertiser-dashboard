@@ -14,7 +14,9 @@ import { exchangeRecordsService } from '../services/ExchangeRecordsService'
 // #region Variables
 const { t } = useI18n()
 const { formatDate } = UseGeneralHelpers()
+const route = useRoute()
 const showCreateModal = ref<boolean>(false)
+const userKeyword = ref<string>('')
 const params: any = reactive({
   page: 1,
   itemPerPage: 10,
@@ -97,6 +99,7 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
+checkQueryParams()
 getPageData()
 
 // #endregion
@@ -107,6 +110,12 @@ getPageData()
 // #region Functions
 function openCreateModal() {
   showCreateModal.value = true
+}
+
+function checkQueryParams() {
+  const { user_id, username } = route.query
+  if (user_id) params.user_id = +user_id
+  if (username) userKeyword.value = username as string
 }
 // #endregion
 </script>
@@ -137,6 +146,7 @@ function openCreateModal() {
               id="users-select-filter"
               label="المستخدم"
               :userRole="null"
+              :keyword="userKeyword"
               v-model="params.user_id"
               hide-default-label
               @update:model-value="onReloadData"

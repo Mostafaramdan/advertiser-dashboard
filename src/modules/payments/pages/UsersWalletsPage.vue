@@ -178,13 +178,23 @@ getPageData()
 
                 <VMenu activator="parent">
                   <VList>
-                    <VListItem>
+                    <VListItem
+                      :to="{
+                        name: 'payments-logs-page',
+                        query: { user_id: item.user.id, username: item.user.username },
+                      }"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-history" />
                       </template>
                       <VListItemTitle>سجل العمليات</VListItemTitle>
                     </VListItem>
-                    <VListItem>
+                    <VListItem
+                      :to="{
+                        name: 'exchange-records-page',
+                        query: { user_id: item.user.id, username: item.user.username },
+                      }"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-wallet" />
                       </template>

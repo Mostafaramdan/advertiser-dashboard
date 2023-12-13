@@ -4,6 +4,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { USERS_ROLES } from '@/constants/index'
 import LogsStats from '../components/LogsStats.vue'
 import type { LogsItem } from '../interfaces/Logs'
+import LogsDetailsModal from '../modals/LogsDetailsModal.vue'
 import { logsService } from '../services/LogsService'
 
 /***************************************
@@ -12,21 +13,26 @@ import { logsService } from '../services/LogsService'
 // #region Variables
 const { t } = useI18n()
 const { formatDate } = UseGeneralHelpers()
-
+const route = useRoute()
+const userKeyword = ref<string>('')
 const params: any = reactive({
   page: 1,
-  itemPerPage: 10,
+  itemPerPage: 100,
   keyword: '',
+  user_id: null,
 })
 
 const {
   tableData,
   metaData,
   IsLoadingData,
+  showDetailsModal,
+  activeItem,
   getPageData,
   onReloadData,
   onChangeItemsPerPage,
   onChangeSearch,
+  showViewModal,
 } = UseCrudHelpers<LogsItem>(logsService, params, '')
 
 const headers: any = [
@@ -73,13 +79,30 @@ const headers: any = [
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
+checkQueryParams()
 getPageData()
 
+// #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
+function checkQueryParams() {
+  const { user_id, username } = route.query
+  if (user_id) params.user_id = +user_id
+  if (username) userKeyword.value = username as string
+}
 // #endregion
 </script>
 
 <template>
   <section>
+    <LogsDetailsModal
+      v-if="showDetailsModal"
+      v-model:showModal="showDetailsModal"
+      :active-item="activeItem"
+    />
     <VCard class="page-card" title="سجل العمليات">
       <VCardText>
         <LogsStats />
@@ -88,7 +111,21 @@ getPageData()
           @update:items-per-page="onChangeItemsPerPage"
           @update:search="onChangeSearch"
           @reload-data="onReloadData"
-        />
+        >
+          <div class="v-col-md-4 pa-0">
+            <UsersSelectFilter
+              id="users-select-filter"
+              label="المستخدم"
+              :userRole="null"
+              :keyword="userKeyword"
+              v-model="params.user_id"
+              hide-default-label
+              @update:model-value="onReloadData"
+              clearable
+            />
+          </div>
+          <span class="me-auto" />
+        </PageActions>
         <VDataTableServer
           v-loading="IsLoadingData"
           :headers="headers"
@@ -98,7 +135,8 @@ getPageData()
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
           <template #item.id="{ item }">
-            <a href="#">{{ item.id }}</a>
+            <a href="#" @click.prevent="showViewModal(item)">{{ item.id }}</a>
+            <div>{{ item.type_key }}</div>
           </template>
           <template #item.user="{ item }">
             <div style="min-inline-size: 200px">
@@ -155,5 +193,13 @@ getPageData()
 :deep(.v-data-table .v-table__wrapper > table td) {
   max-inline-size: 200px;
   word-wrap: break-word;
+}
+
+:deep(.search-input) {
+  margin: 0 !important;
+}
+
+:deep(.v-input--horizontal) {
+  margin-block-start: 0 !important;
 }
 </style>

@@ -33,7 +33,7 @@ const isLoading = ref<boolean>(false)
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  changeStatus: hasPermission('change_status_advertiser'),
+  changeStatus: hasPermission('change_status_user'),
 }))
 
 // #endregion

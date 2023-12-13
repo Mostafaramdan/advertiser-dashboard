@@ -1,6 +1,7 @@
 interface User {
   username: string
   role: 'user' | 'advertiser'
+  image_path?: string
 }
 
 export interface LogsItem {
@@ -27,4 +28,60 @@ export interface LogsStats {
   pending_balance_total: string
   available_withdrawn: string
   platform_income: string
+}
+
+export type counterItem = {
+  title: string
+  value: any
+}
+
+type BankAccount = {
+  id: number
+  type: string
+  info: {
+    ipan: string
+    name: string
+    type: string
+    swift_code: string | null
+    account_name: string
+  }
+}
+
+export interface LogWithdrawnItem {
+  request_id: number
+  operation_type: string
+  user: User
+  counters: {
+    request_id: counterItem
+    total_sales: counterItem
+    total_withdraw: counterItem
+    available_withdraw: counterItem
+    total_returns: counterItem
+    pending_wallet: counterItem
+    current_wallet: counterItem
+  }
+  details: {
+    counters: {
+      withdrawen_total: counterItem
+      expense_total: counterItem
+    }
+    bank_accounts: BankAccount[]
+  }
+}
+
+export interface LogRequestItem {
+  request_id: number
+  operation_type: string
+  status_txt: string
+  payment_method: string
+  user: User
+  advertiser: User
+  counters: {
+    date: counterItem
+    total: counterItem
+    commission: counterItem
+    advertiser_points: counterItem
+    user_points: counterItem
+    markter_points: counterItem
+  }
 }
