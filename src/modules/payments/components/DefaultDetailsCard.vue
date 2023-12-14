@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { LogRequestItem } from '../interfaces/Logs'
+import type { LogDefaultItem } from '../interfaces/Logs'
 import LogsInfoList from './LogsInfoList.vue'
 
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
 // #region Props
-const props = withDefaults(defineProps<{ data: LogRequestItem | null }>(), {})
+const props = withDefaults(defineProps<{ data: LogDefaultItem | null }>(), {})
 
 // #endregion
 </script>
@@ -40,17 +40,10 @@ const props = withDefaults(defineProps<{ data: LogRequestItem | null }>(), {})
           border
           :subtitle="data.operation_type"
         ></VListItem>
-        <VListItem class="px-2 py-2" title="رقم الطلب" border>
-          <router-link
-            class="content-list__link"
-            :to="{ name: 'ads-request-details-page', params: { id: data.request_id } }"
-            ><u>{{ data.request_id }}</u></router-link
-          >
-        </VListItem>
-        <VListItem class="px-2 py-2" title="حالة الطلب" border :subtitle="data.status_txt" />
-        <VListItem class="px-2 py-2" title="نوع الدفع" border :subtitle="data.payment_method" />
         <VListItem class="px-2 py-2" border>
-          <LogsInfoList :data="Object.values(data.counters)" />
+          <LogsInfoList
+            :data="[...Object.values(data.counters), ...Object.values(data.details.counters)]"
+          />
         </VListItem>
       </VList>
     </VCardText>

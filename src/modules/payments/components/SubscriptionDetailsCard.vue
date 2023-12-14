@@ -1,22 +1,13 @@
 <script setup lang="ts">
-import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { USERS_ROLES } from '@/constants/index'
-import type { LogWithdrawnItem } from '../interfaces/Logs'
+import type { LogSubscriptionItem } from '../interfaces/Logs'
 import LogsInfoList from './LogsInfoList.vue'
 
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
 // #region Props
-const props = withDefaults(defineProps<{ data: LogWithdrawnItem | null }>(), {})
-
-// #endregion
-
-/***************************************
- **** Section Variables Declaration ****
- **************************************/
-// #region Variables
-const { getImageUrl } = UseGeneralHelpers()
+const props = withDefaults(defineProps<{ data: LogSubscriptionItem | null }>(), {})
 
 // #endregion
 </script>
@@ -45,11 +36,17 @@ const { getImageUrl } = UseGeneralHelpers()
           border
           :subtitle="data.operation_type"
         ></VListItem>
-        <VListItem class="px-2 py-2" title="رقم الطلب" border>
+        <VListItem
+          title="نقاط المستخدم"
+          class="px-2 py-2"
+          border
+          :subtitle="data.points"
+        ></VListItem>
+        <VListItem class="px-2 py-2" title="رقم الباقة" border>
           <router-link
             class="content-list__link"
-            :to="{ name: 'ads-request-details-page', params: { id: data.request_id } }"
-            ><u>{{ data.request_id }}</u></router-link
+            :to="{ name: 'subscriptions-package-details-page', params: { id: data.package_id } }"
+            ><u>{{ data.package_id }}</u></router-link
           >
         </VListItem>
         <VListItem class="px-2 py-2" border>
@@ -58,27 +55,6 @@ const { getImageUrl } = UseGeneralHelpers()
           />
         </VListItem>
       </VList>
-      <h3 class="my-3 text-h6">قنوات الصرف</h3>
-      <VListItem
-        class="px-2 py-2"
-        border
-        v-for="account in data.details.bank_accounts"
-        :key="account.id"
-      >
-        <div class="d-flex align-center gap-3">
-          <VAvatar size="48" variant="outlined">
-            <VImg :src="getImageUrl(`svg/payments-icons/bank.svg`)" />
-          </VAvatar>
-          <div>{{ account.info.name }} | {{ account.info.type }}</div>
-        </div>
-        <LogsInfoList
-          :data="[
-            { title: 'رقم الحساب', value: account.info.ipan },
-            { title: 'اسم الحساب', value: account.info.account_name },
-            { title: 'رقم المرجع', value: account.info.swift_code },
-          ]"
-        />
-      </VListItem>
     </VCardText>
   </VCard>
 </template>

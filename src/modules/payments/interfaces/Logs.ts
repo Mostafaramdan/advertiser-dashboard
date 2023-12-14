@@ -4,6 +4,10 @@ interface User {
   image_path?: string
 }
 
+interface DynamicKeysObject<T> {
+  [key: string]: T
+}
+
 export interface LogsItem {
   id: number
   user: User
@@ -30,7 +34,7 @@ export interface LogsStats {
   platform_income: string
 }
 
-export type counterItem = {
+export type CounterItem = {
   title: string
   value: any
 }
@@ -52,19 +56,16 @@ export interface LogWithdrawnItem {
   operation_type: string
   user: User
   counters: {
-    request_id: counterItem
-    total_sales: counterItem
-    total_withdraw: counterItem
-    available_withdraw: counterItem
-    total_returns: counterItem
-    pending_wallet: counterItem
-    current_wallet: counterItem
+    request_id: CounterItem
+    total_sales: CounterItem
+    total_withdraw: CounterItem
+    available_withdraw: CounterItem
+    total_returns: CounterItem
+    pending_wallet: CounterItem
+    current_wallet: CounterItem
   }
   details: {
-    counters: {
-      withdrawen_total: counterItem
-      expense_total: counterItem
-    }
+    counters: DynamicKeysObject<CounterItem>
     bank_accounts: BankAccount[]
   }
 }
@@ -76,12 +77,53 @@ export interface LogRequestItem {
   payment_method: string
   user: User
   advertiser: User
-  counters: {
-    date: counterItem
-    total: counterItem
-    commission: counterItem
-    advertiser_points: counterItem
-    user_points: counterItem
-    markter_points: counterItem
+  counters: DynamicKeysObject<CounterItem>
+}
+
+export interface LogRefundItem {
+  request_id: number
+  operation_type: string
+  user: User
+  total: number
+  dispute_request_id: number
+  request_details: string
+  counters: DynamicKeysObject<CounterItem>
+  details: {
+    counters: DynamicKeysObject<CounterItem>
+    bank_accounts: BankAccount[]
+  }
+}
+
+export interface LogChargeItem {
+  operation_type: string
+  user: User
+  counters: DynamicKeysObject<CounterItem>
+  details: {
+    counters: DynamicKeysObject<CounterItem>
+    payment_method: null //TODO: check it with backend
+  }
+}
+
+export interface LogDefaultItem {
+  operation_type: string
+  user: User
+  advertiser: User
+  counters: DynamicKeysObject<CounterItem>
+  details: {
+    counters: DynamicKeysObject<CounterItem>
+    payment_method: null //TODO: check it with backend
+  }
+}
+
+export interface LogSubscriptionItem {
+  operation_type: string
+  package_id: number
+  points: number
+  user: User
+  counters: DynamicKeysObject<CounterItem>
+  details: {
+    counters: DynamicKeysObject<CounterItem>
+    payment_method: null //TODO: check it with backend
+    package: any //TODO: check it with backend
   }
 }

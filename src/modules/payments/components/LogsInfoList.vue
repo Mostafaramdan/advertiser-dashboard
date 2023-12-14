@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { counterItem } from '../interfaces/Logs'
+import type { CounterItem } from '../interfaces/Logs'
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
 // #region Props
-const props = withDefaults(defineProps<{ data: counterItem[] }>(), {})
+const props = withDefaults(defineProps<{ data: CounterItem[] }>(), {})
 
 // #endregion
 </script>

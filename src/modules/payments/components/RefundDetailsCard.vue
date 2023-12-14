@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { USERS_ROLES } from '@/constants/index'
-import type { LogWithdrawnItem } from '../interfaces/Logs'
+import type { LogRefundItem } from '../interfaces/Logs'
 import LogsInfoList from './LogsInfoList.vue'
 
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
 // #region Props
-const props = withDefaults(defineProps<{ data: LogWithdrawnItem | null }>(), {})
+const props = withDefaults(defineProps<{ data: LogRefundItem | null }>(), {})
 
 // #endregion
 
@@ -52,6 +52,19 @@ const { getImageUrl } = UseGeneralHelpers()
             ><u>{{ data.request_id }}</u></router-link
           >
         </VListItem>
+        <VListItem title="مبلغ الارجاع" class="px-2 py-2" border :subtitle="data.total"></VListItem>
+        <VListItem
+          title="رقم طلب التنازع"
+          class="px-2 py-2"
+          border
+          :subtitle="data.dispute_request_id"
+        ></VListItem>
+        <VListItem
+          title="سبب الارجاع"
+          class="px-2 py-2"
+          border
+          :subtitle="data.request_details || '-'"
+        ></VListItem>
         <VListItem class="px-2 py-2" border>
           <LogsInfoList
             :data="[...Object.values(data.counters), ...Object.values(data.details.counters)]"

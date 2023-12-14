@@ -8,6 +8,14 @@ const WithdrawDetailsCard = defineAsyncComponent(
 const RequestDetailsCard = defineAsyncComponent(
   () => import('../components/RequestDetailsCard.vue'),
 )
+const RefundDetailsCard = defineAsyncComponent(() => import('../components/RefundDetailsCard.vue'))
+const ChargeDetailsCard = defineAsyncComponent(() => import('../components/ChargeDetailsCard.vue'))
+const SubscriptionDetailsCard = defineAsyncComponent(
+  () => import('../components/SubscriptionDetailsCard.vue'),
+)
+const DefaultDetailsCard = defineAsyncComponent(
+  () => import('../components/DefaultDetailsCard.vue'),
+)
 
 /***************************************
  **** Section Props Declaration  ******
@@ -49,6 +57,17 @@ const modalComponent = computed(() => {
       return WithdrawDetailsCard
     case 'request':
       return RequestDetailsCard
+    case 'refund':
+      return RefundDetailsCard
+    case 'charge':
+      return ChargeDetailsCard
+    case 'subscription':
+      return SubscriptionDetailsCard
+    case 'prize':
+    case 'release':
+    case 'transformed_points':
+    default:
+      return DefaultDetailsCard
   }
 })
 // #endregion
@@ -81,7 +100,7 @@ function getItemDetails(id: any) {
 </script>
 
 <template>
-  <VDialog v-model="showModal" max-width="800" scrollable class="details-modal">
+  <VDialog v-model="showModal" max-width="900" scrollable class="details-modal">
     <!-- Dialog close btn -->
     <DialogCloseBtn @click="showModal = !showModal" />
 
