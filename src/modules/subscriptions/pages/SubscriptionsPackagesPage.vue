@@ -195,10 +195,10 @@ function rowProps({ item }: { item: SubscriptionsListItem }) {
           </div>
         </template>
         <template #item.subscribers_count="{ item }">
-          <div class="text-no-wrap">500</div>
+          <div class="text-no-wrap">{{ item.subscribers_count ?? '-' }}</div>
         </template>
         <template #item.subscriptions_total="{ item }">
-          <div class="text-no-wrap">500</div>
+          <div class="text-no-wrap">{{ item.subscriptions_total ?? '-' }}</div>
         </template>
 
         <template #item.is_active="{ item }">
