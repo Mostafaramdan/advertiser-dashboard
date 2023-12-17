@@ -1682,6 +1682,56 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
     ],
   },
   {
+    title: 'المحافظ والدفع الإلكتروني',
+    groups: [
+      {
+        title: 'سجل العمليات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_payment_logs',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_payment_log_details',
+          },
+        ],
+      },
+      {
+        title: 'محافظ المستخدمين',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_users_wallet',
+          },
+        ],
+      },
+      {
+        title: 'سجل الصرف',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_withdraw_requests',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_withdraw_request_details',
+          },
+          {
+            label: 'انشاء سحب',
+            checked: false,
+            key: 'create_withdraw_request',
+          },
+        ],
+      },
+    ],
+  },
+  {
     title: 'الكوبونات',
     groups: [
       {

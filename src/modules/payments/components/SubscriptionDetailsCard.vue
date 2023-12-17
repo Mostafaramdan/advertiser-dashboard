@@ -42,11 +42,11 @@ const props = withDefaults(defineProps<{ data: LogSubscriptionItem | null }>(), 
           border
           :subtitle="data.points"
         ></VListItem>
-        <VListItem class="px-2 py-2" title="رقم الباقة" border>
+        <VListItem class="px-2 py-2" title="رقم الباقة" border v-if="data.package">
           <router-link
             class="content-list__link"
-            :to="{ name: 'subscriptions-package-details-page', params: { id: data.package_id } }"
-            ><u>{{ data.package_id }}</u></router-link
+            :to="{ name: 'subscriptions-package-details-page', params: { id: data.package.id } }"
+            ><u>{{ data.package.title }}</u></router-link
           >
         </VListItem>
         <VListItem class="px-2 py-2" border>

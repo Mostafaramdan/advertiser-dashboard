@@ -1,4 +1,4 @@
-interface User {
+export interface User {
   username: string
   role: 'user' | 'advertiser'
   image_path?: string
@@ -54,6 +54,7 @@ type BankAccount = {
 export interface LogWithdrawnItem {
   request_id: number
   operation_type: string
+  title: string
   user: User
   counters: {
     request_id: CounterItem
@@ -73,6 +74,7 @@ export interface LogWithdrawnItem {
 export interface LogRequestItem {
   request_id: number
   operation_type: string
+  title: string
   status_txt: string
   payment_method: string
   user: User
@@ -83,6 +85,7 @@ export interface LogRequestItem {
 export interface LogRefundItem {
   request_id: number
   operation_type: string
+  title: string
   user: User
   total: number
   dispute_request_id: number
@@ -96,34 +99,50 @@ export interface LogRefundItem {
 
 export interface LogChargeItem {
   operation_type: string
+  title: string
   user: User
   counters: DynamicKeysObject<CounterItem>
   details: {
     counters: DynamicKeysObject<CounterItem>
-    payment_method: null //TODO: check it with backend
   }
 }
 
 export interface LogDefaultItem {
   operation_type: string
+  title: string
   user: User
   advertiser: User
   counters: DynamicKeysObject<CounterItem>
   details: {
     counters: DynamicKeysObject<CounterItem>
-    payment_method: null //TODO: check it with backend
   }
 }
 
 export interface LogSubscriptionItem {
   operation_type: string
-  package_id: number
+  title: string
+  package: {
+    id: number
+    title: string
+  } | null
   points: number
   user: User
   counters: DynamicKeysObject<CounterItem>
   details: {
     counters: DynamicKeysObject<CounterItem>
-    payment_method: null //TODO: check it with backend
-    package: any //TODO: check it with backend
+  }
+}
+
+export interface LogMarkterCommissionItem {
+  operation_type: string
+  title: string
+  user: User
+  advertiser: User
+  payment_method: string
+  status_txt: string
+  request_id: number
+  counters: DynamicKeysObject<CounterItem>
+  details: {
+    counters: DynamicKeysObject<CounterItem>
   }
 }

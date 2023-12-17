@@ -380,23 +380,27 @@ const navItems = computed(() => {
     {
       title: 'المحافظ و الدفع الالكترونى',
       icon: { icon: 'tabler-wallet' },
-      show: true,
+      show: hasAtLeaseOnePermission([
+        'view_payment_logs',
+        'view_users_wallet',
+        'view_withdraw_requests',
+      ]),
       to: null,
       children: [
         {
           title: 'سجل العمليات',
           to: { name: 'payments-logs-page' },
-          show: true,
+          show: hasPermission('view_payment_logs'),
         },
         {
           title: 'محافظ المستخدمين',
           to: { name: 'users-wallets-page' },
-          show: true,
+          show: hasPermission('view_users_wallet'),
         },
         {
           title: 'سجل الصرف',
           to: { name: 'exchange-records-page' },
-          show: true,
+          show: hasPermission('view_withdraw_requests'),
         },
       ],
     },

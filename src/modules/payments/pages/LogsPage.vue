@@ -136,7 +136,6 @@ function checkQueryParams() {
         >
           <template #item.id="{ item }">
             <a href="#" @click.prevent="showViewModal(item)">{{ item.id }}</a>
-            <div>{{ item.type_key }}</div>
           </template>
           <template #item.user="{ item }">
             <div style="min-inline-size: 200px">

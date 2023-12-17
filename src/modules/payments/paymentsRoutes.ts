@@ -4,7 +4,7 @@ export const paymentsRoutes = [
     name: 'payments-logs-page',
     component: () => import('./pages/LogsPage.vue'),
     meta: {
-      // requiredPermission: '',
+      requiredPermission: 'view_payment_logs',
     },
   },
   {
@@ -12,7 +12,7 @@ export const paymentsRoutes = [
     name: 'users-wallets-page',
     component: () => import('./pages/UsersWalletsPage.vue'),
     meta: {
-      // requiredPermission: '',
+      requiredPermission: 'view_users_wallet',
     },
   },
   {
@@ -20,7 +20,7 @@ export const paymentsRoutes = [
     name: 'exchange-records-page',
     component: () => import('./pages/ExchangeRecordsPage.vue'),
     meta: {
-      // requiredPermission: '',
+      requiredPermission: 'view_withdraw_requests',
     },
   },
 ]

@@ -13,6 +13,9 @@ const ChargeDetailsCard = defineAsyncComponent(() => import('../components/Charg
 const SubscriptionDetailsCard = defineAsyncComponent(
   () => import('../components/SubscriptionDetailsCard.vue'),
 )
+const MarkterCommissionDetailsCard = defineAsyncComponent(
+  () => import('../components/MarkterCommissionDetailsCard.vue'),
+)
 const DefaultDetailsCard = defineAsyncComponent(
   () => import('../components/DefaultDetailsCard.vue'),
 )
@@ -43,7 +46,7 @@ const emit = defineEmits<{
 // #region Variables
 const showModal = useVModel(props, 'showModal', emit)
 const isLoading = ref<boolean>(false)
-const data = ref(null)
+const data = ref<any>(null)
 
 // #endregion
 
@@ -63,6 +66,8 @@ const modalComponent = computed(() => {
       return ChargeDetailsCard
     case 'subscription':
       return SubscriptionDetailsCard
+    case 'markter_commission':
+      return MarkterCommissionDetailsCard
     case 'prize':
     case 'release':
     case 'transformed_points':
@@ -107,7 +112,7 @@ function getItemDetails(id: any) {
     <!-- Dialog Content -->
     <VCard v-loading="isLoading">
       <div v-if="modalComponent">
-        <Component :is="modalComponent" :data="data" title="تفاصيل العملية" />
+        <Component :is="modalComponent" :data="data" :title="data?.title" />
       </div>
     </VCard>
   </VDialog>

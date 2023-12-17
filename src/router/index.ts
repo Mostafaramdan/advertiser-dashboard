@@ -270,6 +270,11 @@ const router = createRouter({
       component: () => import('@/modules/payments/PaymentsModule.vue'),
       meta: {
         layout: 'default',
+        requireAtLeastOnePermission: [
+          'view_payment_logs',
+          'view_withdraw_requests',
+          'view_users_wallet',
+        ],
       },
       children: paymentsRoutes,
     },

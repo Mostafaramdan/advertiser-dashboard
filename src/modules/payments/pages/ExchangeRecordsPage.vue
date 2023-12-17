@@ -3,6 +3,7 @@ import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { USERS_ROLES } from '@/constants/index'
 import { pageAction } from '@/interfaces/Shared'
+import { useAuthStore } from '@/stores/AuthStore'
 import type { ExchangeRecord } from '../interfaces/ExchangeRecord'
 import ExchangeRecordCreateModal from '../modals/ExchangeRecordCreateModal.vue'
 import ExchangeRecordDetailsModal from '../modals/ExchangeRecordDetailsModal.vue'
@@ -13,8 +14,9 @@ import { exchangeRecordsService } from '../services/ExchangeRecordsService'
  **************************************/
 // #region Variables
 const { t } = useI18n()
-const { formatDate } = UseGeneralHelpers()
 const route = useRoute()
+const { formatDate } = UseGeneralHelpers()
+const { hasPermission } = useAuthStore()
 const showCreateModal = ref<boolean>(false)
 const userKeyword = ref<string>('')
 const params: any = reactive({
@@ -84,6 +86,11 @@ const headers: any = [
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
+const permissions = computed(() => ({
+  create: hasPermission('create_withdraw_request'),
+  viewDetails: hasPermission('view_withdraw_request_details'),
+}))
+
 const pageActionsButtons = computed<pageAction[]>(() => {
   return [
     {
@@ -197,7 +204,7 @@ function checkQueryParams() {
           </template>
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <IconBtn @click="showViewModal(item)">
+              <IconBtn @click="showViewModal(item)" :disabled="!permissions.viewDetails">
                 <VIcon icon="tabler-eye" />
               </IconBtn>
             </div>
