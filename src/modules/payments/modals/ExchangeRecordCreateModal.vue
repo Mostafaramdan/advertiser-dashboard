@@ -177,7 +177,6 @@ function submit() {
                   v-model="formData.request_id"
                   name="request_id"
                   label="الطلب"
-                  rules="required"
                 >
                   <VLabel class="text-body-2 text-high-emphasis" text="الطلب" />
                   <PendingRequestsFilter
