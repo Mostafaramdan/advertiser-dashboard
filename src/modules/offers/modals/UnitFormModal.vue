@@ -127,7 +127,7 @@ function submit() {
                   v-model="formData.name.ar"
                   label="اسم الوحدة بالعربي"
                   name="name.ar"
-                  rules="required|min:3|max:50"
+                  rules="required|min:3|max:20"
                 />
               </VCol>
               <VCol cols="12">
@@ -135,7 +135,7 @@ function submit() {
                   v-model="formData.name.en"
                   label="اسم الوحدة بالانجليزي"
                   name="name.en"
-                  rules="required|min:3|max:50"
+                  rules="required|min:3|max:20"
                 />
               </VCol>
               <VCol cols="12">
