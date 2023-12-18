@@ -129,7 +129,7 @@ const isImage = computed(() => getFileType(props.activeItem.file.mimetype) === F
                     }"
                     class="d-inline-flex"
                   >
-                    {{ activeItem.model.username }}
+                    {{ activeItem.model.account_name }}
                   </router-link></VListItem
                 >
                 <!-- TODO: add offer link after creating offers page -->
