@@ -139,6 +139,11 @@ function resetLinkableData() {
   formData.external_link = null
 }
 
+function onChangeLinkType() {
+  formData.linkable_type = null
+  resetLinkableData()
+}
+
 function edit(payload: Banner) {
   bannersService
     .editItem(payload)
@@ -201,6 +206,7 @@ function submit() {
                   'image/jpeg',
                   'image/png',
                   'image/svg+xml',
+                  'image/gif',
                   'video/mp4',
                   'video/webm',
                 ]"
@@ -215,7 +221,7 @@ function submit() {
                 v-model="formData.name.ar"
                 label="اسم البنر بالعربي"
                 name="name.ar"
-                rules="required|min:3|max:50"
+                rules="required|min:3|max:20"
               />
             </VCol>
             <VCol cols="12" md="6">
@@ -223,7 +229,7 @@ function submit() {
                 v-model="formData.name.en"
                 label="اسم البنر بالانجليزي"
                 name="name.en"
-                rules="required|min:3|max:50"
+                rules="required|min:3|max:20"
               />
             </VCol>
             <VCol cols="12" sm="6">
@@ -285,7 +291,7 @@ function submit() {
                 item-title="label"
                 item-value="value"
                 clearable
-                @update:model-value="resetLinkableData"
+                @update:model-value="onChangeLinkType"
               />
             </VCol>
 
