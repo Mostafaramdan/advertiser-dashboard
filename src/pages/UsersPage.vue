@@ -249,8 +249,7 @@ function rowProps({ item }: { item: User }) {
                 <VMenu activator="parent">
                   <VList>
                     <VListItem
-                      v-if="!item.is_deleted"
-                      :disabled="!permissions.delete"
+                      :disabled="!permissions.delete || item.is_deleted"
                       @click="showConfirmDeleteItem(item)"
                     >
                       <template #prepend>
@@ -260,7 +259,7 @@ function rowProps({ item }: { item: User }) {
                       <VListItemTitle>حذف</VListItemTitle>
                     </VListItem>
                     <VListItem
-                      v-if="permissions.viewRequests"
+                      :disabled="!permissions.viewRequests"
                       :to="{
                         name: 'ads-requests-page',
                         query: { user_id: item.id, user_name: item.username },
@@ -272,21 +271,21 @@ function rowProps({ item }: { item: User }) {
 
                       <VListItemTitle>الطلبات</VListItemTitle>
                     </VListItem>
-                    <VListItem v-if="permissions.viewCoupons">
+                    <VListItem :disabled="!permissions.viewCoupons">
                       <template #prepend>
                         <VIcon icon="tabler-discount-2" />
                       </template>
 
                       <VListItemTitle>الكوبونات</VListItemTitle>
                     </VListItem>
-                    <VListItem v-if="permissions.viewWallet">
+                    <VListItem :disabled="!permissions.viewWallet">
                       <template #prepend>
                         <VIcon icon="tabler-wallet" />
                       </template>
 
                       <VListItemTitle>سجل المحفظة</VListItemTitle>
                     </VListItem>
-                    <VListItem v-if="permissions.viewLogs">
+                    <VListItem :disabled="!permissions.viewLogs">
                       <template #prepend>
                         <VIcon icon="tabler-history" />
                       </template>

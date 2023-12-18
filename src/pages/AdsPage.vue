@@ -328,7 +328,7 @@ function rowProps({ item }: { item: AdsListItem }) {
                 <VMenu activator="parent">
                   <VList>
                     <VListItem
-                      v-if="permissions.sendNotification"
+                      :disabled="!permissions.sendNotification"
                       @click="openNotificationModal(item.advertiser)"
                     >
                       <template #prepend>
@@ -337,7 +337,7 @@ function rowProps({ item }: { item: AdsListItem }) {
                       <VListItemTitle>ارسال اشعار للمعلن</VListItemTitle>
                     </VListItem>
                     <VListItem
-                      v-if="permissions.sendNotification && item.user"
+                      :disabled="!permissions.sendNotification || !item.user"
                       @click="openNotificationModal(item.user)"
                     >
                       <template #prepend>

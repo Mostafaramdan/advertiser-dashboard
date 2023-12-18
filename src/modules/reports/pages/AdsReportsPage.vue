@@ -311,8 +311,8 @@ async function showConfirmModal(item: AdsReport): Promise<void> {
                 <VMenu activator="parent">
                   <VList>
                     <VListItem
-                      v-if="permissions.sendNotification"
                       @click="openNotificationModal(item.advertiser)"
+                      :disabled="!permissions.sendNotification"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-mail" />

@@ -390,7 +390,7 @@ function cancelOffer(item: Offer) {
                       </VListItem>
                     </template>
                     <VListItem
-                      v-if="permissions.sendNotification"
+                      :disabled="!permissions.sendNotification"
                       @click="openNotificationModal(item.user)"
                     >
                       <template #prepend>

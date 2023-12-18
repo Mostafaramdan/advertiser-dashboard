@@ -218,12 +218,6 @@ function openNotificationModal(user: any) {
               </div>
             </div>
           </template>
-          <template #item.country_name="{ item }">
-            <div style="min-inline-size: 150px">
-              {{ item.country_name }}
-              <span class="text-sm text-disabled d-block">{{ item.area_name }}</span>
-            </div>
-          </template>
           <template #item.created_at="{ item }">
             <div class="text-no-wrap">
               {{ formatDateTime(item.created_at) }}
@@ -275,7 +269,7 @@ function openNotificationModal(user: any) {
                       <VListItemTitle>عرض</VListItemTitle>
                     </VListItem>
                     <VListItem
-                      v-if="permissions.sendNotification"
+                      :disabled="!permissions.sendNotification"
                       @click="openNotificationModal(item.user)"
                     >
                       <template #prepend>

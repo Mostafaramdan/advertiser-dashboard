@@ -216,7 +216,7 @@ getPageData()
                     <VListItemTitle>عرض</VListItemTitle>
                   </VListItem>
                   <VListItem
-                    v-if="permissions.viewHistory"
+                    :disabled="!permissions.viewHistory"
                     :to="{
                       name: 'platform-coupon-details-page',
                       params: { id: item.id },
@@ -231,8 +231,9 @@ getPageData()
                   </VListItem>
 
                   <VListItem
-                    v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    :disabled="
+                      !selectedItems.length || selectedItems.includes(item.id) || !permissions.sort
+                    "
                     @click="sortItems(item.id)"
                   >
                     <template #prepend>

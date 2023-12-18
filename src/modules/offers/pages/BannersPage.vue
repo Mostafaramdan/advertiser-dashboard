@@ -229,8 +229,9 @@ function gotoCreatePage() {
                   </VListItem>
 
                   <VListItem
-                    v-if="permissions.sort"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    :disabled="
+                      !selectedItems.length || selectedItems.includes(item.id) || !permissions.sort
+                    "
                     @click="sortItems(item.id)"
                   >
                     <template #prepend>

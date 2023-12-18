@@ -261,7 +261,7 @@ function onApplyFilter(filters: any) {
                     <VListItemTitle>عرض</VListItemTitle>
                   </VListItem>
 
-                  <VListItem v-if="permissions.edit" @click="showEditModal(item)">
+                  <VListItem @click="showEditModal(item)" :disabled="!permissions.edit">
                     <template #prepend>
                       <VIcon icon="tabler-edit" />
                     </template>

@@ -236,8 +236,9 @@ function rowProps({ item }: { item: Tag }) {
                   </VListItem>
 
                   <VListItem
-                    v-if="permissions.sort || !item.can_control"
-                    :disabled="!selectedItems.length || selectedItems.includes(item.id)"
+                    :disabled="
+                      !selectedItems.length || selectedItems.includes(item.id) || !permissions.sort
+                    "
                     @click="sortItems(item.id)"
                   >
                     <template #prepend>
