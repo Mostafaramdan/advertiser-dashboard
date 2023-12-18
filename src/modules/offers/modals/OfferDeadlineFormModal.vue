@@ -126,7 +126,7 @@ function submit() {
                   v-model="formData.hours"
                   label="عدد الساعات"
                   name="hours"
-                  rules="required|numeric"
+                  rules="required|numeric|max_value:999999"
                   type="number"
                 >
                   <template #append-inner> ساعة </template>
