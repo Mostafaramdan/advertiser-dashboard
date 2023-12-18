@@ -41,3 +41,9 @@ export interface ExchangeRecordFormData {
   request_id: null | number
   billing_card_id: null | number
 }
+
+export interface ExchangeRecordNotifyModalFormData {
+  message: string
+  type: string | null
+  request_id: number
+}

@@ -95,7 +95,7 @@ const pageActionsButtons = computed<pageAction[]>(() => {
   return [
     {
       icon: 'tabler-plus',
-      show: true,
+      show: permissions.value.create as boolean,
       handler: openCreateModal,
     },
   ]

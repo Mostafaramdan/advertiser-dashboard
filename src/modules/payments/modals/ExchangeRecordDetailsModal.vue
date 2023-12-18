@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import type { FormModalProps } from '@/interfaces/Forms'
+import { useAuthStore } from '@/stores/AuthStore'
 import { useVModel } from '@vueuse/core'
 import type { ExchangeRecordDetails } from '../interfaces/ExchangeRecord'
 import { exchangeRecordsService } from '../services/ExchangeRecordsService'
+import ExchangeRecordNotifyModal from './ExchangeRecordNotifyModal.vue'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -29,10 +31,13 @@ const emit = defineEmits<{
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
+const { t } = useI18n()
 const showModal = useVModel(props, 'showModal', emit)
 const { formatDate } = UseGeneralHelpers()
+const { hasPermission } = useAuthStore()
 const isLoading = ref<boolean>(false)
 const data = ref<ExchangeRecordDetails | null>(null)
+const showNotificationModal = ref<boolean>(false)
 
 // #endregion
 
@@ -40,7 +45,9 @@ const data = ref<ExchangeRecordDetails | null>(null)
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-
+const permissions = computed(() => ({
+  sendNotification: hasPermission('notify_withdraw_request'),
+}))
 // #endregion
 
 /***************************************
@@ -80,6 +87,10 @@ function getItemDetails(id: any) {
       <div>
         <VCard title="تفاصيل العملية" min-height="400">
           <VCardText v-if="data">
+            <ExchangeRecordNotifyModal
+              v-model:show-modal="showNotificationModal"
+              :request-id="data.id"
+            />
             <VList :lines="false">
               <VListItem class="px-2 py-2" title="رقم العملية" :subtitle="data.id" border />
               <VListItem class="px-2 py-2" title="المدينة" :subtitle="data.area" border />
@@ -100,6 +111,15 @@ function getItemDetails(id: any) {
                 border
               />
             </VList>
+
+            <div class="d-flex justify-end flex-wrap gap-3 mt-4">
+              <VBtn variant="outlined" color="error" @click="showModal = false">
+                {{ t('actions.cancel') }}
+              </VBtn>
+              <VBtn :disabled="!permissions.sendNotification" @click="showNotificationModal = true">
+                انشاء تنبيه
+              </VBtn>
+            </div>
           </VCardText>
         </VCard>
       </div>

@@ -1727,6 +1727,11 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             checked: false,
             key: 'create_withdraw_request',
           },
+          {
+            label: 'ارسال تنبيه',
+            checked: false,
+            key: 'notify_withdraw_request',
+          },
         ],
       },
     ],
