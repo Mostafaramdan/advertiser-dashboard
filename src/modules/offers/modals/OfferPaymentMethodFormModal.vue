@@ -139,7 +139,7 @@ function submit() {
                   v-model="formData.down_payment_delivering"
                   label="تسليم المقدم"
                   name="down_payment_delivering"
-                  rules="required"
+                  :rules="{ required: formData.down_payment_percentage != 0 }"
                   clearable
                   :items="getOptionsArrayFromObject(OFFER_PAYMENT_METHODS)"
                   item-title="label"
@@ -152,7 +152,7 @@ function submit() {
                   v-model="formData.remaining_payment_delivering"
                   label="تسليم الباقي"
                   name="remaining_payment_delivering"
-                  rules="required"
+                  :rules="{ required: formData.down_payment_percentage != 100 }"
                   clearable
                   :items="getOptionsArrayFromObject(OFFER_PAYMENT_METHODS)"
                   item-title="label"
