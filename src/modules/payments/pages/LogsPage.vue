@@ -2,6 +2,7 @@
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { USERS_ROLES } from '@/constants/index'
+import { useAuthStore } from '@/stores/AuthStore'
 import LogsStats from '../components/LogsStats.vue'
 import type { LogsItem } from '../interfaces/Logs'
 import LogsDetailsModal from '../modals/LogsDetailsModal.vue'
@@ -12,8 +13,9 @@ import { logsService } from '../services/LogsService'
  **************************************/
 // #region Variables
 const { t } = useI18n()
-const { formatDate } = UseGeneralHelpers()
 const route = useRoute()
+const { formatDate } = UseGeneralHelpers()
+const { hasPermission } = useAuthStore()
 const userKeyword = ref<string>('')
 const params: any = reactive({
   page: 1,
@@ -72,7 +74,9 @@ const headers: any = [
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-
+const permissions = computed(() => ({
+  viewDetails: hasPermission('view_payment_log_details'),
+}))
 // #endregion
 
 /***************************************
@@ -134,7 +138,7 @@ function checkQueryParams() {
           class="app-table"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
-          <template #item.id="{ item }">
+          <template #item.id="{ item }" v-if="permissions.viewDetails">
             <a href="#" @click.prevent="showViewModal(item)">{{ item.id }}</a>
           </template>
           <template #item.user="{ item }">
