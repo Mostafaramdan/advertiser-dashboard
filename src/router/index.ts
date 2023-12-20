@@ -3,6 +3,7 @@ import { couponsRoutes } from '@/modules/coupons/couponsRoutes'
 import { disputesRoutes } from '@/modules/disputes/disputesRoutes'
 import { offersRoutes } from '@/modules/offers/offersRoutes'
 import { paymentsRoutes } from '@/modules/payments/paymentsRoutes'
+import { pointsRoutes } from '@/modules/points/pointsRoutes'
 import { reportsRoutes } from '@/modules/reports/reportsRoutes'
 import { settingsRoutes } from '@/modules/settings/settingsRoutes'
 import { statisticsRoutes } from '@/modules/statistics/statisticsRoutes'
@@ -186,12 +187,14 @@ const router = createRouter({
       },
     },
     {
-      path: '/points-and-prizes',
-      name: 'points-and-prizes-page',
-      component: () => import('@/pages/PointsAndPrizesPage.vue'),
+      path: '/points',
+      name: 'points',
+      component: () => import('@/modules/points/PointsModule.vue'),
       meta: {
         layout: 'default',
+        requireAtLeastOnePermission: ['view_points_logs', 'view_users_points'],
       },
+      children: pointsRoutes,
     },
     {
       path: '/coupons',

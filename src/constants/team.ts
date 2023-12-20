@@ -1737,6 +1737,31 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
     ],
   },
   {
+    title: 'النقاط والمكافآت',
+    groups: [
+      {
+        title: 'سجل النقاط',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_points_logs',
+          },
+        ],
+      },
+      {
+        title: 'نقاط المستخدمين',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_users_points',
+          },
+        ],
+      },
+    ],
+  },
+  {
     title: 'الكوبونات',
     groups: [
       {

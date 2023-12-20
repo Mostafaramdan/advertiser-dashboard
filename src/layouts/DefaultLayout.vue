@@ -406,9 +406,21 @@ const navItems = computed(() => {
     },
     {
       title: 'النقاط والمكافآت',
-      to: { name: 'points-and-prizes-page' },
       icon: { icon: 'tabler-gift' },
-      show: true,
+      show: hasAtLeaseOnePermission(['view_points_logs', 'view_users_points']),
+      to: null,
+      children: [
+        {
+          title: 'سجل النقاط',
+          to: { name: 'points-logs-page' },
+          show: hasPermission('view_points_logs'),
+        },
+        {
+          title: 'نقاط المستخدمين',
+          to: { name: 'users-points-page' },
+          show: hasPermission('view_users_points'),
+        },
+      ],
     },
     {
       title: 'الكوبونات',
