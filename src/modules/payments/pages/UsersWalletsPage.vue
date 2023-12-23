@@ -2,6 +2,7 @@
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { USERS_ROLES } from '@/constants/index'
 import { getOptionsArrayFromObject } from '@/helpers/index'
+import { useAuthStore } from '@/stores/AuthStore'
 import type { UserWallet } from '../interfaces/UserWallet'
 import { usersWalletsService } from '../services/UsersWalletsService'
 /***************************************
@@ -9,6 +10,7 @@ import { usersWalletsService } from '../services/UsersWalletsService'
  **************************************/
 // #region Variables
 const { t } = useI18n()
+const { hasPermission } = useAuthStore()
 const params: any = reactive({
   page: 1,
   itemPerPage: 10,
@@ -64,7 +66,10 @@ const headers: any = [
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-
+const permissions = computed(() => ({
+  viewPaymentsLogs: hasPermission('view_payment_logs'),
+  viewWithdrawLogs: hasPermission('view_withdraw_requests'),
+}))
 // #endregion
 
 /***************************************
@@ -183,6 +188,7 @@ getPageData()
                         name: 'payments-logs-page',
                         query: { user_id: item.user.id, username: item.user.username },
                       }"
+                      :disabled="!permissions.viewPaymentsLogs"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-history" />
@@ -194,6 +200,7 @@ getPageData()
                         name: 'exchange-records-page',
                         query: { user_id: item.user.id, username: item.user.username },
                       }"
+                      :disabled="!permissions.viewWithdrawLogs"
                     >
                       <template #prepend>
                         <VIcon icon="tabler-wallet" />

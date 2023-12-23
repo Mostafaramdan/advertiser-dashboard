@@ -2,6 +2,7 @@
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { USERS_ROLES } from '@/constants/index'
 import { getOptionsArrayFromObject } from '@/helpers/index'
+import { useAuthStore } from '@/stores/AuthStore'
 import type { UserPoint } from '../interfaces/UserPoint'
 import { usersPointsService } from '../services/UsersPointsService'
 /***************************************
@@ -9,6 +10,7 @@ import { usersPointsService } from '../services/UsersPointsService'
  **************************************/
 // #region Variables
 const { t } = useI18n()
+const { hasPermission } = useAuthStore()
 const params: any = reactive({
   page: 1,
   itemPerPage: 10,
@@ -60,7 +62,9 @@ const headers: any = [
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-
+const permissions = computed(() => ({
+  viewLogs: hasPermission('view_points_logs'),
+}))
 // #endregion
 
 /***************************************
@@ -164,8 +168,6 @@ getPageData()
               <span class="text-sm text-disabled d-block"> {{ item.transformed_points }}</span>
             </div>
           </template>
-
-          <!-- TODO: Add actions -->
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
               <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -173,12 +175,19 @@ getPageData()
 
                 <VMenu activator="parent">
                   <VList>
-                    <VListItem>
+                    <VListItem
+                      :to="{
+                        name: 'points-logs-page',
+                        query: { user_id: item.user.id, username: item.user.username },
+                      }"
+                      :disabled="!permissions.viewLogs"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-history" />
                       </template>
                       <VListItemTitle>سجل العمليات</VListItemTitle>
                     </VListItem>
+                    <!-- TODO: Add action -->
                     <VListItem>
                       <template #prepend>
                         <VIcon icon="tabler-arrows-transfer-down" />
