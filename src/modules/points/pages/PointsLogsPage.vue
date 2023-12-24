@@ -49,7 +49,7 @@ const headers: any = [
   },
   {
     title: 'البيان',
-    key: 'action',
+    key: 'action_name',
   },
 ]
 
@@ -134,9 +134,9 @@ function checkQueryParams() {
               <span class="text-sm text-disabled d-block">{{ item.total }}</span>
             </div>
           </template>
-          <template #item.action="{ item }">
+          <template #item.action_name="{ item }">
             <div style="min-inline-size: 150px">
-              <span>{{ item.action.text }}</span>
+              <span>{{ item.action_name }}</span>
             </div>
           </template>
 

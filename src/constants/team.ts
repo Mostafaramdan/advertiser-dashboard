@@ -1284,6 +1284,21 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'اعدادات تشغيل العروض',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_offer_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_offer_settings',
+          },
+        ],
+      },
     ],
   },
   {

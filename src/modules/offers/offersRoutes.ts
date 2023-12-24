@@ -81,4 +81,12 @@ export const offersRoutes = [
       requiredPermission: 'view_offers',
     },
   },
+  {
+    path: 'settings',
+    name: 'offers-settings-page',
+    component: () => import('./pages/OfferSettingsPage.vue'),
+    meta: {
+      requiredPermission: 'view_offer_settings',
+    },
+  },
 ]

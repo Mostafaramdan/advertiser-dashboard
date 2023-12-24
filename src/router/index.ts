@@ -86,6 +86,7 @@ const router = createRouter({
           'view_offer_payment_methods',
           'view_banners',
           'view_offers',
+          'view_offer_settings',
         ],
       },
       children: offersRoutes,
@@ -96,7 +97,7 @@ const router = createRouter({
       component: () => import('@/modules/ads-spaces/AdsSpacesModule.vue'),
       meta: {
         layout: 'default',
-        requireAtLeastOnePermission: ['view_distances', 'view_views_prices'],
+        requireAtLeastOnePermission: ['view_distances', 'view_views_prices', 'view_ad_spaces'],
       },
       children: adsSpacesRoutes,
     },

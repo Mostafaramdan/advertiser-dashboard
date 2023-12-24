@@ -4,6 +4,7 @@ import type { OfferAcceptModalFormPayload, OfferNoteModalPayload } from '../inte
 
 class OffersService {
   contextPath = 'offers'
+  settingsPath = 'offer_settings'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -32,6 +33,10 @@ class OffersService {
 
   getOfferQtyAvailabilityReminders(id: number, params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/${id}/availability_reminder_requests`, { params })
+  }
+
+  getSettings(): AxiosPromise {
+    return axios.get(`${this.settingsPath}`)
   }
 
   /** **************** post ******************/
@@ -65,6 +70,11 @@ class OffersService {
 
   cancelOffer(id: number): AxiosPromise {
     return axios.put(`${this.contextPath}/${id}/cancel`)
+  }
+
+  /** **************** patch ******************/
+  editSettings(data: any): AxiosPromise {
+    return axios.patch(`${this.settingsPath}/update_all`, data)
   }
 
   /** **************** delete ******************/

@@ -6,9 +6,7 @@ export interface PointsLogsItem {
     image_path: string
     role: string
   }
-  action: {
-    text: string
-  }
+  action_name: string
   created_at: string
   total: string
   payment_type: string
