@@ -15,6 +15,10 @@ class AdsSpacesService {
     return axios.post(`${this.contextPath}`, data)
   }
 
+  addBalance(payload: { id: number; data: any }): AxiosPromise {
+    return axios.post(`${this.contextPath}/${payload.id}/add_balance`, payload.data)
+  }
+
   /** **************** put ******************/
   editItem(data: Distance): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)

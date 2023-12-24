@@ -5,6 +5,7 @@ import { USERS_ROLES } from '@/constants/index'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { AdsSpace } from '../interfaces/AdsSpace'
+import AdsSpacesAddBalanceModal from '../modals/AdsSpacesAddBalanceModal.vue'
 import { adsSpacesService } from '../services/AdsSpacesService'
 
 /***************************************
@@ -18,6 +19,7 @@ const { formatDate } = UseGeneralHelpers()
 const MODEL_NAME = 'ad_spaces'
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
+const showAddBalanceModal = ref<boolean>(false)
 const params = reactive({
   page: 1,
   itemPerPage: 10,
@@ -30,6 +32,8 @@ const {
   metaData,
   confirmModal,
   IsLoadingData,
+  activeItem,
+  onEditItem,
   getPageData,
   onReloadData,
   onChangeItemsPerPage,
@@ -121,12 +125,23 @@ function onApplyFilter(filters: any) {
   Object.assign(params, { ...filters, page: 1 })
   getPageData()
 }
+
+function openAddBalanceModal(item: AdsSpace) {
+  activeItem.value = item
+  showAddBalanceModal.value = true
+}
 // #endregion
 </script>
 
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
+    <AdsSpacesAddBalanceModal
+      :ad-space-id="activeItem.id"
+      v-if="activeItem && showAddBalanceModal"
+      v-model:showModal="showAddBalanceModal"
+      @edit-item="onEditItem"
+    />
     <Component
       :is="FilterComponent"
       v-if="loadFilter"
@@ -249,7 +264,10 @@ function onApplyFilter(filters: any) {
 
                       <VListItemTitle>تعديل</VListItemTitle>
                     </VListItem>
-                    <VListItem :disabled="!permissions.addBalance">
+                    <VListItem
+                      :disabled="!permissions.addBalance"
+                      @click="openAddBalanceModal(item)"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-circle-plus" />
                       </template>
