@@ -87,7 +87,7 @@ function submit() {
                   v-model="formData.watches_count"
                   label="عدد المشاهدات"
                   name="hours"
-                  rules="required|numeric|min_value:0|max_value:1000000"
+                  rules="required|numeric|min_value:1|max_value:1000000"
                   type="number"
                 >
                   <template #append-inner> مشاهدة </template>
