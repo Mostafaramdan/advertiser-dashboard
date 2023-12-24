@@ -92,6 +92,10 @@ class ListService {
   getPendingRequests(params: any): AxiosPromise {
     return axios.get(`exchange-pending-requests`, { params })
   }
+
+  getAdsSpacesCategories(): AxiosPromise {
+    return axios.get(`${this.contextPath}/space_categories`)
+  }
 }
 
 export const listService = new ListService()

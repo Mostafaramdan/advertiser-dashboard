@@ -288,7 +288,7 @@ const navItems = computed(() => {
     {
       title: 'المساحات',
       icon: { icon: 'tabler-ad-circle' },
-      show: hasAtLeaseOnePermission(['view_distances', 'view_views_prices']),
+      show: hasAtLeaseOnePermission(['view_distances', 'view_views_prices', 'view_ad_spaces']),
       to: null,
       children: [
         {
@@ -300,6 +300,11 @@ const navItems = computed(() => {
           title: 'أسعار المشاهدات',
           to: { name: 'ads-spaces-views-prices' },
           show: hasPermission('view_views_prices'),
+        },
+        {
+          title: 'المساحات',
+          to: { name: 'ads-spaces-page' },
+          show: hasPermission('view_ad_spaces'),
         },
       ],
     },

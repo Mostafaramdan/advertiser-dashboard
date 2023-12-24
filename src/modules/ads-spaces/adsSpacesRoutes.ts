@@ -15,4 +15,12 @@ export const adsSpacesRoutes = [
       requiredPermission: 'view_views_prices',
     },
   },
+  {
+    path: 'index',
+    name: 'ads-spaces-page',
+    component: () => import('./pages/AdsSpacesPage.vue'),
+    meta: {
+      requiredPermission: 'view_ad_spaces',
+    },
+  },
 ]
