@@ -300,7 +300,7 @@ function drop(event: DragEvent, listIndex: string, itemIndex: number, items: any
                     label="السعر بعد"
                     :name="`price_after_discount-${index}`"
                     type="number"
-                    :rules="{ lessThanValue: period.price, numeric: true }"
+                    :rules="{ max_value: period.price, numeric: true }"
                     hide-default-label
                   />
                 </VCol>

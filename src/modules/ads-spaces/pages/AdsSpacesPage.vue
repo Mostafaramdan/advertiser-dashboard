@@ -76,20 +76,14 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_ad_space'),
-  edit: hasPermission('update_ad_space'),
   delete: hasPermission('delete_ad_space'),
   changeStatus: hasPermission('change_status_ad_space'),
   addBalance: hasPermission('add_balance_to_ad_space'),
+  viewDetails: hasPermission('view_ad_space_details'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
   return [
-    {
-      icon: 'tabler-plus',
-      show: permissions.value.create as boolean,
-      handler: gotoCreatePage,
-    },
     {
       icon: 'tabler-filter',
       show: true,
@@ -112,10 +106,6 @@ getPageData()
  **** Section Functions Declaration ****
  **************************************/
 // #region Functions
-function gotoCreatePage() {
-  console.log('gotoCreatePage')
-}
-
 function handleShowFilter() {
   showFilter.value = !showFilter.value
   if (!loadFilter.value) loadFilter.value = true
@@ -241,8 +231,8 @@ function openAddBalanceModal(item: AdsSpace) {
 
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <IconBtn :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
-                <VIcon icon="tabler-trash" />
+              <IconBtn :disabled="!permissions.viewDetails">
+                <VIcon icon="tabler-eye" />
               </IconBtn>
 
               <VBtn icon variant="text" size="small" color="medium-emphasis">
@@ -250,20 +240,14 @@ function openAddBalanceModal(item: AdsSpace) {
 
                 <VMenu activator="parent">
                   <VList>
-                    <VListItem>
+                    <VListItem :disabled="!permissions.delete" @click="showConfirmDeleteItem(item)">
                       <template #prepend>
-                        <VIcon icon="tabler-eye" />
+                        <VIcon icon="tabler-trash" />
                       </template>
 
-                      <VListItemTitle>عرض</VListItemTitle>
+                      <VListItemTitle>حذف</VListItemTitle>
                     </VListItem>
-                    <VListItem :disabled="!permissions.edit">
-                      <template #prepend>
-                        <VIcon icon="tabler-edit" />
-                      </template>
 
-                      <VListItemTitle>تعديل</VListItemTitle>
-                    </VListItem>
                     <VListItem
                       :disabled="!permissions.addBalance"
                       @click="openAddBalanceModal(item)"

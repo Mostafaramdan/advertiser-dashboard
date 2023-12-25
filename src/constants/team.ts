@@ -1374,6 +1374,36 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'المساحات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_ad_spaces',
+          },
+          {
+            label: 'عرض التفاصيل',
+            checked: false,
+            key: 'view_ad_space_details',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_ad_space',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_ad_space',
+          },
+          {
+            label: 'إضافة رصيد',
+            checked: false,
+            key: 'add_balance_to_ad_space',
+          },
+        ],
+      },
     ],
   },
   {
