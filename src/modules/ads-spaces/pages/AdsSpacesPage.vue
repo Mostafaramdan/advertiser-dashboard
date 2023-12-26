@@ -231,7 +231,14 @@ function openAddBalanceModal(item: AdsSpace) {
 
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <IconBtn :disabled="!permissions.viewDetails">
+              <IconBtn
+                :disabled="!permissions.viewDetails"
+                :to="{
+                  name: 'ads-space-details-page',
+                  params: { id: item.id },
+                  query: { tab: 'details' },
+                }"
+              >
                 <VIcon icon="tabler-eye" />
               </IconBtn>
 

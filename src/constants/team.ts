@@ -1388,6 +1388,11 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             key: 'view_ad_space_details',
           },
           {
+            label: 'عرض الإحصائيات',
+            checked: false,
+            key: 'view_ad_space_statistics',
+          },
+          {
             label: 'حذف',
             checked: false,
             key: 'delete_ad_space',

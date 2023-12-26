@@ -10,6 +10,18 @@ class AdsSpacesService {
     return axios.get(`${this.contextPath}`, { params })
   }
 
+  getSingleItem(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}`)
+  }
+
+  getDetails(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/details`)
+  }
+
+  getStats(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/statistics`)
+  }
+
   /** **************** post ******************/
   createItem(data: DistanceBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
