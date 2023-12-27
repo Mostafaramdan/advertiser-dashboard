@@ -1409,6 +1409,21 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'اعدادات المساحات',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'view_ad_space_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_ad_space_settings',
+          },
+        ],
+      },
     ],
   },
   {

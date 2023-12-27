@@ -19,7 +19,7 @@ const { hasPermission } = useAuthStore()
 const userKeyword = ref<string>('')
 const params: any = reactive({
   page: 1,
-  itemPerPage: 100,
+  itemPerPage: 10,
   keyword: '',
   user_id: null,
 })

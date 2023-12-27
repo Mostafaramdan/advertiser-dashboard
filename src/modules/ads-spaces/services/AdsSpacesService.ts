@@ -4,6 +4,7 @@ import type { Distance, DistanceBase } from '../interfaces/Distance'
 
 class AdsSpacesService {
   contextPath = 'ad_spaces'
+  settingsPath = 'ad_space_settings'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -22,6 +23,10 @@ class AdsSpacesService {
     return axios.get(`${this.contextPath}/${id}/statistics`)
   }
 
+  getSettings(): AxiosPromise {
+    return axios.get(`${this.settingsPath}`)
+  }
+
   /** **************** post ******************/
   createItem(data: DistanceBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
@@ -34,6 +39,10 @@ class AdsSpacesService {
   /** **************** put ******************/
   editItem(data: Distance): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
+  }
+
+  editSettings(data: any): AxiosPromise {
+    return axios.patch(`${this.settingsPath}/update_all`, data)
   }
 
   /** **************** delete ******************/

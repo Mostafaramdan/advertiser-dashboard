@@ -294,7 +294,12 @@ const navItems = computed(() => {
     {
       title: 'المساحات',
       icon: { icon: 'tabler-ad-circle' },
-      show: hasAtLeaseOnePermission(['view_distances', 'view_views_prices', 'view_ad_spaces']),
+      show: hasAtLeaseOnePermission([
+        'view_distances',
+        'view_views_prices',
+        'view_ad_spaces',
+        'view_ad_space_settings',
+      ]),
       to: null,
       children: [
         {
@@ -311,6 +316,11 @@ const navItems = computed(() => {
           title: 'المساحات',
           to: { name: 'ads-spaces-page' },
           show: hasPermission('view_ad_spaces'),
+        },
+        {
+          title: 'اعدادات المساحات',
+          to: { name: 'ads-spaces-settings-page' },
+          show: hasPermission('view_ad_space_settings'),
         },
       ],
     },

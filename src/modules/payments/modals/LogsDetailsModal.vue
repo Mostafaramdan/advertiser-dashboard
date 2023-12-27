@@ -19,6 +19,9 @@ const MarkterCommissionDetailsCard = defineAsyncComponent(
 const DefaultDetailsCard = defineAsyncComponent(
   () => import('../components/DefaultDetailsCard.vue'),
 )
+const AdSpaceDetailsCard = defineAsyncComponent(
+  () => import('../components/AdSpaceDetailsCard.vue'),
+)
 
 /***************************************
  **** Section Props Declaration  ******
@@ -68,6 +71,8 @@ const modalComponent = computed(() => {
       return SubscriptionDetailsCard
     case 'markter_commission':
       return MarkterCommissionDetailsCard
+    case 'ad_space':
+      return AdSpaceDetailsCard
     case 'prize':
     case 'release':
     case 'transformed_points':

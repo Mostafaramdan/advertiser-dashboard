@@ -31,4 +31,12 @@ export const adsSpacesRoutes = [
       requiredPermission: 'view_ad_space_details',
     },
   },
+  {
+    path: 'settings',
+    name: 'ads-spaces-settings-page',
+    component: () => import('./pages/AdsSpacesSettingsPage.vue'),
+    meta: {
+      requiredPermission: 'view_ad_space_settings',
+    },
+  },
 ]

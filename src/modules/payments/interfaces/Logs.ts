@@ -146,3 +146,11 @@ export interface LogMarkterCommissionItem {
     counters: DynamicKeysObject<CounterItem>
   }
 }
+
+export interface LogAdSpaceItem {
+  operation_type: string
+  title: string
+  user: User
+  other_user: User | null
+  counters: DynamicKeysObject<CounterItem>
+}
