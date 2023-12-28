@@ -3,8 +3,11 @@ import { DropdownMenuItem } from '@/interfaces/Shared'
 export interface User {
   id: number
   username: string
+  account_name: string
   image_path: string
   role: string
+  phone?: string
+  email?: string
 }
 
 export interface AdsSpace {
@@ -74,4 +77,35 @@ export interface AdsSpaceStats {
   transfer_balance: number
   pending_balance: number
   withdrawable_balance: number
+}
+
+export interface AdSpaceRequest {
+  id: number
+  user: User
+  created_at: string
+  ended_at: string
+  watches_count_requested: number
+  remaining_hours: number
+  watch_price: number
+  remaining_watches_count: number
+  shares_watches_count: number
+  currency_name: string
+  status: string
+  channels: {
+    id: number
+    url: string
+    watches_count: number
+    is_confirmed: boolean
+    channel: {
+      label: string
+      image_path: string
+    }
+  }[]
+}
+
+export interface AdSpaceRequestLog {
+  id: number
+  user: User
+  created_at: string
+  action_type_trans: string
 }

@@ -23,6 +23,18 @@ class AdsSpacesService {
     return axios.get(`${this.contextPath}/${id}/statistics`)
   }
 
+  getRequests({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/requests`, { params })
+  }
+
+  getRequestDetails(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/requests/${id}`)
+  }
+
+  getRequestLogs({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/requests/${id}/logs`, { params })
+  }
+
   getSettings(): AxiosPromise {
     return axios.get(`${this.settingsPath}`)
   }
