@@ -71,6 +71,18 @@ function getItemDetails(id: any) {
     })
 }
 
+function getUpdatedRequestDetails(id: any) {
+  isLoading.value = true
+  adsSpacesService
+    .getUpdatedRequestDetails(id)
+    .then((res) => {
+      data.value = res.data.data
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
+}
+
 // #endregion
 </script>
 
@@ -80,8 +92,8 @@ function getItemDetails(id: any) {
     <DialogCloseBtn @click="showModal = !showModal" />
 
     <!-- Dialog Content -->
-    <VCard v-loading="isLoading">
-      <div>
+    <VCard>
+      <div v-loading="isLoading">
         <VCard v-if="data" title="عرض طلب">
           <VCardText>
             <VList :lines="false">
@@ -148,7 +160,22 @@ function getItemDetails(id: any) {
                 :subtitle="data.remaining_hours"
                 border
               />
-              <VListItem class="px-2 py-2" title="القنوات" border>
+              <VListItem class="px-2 py-2" border>
+                <template #title>
+                  <div class="d-flex flex-wrap gap-3 mb-2 justify-space-between align-center">
+                    القنوات
+                    <VBtn
+                      size="small"
+                      class="py-2"
+                      height="auto"
+                      @click="getUpdatedRequestDetails(data.id)"
+                    >
+                      تحديث البيانات
+                      <VIcon end icon="tabler-refresh" />
+                    </VBtn>
+                  </div>
+                </template>
+
                 <div class="d-flex flex-wrap gap-2 mt-2" v-if="data.channels?.length">
                   <a
                     :href="item.url"

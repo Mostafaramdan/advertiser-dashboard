@@ -5,6 +5,7 @@ import type { Distance, DistanceBase } from '../interfaces/Distance'
 class AdsSpacesService {
   contextPath = 'ad_spaces'
   settingsPath = 'ad_space_settings'
+  requestsPath = 'requests'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -24,15 +25,19 @@ class AdsSpacesService {
   }
 
   getRequests({ id, params }: { id: number; params: any }): AxiosPromise {
-    return axios.get(`${this.contextPath}/${id}/requests`, { params })
+    return axios.get(`${this.contextPath}/${id}/${this.requestsPath}`, { params })
   }
 
   getRequestDetails(id: number): AxiosPromise {
-    return axios.get(`${this.contextPath}/requests/${id}`)
+    return axios.get(`${this.contextPath}/${this.requestsPath}/${id}`)
+  }
+
+  getUpdatedRequestDetails(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${this.requestsPath}/${id}/channel_views`)
   }
 
   getRequestLogs({ id, params }: { id: number; params: any }): AxiosPromise {
-    return axios.get(`${this.contextPath}/requests/${id}/logs`, { params })
+    return axios.get(`${this.contextPath}/${this.requestsPath}/${id}/logs`, { params })
   }
 
   getSettings(): AxiosPromise {
