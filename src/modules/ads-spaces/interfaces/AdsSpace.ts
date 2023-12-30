@@ -8,6 +8,19 @@ export interface User {
   role: string
   phone?: string
   email?: string
+  country?: string
+  area_name?: string
+}
+
+export interface Channel {
+  id: number
+  url: string
+  watches_count: number
+  is_confirmed: boolean
+  channel: {
+    label: string
+    image_path: string
+  }
 }
 
 export interface AdsSpace {
@@ -91,16 +104,7 @@ export interface AdSpaceRequest {
   shares_watches_count: number
   currency_name: string
   status: string
-  channels: {
-    id: number
-    url: string
-    watches_count: number
-    is_confirmed: boolean
-    channel: {
-      label: string
-      image_path: string
-    }
-  }[]
+  channels: Channel[]
 }
 
 export interface AdSpaceRequestLog {
@@ -108,4 +112,12 @@ export interface AdSpaceRequestLog {
   user: User
   created_at: string
   action_type_trans: string
+}
+
+export interface AdSpaceShare extends AdSpaceRequest {
+  id: number
+  user: User
+  created_at: string
+  shares_watches_count: number
+  channels: Channel[]
 }

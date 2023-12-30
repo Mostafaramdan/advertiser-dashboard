@@ -40,6 +40,10 @@ class AdsSpacesService {
     return axios.get(`${this.contextPath}/${this.requestsPath}/${id}/logs`, { params })
   }
 
+  getShares({ id, params }: { id: number; params: any }): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/shares`, { params })
+  }
+
   getSettings(): AxiosPromise {
     return axios.get(`${this.settingsPath}`)
   }

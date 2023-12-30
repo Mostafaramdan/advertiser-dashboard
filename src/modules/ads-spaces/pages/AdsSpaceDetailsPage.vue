@@ -12,6 +12,7 @@ const AdsSpaceStatsTab = defineAsyncComponent(() => import('../components/AdsSpa
 const AdsSpaceRequestsTab = defineAsyncComponent(
   () => import('../components/AdsSpaceRequestsTab.vue'),
 )
+const AdsSpaceSharesTab = defineAsyncComponent(() => import('../components/AdsSpaceSharesTab.vue'))
 const route = useRoute()
 const router = useRouter()
 const { hasPermission } = useAuthStore()
@@ -42,6 +43,12 @@ const tabs = computed(() => {
       value: 'requests',
       component: AdsSpaceRequestsTab,
       show: hasPermission('view_ad_space_requests'),
+    },
+    {
+      title: ' المشاركات والعمليات',
+      value: 'shares',
+      component: AdsSpaceSharesTab,
+      show: hasPermission('view_space_shares'),
     },
   ]
 })

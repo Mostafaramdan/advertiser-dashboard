@@ -1403,6 +1403,11 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             key: 'view_space_requests_logs',
           },
           {
+            label: 'عرض المشاركات',
+            checked: false,
+            key: 'view_space_shares',
+          },
+          {
             label: 'حذف',
             checked: false,
             key: 'delete_ad_space',
