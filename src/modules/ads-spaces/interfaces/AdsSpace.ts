@@ -114,7 +114,7 @@ export interface AdSpaceRequestLog {
   action_type_trans: string
 }
 
-export interface AdSpaceShare extends AdSpaceRequest {
+export interface AdSpaceShare {
   id: number
   user: User
   created_at: string
