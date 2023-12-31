@@ -15,7 +15,6 @@ type ProductCondition = 'new_product' | 'used_product' | 'expires_soon'
 
 export interface Offer {
   id: number
-  name: string
   image_path: string
   is_active: boolean
   offer_type: OfferType
@@ -23,12 +22,8 @@ export interface Offer {
   from_date: string
   to_date: string
   user: User
-  main_price: number
-  discount_price: number
-  category_name: string
   is_deleted: boolean
   publish_status: boolean
-  quantity_status: boolean
 }
 
 export interface OfferDetailsBase {
@@ -66,7 +61,38 @@ export interface OfferDetailsBase {
   sub_unit_value: number | null
 }
 
-export interface OfferFormData extends OfferDetailsBase {
+export interface OfferFormData {
+  offer_type: OfferType | null
+  store: {
+    name: string
+    type: null | 'website' | 'marketplace'
+  }
+  from_date: string
+  to_date: string
+  image: File | null
+  name: string
+  expire_date: string
+  is_active: boolean
+  hide_contact_data: boolean
+  description: string
+  responsible: {
+    name: string
+    email: string
+    phone: string
+    hide_name: boolean
+    hide_email: boolean
+    hide_phone: boolean
+  }
+  product_condition: null | ProductCondition
+  main_price: number | null
+  discount_price: number | null
+  offer_quantity: number | null
+  show_offer_quantity: boolean
+  available_quantity: number | null
+  show_available_quantity: boolean
+  minimum_quantity: number | null
+  maximum_quantity: number | null
+  sub_unit_value: number | null
   image_id: number | null
   user_id: number | null
   category_id: number | null

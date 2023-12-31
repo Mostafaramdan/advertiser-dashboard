@@ -49,8 +49,8 @@ const {
 
 const headers: any = [
   {
-    title: 'الاسم/حالة العرض',
-    key: 'name',
+    title: 'الصورة/الحالة',
+    key: 'image_path',
   },
   {
     title: 'المستخدم',
@@ -61,12 +61,8 @@ const headers: any = [
     key: 'from_date',
   },
   {
-    title: 'النوع/القسم',
+    title: 'النوع',
     key: 'offer_type',
-  },
-  {
-    title: 'السعر بعد الخصم/قبل الخصم',
-    key: 'discount_price',
   },
   {
     title: 'الحالة',
@@ -95,7 +91,6 @@ const permissions = computed(() => ({
   rejectOffer: hasPermission('reject_offer'),
   cancelOffer: hasPermission('cancel_offer'),
   changeOfferStatus: hasPermission('change_publish_status_offer'),
-  changeQuantityStatus: hasPermission('change_quantity_status_offer'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -260,7 +255,7 @@ function cancelOffer(item: Offer) {
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
           :row-props="rowProps"
         >
-          <template #item.name="{ item }">
+          <template #item.image_path="{ item }">
             <div class="d-flex align-center">
               <div class="d-flex flex-column align-center me-3 py-1">
                 <VAvatar size="38" variant="tonal" cover>
@@ -272,10 +267,7 @@ function cancelOffer(item: Offer) {
                 </VChip>
               </div>
               <div style="min-inline-size: 150px">
-                {{ item.name }}
-                <span class="text-sm text-disabled d-block">{{
-                  OFFER_STATUSES.get(item.status)?.label
-                }}</span>
+                {{ OFFER_STATUSES.get(item.status)?.label }}
               </div>
             </div>
           </template>
@@ -304,13 +296,6 @@ function cancelOffer(item: Offer) {
           <template #item.offer_type="{ item }">
             <div style="min-inline-size: 120px">
               <span>{{ OFFER_TYPES.get(item.offer_type)?.label }}</span>
-              <span class="text-sm text-disabled d-block">{{ item.category_name }}</span>
-            </div>
-          </template>
-          <template #item.discount_price="{ item }">
-            <div class="text-no-wrap" style="min-inline-size: 100px">
-              {{ item.discount_price }}
-              <span class="text-sm text-disabled d-block"> {{ item.main_price }}</span>
             </div>
           </template>
           <template #item.is_active="{ item }">
@@ -406,17 +391,6 @@ function cancelOffer(item: Offer) {
                           :model="MODEL_NAME"
                           column="publish_status"
                           label="حالة العرض"
-                        />
-                      </VListItemTitle>
-                    </VListItem>
-                    <VListItem v-if="permissions.changeQuantityStatus" @click.stop>
-                      <VListItemTitle class="ps-2">
-                        <ToggleActivationSwitch
-                          :id="item.id"
-                          v-model="item.quantity_status"
-                          :model="MODEL_NAME"
-                          column="quantity_status"
-                          label="حالة كمية العرض"
                         />
                       </VListItemTitle>
                     </VListItem>

@@ -1233,11 +1233,6 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             key: 'change_publish_status_offer',
           },
           {
-            label: 'تغيير حالة كمية العرض',
-            checked: false,
-            key: 'change_quantity_status_offer',
-          },
-          {
             label: 'إعادة نشر',
             checked: false,
             key: 'repost_offer',

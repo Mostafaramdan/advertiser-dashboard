@@ -268,17 +268,6 @@ function cancelOffer() {
                             />
                           </VListItemTitle>
                         </VListItem>
-                        <VListItem v-if="permissions.changeQuantityStatus" @click.stop>
-                          <VListItemTitle class="ps-2">
-                            <ToggleActivationSwitch
-                              :id="data.id"
-                              v-model="data.quantity_status"
-                              :model="MODEL_NAME"
-                              column="quantity_status"
-                              label="حالة كمية العرض"
-                            />
-                          </VListItemTitle>
-                        </VListItem>
                       </VList>
                     </VMenu>
                   </VBtn>
