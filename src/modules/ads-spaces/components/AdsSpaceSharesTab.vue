@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { ADS_SPACE_REQUEST_STATUSES } from '@/constants/ads-spaces'
 import type { AdSpaceShare } from '../interfaces/AdsSpace'
 import { adsSpacesService } from '../services/AdsSpacesService'
 
@@ -15,7 +16,7 @@ const params = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
-  user_id: null,
+  status: null,
 })
 
 const { tableData, metaData, IsLoadingData } = UseCrudHelpers<AdSpaceShare>(null, null, '')
@@ -111,9 +112,32 @@ function getUpdatedRequestDetails(item: AdSpaceShare, index: number): void {
         @update:items-per-page="onChangeItemsPerPage"
         @update:search="onChangeSearch"
         @reload-data="reloadPageData"
-      />
+      >
+        <div class="v-col-md-4 pa-0">
+          <AppSelect
+            v-model="params.status"
+            :items="
+              Array.from(ADS_SPACE_REQUEST_STATUSES, ([key, value]) => ({
+                value: key,
+                label: value.label,
+              }))
+            "
+            item-title="label"
+            item-value="value"
+            name="status"
+            label="الحالة"
+            clearable
+            hide-default-label
+            @update:model-value="reloadPageData"
+          />
+        </div>
+        <span class="me-auto" />
+      </PageActions>
 
       <div v-if="tableData">
+        <p v-if="!IsLoadingData && tableData.length === 0" class="text-body-1 mb-0">
+          لا يوجد بيانات
+        </p>
         <VRow v-loading="IsLoadingData" style="min-block-size: 200px">
           <VCol cols="12" md="6" v-for="(item, index) of tableData" :key="item.id">
             <VCard elevation="1" class="h-100 border">
@@ -206,12 +230,13 @@ function getUpdatedRequestDetails(item: AdSpaceShare, index: number): void {
           :get-page-data="getPageData"
           class="d-flex"
         />
-        <p v-if="!IsLoadingData && tableData.length === 0" class="text-body-1 mb-0">
-          لا يوجد بيانات
-        </p>
       </div>
     </div>
   </section>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.search-input) {
+  margin: 0 !important;
+}
+</style>
