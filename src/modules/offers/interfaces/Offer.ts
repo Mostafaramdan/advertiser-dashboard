@@ -1,5 +1,5 @@
 import { FormModalProps } from '@/interfaces/Forms'
-import type { DropdownMenuItem, File, Location } from '@/interfaces/Shared'
+import type { File, Location } from '@/interfaces/Shared'
 export interface User {
   id: number
   username: string
@@ -61,18 +61,31 @@ export interface OfferDetailsBase {
   sub_unit_value: number | null
 }
 
+export type OfferStoreType = 'website' | 'marketplace' | null
 export interface OfferFormData {
   offer_type: OfferType | null
   store: {
     name: string
-    type: null | 'website' | 'marketplace'
+    type: OfferStoreType
   }
   from_date: string
   to_date: string
-  image: File | null
-  name: string
-  expire_date: string
   is_active: boolean
+  user_id: number | null
+  products: {
+    id: number
+    image: string
+    name: string
+    main_price: number
+    discount_price: number
+  }[]
+}
+
+export interface ProductFormData {
+  name: string
+  category_id: number | null
+  link: string | null
+  expire_date: string
   hide_contact_data: boolean
   description: string
   responsible: {
@@ -93,9 +106,6 @@ export interface OfferFormData {
   minimum_quantity: number | null
   maximum_quantity: number | null
   sub_unit_value: number | null
-  image_id: number | null
-  user_id: number | null
-  category_id: number | null
   countries: number[]
   areas: number[]
   main_unit_id: number | null
@@ -110,27 +120,7 @@ export interface OfferFormData {
   location: Location
 }
 
-export interface OfferDetails extends OfferDetailsBase {
-  user: User
-  category: DropdownMenuItem
-  countries: DropdownMenuItem[]
-  areas: DropdownMenuItem[]
-  main_unit: DropdownMenuItem
-  sub_unit: DropdownMenuItem
-  prices: {
-    minimum_quantity: number
-    maximum_quantity: number
-    price: number
-  }
-  attachments: File[]
-  created_at: string
-  is_deleted: boolean
-  status: string
-  publish_status: boolean
-  quantity_status: boolean
-  location: Location | null
-}
-
+export type OfferDetails = any
 export interface OfferLogsItem {
   id: number
   action_name: string

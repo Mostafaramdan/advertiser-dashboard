@@ -22,6 +22,11 @@ export const STORES_TYPES = new Map([
   ['marketplace', { label: 'منفذ بيع' }],
 ])
 
+export const OFFER_DATE_TYPES = {
+  fixed: 'محدد',
+  dynamic: 'مرن',
+}
+
 export const SORT_TYPES = {
   most_view: 'الاعلي مشاهدة',
   newest: 'الأحدث',
