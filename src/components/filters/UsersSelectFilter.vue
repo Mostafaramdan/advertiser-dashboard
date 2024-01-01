@@ -118,7 +118,6 @@ const handleDebounceSearch = debounce((value: any) => {
   <div ref="usersSelectRef" class="position-relative">
     <VSelect
       :items="usersList"
-      class="mt-2"
       item-value="id"
       item-title="label"
       :label="label"

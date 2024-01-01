@@ -157,7 +157,7 @@ function submit() {
                   rules="required"
                   @update:model-value="onChangeUser"
                 >
-                  <VLabel class="text-body-2 text-high-emphasis" text="المستخدم" />
+                  <VLabel class="text-body-2 text-high-emphasis mb-1" text="المستخدم" />
                   <UsersSelectFilter
                     label=""
                     :userRole="null"
