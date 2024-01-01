@@ -371,7 +371,9 @@ function getData() {
                 <VRow>
                   <VCol cols="12" sm="4" md="3" class="d-flex flex-column align-self-end">
                     <div class="d-flex align-center gap-2 mb-2 pb-1 flex-wrap">
-                      <h4 class="text-h1">{{ data.payments.total_income }}</h4>
+                      <h4 class="text-h4" style="word-break: break-word">
+                        {{ data.payments.total_income.toFixed(2) }}
+                      </h4>
                     </div>
 
                     <span class="text-sm text-body"
