@@ -17,6 +17,19 @@ export const PRODUCT_STATUSES = new Map([
   ['expires_soon', { label: 'بتاريخ صلاحية' }],
 ])
 
+export const PRODUCT_WEIGHT_UNITS = new Map([
+  ['g', { label: 'غرام' }],
+  ['kg', { label: 'كيلو غرام' }],
+  ['lb', { label: 'رطل' }],
+])
+
+export const PRODUCT_WARRANTY_DURATION_TYPES = new Map([
+  ['day', { label: 'يوم' }],
+  ['week', { label: 'اسبوع' }],
+  ['month', { label: 'شهر' }],
+  ['year', { label: 'سنة' }],
+])
+
 export const STORES_TYPES = new Map([
   ['website', { label: 'متجر إلكتروني' }],
   ['marketplace', { label: 'منفذ بيع' }],

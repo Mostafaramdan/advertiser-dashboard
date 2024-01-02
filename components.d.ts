@@ -113,6 +113,7 @@ declare module 'vue' {
     PaymentStatsCard: typeof import('./src/components/home/PaymentStatsCard.vue')['default']
     PendingRequestsFilter: typeof import('./src/components/filters/PendingRequestsFilter.vue')['default']
     PricingPlanDialog: typeof import('./src/components/dialogs/PricingPlanDialog.vue')['default']
+    ProductsSelectFilter: typeof import('./src/components/filters/ProductsSelectFilter.vue')['default']
     ProfileBasicInfo: typeof import('./src/components/advertiser-profile/ProfileBasicInfo.vue')['default']
     ReadyRepliesSelectionModal: typeof import('./src/components/shared/ReadyRepliesSelectionModal.vue')['default']
     ReferAndEarnDialog: typeof import('./src/components/dialogs/ReferAndEarnDialog.vue')['default']

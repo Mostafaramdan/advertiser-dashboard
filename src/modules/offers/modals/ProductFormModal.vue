@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import GeoLocationModal from '@/components/shared/GeoLocationModal.vue'
-import { PRODUCT_STATUSES } from '@/constants/offers'
+import {
+  PRODUCT_STATUSES,
+  PRODUCT_WARRANTY_DURATION_TYPES,
+  PRODUCT_WEIGHT_UNITS,
+} from '@/constants/offers'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { DropdownMenuItem } from '@/interfaces/Shared'
 import { listService } from '@/services/ListService'
 import { productsService } from '@/services/ProductsService'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
+import ModalAlert from '../components/ModalAlert.vue'
 import type { OfferStoreType, ProductFormData } from '../interfaces/Offer'
 
 /***************************************
@@ -15,10 +20,12 @@ import type { OfferStoreType, ProductFormData } from '../interfaces/Offer'
 // #region Props
 interface ProductModalProps extends FormModalProps {
   storeType?: OfferStoreType
+  userId?: number | null
 }
 const props = withDefaults(defineProps<ProductModalProps>(), {
   showModal: false,
   storeType: null,
+  userId: null,
 })
 
 // #endregion
@@ -48,6 +55,8 @@ const unitsList = ref<DropdownMenuItem[]>([])
 const categoriesList = ref<DropdownMenuItem[]>([])
 const countriesList = ref<DropdownMenuItem[]>([])
 const areasList = ref<DropdownMenuItem[]>([])
+const usersKeyword = ref('')
+const selectedProduct = ref(null)
 const isLoading = reactive({
   data: false,
   submit: false,
@@ -58,12 +67,37 @@ const isLoading = reactive({
 })
 
 const formData = reactive<ProductFormData>({
+  user_id: props.userId,
   name: '',
   category_id: null,
   link: null,
   description: '',
-  product_condition: null,
-  expire_date: '',
+  attachments: [],
+  attachmentsFiles: [],
+  product_data: {
+    warranty_and_expiration: {
+      product_condition: null,
+      expire_date: '',
+      production_date: '',
+      warranty_duration: null,
+      warranty_duration_type: null,
+    },
+    unit_details: {
+      product_quantity: null,
+      available_quantity: null,
+      main_unit_id: null,
+      sub_unit_id: null,
+      sub_unit_value: null,
+    },
+    dimensions: {
+      width: null,
+      height: null,
+      length: null,
+      weight: null,
+      weight_unit: null,
+    },
+  },
+
   hide_contact_data: false,
   location: {
     address: '',
@@ -72,15 +106,8 @@ const formData = reactive<ProductFormData>({
   },
   countries: [],
   areas: [],
-  main_unit_id: null,
-  sub_unit_id: null,
-  sub_unit_value: null,
   main_price: null,
   discount_price: null,
-  offer_quantity: null,
-  show_offer_quantity: true,
-  available_quantity: null,
-  show_available_quantity: true,
   minimum_quantity: null,
   maximum_quantity: null,
   responsible: {
@@ -92,8 +119,6 @@ const formData = reactive<ProductFormData>({
     hide_phone: false,
   },
   prices: [],
-  attachments: [],
-  attachmentsFiles: [],
 })
 
 // #endregion
@@ -111,8 +136,15 @@ const formTitle = computed(() => {
 })
 
 const mainUnitName = computed(
-  () => unitsList.value.find((unit) => unit.id === formData.main_unit_id)?.label,
+  () =>
+    unitsList.value.find((unit) => unit.id === formData.product_data.unit_details.main_unit_id)
+      ?.label,
 )
+
+const productSize = computed(() => {
+  const { width, height, length } = formData.product_data.dimensions
+  return width && height && length ? (width * height * length).toFixed(2) : '-'
+})
 
 // #endregion
 
@@ -129,6 +161,10 @@ initData()
  **** Section Functions Declaration ****
  **************************************/
 // #region Functions
+function onChangeProduct() {
+  console.log('onChangeProduct', selectedProduct.value)
+}
+
 function getCountries() {
   isLoading.countries = true
   listService
@@ -211,7 +247,7 @@ async function addNewPrice() {
 }
 
 function onProductStatusChange() {
-  formData.expire_date = ''
+  formData.product_data.warranty_and_expiration.expire_date = ''
 }
 
 function updateLocation(location: any) {
@@ -226,8 +262,8 @@ function getItemDetails(id: any) {
       const data = res.data.data
       data.countries = data.countries.map((country: DropdownMenuItem) => country.id)
       data.areas = data.areas.map((country: DropdownMenuItem) => country.id)
-      data.main_unit_id = data.main_unit.id
-      data.sub_unit_id = data.sub_unit.id
+      data.product_data.unit_details.main_unit_id = data.main_unit.id
+      data.product_data.unit_details.sub_unit_id = data.sub_unit.id
       data.category_id = data.category.id
       data.attachmentsFiles = data.attachments.map((attachment: File) => attachment)
       data.location = data.location || {
@@ -235,6 +271,9 @@ function getItemDetails(id: any) {
         lat: 0,
         lng: 0,
       }
+
+      data.user_id = data.user.id
+      usersKeyword.value = data.user.username
 
       Object.assign(formData, data)
       if (data.countries.length === 1) {
@@ -309,6 +348,47 @@ function submit() {
           <VCard :title="formTitle">
             <VCardText>
               <VRow>
+                <VCol cols="12" class="py-0">
+                  <ModalAlert text="البيانات الاساسية" />
+                </VCol>
+
+                <VCol cols="12" v-if="!props.userId">
+                  <VeeField
+                    v-slot="{ errorMessage, value, handleChange, handleBlur }"
+                    v-model="formData.user_id"
+                    name="user_id"
+                    label="المستخدم"
+                    rules="required"
+                  >
+                    <VLabel class="text-body-2 text-high-emphasis mb-1" text="المستخدم" />
+                    <UsersSelectFilter
+                      label=""
+                      :userRole="null"
+                      :model-value="value"
+                      :error-messages="errorMessage"
+                      :error="!!errorMessage"
+                      id="users-select-filter"
+                      @update:model-value="handleChange"
+                      @blur="handleBlur"
+                      clearable
+                      :keyword="usersKeyword"
+                    />
+                  </VeeField>
+                </VCol>
+                <VCol cols="12" v-if="formData.user_id && formAction === 'create'">
+                  <VLabel class="text-body-2 text-high-emphasis mb-1" text="المنتج" />
+                  <ProductsSelectFilter
+                    label=""
+                    :user-id="formData.user_id"
+                    :userRole="null"
+                    v-model="selectedProduct"
+                    id="products-select-filter"
+                    @update:model-value="onChangeProduct"
+                    clearable
+                    hint="هذا الحقل لتسهيل اضافة منتج جديد"
+                    persistent-hint
+                  />
+                </VCol>
                 <VCol cols="12" md="6">
                   <AppTextField
                     v-model="formData.name"
@@ -340,46 +420,6 @@ function submit() {
                     name="link"
                     rules="required|validUrl"
                   />
-                </VCol>
-                <VCol cols="12">
-                  <AppAutocomplete
-                    v-model="formData.product_condition"
-                    name="product_condition"
-                    :items="
-                      Array.from(PRODUCT_STATUSES, ([key, value]) => ({
-                        id: key,
-                        label: value.label,
-                      }))
-                    "
-                    item-title="label"
-                    item-value="id"
-                    label="حالة المنتج"
-                    rules="required"
-                    clearable
-                    @update:model-value="onProductStatusChange"
-                  />
-                </VCol>
-                <VCol cols="12" v-if="formData.product_condition === 'expires_soon'">
-                  <VeeField
-                    v-slot="{ errorMessage, value, handleChange }"
-                    v-model="formData.expire_date"
-                    name="expire_date"
-                    label="تاريخ الانتهاء"
-                    rules="required"
-                  >
-                    <AppDateTimePicker
-                      label="تاريخ الانتهاء"
-                      :model-value="value"
-                      :error-msg="errorMessage"
-                      clearable
-                      prepend-inner-icon="tabler-calendar"
-                      :config="{
-                        disableMobile: true,
-                        minDate: formAction === 'create' ? new Date() : null,
-                      }"
-                      @update:model-value="handleChange"
-                    />
-                  </VeeField>
                 </VCol>
                 <VCol cols="12">
                   <AppTextarea
@@ -429,6 +469,239 @@ function submit() {
                     <VIcon end icon="tabler-plus" />
                   </VBtn>
                 </VCol>
+
+                <VCol cols="12" class="py-0">
+                  <ModalAlert text="بيانات المنتج" />
+                </VCol>
+                <VCol cols="12" md="4">
+                  <AppAutocomplete
+                    v-model="formData.product_data.unit_details.main_unit_id"
+                    name="main_unit_id"
+                    :items="unitsList"
+                    item-title="label"
+                    item-value="id"
+                    label="الوحدة الرئيسية"
+                    rules="required"
+                    :loading="isLoading.units"
+                    :disabled="isLoading.units"
+                    clearable
+                  />
+                </VCol>
+                <VCol cols="12" md="4">
+                  <AppTextField
+                    v-model="formData.product_data.unit_details.product_quantity"
+                    label="كمية العرض"
+                    name="product_quantity"
+                    rules="required|numeric"
+                    type="number"
+                  />
+                </VCol>
+                <VCol cols="12" md="4">
+                  <AppTextField
+                    v-model="formData.product_data.unit_details.available_quantity"
+                    :disabled="!formData.product_data.unit_details.product_quantity"
+                    label="الكمية المتاحة"
+                    name="available_quantity"
+                    :rules="{
+                      required: formData.product_data.unit_details.product_quantity !== null,
+                      numeric: true,
+                      max_value: formData.product_data.unit_details.product_quantity,
+                    }"
+                    type="number"
+                  />
+                </VCol>
+                <VCol cols="12" md="4">
+                  <AppAutocomplete
+                    v-model="formData.product_data.unit_details.sub_unit_id"
+                    name="sub_unit_id"
+                    :items="unitsList"
+                    item-title="label"
+                    item-value="id"
+                    label="الوحدة الفرعية"
+                    rules="required"
+                    :loading="isLoading.units"
+                    :disabled="isLoading.units"
+                    clearable
+                  />
+                </VCol>
+                <VCol cols="12" md="8">
+                  <AppTextField
+                    v-model="formData.product_data.unit_details.sub_unit_value"
+                    label="قيمة الوحدة الفرعية"
+                    name="sub_unit_value"
+                    rules="required|numeric"
+                    type="number"
+                  />
+                </VCol>
+
+                <VCol cols="12" class="py-0">
+                  <ModalAlert text="الوزن والابعاد" />
+                </VCol>
+
+                <VCol cols="12" md="3">
+                  <AppTextField
+                    v-model="formData.product_data.dimensions.height"
+                    label="الطول"
+                    name="height"
+                    rules="required|numeric"
+                    type="number"
+                  />
+                </VCol>
+                <VCol cols="12" md="3">
+                  <AppTextField
+                    v-model="formData.product_data.dimensions.width"
+                    label="العرض"
+                    name="width"
+                    rules="required|numeric"
+                    type="number"
+                  />
+                </VCol>
+                <VCol cols="12" md="3">
+                  <AppTextField
+                    v-model="formData.product_data.dimensions.length"
+                    label="الارتفاع"
+                    name="length"
+                    rules="required|numeric"
+                    type="number"
+                  />
+                </VCol>
+                <VCol cols="12" md="3">
+                  <VLabel class="text-body-2 text-high-emphasis mb-1" text="الحجم" />
+                  <div class="bg-grey-200 pa-2 rounded">{{ productSize }}</div>
+                </VCol>
+                <VCol cols="12" md="6">
+                  <AppTextField
+                    v-model="formData.product_data.dimensions.weight"
+                    label="الوزن"
+                    name="weight"
+                    rules="required|numeric"
+                    type="number"
+                  />
+                </VCol>
+                <VCol cols="12" md="6">
+                  <AppAutocomplete
+                    v-model="formData.product_data.dimensions.weight_unit"
+                    name="weight_unit"
+                    :items="
+                      Array.from(PRODUCT_WEIGHT_UNITS, ([key, value]) => ({
+                        id: key,
+                        label: value.label,
+                      }))
+                    "
+                    item-title="label"
+                    item-value="id"
+                    label="وحدة الوزن"
+                    rules="required"
+                    clearable
+                  />
+                </VCol>
+
+                <VCol cols="12" class="py-0">
+                  <ModalAlert text="الصلاحية والضمان" />
+                </VCol>
+                <VCol cols="12" md="6">
+                  <AppAutocomplete
+                    v-model="formData.product_data.warranty_and_expiration.product_condition"
+                    name="product_condition"
+                    :items="
+                      Array.from(PRODUCT_STATUSES, ([key, value]) => ({
+                        id: key,
+                        label: value.label,
+                      }))
+                    "
+                    item-title="label"
+                    item-value="id"
+                    label="حالة المنتج"
+                    rules="required"
+                    clearable
+                    @update:model-value="onProductStatusChange"
+                  />
+                </VCol>
+                <VCol cols="12" md="6">
+                  <VeeField
+                    v-slot="{ errorMessage, value, handleChange }"
+                    v-model="formData.product_data.warranty_and_expiration.production_date"
+                    name="production_date"
+                    label="تاريخ الانتاج"
+                    rules="required"
+                  >
+                    <AppDateTimePicker
+                      label="تاريخ الانتاج"
+                      :model-value="value"
+                      :error-msg="errorMessage"
+                      clearable
+                      prepend-inner-icon="tabler-calendar"
+                      :config="{
+                        disableMobile: true,
+                      }"
+                      @update:model-value="handleChange"
+                    />
+                  </VeeField>
+                </VCol>
+                <VCol
+                  cols="12"
+                  v-if="
+                    formData.product_data.warranty_and_expiration.product_condition ===
+                    'expires_soon'
+                  "
+                >
+                  <VeeField
+                    v-slot="{ errorMessage, value, handleChange }"
+                    v-model="formData.product_data.warranty_and_expiration.expire_date"
+                    name="expire_date"
+                    label="تاريخ الانتهاء"
+                    rules="required"
+                  >
+                    <AppDateTimePicker
+                      label="تاريخ الانتهاء"
+                      :model-value="value"
+                      :error-msg="errorMessage"
+                      clearable
+                      prepend-inner-icon="tabler-calendar"
+                      :config="{
+                        disableMobile: true,
+                        minDate: formAction === 'create' ? new Date() : null,
+                      }"
+                      @update:model-value="handleChange"
+                    />
+                  </VeeField>
+                </VCol>
+                <VCol cols="12" md="6">
+                  <AppTextField
+                    v-model="formData.product_data.warranty_and_expiration.warranty_duration"
+                    label="فترة الصمان (اختياري)"
+                    name="warranty_duration"
+                    rules="numeric"
+                    type="number"
+                  />
+                </VCol>
+                <VCol cols="12" md="6">
+                  <AppAutocomplete
+                    v-model="formData.product_data.warranty_and_expiration.warranty_duration_type"
+                    name="warranty_duration_type"
+                    :items="
+                      Array.from(PRODUCT_WARRANTY_DURATION_TYPES, ([key, value]) => ({
+                        id: key,
+                        label: value.label,
+                      }))
+                    "
+                    item-title="label"
+                    item-value="id"
+                    label="نوع قترة الصمان (اختياري)"
+                    clearable
+                  />
+                </VCol>
+
+                <VCol cols="12" class="py-0">
+                  <VAlert
+                    text="الإختيارات والتفضيلات"
+                    color="primary"
+                    border="start"
+                    variant="tonal"
+                    density="compact"
+                  />
+                </VCol>
+
                 <VCol cols="12" md="6" class="pb-0">
                   <AppSwitch
                     v-model="formData.hide_contact_data"
@@ -503,43 +776,6 @@ function submit() {
                     </template>
                   </AppAutocomplete>
                 </VCol>
-                <VCol cols="12">
-                  <AppAutocomplete
-                    v-model="formData.main_unit_id"
-                    name="main_unit_id"
-                    :items="unitsList"
-                    item-title="label"
-                    item-value="id"
-                    label="الوحدة الرئيسية"
-                    rules="required"
-                    :loading="isLoading.units"
-                    :disabled="isLoading.units"
-                    clearable
-                  />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <AppAutocomplete
-                    v-model="formData.sub_unit_id"
-                    name="sub_unit_id"
-                    :items="unitsList"
-                    item-title="label"
-                    item-value="id"
-                    label="الوحدة الفرعية"
-                    rules="required"
-                    :loading="isLoading.units"
-                    :disabled="isLoading.units"
-                    clearable
-                  />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <AppTextField
-                    v-model="formData.sub_unit_value"
-                    label="قيمة الوحدة الفرعية"
-                    name="sub_unit_value"
-                    rules="required|numeric"
-                    type="number"
-                  />
-                </VCol>
                 <VCol cols="12" md="6">
                   <AppTextField
                     v-model="formData.main_price"
@@ -562,57 +798,6 @@ function submit() {
                     }"
                     :disabled="!formData.main_price"
                   />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <AppTextField
-                    v-model="formData.offer_quantity"
-                    label="كمية العرض"
-                    name="offer_quantity"
-                    rules="required|numeric"
-                    type="number"
-                  >
-                    <template #append>
-                      <VBtn
-                        size="38"
-                        variant="outlined"
-                        @click="formData.show_offer_quantity = !formData.show_offer_quantity"
-                      >
-                        <VIcon
-                          :icon="formData.show_offer_quantity ? 'tabler-eye' : 'tabler-eye-off'"
-                          size="22"
-                        />
-                      </VBtn>
-                    </template>
-                  </AppTextField>
-                </VCol>
-                <VCol cols="12" md="6">
-                  <AppTextField
-                    v-model="formData.available_quantity"
-                    :disabled="!formData.offer_quantity"
-                    label="الكمية المتاحة"
-                    name="available_quantity"
-                    :rules="{
-                      required: formData.offer_quantity !== null,
-                      numeric: true,
-                      max_value: formData.offer_quantity,
-                    }"
-                    type="number"
-                  >
-                    <template #append>
-                      <VBtn
-                        size="38"
-                        variant="outlined"
-                        @click="
-                          formData.show_available_quantity = !formData.show_available_quantity
-                        "
-                      >
-                        <VIcon
-                          :icon="formData.show_available_quantity ? 'tabler-eye' : 'tabler-eye-off'"
-                          size="22"
-                        />
-                      </VBtn>
-                    </template>
-                  </AppTextField>
                 </VCol>
                 <VCol cols="12">
                   <VLabel

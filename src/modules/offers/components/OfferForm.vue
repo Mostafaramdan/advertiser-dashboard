@@ -48,7 +48,7 @@ const formData = reactive<OfferFormData>({
     name: '',
     type: null,
   },
-  user_id: null,
+  user_id: 94, // TODO: Reset to null
   is_active: true,
   products: [
     {
@@ -186,6 +186,7 @@ function submit() {
       @create-item="onCreateProduct"
       @edit-item="onEditProduct"
       :storeType="formData.store.type"
+      :user-id="formData.user_id"
     />
 
     <VCard class="page-card" v-loading="isLoading.data">
@@ -346,6 +347,7 @@ function submit() {
                   class="py-2 d-block"
                   height="auto"
                   size="small"
+                  :disabled="!formData.user_id"
                 >
                   اضافة منتج
                   <VIcon end icon="tabler-plus" />

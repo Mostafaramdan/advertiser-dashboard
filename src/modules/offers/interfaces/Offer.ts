@@ -82,10 +82,34 @@ export interface OfferFormData {
 }
 
 export interface ProductFormData {
+  user_id: number | null
   name: string
   category_id: number | null
   link: string | null
-  expire_date: string
+  attachments: number[]
+  product_data: {
+    warranty_and_expiration: {
+      product_condition: null | ProductCondition
+      expire_date: string
+      production_date: string
+      warranty_duration: number | null
+      warranty_duration_type: string | null
+    }
+    unit_details: {
+      product_quantity: number | null
+      available_quantity: number | null
+      main_unit_id: number | null
+      sub_unit_id: number | null
+      sub_unit_value: number | null
+    }
+    dimensions: {
+      height: number | null
+      width: number | null
+      length: number | null
+      weight: number | null
+      weight_unit: string | null
+    }
+  }
   hide_contact_data: boolean
   description: string
   responsible: {
@@ -96,26 +120,17 @@ export interface ProductFormData {
     hide_email: boolean
     hide_phone: boolean
   }
-  product_condition: null | ProductCondition
   main_price: number | null
   discount_price: number | null
-  offer_quantity: number | null
-  show_offer_quantity: boolean
-  available_quantity: number | null
-  show_available_quantity: boolean
   minimum_quantity: number | null
   maximum_quantity: number | null
-  sub_unit_value: number | null
   countries: number[]
   areas: number[]
-  main_unit_id: number | null
-  sub_unit_id: number | null
   prices: {
     minimum_quantity: number | null
     maximum_quantity: number | null
     price: number | null
   }[]
-  attachments: number[]
   attachmentsFiles: File[] | any[]
   location: Location
 }
