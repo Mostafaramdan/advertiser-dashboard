@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import GeoLocationModal from '@/components/shared/GeoLocationModal.vue'
 import {
+  OFFER_DEADLINES_TIMES,
+  OFFER_PAYMENT_METHODS,
   PRODUCT_STATUSES,
   PRODUCT_WARRANTY_DURATION_TYPES,
   PRODUCT_WEIGHT_UNITS,
@@ -13,6 +15,10 @@ import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import ModalAlert from '../components/ModalAlert.vue'
 import type { OfferStoreType, ProductFormData } from '../interfaces/Offer'
+import { OfferDeadline } from '../interfaces/OfferDeadline'
+import { OfferPaymentMethod } from '../interfaces/OfferPaymentMethod'
+import type { Responsible } from '../interfaces/Responsible'
+import ResponsibleFormModal from '../modals/ResponsibleFormModal.vue'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -50,13 +56,18 @@ const { t } = useI18n()
 const toast = useToast()
 const showModal = useVModel(props, 'showModal', emit)
 const showGeoLocationModal = ref<boolean>(false)
+const showResponsibleFormModal = ref<boolean>(false)
 const formRef = ref<any>(null)
 const unitsList = ref<DropdownMenuItem[]>([])
 const categoriesList = ref<DropdownMenuItem[]>([])
 const countriesList = ref<DropdownMenuItem[]>([])
 const areasList = ref<DropdownMenuItem[]>([])
+const responsiblesList = ref<Responsible[]>([])
+const deadlinesList = ref<DropdownMenuItem[]>([])
+const paymentMethodsList = ref<DropdownMenuItem[]>([])
 const usersKeyword = ref('')
 const selectedProduct = ref(null)
+const selectedResponsible = ref<null | Responsible>(null)
 const isLoading = reactive({
   data: false,
   submit: false,
@@ -64,6 +75,9 @@ const isLoading = reactive({
   areas: false,
   categories: false,
   units: false,
+  responsibles: false,
+  deadlines: false,
+  paymentMethods: false,
 })
 
 const formData = reactive<ProductFormData>({
@@ -97,8 +111,20 @@ const formData = reactive<ProductFormData>({
       weight_unit: null,
     },
   },
-
-  hide_contact_data: false,
+  preferences: {
+    payment_method_id: null,
+    deadline_id: null,
+    responsibles: [],
+    preferences: {
+      show_available_quantity: false,
+      create_instant_invoice: false,
+      show_product_quantity: false,
+      hide_contact_data: false,
+      api_connection: false,
+      print_invoice: false,
+      qr: false,
+    },
+  },
   location: {
     address: '',
     lat: 0,
@@ -110,14 +136,6 @@ const formData = reactive<ProductFormData>({
   discount_price: null,
   minimum_quantity: null,
   maximum_quantity: null,
-  responsible: {
-    name: '',
-    email: '',
-    phone: '',
-    hide_name: false,
-    hide_email: false,
-    hide_phone: false,
-  },
   prices: [],
 })
 
@@ -222,6 +240,71 @@ function getUnits() {
     })
 }
 
+function getResponsibles() {
+  if (!formData.user_id) return
+  isLoading.responsibles = true
+  listService
+    .getResponsibles({
+      user_id: formData.user_id,
+    })
+    .then((res: any) => {
+      responsiblesList.value = res.data.data
+    })
+    .finally(() => {
+      isLoading.responsibles = false
+    })
+}
+
+function getDeadlines() {
+  isLoading.deadlines = true
+  listService
+    .getOfferDeadlines()
+    .then((res: any) => {
+      deadlinesList.value = res.data.data.map((item: OfferDeadline) => ({
+        id: item.id,
+        label: `${item.hours} (ساعة) من وقت ${
+          OFFER_DEADLINES_TIMES[item.from_time as keyof typeof OFFER_DEADLINES_TIMES]
+        }`,
+      }))
+    })
+    .finally(() => {
+      isLoading.deadlines = false
+    })
+}
+
+function getPaymentMethods() {
+  isLoading.deadlines = true
+  listService
+    .getOfferPaymentMethods()
+    .then((res: any) => {
+      paymentMethodsList.value = res.data.data.map((item: OfferPaymentMethod) => {
+        const { down_payment_percentage, down_payment_delivering, remaining_payment_delivering } =
+          item
+        const remainingPaymentText =
+          OFFER_PAYMENT_METHODS[remaining_payment_delivering as keyof typeof OFFER_PAYMENT_METHODS]
+        const downPaymentText =
+          OFFER_PAYMENT_METHODS[down_payment_delivering as keyof typeof OFFER_PAYMENT_METHODS]
+
+        let label = `${down_payment_percentage}% `
+
+        if (down_payment_percentage == 0) {
+          label += `و الباقي ${remainingPaymentText}`
+        } else if (down_payment_percentage == 100) {
+          label += `و تسليم المقدم ${downPaymentText}`
+        } else {
+          label += `وتسليم المقدم ${downPaymentText} و الباقي ${remainingPaymentText}`
+        }
+        return {
+          id: item.id,
+          label,
+        }
+      })
+    })
+    .finally(() => {
+      isLoading.deadlines = false
+    })
+}
+
 async function validateLastPrice() {
   if (formData.prices.length) {
     const lastIndex = formData.prices.length - 1
@@ -289,7 +372,39 @@ function initData() {
   getCountries()
   getCategories()
   getUnits()
+  getResponsibles()
+  getDeadlines()
+  getPaymentMethods()
   if (props.formAction === 'edit') getItemDetails(props.activeItem.id)
+}
+
+function onUserChange() {
+  console.log('onUserChange', formData.user_id)
+  getResponsibles()
+}
+
+function onSelectResponsible() {
+  if (!selectedResponsible.value) return
+  formData.preferences.responsibles[0] = {
+    ...selectedResponsible.value,
+    hide_email: false,
+    hide_phone: false,
+    hide_name: false,
+  }
+  selectedResponsible.value = null
+}
+
+function addNewResponsible() {
+  showResponsibleFormModal.value = true
+}
+
+function onCreateResponsible(responsible: Responsible) {
+  formData.preferences.responsibles[0] = responsible
+  responsiblesList.value.unshift(responsible)
+}
+
+function updateResponsibleVisibility(visibility: boolean, responsible: any) {
+  responsible.hide_name = responsible.hide_phone = responsible.hide_email = !visibility
 }
 
 function edit() {
@@ -338,6 +453,14 @@ function submit() {
       :location="{ ...formData.location }"
       @update:location="updateLocation"
     />
+    <ResponsibleFormModal
+      v-if="showResponsibleFormModal && formData?.user_id"
+      :user-id="formData.user_id"
+      :active-item="null"
+      v-model:showModal="showResponsibleFormModal"
+      form-action="create"
+      @create-item="onCreateResponsible"
+    />
     <VDialog v-model="showModal" max-width="1000" persistent scrollable class="form-modal">
       <!-- Dialog close btn -->
       <DialogCloseBtn @click="showModal = !showModal" />
@@ -359,6 +482,7 @@ function submit() {
                     name="user_id"
                     label="المستخدم"
                     rules="required"
+                    @update:model-value="onUserChange"
                   >
                     <VLabel class="text-body-2 text-high-emphasis mb-1" text="المستخدم" />
                     <UsersSelectFilter
@@ -375,7 +499,11 @@ function submit() {
                     />
                   </VeeField>
                 </VCol>
-                <VCol cols="12" v-if="formData.user_id && formAction === 'create'">
+                <VCol
+                  cols="12"
+                  v-if="formData.user_id && formAction === 'create'"
+                  :key="formData.user_id"
+                >
                   <VLabel class="text-body-2 text-high-emphasis mb-1" text="المنتج" />
                   <ProductsSelectFilter
                     label=""
@@ -693,20 +821,198 @@ function submit() {
                 </VCol>
 
                 <VCol cols="12" class="py-0">
-                  <VAlert
-                    text="الإختيارات والتفضيلات"
-                    color="primary"
-                    border="start"
-                    variant="tonal"
-                    density="compact"
+                  <ModalAlert text="الإختيارات والتفضيلات" />
+                </VCol>
+                <VCol cols="12">
+                  <VLabel
+                    class="text-body-2 text-high-emphasis mb-3"
+                    text="بيانات المسؤول (اختياري)"
+                  />
+                  <AppAutocomplete
+                    v-model="selectedResponsible"
+                    name="selectedResponsible"
+                    :items="responsiblesList"
+                    item-title="name"
+                    label="اختر مسؤول"
+                    return-object
+                    hide-default-label
+                    :loading="isLoading.responsibles"
+                    :disabled="
+                      isLoading.responsibles ||
+                      !formData.user_id ||
+                      formData.preferences.responsibles.length > 0
+                    "
+                    clearable
+                    @update:model-value="onSelectResponsible"
+                  >
+                    <template #append v-if="formData.user_id">
+                      <VBtn
+                        variant="outlined"
+                        @click="addNewResponsible"
+                        height="40"
+                        width="40"
+                        size="small"
+                        icon="tabler-plus"
+                        rounded="sm"
+                      />
+                    </template>
+                  </AppAutocomplete>
+
+                  <VRow
+                    class="border mx-0 mt-5 list-card py-1 px-2"
+                    v-for="(responsible, index) in formData.preferences.responsibles"
+                    :key="index"
+                  >
+                    <VCol cols="12" class="d-flex justify-space-between align-center">
+                      <VCheckbox
+                        density="compact"
+                        label="اظهار بيانات المسؤول"
+                        :model-value="
+                          !responsible.hide_name &&
+                          !responsible.hide_phone &&
+                          !responsible.hide_email
+                        "
+                        @update:model-value="
+                          updateResponsibleVisibility($event as boolean, responsible)
+                        "
+                      />
+                      <VBtn
+                        variant="outlined"
+                        color="error"
+                        @click="formData.preferences.responsibles?.splice(index, 1)"
+                        class="py-2 d-block"
+                        height="auto"
+                        size="small"
+                      >
+                        حذف
+                        <VIcon end icon="tabler-trash" />
+                      </VBtn>
+                    </VCol>
+                    <VCol cols="12" md="4">
+                      <VTextField :model-value="responsible.name" label="الاسم" readonly>
+                        <template #append>
+                          <VBtn
+                            size="38"
+                            variant="outlined"
+                            @click="responsible.hide_name = !responsible.hide_name"
+                          >
+                            <VIcon
+                              :icon="responsible.hide_name ? 'tabler-eye-off' : 'tabler-eye'"
+                              size="22"
+                            />
+                          </VBtn>
+                        </template>
+                      </VTextField>
+                    </VCol>
+                    <VCol cols="12" md="4">
+                      <VTextField
+                        :model-value="responsible.email"
+                        label="البريد الالكتروني"
+                        readonly
+                      >
+                        <template #append>
+                          <VBtn
+                            size="38"
+                            variant="outlined"
+                            @click="responsible.hide_email = !responsible.hide_email"
+                          >
+                            <VIcon
+                              :icon="responsible.hide_email ? 'tabler-eye-off' : 'tabler-eye'"
+                              size="22"
+                            />
+                          </VBtn>
+                        </template>
+                      </VTextField>
+                    </VCol>
+                    <VCol cols="12" md="4">
+                      <VTextField :model-value="responsible.phone" label="الهاتف" readonly>
+                        <template #append>
+                          <VBtn
+                            size="38"
+                            variant="outlined"
+                            @click="responsible.hide_phone = !responsible.hide_phone"
+                          >
+                            <VIcon
+                              :icon="responsible.hide_phone ? 'tabler-eye-off' : 'tabler-eye'"
+                              size="22"
+                            />
+                          </VBtn>
+                        </template>
+                      </VTextField>
+                    </VCol>
+                  </VRow>
+                </VCol>
+                <VCol cols="12" md="6">
+                  <AppAutocomplete
+                    v-model="formData.preferences.deadline_id"
+                    name="deadline_id"
+                    :items="deadlinesList"
+                    item-title="label"
+                    item-value="id"
+                    label="مهلة الدفع"
+                    rules="required"
+                    :loading="isLoading.deadlines"
+                    :disabled="isLoading.deadlines"
+                    clearable
                   />
                 </VCol>
 
-                <VCol cols="12" md="6" class="pb-0">
-                  <AppSwitch
-                    v-model="formData.hide_contact_data"
+                <VCol cols="12" md="6">
+                  <AppAutocomplete
+                    v-model="formData.preferences.payment_method_id"
+                    name="payment_method_id"
+                    :items="paymentMethodsList"
+                    item-title="label"
+                    item-value="id"
+                    label="طريقة الدفع"
+                    rules="required"
+                    :loading="isLoading.paymentMethods"
+                    :disabled="isLoading.paymentMethods"
+                    clearable
+                    :menu-props="{ contentClass: 'payment-method-select' }"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.show_available_quantity"
+                    label="إظهار الكيمة المتبقية"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.show_product_quantity"
+                    label="إظهار كمية المنتج"
+                    name="show_product_quantity"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.hide_contact_data"
                     label="اخفاء بيانات التواصل"
-                    name="hide_contact_data"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.qr"
+                    label="قراءة الباركود للعميل"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.print_invoice"
+                    label="طباعة فواتير الطلبات"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.create_instant_invoice"
+                    label="إنشاء فواتير فورية"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.api_connection"
+                    label="ربط ببرنامج محاسبي API"
                   />
                 </VCol>
                 <VCol cols="12" md="6">
@@ -835,7 +1141,7 @@ function submit() {
                   <VRow
                     v-for="(price, index) in formData.prices"
                     :key="index"
-                    class="border ma-0 price-card py-1 px-2"
+                    class="border ma-0 list-card py-1 px-2"
                   >
                     <VCol cols="12" md="4" class="px-1">
                       <AppTextField
@@ -869,15 +1175,11 @@ function submit() {
                         type="number"
                       />
                     </VCol>
-                    <VBtn
-                      icon
-                      color="error"
-                      size="30"
-                      class="price-card__delete-btn"
-                      @click="formData.prices?.splice(index, 1)"
-                    >
-                      <VIcon icon="tabler-trash" />
-                    </VBtn>
+                    <div class="list-card__actions d-flex gap-2">
+                      <VBtn icon color="error" size="30" @click="formData.prices?.splice(index, 1)">
+                        <VIcon icon="tabler-trash" />
+                      </VBtn>
+                    </div>
                   </VRow>
                   <VBtn
                     variant="outlined"
@@ -889,95 +1191,6 @@ function submit() {
                     اضافة شريحة
                     <VIcon end icon="tabler-plus" />
                   </VBtn>
-                </VCol>
-                <VCol cols="12">
-                  <VLabel
-                    class="text-body-2 text-high-emphasis mb-1"
-                    text="بيانات المسؤول (اختياري)"
-                  />
-                  <VRow class="border ma-0 py-1 px-1">
-                    <VCol cols="12">
-                      <AppTextField
-                        v-model="formData.responsible.name"
-                        label="الاسم"
-                        hide-default-label
-                        name="responsible.name"
-                        rules="min:1|max:20"
-                        type="text"
-                      >
-                        <template #append>
-                          <VBtn
-                            size="38"
-                            variant="outlined"
-                            @click="
-                              formData.responsible.hide_name = !formData.responsible.hide_name
-                            "
-                          >
-                            <VIcon
-                              :icon="
-                                formData.responsible.hide_name ? 'tabler-eye-off' : 'tabler-eye'
-                              "
-                              size="22"
-                            />
-                          </VBtn>
-                        </template>
-                      </AppTextField>
-                    </VCol>
-                    <VCol cols="12" md="6">
-                      <AppTextField
-                        v-model="formData.responsible.email"
-                        label="البريد الالكتروني"
-                        hide-default-label
-                        name="responsible.email"
-                        rules="min:6|email"
-                        type="email"
-                      >
-                        <template #append>
-                          <VBtn
-                            size="38"
-                            variant="outlined"
-                            @click="
-                              formData.responsible.hide_email = !formData.responsible.hide_email
-                            "
-                          >
-                            <VIcon
-                              :icon="
-                                formData.responsible.hide_email ? 'tabler-eye-off' : 'tabler-eye'
-                              "
-                              size="22"
-                            />
-                          </VBtn>
-                        </template>
-                      </AppTextField>
-                    </VCol>
-                    <VCol cols="12" md="6">
-                      <AppTextField
-                        v-model="formData.responsible.phone"
-                        label="الهاتف"
-                        hide-default-label
-                        name="responsible.phone"
-                        rules="numeric|min:7|max:20"
-                        type="number"
-                      >
-                        <template #append>
-                          <VBtn
-                            size="38"
-                            variant="outlined"
-                            @click="
-                              formData.responsible.hide_phone = !formData.responsible.hide_phone
-                            "
-                          >
-                            <VIcon
-                              :icon="
-                                formData.responsible.hide_phone ? 'tabler-eye-off' : 'tabler-eye'
-                              "
-                              size="22"
-                            />
-                          </VBtn>
-                        </template>
-                      </AppTextField>
-                    </VCol>
-                  </VRow>
                 </VCol>
               </VRow>
             </VCardText>
@@ -1002,12 +1215,21 @@ function submit() {
 </template>
 
 <style lang="scss" scoped>
+:deep(.v-text-field.v-input--disabled .v-field) {
+  background: rgb(var(--v-theme-grey-200), 0.5);
+  opacity: 1;
+}
+
+:deep(.v-autocomplete__selection) {
+  max-inline-size: calc(100% - 4px);
+}
+
 .categories-select {
   position: relative;
   z-index: 1;
 }
 
-.price-card {
+.list-card {
   position: relative;
 
   &:not(:last-of-type) {
@@ -1018,7 +1240,7 @@ function submit() {
     margin-block-end: 10px;
   }
 
-  &__delete-btn {
+  &__actions {
     position: absolute;
     inset-block-start: -13px;
     inset-inline-end: -13px;
@@ -1032,5 +1254,11 @@ function submit() {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+</style>
+
+<style lang="scss">
+.payment-method-select .v-list-item-title {
+  white-space: normal;
 }
 </style>
