@@ -1,5 +1,6 @@
 import { FormModalProps } from '@/interfaces/Forms'
 import type { File, Location } from '@/interfaces/Shared'
+import type { Responsible } from './Responsible'
 export interface User {
   id: number
   username: string
@@ -87,6 +88,7 @@ export interface ProductFormData {
   category_id: number | null
   link: string | null
   attachments: number[]
+  description: string
   product_data: {
     warranty_and_expiration: {
       product_condition: null | ProductCondition
@@ -110,15 +112,19 @@ export interface ProductFormData {
       weight_unit: string | null
     }
   }
-  hide_contact_data: boolean
-  description: string
-  responsible: {
-    name: string
-    email: string
-    phone: string
-    hide_name: boolean
-    hide_email: boolean
-    hide_phone: boolean
+  preferences: {
+    payment_method_id: number | null
+    deadline_id: number | null
+    responsibles: Responsible[]
+    preferences: {
+      show_available_quantity: boolean
+      create_instant_invoice: boolean
+      show_product_quantity: boolean
+      hide_contact_data: boolean
+      api_connection: boolean
+      print_invoice: boolean
+      qr: boolean
+    }
   }
   main_price: number | null
   discount_price: number | null

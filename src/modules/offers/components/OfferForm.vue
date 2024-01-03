@@ -431,9 +431,4 @@ function submit() {
 :deep(.v-select .v-field .v-field__input > input) {
   block-size: 100%;
 }
-
-:deep(.v-text-field.v-input--disabled .v-field) {
-  background: rgb(var(--v-theme-grey-200), 0.5);
-  opacity: 1;
-}
 </style>

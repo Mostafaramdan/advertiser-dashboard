@@ -100,6 +100,18 @@ class ListService {
   getProducts(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/products`, { params })
   }
+
+  getResponsibles(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/responsibles`, { params })
+  }
+
+  getOfferDeadlines(): AxiosPromise {
+    return axios.get(`${this.contextPath}/deadlines`)
+  }
+
+  getOfferPaymentMethods(): AxiosPromise {
+    return axios.get(`${this.contextPath}/payment_methods`)
+  }
 }
 
 export const listService = new ListService()
