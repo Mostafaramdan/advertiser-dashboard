@@ -3,6 +3,7 @@ export interface FormInputProps {
   name: string
   rules?: string | object
   hideDefaultLabel?: boolean
+  hideLabel?: boolean
 }
 
 export interface FormRadioProps {

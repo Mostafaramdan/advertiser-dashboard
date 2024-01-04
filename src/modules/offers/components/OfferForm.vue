@@ -2,7 +2,6 @@
 import { OFFER_DATE_TYPES, OFFER_TYPES, STORES_TYPES } from '@/constants/offers'
 import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormActionType } from '@/interfaces/Forms'
-import type { File } from '@/interfaces/Shared'
 import { useToast } from 'vue-toastification'
 import type { OfferFormData } from '../interfaces/Offer'
 import ProductFormModal from '../modals/ProductFormModal.vue'
@@ -153,10 +152,6 @@ function create(payload: OfferFormData) {
 
 function getFormData() {
   const payload = cloneItem(formData)
-  payload.attachments = payload.attachmentsFiles.map((attachment: File) => attachment.id)
-  delete payload.attachmentsFiles
-  if (!payload.expire_date) delete payload.expire_date
-
   return payload
 }
 

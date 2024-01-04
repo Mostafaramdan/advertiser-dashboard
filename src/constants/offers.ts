@@ -30,6 +30,11 @@ export const PRODUCT_WARRANTY_DURATION_TYPES = new Map([
   ['year', { label: 'سنة' }],
 ])
 
+export const PRODUCT_PRICING_TYPES = new Map([
+  ['fixed', { label: 'ثابت' }],
+  ['range', { label: 'حسب الكمية' }],
+])
+
 export const STORES_TYPES = new Map([
   ['website', { label: 'متجر إلكتروني' }],
   ['marketplace', { label: 'منفذ بيع' }],

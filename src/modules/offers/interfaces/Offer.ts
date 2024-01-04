@@ -82,6 +82,21 @@ export interface OfferFormData {
   }[]
 }
 
+type FixedPrice = {
+  main_price: number | null
+  discount_price: number | null
+  minimum_quantity: number | null
+  maximum_quantity: number | null
+}
+
+type ProductPrice = {
+  minimum_quantity: number | null
+  maximum_quantity: number | null
+  price: number | null
+}
+
+export type ProductPricingType = 'fixed' | 'range' | null
+
 export interface ProductFormData {
   user_id: number | null
   name: string
@@ -125,18 +140,21 @@ export interface ProductFormData {
       print_invoice: boolean
       qr: boolean
     }
+    request_acceptance_method: {
+      manually: boolean
+      automatically: boolean
+      min_manually: number | null
+      max_manually: number | null
+      min_automatically: number | null
+      max_automatically: number | null
+    }
   }
-  main_price: number | null
-  discount_price: number | null
-  minimum_quantity: number | null
-  maximum_quantity: number | null
+  pricing: {
+    fixed: FixedPrice
+    prices: ProductPrice[]
+  }
   countries: number[]
   areas: number[]
-  prices: {
-    minimum_quantity: number | null
-    maximum_quantity: number | null
-    price: number | null
-  }[]
   attachmentsFiles: File[] | any[]
   location: Location
 }

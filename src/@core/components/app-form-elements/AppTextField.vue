@@ -8,6 +8,7 @@ import type { FormInputProps } from '@/interfaces/Forms'
 const props = withDefaults(defineProps<FormInputProps>(), {
   rules: '',
   hideDefaultLabel: false,
+  hideLabel: false,
 })
 
 // #endregion
@@ -63,7 +64,7 @@ const value = computed({
     :class="$attrs.class"
   >
     <VLabel
-      v-if="label && !hideDefaultLabel"
+      v-if="label && !hideDefaultLabel && !hideLabel"
       :for="elementId"
       class="mb-1 text-body-2 text-high-emphasis"
       :text="label"

@@ -3,18 +3,21 @@ import GeoLocationModal from '@/components/shared/GeoLocationModal.vue'
 import {
   OFFER_DEADLINES_TIMES,
   OFFER_PAYMENT_METHODS,
+  PRODUCT_PRICING_TYPES,
   PRODUCT_STATUSES,
   PRODUCT_WARRANTY_DURATION_TYPES,
   PRODUCT_WEIGHT_UNITS,
 } from '@/constants/offers'
+import { cloneItem } from '@/helpers/index'
 import type { FormModalProps } from '@/interfaces/Forms'
+import type { File } from '@/interfaces/Shared'
 import { DropdownMenuItem } from '@/interfaces/Shared'
 import { listService } from '@/services/ListService'
 import { productsService } from '@/services/ProductsService'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import ModalAlert from '../components/ModalAlert.vue'
-import type { OfferStoreType, ProductFormData } from '../interfaces/Offer'
+import type { OfferStoreType, ProductFormData, ProductPricingType } from '../interfaces/Offer'
 import { OfferDeadline } from '../interfaces/OfferDeadline'
 import { OfferPaymentMethod } from '../interfaces/OfferPaymentMethod'
 import type { Responsible } from '../interfaces/Responsible'
@@ -68,6 +71,7 @@ const paymentMethodsList = ref<DropdownMenuItem[]>([])
 const usersKeyword = ref('')
 const selectedProduct = ref(null)
 const selectedResponsible = ref<null | Responsible>(null)
+const pricingType = ref<ProductPricingType>(null)
 const isLoading = reactive({
   data: false,
   submit: false,
@@ -124,6 +128,23 @@ const formData = reactive<ProductFormData>({
       print_invoice: false,
       qr: false,
     },
+    request_acceptance_method: {
+      manually: false,
+      automatically: false,
+      min_manually: null,
+      max_manually: null,
+      min_automatically: null,
+      max_automatically: null,
+    },
+  },
+  pricing: {
+    fixed: {
+      main_price: null,
+      discount_price: null,
+      minimum_quantity: null,
+      maximum_quantity: null,
+    },
+    prices: [],
   },
   location: {
     address: '',
@@ -132,11 +153,6 @@ const formData = reactive<ProductFormData>({
   },
   countries: [],
   areas: [],
-  main_price: null,
-  discount_price: null,
-  minimum_quantity: null,
-  maximum_quantity: null,
-  prices: [],
 })
 
 // #endregion
@@ -164,6 +180,23 @@ const productSize = computed(() => {
   return width && height && length ? (width * height * length).toFixed(2) : '-'
 })
 
+const arePriceRangesOverlapping = computed(() => {
+  if (!formData.pricing.prices) return false
+  for (let i = 0; i < formData.pricing.prices.length; i++) {
+    for (let j = i + 1; j < formData.pricing.prices.length; j++) {
+      const min1 = formData.pricing.prices[i].minimum_quantity
+      const max1 = formData.pricing.prices[i].maximum_quantity
+      const min2 = formData.pricing.prices[j].minimum_quantity
+      const max2 = formData.pricing.prices[j].maximum_quantity
+      if (!min1 || !max1 || !min2 || !max2) continue
+
+      if ((min1 >= min2 && min1 <= max2) || (max1 >= min2 && max1 <= max2)) {
+        return true
+      }
+    }
+  }
+  return false // No overlap found
+})
 // #endregion
 
 /***************************************
@@ -306,8 +339,8 @@ function getPaymentMethods() {
 }
 
 async function validateLastPrice() {
-  if (formData.prices.length) {
-    const lastIndex = formData.prices.length - 1
+  if (formData.pricing.prices.length) {
+    const lastIndex = formData.pricing.prices.length - 1
     const validationResults = await Promise.all([
       formRef.value.validateField(`prices-from-${lastIndex}`),
       formRef.value.validateField(`prices-to-${lastIndex}`),
@@ -322,7 +355,7 @@ async function validateLastPrice() {
 async function addNewPrice() {
   const isValidPrice = await validateLastPrice()
   if (!isValidPrice) return
-  formData.prices?.push({
+  formData.pricing.prices?.push({
     minimum_quantity: null,
     maximum_quantity: null,
     price: null,
@@ -400,7 +433,7 @@ function addNewResponsible() {
 
 function onCreateResponsible(responsible: Responsible) {
   formData.preferences.responsibles[0] = responsible
-  responsiblesList.value.unshift(responsible)
+  responsiblesList.value.push(responsible)
 }
 
 function updateResponsibleVisibility(visibility: boolean, responsible: any) {
@@ -433,9 +466,22 @@ function create() {
     })
 }
 
+function getFormData() {
+  const payload = cloneItem(formData)
+  payload.attachments = payload.attachmentsFiles.map((attachment: File) => attachment.id)
+  delete payload.attachmentsFiles
+  if (!payload.expire_date) delete payload.expire_date
+
+  return payload
+}
+
 function submit() {
-  formRef.value.validate().then(({ valid }: any) => {
-    if (!valid) return
+  formRef.value.validate().then(({ errors }: any) => {
+    const errorsArr = Object.values(errors)
+    if (errorsArr.length) {
+      toast.error(errorsArr.slice(0, 2).join('\n'))
+    }
+    if (errorsArr.length || arePriceRangesOverlapping.value) return
 
     isLoading.submit = true
     props.formAction === 'create' ? create() : edit()
@@ -972,49 +1018,269 @@ function submit() {
                     :menu-props="{ contentClass: 'payment-method-select' }"
                   />
                 </VCol>
-                <VCol cols="12" sm="6" md="3" class="pb-0">
+                <VCol cols="12" sm="6" md="3" class="pt-0">
                   <VCheckbox
                     v-model="formData.preferences.preferences.show_available_quantity"
                     label="إظهار الكيمة المتبقية"
                   />
                 </VCol>
-                <VCol cols="12" sm="6" md="3" class="pb-0">
+                <VCol cols="12" sm="6" md="3" class="pt-0">
                   <VCheckbox
                     v-model="formData.preferences.preferences.show_product_quantity"
                     label="إظهار كمية المنتج"
                     name="show_product_quantity"
                   />
                 </VCol>
-                <VCol cols="12" sm="6" md="3" class="pb-0">
+                <VCol cols="12" sm="6" md="3" class="pt-0">
                   <VCheckbox
                     v-model="formData.preferences.preferences.hide_contact_data"
                     label="اخفاء بيانات التواصل"
                   />
                 </VCol>
-                <VCol cols="12" sm="6" md="3" class="pb-0">
+                <VCol cols="12" sm="6" md="3" class="pt-0">
                   <VCheckbox
                     v-model="formData.preferences.preferences.qr"
                     label="قراءة الباركود للعميل"
                   />
                 </VCol>
-                <VCol cols="12" sm="6" md="3" class="pb-0">
+                <VCol cols="12" sm="6" md="3" class="pt-0">
                   <VCheckbox
                     v-model="formData.preferences.preferences.print_invoice"
                     label="طباعة فواتير الطلبات"
                   />
                 </VCol>
-                <VCol cols="12" sm="6" md="3" class="pb-0">
+                <VCol cols="12" sm="6" md="3" class="pt-0">
                   <VCheckbox
                     v-model="formData.preferences.preferences.create_instant_invoice"
                     label="إنشاء فواتير فورية"
                   />
                 </VCol>
-                <VCol cols="12" sm="6" md="3" class="pb-0">
+                <VCol cols="12" sm="6" md="3" class="pt-0">
                   <VCheckbox
                     v-model="formData.preferences.preferences.api_connection"
                     label="ربط ببرنامج محاسبي API"
                   />
                 </VCol>
+
+                <VCol cols="12" class="py-0">
+                  <ModalAlert text="أليه الموافقة على الطلب" />
+                </VCol>
+
+                <VCol cols="12" md="4" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.request_acceptance_method.automatically"
+                    label="الموافقة الالية علي التحويل والدفع"
+                  />
+                </VCol>
+                <VCol cols="12" md="4">
+                  <AppTextField
+                    v-model="formData.preferences.request_acceptance_method.min_automatically"
+                    label="الحد الادنى"
+                    hide-default-label
+                    name="min_automatically"
+                    :rules="{
+                      required: formData.preferences.request_acceptance_method.automatically,
+                      numeric: true,
+                    }"
+                    type="number"
+                  />
+                </VCol>
+                <VCol cols="12" md="4">
+                  <AppTextField
+                    v-model="formData.preferences.request_acceptance_method.max_automatically"
+                    label="الحد الاعلي"
+                    hide-default-label
+                    name="max_automatically"
+                    :rules="{
+                      required: formData.preferences.request_acceptance_method.automatically,
+                      numeric: true,
+                      min_value: formData.preferences.request_acceptance_method.min_automatically,
+                    }"
+                    type="number"
+                  />
+                </VCol>
+
+                <VCol cols="12" md="4" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.request_acceptance_method.manually"
+                    label="الموافقة اليدوية علي الطلب قبل الدفع"
+                  />
+                </VCol>
+
+                <VCol cols="12" md="4">
+                  <AppTextField
+                    v-model="formData.preferences.request_acceptance_method.min_manually"
+                    label="الحد الادنى"
+                    hide-default-label
+                    name="min_manually"
+                    :rules="{
+                      required: formData.preferences.request_acceptance_method.manually,
+                      numeric: true,
+                    }"
+                    type="number"
+                  />
+                </VCol>
+                <VCol cols="12" md="4">
+                  <AppTextField
+                    v-model="formData.preferences.request_acceptance_method.max_manually"
+                    label="الحد الاعلي"
+                    hide-default-label
+                    name="max_manually"
+                    :rules="{
+                      required: formData.preferences.request_acceptance_method.manually,
+                      numeric: true,
+                      min_value: formData.preferences.request_acceptance_method.min_manually,
+                    }"
+                    type="number"
+                  />
+                </VCol>
+
+                <VCol cols="12" class="py-0">
+                  <ModalAlert text="التسعيير" />
+                </VCol>
+
+                <VCol cols="12" class="pb-0">
+                  <AppRadio
+                    v-model="pricingType"
+                    :options="
+                      Array.from(PRODUCT_PRICING_TYPES, ([key, value]) => ({
+                        id: key,
+                        label: value.label,
+                      }))
+                    "
+                    name="pricingType"
+                    label="نوع التسعيير"
+                    rules="required"
+                    option-label="label"
+                    option-value="id"
+                    inline
+                  />
+                </VCol>
+                <template v-if="pricingType === 'fixed'">
+                  <VCol cols="12" md="6">
+                    <AppTextField
+                      v-model="formData.pricing.fixed.main_price"
+                      label="السعر الأساسي"
+                      name="main_price"
+                      rules="required|numeric"
+                      type="number"
+                    />
+                  </VCol>
+                  <VCol cols="12" md="6">
+                    <AppTextField
+                      v-model="formData.pricing.fixed.discount_price"
+                      label="السعر بعد الخصم"
+                      name="discount_price"
+                      type="number"
+                      :rules="{
+                        required: true,
+                        numeric: true,
+                        lessThanValue: formData.pricing.fixed.main_price,
+                      }"
+                    />
+                  </VCol>
+                  <VCol cols="12" md="6">
+                    <AppTextField
+                      v-model="formData.pricing.fixed.minimum_quantity"
+                      label="أقل كمية مسموحة للعميل"
+                      name="minimum_quantity"
+                      rules="required|numeric"
+                      type="number"
+                    />
+                  </VCol>
+                  <VCol cols="12" md="6">
+                    <AppTextField
+                      v-model="formData.pricing.fixed.maximum_quantity"
+                      label="أعلى كمية مسموحة للعميل"
+                      name="maximum_quantity"
+                      rules="required|numeric"
+                      type="number"
+                    />
+                  </VCol>
+                </template>
+                <VCol cols="12" v-else-if="pricingType === 'range'">
+                  <VLabel class="text-body-2 text-high-emphasis mb-1" text="تسعير شرائح البيع" />
+                  <VRow
+                    v-for="(price, index) in formData.pricing.prices"
+                    :key="index"
+                    class="border ma-0 list-card py-1 px-2"
+                  >
+                    <VCol cols="12" md="4" class="px-1">
+                      <AppTextField
+                        v-model="price.minimum_quantity"
+                        label="من"
+                        hide-default-label
+                        :name="`prices-from-${index}`"
+                        rules="required|numeric"
+                        type="number"
+                      >
+                        <template #append-inner v-if="mainUnitName"> {{ mainUnitName }} </template>
+                      </AppTextField>
+                    </VCol>
+                    <VCol cols="12" md="4" class="px-1">
+                      <AppTextField
+                        v-model="price.maximum_quantity"
+                        label="إلي"
+                        hide-default-label
+                        :name="`prices-to-${index}`"
+                        :rules="{
+                          required: true,
+                          numeric: true,
+                          greaterThanValue: price.minimum_quantity,
+                        }"
+                        type="number"
+                      >
+                        <template #append-inner v-if="mainUnitName"> {{ mainUnitName }} </template>
+                      </AppTextField>
+                    </VCol>
+                    <VCol cols="12" md="4" class="px-1">
+                      <AppTextField
+                        v-model="price.price"
+                        label="السعر"
+                        hide-default-label
+                        :name="`prices-value-${index}`"
+                        rules="required|numeric"
+                        type="number"
+                      />
+                    </VCol>
+                    <div class="list-card__actions d-flex gap-2">
+                      <VBtn
+                        icon
+                        color="error"
+                        size="30"
+                        @click="formData.pricing.prices?.splice(index, 1)"
+                      >
+                        <VIcon icon="tabler-trash" />
+                      </VBtn>
+                    </div>
+                  </VRow>
+                  <div v-if="arePriceRangesOverlapping" class="text-error mt-2">
+                    يجب ان لا يكون هناك تداخل في الشرائح
+                  </div>
+                  <AppTextField
+                    :model-value="formData.pricing.prices.length ? formData.pricing.prices : ''"
+                    hide-label
+                    name="prices"
+                    label="شرائح البيع"
+                    rules="required"
+                    type="hidden"
+                  />
+                  <VBtn
+                    variant="outlined"
+                    @click="addNewPrice"
+                    class="mt-3 py-2 d-block"
+                    height="auto"
+                    size="small"
+                  >
+                    اضافة شريحة
+                    <VIcon end icon="tabler-plus" />
+                  </VBtn>
+                </VCol>
+
+                <VCol cols="12" class="py-0">
+                  <ModalAlert text=".................." />
+                </VCol>
+
                 <VCol cols="12" md="6">
                   <AppTextField
                     v-model="formData.location.address"
@@ -1082,116 +1348,6 @@ function submit() {
                     </template>
                   </AppAutocomplete>
                 </VCol>
-                <VCol cols="12" md="6">
-                  <AppTextField
-                    v-model="formData.main_price"
-                    label="السعر قبل الخصم"
-                    name="main_price"
-                    rules="required|numeric"
-                    type="number"
-                  />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <AppTextField
-                    v-model="formData.discount_price"
-                    label="السعر بعد الخصم"
-                    name="discount_price"
-                    type="number"
-                    :rules="{
-                      required: formData.main_price,
-                      numeric: true,
-                      lessThanValue: formData.main_price,
-                    }"
-                    :disabled="!formData.main_price"
-                  />
-                </VCol>
-                <VCol cols="12">
-                  <VLabel
-                    class="text-body-2 text-high-emphasis mb-1"
-                    text="كمية البيع المسموحة للعميل الواحد"
-                  />
-                  <VRow class="border ma-0 py-1 px-1">
-                    <VCol cols="12" md="6">
-                      <AppTextField
-                        v-model="formData.minimum_quantity"
-                        label="أقل كمية"
-                        hide-default-label
-                        name="minimum_quantity"
-                        rules="required|numeric"
-                        type="number"
-                      />
-                    </VCol>
-                    <VCol cols="12" md="6">
-                      <AppTextField
-                        v-model="formData.maximum_quantity"
-                        label="أعلي كمية"
-                        hide-default-label
-                        name="maximum_quantity"
-                        rules="required|numeric"
-                        type="number"
-                      />
-                    </VCol>
-                  </VRow>
-                </VCol>
-                <VCol cols="12">
-                  <VLabel
-                    class="text-body-2 text-high-emphasis mb-1"
-                    text="تسعير شرائح البيع (اختياري)"
-                  />
-                  <VRow
-                    v-for="(price, index) in formData.prices"
-                    :key="index"
-                    class="border ma-0 list-card py-1 px-2"
-                  >
-                    <VCol cols="12" md="4" class="px-1">
-                      <AppTextField
-                        v-model="price.minimum_quantity"
-                        label="من"
-                        hide-default-label
-                        :name="`prices-from-${index}`"
-                        rules="required|numeric"
-                        type="number"
-                      />
-                    </VCol>
-                    <VCol cols="12" md="4" class="px-1">
-                      <AppTextField
-                        v-model="price.maximum_quantity"
-                        label="إلي"
-                        hide-default-label
-                        :name="`prices-to-${index}`"
-                        rules="required|numeric"
-                        type="number"
-                      >
-                        <template #append-inner v-if="mainUnitName"> {{ mainUnitName }} </template>
-                      </AppTextField>
-                    </VCol>
-                    <VCol cols="12" md="4" class="px-1">
-                      <AppTextField
-                        v-model="price.price"
-                        label="السعر"
-                        hide-default-label
-                        :name="`prices-value-${index}`"
-                        rules="required|numeric"
-                        type="number"
-                      />
-                    </VCol>
-                    <div class="list-card__actions d-flex gap-2">
-                      <VBtn icon color="error" size="30" @click="formData.prices?.splice(index, 1)">
-                        <VIcon icon="tabler-trash" />
-                      </VBtn>
-                    </div>
-                  </VRow>
-                  <VBtn
-                    variant="outlined"
-                    @click="addNewPrice"
-                    class="mt-3 py-2 d-block"
-                    height="auto"
-                    size="small"
-                  >
-                    اضافة شريحة
-                    <VIcon end icon="tabler-plus" />
-                  </VBtn>
-                </VCol>
               </VRow>
             </VCardText>
 
@@ -1201,7 +1357,7 @@ function submit() {
               </VBtn>
               <VBtn
                 :loading="isLoading.submit"
-                :disabled="isLoading.submit || isLoading.data || !meta.valid"
+                :disabled="isLoading.submit || isLoading.data"
                 @click="submit"
               >
                 {{ formAction === 'edit' ? t('actions.save') : t('actions.create') }}
