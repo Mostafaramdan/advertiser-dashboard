@@ -9,8 +9,13 @@ class ListService {
     return axios.get(`${this.contextPath}/countries`)
   }
 
+  //TODO: remove this and use getCountriesAreas instead
   getAreas(country_id: number): AxiosPromise {
     return axios.get(`${this.contextPath}/areas?country_id=${country_id}`)
+  }
+
+  getCountriesAreas(params: { country_id?: number; countries?: number[] }): AxiosPromise {
+    return axios.get(`${this.contextPath}/areas`, { params: params })
   }
 
   getQuestionsCategories(): AxiosPromise {
@@ -111,6 +116,14 @@ class ListService {
 
   getOfferPaymentMethods(): AxiosPromise {
     return axios.get(`${this.contextPath}/payment_methods`)
+  }
+
+  getProductPrices(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/product_prices`, { params })
+  }
+
+  getProductBranches(params: any = {}): AxiosPromise {
+    return axios.get(`${this.contextPath}/branches`, { params })
   }
 }
 

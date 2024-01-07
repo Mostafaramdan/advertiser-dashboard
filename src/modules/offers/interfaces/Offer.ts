@@ -1,5 +1,5 @@
 import { FormModalProps } from '@/interfaces/Forms'
-import type { File, Location } from '@/interfaces/Shared'
+import type { DropdownMenuItem, File } from '@/interfaces/Shared'
 import type { Responsible } from './Responsible'
 export interface User {
   id: number
@@ -63,6 +63,14 @@ export interface OfferDetailsBase {
 }
 
 export type OfferStoreType = 'website' | 'marketplace' | null
+
+export type OfferProduct = {
+  id: number
+  image_path: string
+  name: string
+  main_price: number
+  discount_price: number
+}
 export interface OfferFormData {
   offer_type: OfferType | null
   store: {
@@ -73,13 +81,7 @@ export interface OfferFormData {
   to_date: string
   is_active: boolean
   user_id: number | null
-  products: {
-    id: number
-    image: string
-    name: string
-    main_price: number
-    discount_price: number
-  }[]
+  products: OfferProduct[]
 }
 
 type FixedPrice = {
@@ -89,7 +91,9 @@ type FixedPrice = {
   maximum_quantity: number | null
 }
 
-type ProductPrice = {
+export type ProductPrice = {
+  id?: number
+  label?: string
   minimum_quantity: number | null
   maximum_quantity: number | null
   price: number | null
@@ -153,10 +157,14 @@ export interface ProductFormData {
     fixed: FixedPrice
     prices: ProductPrice[]
   }
-  countries: number[]
-  areas: number[]
+  shipping_range: {
+    countries: number[]
+    areas: number[]
+    branches: DropdownMenuItem[]
+    has_delivery: boolean
+    has_branches: boolean
+  }
   attachmentsFiles: File[] | any[]
-  location: Location
 }
 
 export type OfferDetails = any

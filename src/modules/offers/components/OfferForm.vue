@@ -2,8 +2,9 @@
 import { OFFER_DATE_TYPES, OFFER_TYPES, STORES_TYPES } from '@/constants/offers'
 import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormActionType } from '@/interfaces/Forms'
+import { productsService } from '@/services/ProductsService'
 import { useToast } from 'vue-toastification'
-import type { OfferFormData } from '../interfaces/Offer'
+import type { OfferFormData, OfferProduct } from '../interfaces/Offer'
 import ProductFormModal from '../modals/ProductFormModal.vue'
 import { offersService } from '../services/OffersService'
 
@@ -32,6 +33,7 @@ const activeProduct = ref<any>(null)
 const offerId: number = +route.params.id
 const usersKeyword = ref('')
 const dateType = ref<any>(null)
+const confirmModal = ref<any>()
 const afterTomorrowDate: Date = new Date(new Date().setDate(new Date().getDate() + 2))
 
 const isLoading = reactive({
@@ -47,18 +49,9 @@ const formData = reactive<OfferFormData>({
     name: '',
     type: null,
   },
-  user_id: 94, // TODO: Reset to null
+  user_id: null,
   is_active: true,
-  products: [
-    {
-      id: 1,
-      image:
-        'https://images.unsplash.com/photo-1682686581413-0a0ec9bb35bb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      name: 'Product 1',
-      main_price: 500,
-      discount_price: 200,
-    },
-  ],
+  products: [],
 })
 
 // #endregion
@@ -84,17 +77,43 @@ if (props.formAction === 'edit') getOfferData()
  **** Section Functions Declaration ****
  **************************************/
 // #region Functions
-function openProductFormModal(): void {
-  activeProduct.value = null
-  productFormAction.value = 'create'
+function openProductFormModal(
+  product: OfferProduct | null = null,
+  action: FormActionType = 'create',
+): void {
+  activeProduct.value = product
+  productFormAction.value = action
   showProductFormModal.value = true
 }
 
 function onCreateProduct(product: any) {
   console.log('onCreateProduct', product)
+  formData.products.push(product)
 }
 function onEditProduct(product: any) {
-  console.log('onCreateProduct', product)
+  console.log('onEditProduct', product)
+  const targetIndex = formData.products.findIndex((p: any) => p.id === product.id)
+  formData.products.splice(targetIndex, 1, product)
+}
+
+function deleteProduct(product: OfferProduct) {
+  isLoading.data = true
+  productsService
+    .deleteItem(product.id)
+    .then((res) => {
+      const targetIndex = formData.products.findIndex((p: any) => p.id === product.id)
+      formData.products.splice(targetIndex, 1)
+      toast.success(res.data.message)
+    })
+    .finally(() => {
+      isLoading.data = false
+    })
+}
+
+async function showConfirmDeleteItem(product: OfferProduct): Promise<void> {
+  const confirm = await confirmModal.value.open('يرجي التاكيد', 'هل انت متاكد من الحذف')
+
+  if (confirm) deleteProduct(product)
 }
 
 function prepareFormData(data: any) {
@@ -104,6 +123,8 @@ function prepareFormData(data: any) {
   if (data.from_date && data.to_date) {
     dateType.value = 'dynamic'
   } else dateType.value = 'fixed'
+
+  Object.assign(formData, data)
 }
 
 function getOfferData() {
@@ -123,7 +144,9 @@ function goToOffersPage() {
 }
 
 function onDateTypeChange() {
-  formData.to_date = ''
+  if (props.formAction === 'create') {
+    formData.to_date = ''
+  }
 }
 
 function edit(payload: OfferFormData) {
@@ -152,6 +175,9 @@ function create(payload: OfferFormData) {
 
 function getFormData() {
   const payload = cloneItem(formData)
+  payload.products = payload.products.map((product: any) => product.id)
+  if (formData.store.type === 'marketplace') delete payload.store.name
+  if (!payload.to_date) delete payload.to_date
   return payload
 }
 
@@ -173,6 +199,7 @@ function submit() {
 
 <template>
   <div>
+    <ConfirmModal ref="confirmModal" />
     <ProductFormModal
       v-if="showProductFormModal"
       v-model:showModal="showProductFormModal"
@@ -338,7 +365,7 @@ function submit() {
                 <h3 class="text-h5">المنتجات</h3>
                 <VBtn
                   variant="outlined"
-                  @click="openProductFormModal"
+                  @click="openProductFormModal(null, 'create')"
                   class="py-2 d-block"
                   height="auto"
                   size="small"
@@ -364,7 +391,7 @@ function submit() {
                       <div class="d-flex align-center gap-3">
                         <div class="d-flex flex-column align-center py-1">
                           <VAvatar size="38" variant="tonal" cover>
-                            <VImg v-if="product.image" :src="product.image" cover />
+                            <VImg v-if="product.image_path" :src="product.image_path" cover />
                             <span v-else>!</span>
                           </VAvatar>
                         </div>
@@ -381,14 +408,14 @@ function submit() {
                     </td>
                     <td>
                       <div class="d-flex">
-                        <IconBtn>
+                        <IconBtn @click="openProductFormModal(product, 'view')">
                           <VIcon icon="tabler-eye" />
                         </IconBtn>
-                        <IconBtn>
+                        <IconBtn @click="showConfirmDeleteItem(product)">
                           <VIcon icon="tabler-trash" />
                         </IconBtn>
 
-                        <IconBtn>
+                        <IconBtn @click="openProductFormModal(product, 'edit')">
                           <VIcon icon="tabler-edit" />
                         </IconBtn>
                       </div>
@@ -396,6 +423,15 @@ function submit() {
                   </tr>
                 </tbody>
               </VTable>
+              <div v-else class="text-disabled">لا يوجد منتجات</div>
+              <AppTextField
+                :model-value="formData.products.length ? formData.products : ''"
+                hide-label
+                name="products"
+                label="المنتجات"
+                rules="required"
+                type="hidden"
+              />
             </VCol>
 
             <VCol cols="12" v-if="formAction !== 'view'" class="d-flex flex-wrap gap-3">
