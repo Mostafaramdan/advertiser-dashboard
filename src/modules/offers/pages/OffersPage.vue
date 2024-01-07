@@ -8,6 +8,7 @@ import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import OfferAcceptModal from '../components/OfferAcceptModal.vue'
 import type { Offer, User } from '../interfaces/Offer'
+import OfferProductsAcceptanceModal from '../modals/OfferProductsAcceptanceModal.vue'
 import { offersService } from '../services/OffersService'
 
 /***************************************
@@ -23,6 +24,7 @@ const { formatDate } = UseGeneralHelpers()
 const MODEL_NAME = 'offers'
 const showNotificationModal = ref<boolean>(false)
 const showAcceptOfferModal = ref<boolean>(false)
+const showProductsAcceptanceModal = ref<boolean>(false)
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
 const activeUser = ref<User | null>(null)
@@ -179,6 +181,11 @@ function onAcceptOffer(offerId: number) {
   if (targetItem) targetItem.status = 'accepted'
 }
 
+function openProductsAcceptanceModal(item: Offer) {
+  activeItem.value = item
+  showProductsAcceptanceModal.value = true
+}
+
 function rejectOffer(item: Offer) {
   IsLoadingData.value = true
   offersService
@@ -221,6 +228,11 @@ function cancelOffer(item: Offer) {
       :offer-id="activeItem.id"
       v-if="activeItem && showAcceptOfferModal"
       @accept-offer="onAcceptOffer"
+    />
+    <OfferProductsAcceptanceModal
+      v-if="activeItem && showProductsAcceptanceModal"
+      v-model:showModal="showProductsAcceptanceModal"
+      :offer-id="activeItem.id"
     />
     <Component
       :is="FilterComponent"
@@ -374,6 +386,13 @@ function cancelOffer(item: Offer) {
                         <VListItemTitle>الموافقة على العرض</VListItemTitle>
                       </VListItem>
                     </template>
+                    <VListItem @click="openProductsAcceptanceModal(item)">
+                      <template #prepend>
+                        <VIcon icon="tabler-shopping-bag-edit" />
+                      </template>
+
+                      <VListItemTitle>الموافقة على المنتجات</VListItemTitle>
+                    </VListItem>
                     <VListItem
                       :disabled="!permissions.sendNotification"
                       @click="openNotificationModal(item.user)"

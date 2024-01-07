@@ -39,6 +39,10 @@ class OffersService {
     return axios.get(`${this.settingsPath}`)
   }
 
+  getOfferProducts(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/products`)
+  }
+
   /** **************** post ******************/
   createItem(data: any): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
@@ -70,6 +74,10 @@ class OffersService {
 
   cancelOffer(id: number): AxiosPromise {
     return axios.put(`${this.contextPath}/${id}/cancel`)
+  }
+
+  offerProductsAcceptance(id: number, data: any): AxiosPromise {
+    return axios.put(`${this.contextPath}/${id}/products_acceptance`, data)
   }
 
   /** **************** patch ******************/
