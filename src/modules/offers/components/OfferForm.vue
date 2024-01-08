@@ -411,12 +411,14 @@ function submit() {
                         <IconBtn @click="openProductFormModal(product, 'view')">
                           <VIcon icon="tabler-eye" />
                         </IconBtn>
-                        <IconBtn @click="showConfirmDeleteItem(product)">
-                          <VIcon icon="tabler-trash" />
-                        </IconBtn>
-
                         <IconBtn @click="openProductFormModal(product, 'edit')">
                           <VIcon icon="tabler-edit" />
+                        </IconBtn>
+                        <IconBtn @click="openProductFormModal(product, 'create')">
+                          <VIcon icon="tabler-copy" />
+                        </IconBtn>
+                        <IconBtn @click="showConfirmDeleteItem(product)">
+                          <VIcon icon="tabler-trash" />
                         </IconBtn>
                       </div>
                     </td>

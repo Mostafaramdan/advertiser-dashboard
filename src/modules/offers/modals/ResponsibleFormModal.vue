@@ -67,8 +67,6 @@ const formTitle = computed(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-console.log('props.activeItem', props)
-
 if (props.activeItem) {
   const user = props.activeItem.user
   usersKeyword.value = user?.username

@@ -1213,24 +1213,9 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             key: 'change_status_offer',
           },
           {
-            label: 'قبول',
-            checked: false,
-            key: 'accept_offer',
-          },
-          {
-            label: 'رفض',
-            checked: false,
-            key: 'reject_offer',
-          },
-          {
             label: 'إلغاء',
             checked: false,
             key: 'cancel_offer',
-          },
-          {
-            label: 'تغيير حالة العرض',
-            checked: false,
-            key: 'change_publish_status_offer',
           },
           {
             label: 'إعادة نشر',

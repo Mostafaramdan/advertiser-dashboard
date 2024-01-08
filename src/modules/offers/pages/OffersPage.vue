@@ -6,9 +6,9 @@ import { OFFER_STATUSES, OFFER_TYPES } from '@/constants/offers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
-import OfferAcceptModal from '../components/OfferAcceptModal.vue'
 import type { Offer, User } from '../interfaces/Offer'
 import OfferProductsAcceptanceModal from '../modals/OfferProductsAcceptanceModal.vue'
+import OfferProductsQtyAvailabilityModal from '../modals/OfferProductsQtyAvailabilityModal.vue'
 import { offersService } from '../services/OffersService'
 
 /***************************************
@@ -23,8 +23,8 @@ const { hasPermission } = useAuthStore()
 const { formatDate } = UseGeneralHelpers()
 const MODEL_NAME = 'offers'
 const showNotificationModal = ref<boolean>(false)
-const showAcceptOfferModal = ref<boolean>(false)
 const showProductsAcceptanceModal = ref<boolean>(false)
+const showProductsQtyAvailabilityModal = ref<boolean>(false)
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
 const activeUser = ref<User | null>(null)
@@ -89,10 +89,7 @@ const permissions = computed(() => ({
   edit: hasPermission('update_offer'),
   delete: hasPermission('delete_offer'),
   changeStatus: hasPermission('change_status_offer'),
-  acceptOffer: hasPermission('accept_offer'),
-  rejectOffer: hasPermission('reject_offer'),
   cancelOffer: hasPermission('cancel_offer'),
-  changeOfferStatus: hasPermission('change_publish_status_offer'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -171,32 +168,14 @@ function rowProps({ item }: { item: Offer }) {
   }
 }
 
-function openAcceptNotificationModal(item: Offer) {
-  activeItem.value = item
-  showAcceptOfferModal.value = true
-}
-
-function onAcceptOffer(offerId: number) {
-  const targetItem = tableData.value.find((item: Offer) => item.id === offerId)
-  if (targetItem) targetItem.status = 'accepted'
-}
-
 function openProductsAcceptanceModal(item: Offer) {
   activeItem.value = item
   showProductsAcceptanceModal.value = true
 }
 
-function rejectOffer(item: Offer) {
-  IsLoadingData.value = true
-  offersService
-    .rejectOffer(item.id)
-    .then((res) => {
-      item.status = 'rejected'
-      toast.success(res.data.message)
-    })
-    .finally(() => {
-      IsLoadingData.value = false
-    })
+function openProductsQtyAvailabilityModal(item: Offer) {
+  activeItem.value = item
+  showProductsQtyAvailabilityModal.value = true
 }
 
 function cancelOffer(item: Offer) {
@@ -223,15 +202,14 @@ function cancelOffer(item: Offer) {
       v-model:showModal="showNotificationModal"
       :user="activeUser"
     />
-    <OfferAcceptModal
-      v-model:showModal="showAcceptOfferModal"
-      :offer-id="activeItem.id"
-      v-if="activeItem && showAcceptOfferModal"
-      @accept-offer="onAcceptOffer"
-    />
     <OfferProductsAcceptanceModal
       v-if="activeItem && showProductsAcceptanceModal"
       v-model:showModal="showProductsAcceptanceModal"
+      :offer-id="activeItem.id"
+    />
+    <OfferProductsQtyAvailabilityModal
+      v-if="activeItem && showProductsQtyAvailabilityModal"
+      v-model:showModal="showProductsQtyAvailabilityModal"
       :offer-id="activeItem.id"
     />
     <Component
@@ -367,31 +345,19 @@ function cancelOffer(item: Offer) {
 
                       <VListItemTitle>إلغاء العرض</VListItemTitle>
                     </VListItem>
-                    <template v-if="item.status === 'pending'">
-                      <VListItem :disabled="!permissions.rejectOffer" @click="rejectOffer(item)">
-                        <template #prepend>
-                          <VIcon icon="tabler-ban" />
-                        </template>
-
-                        <VListItemTitle>رفض العرض</VListItemTitle>
-                      </VListItem>
-                      <VListItem
-                        :disabled="!permissions.acceptOffer"
-                        @click="openAcceptNotificationModal(item)"
-                      >
-                        <template #prepend>
-                          <VIcon icon="tabler-circle-check" />
-                        </template>
-
-                        <VListItemTitle>الموافقة على العرض</VListItemTitle>
-                      </VListItem>
-                    </template>
                     <VListItem @click="openProductsAcceptanceModal(item)">
                       <template #prepend>
                         <VIcon icon="tabler-shopping-bag-edit" />
                       </template>
 
                       <VListItemTitle>الموافقة على المنتجات</VListItemTitle>
+                    </VListItem>
+                    <VListItem @click="openProductsQtyAvailabilityModal(item)">
+                      <template #prepend>
+                        <VIcon icon="tabler-eye-edit" />
+                      </template>
+
+                      <VListItemTitle>تعديل حالة كمية المنتجات</VListItemTitle>
                     </VListItem>
                     <VListItem
                       :disabled="!permissions.sendNotification"
@@ -401,17 +367,6 @@ function cancelOffer(item: Offer) {
                         <VIcon icon="tabler-mail" />
                       </template>
                       <VListItemTitle>ارسال اشعار للمستخدم</VListItemTitle>
-                    </VListItem>
-                    <VListItem v-if="permissions.changeOfferStatus" @click.stop>
-                      <VListItemTitle class="ps-2">
-                        <ToggleActivationSwitch
-                          :id="item.id"
-                          v-model="item.publish_status"
-                          :model="MODEL_NAME"
-                          column="publish_status"
-                          label="حالة العرض"
-                        />
-                      </VListItemTitle>
                     </VListItem>
                   </VList>
                 </VMenu>

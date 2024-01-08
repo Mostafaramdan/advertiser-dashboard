@@ -16,6 +16,7 @@ import { productsService } from '@/services/ProductsService'
 import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import ModalAlert from '../components/ModalAlert.vue'
+import type { Branch } from '../interfaces/Branch'
 import type {
   OfferStoreType,
   ProductFormData,
@@ -25,6 +26,7 @@ import type {
 import { OfferDeadline } from '../interfaces/OfferDeadline'
 import { OfferPaymentMethod } from '../interfaces/OfferPaymentMethod'
 import type { Responsible } from '../interfaces/Responsible'
+import BranchFormModal from '../modals/BranchFormModal.vue'
 import ResponsibleFormModal from '../modals/ResponsibleFormModal.vue'
 
 /***************************************
@@ -78,7 +80,6 @@ const usersKeyword = ref('')
 const selectedProduct = ref(null)
 const selectedResponsible = ref<null | Responsible>(null)
 const selectedPrice = ref<null | ProductPrice>(null)
-const selectedBranch = ref<null | DropdownMenuItem>(null)
 const pricingType = ref<ProductPricingType>(null)
 const isLoading = reactive({
   data: false,
@@ -477,7 +478,7 @@ function initData() {
   getPaymentMethods()
   getPrices()
   getBranches()
-  if (props.formAction !== 'create') getItemDetails(props.activeItem.id)
+  if (props.activeItem?.id) getItemDetails(props.activeItem.id)
 }
 
 function onUserChange() {
@@ -501,7 +502,12 @@ function addNewResponsible() {
 }
 
 function onCreateResponsible(responsible: Responsible) {
-  formData.preferences.responsibles[0] = responsible
+  formData.preferences.responsibles[0] = {
+    ...responsible,
+    hide_email: false,
+    hide_phone: false,
+    hide_name: false,
+  }
   responsiblesList.value.push(responsible)
 }
 
@@ -511,6 +517,13 @@ function updateResponsibleVisibility(visibility: boolean, responsible: any) {
 
 function addNewBranch() {
   showBranchesFormModal.value = true
+}
+
+function onCreateBranch(branch: Branch) {
+  const { id, name } = branch
+  if (!id) return
+  branchesList.value.push({ id, label: name })
+  formData.shipping_range.branches.push(id)
 }
 
 function edit(payload: ProductFormData) {
@@ -593,6 +606,14 @@ function submit() {
       v-model:showModal="showResponsibleFormModal"
       form-action="create"
       @create-item="onCreateResponsible"
+    />
+    <BranchFormModal
+      v-if="showBranchesFormModal && formData?.user_id"
+      :user-id="formData.user_id"
+      :active-item="null"
+      v-model:showModal="showBranchesFormModal"
+      form-action="create"
+      @create-item="onCreateBranch"
     />
     <VDialog v-model="showModal" max-width="1000" persistent scrollable class="form-modal">
       <!-- Dialog close btn -->

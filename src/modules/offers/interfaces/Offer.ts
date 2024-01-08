@@ -1,5 +1,5 @@
 import { FormModalProps } from '@/interfaces/Forms'
-import type { DropdownMenuItem, File } from '@/interfaces/Shared'
+import type { File } from '@/interfaces/Shared'
 import type { Responsible } from './Responsible'
 export interface User {
   id: number
@@ -74,6 +74,8 @@ export type OfferProduct = {
   accepted?: boolean
   can_accept?: boolean
   can_reject?: boolean
+  is_active?: boolean
+  show_available_quantity?: boolean
 }
 export interface OfferFormData {
   offer_type: OfferType | null
@@ -164,7 +166,7 @@ export interface ProductFormData {
   shipping_range: {
     countries: number[]
     areas: number[]
-    branches: DropdownMenuItem[]
+    branches: number[]
     has_delivery: boolean
     has_branches: boolean
   }

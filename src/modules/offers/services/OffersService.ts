@@ -1,6 +1,6 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { OfferAcceptModalFormPayload, OfferNoteModalPayload } from '../interfaces/Offer'
+import type { OfferNoteModalPayload } from '../interfaces/Offer'
 
 class OffersService {
   contextPath = 'offers'
@@ -64,20 +64,16 @@ class OffersService {
     )
   }
 
-  acceptOffer(payload: OfferAcceptModalFormPayload): AxiosPromise {
-    return axios.put(`${this.contextPath}/${payload.offerId}/accept`, payload.data)
-  }
-
-  rejectOffer(id: number): AxiosPromise {
-    return axios.put(`${this.contextPath}/${id}/reject`)
-  }
-
   cancelOffer(id: number): AxiosPromise {
     return axios.put(`${this.contextPath}/${id}/cancel`)
   }
 
   offerProductsAcceptance(id: number, data: any): AxiosPromise {
     return axios.put(`${this.contextPath}/${id}/products_acceptance`, data)
+  }
+
+  offerProductsQtyAvailability(id: number, data: any): AxiosPromise {
+    return axios.put(`${this.contextPath}/${id}/toggle_availability_quantity`, data)
   }
 
   /** **************** patch ******************/

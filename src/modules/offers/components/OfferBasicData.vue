@@ -5,7 +5,6 @@ import { useAuthStore } from '@/stores/AuthStore'
 import { useOffersStore } from '@/stores/OffersStore'
 import { useToast } from 'vue-toastification'
 import { offersService } from '../services/OffersService'
-import OfferAcceptModal from './OfferAcceptModal.vue'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -20,7 +19,6 @@ const MODEL_NAME = 'offers'
 const offerId = +route.params.id
 const confirmModal = ref<any>()
 const showNotificationModal = ref<boolean>(false)
-const showAcceptOfferModal = ref<boolean>(false)
 const activeUser = ref(null)
 const isLoading = reactive({
   data: false,
@@ -37,10 +35,7 @@ const permissions = computed(() => ({
   edit: hasPermission('update_offer'),
   changeStatus: hasPermission('change_status_offer'),
   sendNotification: hasPermission('notify_users'),
-  acceptOffer: hasPermission('accept_offer'),
-  rejectOffer: hasPermission('reject_offer'),
   cancelOffer: hasPermission('cancel_offer'),
-  changeOfferStatus: hasPermission('change_publish_status_offer'),
   changeQuantityStatus: hasPermission('change_quantity_status_offer'),
 }))
 
@@ -98,23 +93,6 @@ async function showConfirmModal(): Promise<void> {
   deleteItem()
 }
 
-function onAcceptOffer() {
-  offersStore.updateOfferStatus('accepted')
-}
-
-function rejectOffer() {
-  isLoading.data = true
-  offersService
-    .rejectOffer(offerId)
-    .then((res) => {
-      toast.success(res.data.message)
-      offersStore.updateOfferStatus('rejected')
-    })
-    .finally(() => {
-      isLoading.data = false
-    })
-}
-
 function cancelOffer() {
   isLoading.data = true
   offersService
@@ -136,12 +114,6 @@ function cancelOffer() {
       v-if="activeUser && showNotificationModal"
       v-model:showModal="showNotificationModal"
       :user="activeUser"
-    />
-    <OfferAcceptModal
-      v-model:showModal="showAcceptOfferModal"
-      :offer-id="data.id"
-      v-if="data && showAcceptOfferModal"
-      @accept-offer="onAcceptOffer"
     />
     <ConfirmModal ref="confirmModal" />
     <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
@@ -229,25 +201,6 @@ function cancelOffer() {
 
                           <VListItemTitle>إلغاء العرض</VListItemTitle>
                         </VListItem>
-                        <template v-if="data.status === 'pending'">
-                          <VListItem :disabled="!permissions.rejectOffer" @click="rejectOffer">
-                            <template #prepend>
-                              <VIcon icon="tabler-ban" />
-                            </template>
-
-                            <VListItemTitle>رفض العرض</VListItemTitle>
-                          </VListItem>
-                          <VListItem
-                            :disabled="!permissions.acceptOffer"
-                            @click="showAcceptOfferModal = true"
-                          >
-                            <template #prepend>
-                              <VIcon icon="tabler-circle-check" />
-                            </template>
-
-                            <VListItemTitle>الموافقة على العرض</VListItemTitle>
-                          </VListItem>
-                        </template>
                         <VListItem
                           :disabled="!permissions.sendNotification"
                           @click="openNotificationModal(data.user)"
@@ -256,17 +209,6 @@ function cancelOffer() {
                             <VIcon icon="tabler-mail" />
                           </template>
                           <VListItemTitle>ارسال اشعار للمستخدم</VListItemTitle>
-                        </VListItem>
-                        <VListItem v-if="permissions.changeOfferStatus" @click.stop>
-                          <VListItemTitle class="ps-2">
-                            <ToggleActivationSwitch
-                              :id="data.id"
-                              v-model="data.publish_status"
-                              :model="MODEL_NAME"
-                              column="publish_status"
-                              label="حالة العرض"
-                            />
-                          </VListItemTitle>
                         </VListItem>
                       </VList>
                     </VMenu>
