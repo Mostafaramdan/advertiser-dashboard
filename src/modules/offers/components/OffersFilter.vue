@@ -34,19 +34,16 @@ const emit = defineEmits<{
 const showFilter = useVModel(props, 'showFilter', emit)
 const countriesList = ref([])
 const areasList = ref([])
-const categoriesList = ref([])
 
 const isLoading = reactive({
   countries: false,
   areas: false,
-  categories: false,
 })
 
 const initFilters: any = {
   user_id: null,
   countries: [],
   areas: [],
-  category_id: null,
   offer_type: null,
   filter_type: null,
   status: null,
@@ -62,7 +59,6 @@ const filters = reactive({ ...initFilters, ...props.initFilters })
  **************************************/
 // #region Lifecycle Hooks
 getCountries()
-getCategories()
 // #endregion
 
 /***************************************
@@ -108,18 +104,6 @@ function onChangeCountries() {
     return
   }
   getAreas()
-}
-
-function getCategories() {
-  isLoading.categories = true
-  listService
-    .getCategories()
-    .then((res: any) => {
-      categoriesList.value = res.data.data
-    })
-    .finally(() => {
-      isLoading.categories = false
-    })
 }
 // #endregion
 </script>
@@ -183,26 +167,6 @@ function getCategories() {
               </span>
             </template>
           </VSelect>
-        </VExpansionPanelText>
-      </VExpansionPanel>
-      <VExpansionPanel elevation="0">
-        <VExpansionPanelTitle> عرض حسب القسم</VExpansionPanelTitle>
-        <VExpansionPanelText>
-          <VSelect
-            v-model="filters.category_id"
-            :items="categoriesList"
-            class="mt-2"
-            item-value="id"
-            item-title="label"
-            label="القسم"
-            :loading="isLoading.categories"
-            :disabled="isLoading.categories"
-            clearable
-            :menu-props="{
-              maxWidth: '240px',
-              contentClass: 'filter-select',
-            }"
-          />
         </VExpansionPanelText>
       </VExpansionPanel>
 
