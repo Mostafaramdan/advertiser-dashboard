@@ -712,40 +712,51 @@ function submit() {
                   />
                 </VCol>
                 <VCol cols="12">
-                  <VLabel class="text-body-2 text-high-emphasis mb-1" text="صور المنتج (اختياري)" />
-                  <div class="d-flex flex-wrap gap-4" v-if="formData.attachmentsFiles.length">
-                    <div
-                      v-for="(attachment, index) in formData.attachmentsFiles"
-                      :key="index"
-                      draggable="true"
-                      @dragstart="dragStart($event, index)"
-                      @dragover="dragOver"
-                      @drop="drop($event, index)"
-                    >
-                      <AppUploadFile
-                        v-model="formData.attachmentsFiles[index]"
-                        :name="`صورة-${index + 1}`"
-                        label=""
-                        width="150px"
-                        height="150px"
-                        rules="required"
-                        :accepted-types="['image/jpeg', 'image/png', 'image/svg+xml', 'image/gif']"
-                      />
-                      <VBtn
-                        @click="formData.attachmentsFiles.splice(index, 1)"
-                        v-if="!formData.attachmentsFiles[index]"
-                        block
-                        size="small"
-                        color="error"
-                        class="mt-1"
-                        variant="outlined"
+                  <VLabel class="text-body-2 text-high-emphasis mb-1" text="صور المنتج" />
+                  <div class="d-flex flex-wrap gap-4 mb-3" >
+                    <template v-if="formData.attachmentsFiles.length">
+                      <div
+                        v-for="(attachment, index) in formData.attachmentsFiles"
+                        :key="index"
+                        draggable="true"
+                        @dragstart="dragStart($event, index)"
+                        @dragover="dragOver"
+                        @drop="drop($event, index)"
                       >
-                        الغاء
-                        <VIcon end icon="tabler-x" />
-                      </VBtn>
-                    </div>
+                        <AppUploadFile
+                          v-model="formData.attachmentsFiles[index]"
+                          :name="`صورة-${index + 1}`"
+                          label=""
+                          width="150px"
+                          height="150px"
+                          rules="required"
+                          :accepted-types="['image/jpeg', 'image/png', 'image/svg+xml', 'image/gif']"
+                        />
+                        <VBtn
+                          @click="formData.attachmentsFiles.splice(index, 1)"
+                          v-if="!formData.attachmentsFiles[index]"
+                          block
+                          size="small"
+                          color="error"
+                          class="mt-1"
+                          variant="outlined"
+                        >
+                          الغاء
+                          <VIcon end icon="tabler-x" />
+                        </VBtn>
+                      </div>
+                    </template>
                   </div>
-                  <VDivider class="mt-3" v-if="formData.attachmentsFiles.length" />
+                  <AppTextField
+                    :model-value="
+                      formData.attachmentsFiles.length ? formData.attachmentsFiles.length : ''
+                    "
+                    hide-label
+                    name="attachmentsFiles"
+                    label="صور المنتج"
+                    rules="required"
+                    type="hidden"
+                  />
                   <VBtn
                     variant="outlined"
                     @click="formData.attachmentsFiles.push(null as any)"
