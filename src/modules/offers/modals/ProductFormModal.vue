@@ -441,8 +441,8 @@ function prepareFormData(data: any) {
     data.shipping_range.branches?.map((branch: DropdownMenuItem) => branch.id) || []
   data.product_data.unit_details.main_unit_id = data.product_data.unit_details.main_unit.id
   data.product_data.unit_details.sub_unit_id = data.product_data.unit_details.sub_unit.id
-  data.preferences.payment_method_id = data.preferences.payment_method.id
-  data.preferences.deadline_id = data.preferences.deadline.id
+  data.preferences.payment_method_id = data.preferences.payment_method?.id
+  data.preferences.deadline_id = data.preferences.deadline?.id
   data.category_id = data.category.id
   data.attachmentsFiles = data.attachments.map((attachment: File) => attachment)
   if (data.pricing.fixed) pricingType.value = 'fixed'
@@ -1102,6 +1102,50 @@ function submit() {
                     </VCol>
                   </VRow>
                 </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.show_available_quantity"
+                    label="إظهار الكيمة المتبقية"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.show_product_quantity"
+                    label="إظهار كمية المنتج"
+                    name="show_product_quantity"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.hide_contact_data"
+                    label="اخفاء بيانات التواصل"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.qr"
+                    label="قراءة الباركود للعميل"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.print_invoice"
+                    label="طباعة فواتير الطلبات"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.create_instant_invoice"
+                    label="إنشاء فواتير فورية"
+                  />
+                </VCol>
+                <VCol cols="12" sm="6" md="3" class="pb-0">
+                  <VCheckbox
+                    v-model="formData.preferences.preferences.api_connection"
+                    label="ربط ببرنامج محاسبي API"
+                  />
+                </VCol>
+
                 <VCol cols="12" md="6">
                   <AppAutocomplete
                     v-model="formData.preferences.deadline_id"
@@ -1110,7 +1154,7 @@ function submit() {
                     item-title="label"
                     item-value="id"
                     label="مهلة الدفع"
-                    rules="required"
+                    :rules="{ required: formData.preferences.preferences.print_invoice }"
                     :loading="isLoading.deadlines"
                     :disabled="isLoading.deadlines"
                     clearable
@@ -1125,54 +1169,11 @@ function submit() {
                     item-title="label"
                     item-value="id"
                     label="طريقة الدفع"
-                    rules="required"
+                    :rules="{ required: formData.preferences.preferences.print_invoice }"
                     :loading="isLoading.paymentMethods"
                     :disabled="isLoading.paymentMethods"
                     clearable
                     :menu-props="{ contentClass: 'payment-method-select' }"
-                  />
-                </VCol>
-                <VCol cols="12" sm="6" md="3" class="pt-0">
-                  <VCheckbox
-                    v-model="formData.preferences.preferences.show_available_quantity"
-                    label="إظهار الكيمة المتبقية"
-                  />
-                </VCol>
-                <VCol cols="12" sm="6" md="3" class="pt-0">
-                  <VCheckbox
-                    v-model="formData.preferences.preferences.show_product_quantity"
-                    label="إظهار كمية المنتج"
-                    name="show_product_quantity"
-                  />
-                </VCol>
-                <VCol cols="12" sm="6" md="3" class="pt-0">
-                  <VCheckbox
-                    v-model="formData.preferences.preferences.hide_contact_data"
-                    label="اخفاء بيانات التواصل"
-                  />
-                </VCol>
-                <VCol cols="12" sm="6" md="3" class="pt-0">
-                  <VCheckbox
-                    v-model="formData.preferences.preferences.qr"
-                    label="قراءة الباركود للعميل"
-                  />
-                </VCol>
-                <VCol cols="12" sm="6" md="3" class="pt-0">
-                  <VCheckbox
-                    v-model="formData.preferences.preferences.print_invoice"
-                    label="طباعة فواتير الطلبات"
-                  />
-                </VCol>
-                <VCol cols="12" sm="6" md="3" class="pt-0">
-                  <VCheckbox
-                    v-model="formData.preferences.preferences.create_instant_invoice"
-                    label="إنشاء فواتير فورية"
-                  />
-                </VCol>
-                <VCol cols="12" sm="6" md="3" class="pt-0">
-                  <VCheckbox
-                    v-model="formData.preferences.preferences.api_connection"
-                    label="ربط ببرنامج محاسبي API"
                   />
                 </VCol>
 
