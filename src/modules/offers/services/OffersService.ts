@@ -5,6 +5,7 @@ import type { OfferNoteModalPayload } from '../interfaces/Offer'
 class OffersService {
   contextPath = 'offers'
   settingsPath = 'offer_settings'
+  productsPath = 'products'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -64,16 +65,16 @@ class OffersService {
     )
   }
 
-  cancelOffer(id: number): AxiosPromise {
-    return axios.put(`${this.contextPath}/${id}/cancel`)
-  }
-
   offerProductsAcceptance(id: number, data: any): AxiosPromise {
-    return axios.put(`${this.contextPath}/${id}/products_acceptance`, data)
+    return axios.put(`${this.productsPath}/acceptance`, data)
   }
 
   offerProductsQtyAvailability(id: number, data: any): AxiosPromise {
-    return axios.put(`${this.contextPath}/${id}/toggle_availability_quantity`, data)
+    return axios.put(`${this.productsPath}/toggle_availability_quantity`, data)
+  }
+
+  offerProductsToggleActivation(id: number, data: any): AxiosPromise {
+    return axios.put(`${this.productsPath}/toggle_activation`, data)
   }
 
   /** **************** patch ******************/

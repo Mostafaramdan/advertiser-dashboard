@@ -2,7 +2,6 @@
 import { OFFER_DATE_TYPES, OFFER_TYPES, STORES_TYPES } from '@/constants/offers'
 import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormActionType } from '@/interfaces/Forms'
-import { productsService } from '@/services/ProductsService'
 import { useToast } from 'vue-toastification'
 import type { OfferFormData, OfferProduct } from '../interfaces/Offer'
 import ProductFormModal from '../modals/ProductFormModal.vue'
@@ -35,7 +34,7 @@ const usersKeyword = ref('')
 const dateType = ref<any>(null)
 const confirmModal = ref<any>()
 const afterTomorrowDate: Date = new Date(new Date().setDate(new Date().getDate() + 2))
-
+const PRODUCTS_MODULE_NAME = 'products'
 const isLoading = reactive({
   data: false,
   submit: false,
@@ -97,17 +96,8 @@ function onEditProduct(product: any) {
 }
 
 function deleteProduct(product: OfferProduct) {
-  isLoading.data = true
-  productsService
-    .deleteItem(product.id)
-    .then((res) => {
-      const targetIndex = formData.products.findIndex((p: any) => p.id === product.id)
-      formData.products.splice(targetIndex, 1)
-      toast.success(res.data.message)
-    })
-    .finally(() => {
-      isLoading.data = false
-    })
+  const targetIndex = formData.products.findIndex((p: any) => p.id === product.id)
+  formData.products.splice(targetIndex, 1)
 }
 
 async function showConfirmDeleteItem(product: OfferProduct): Promise<void> {
@@ -381,6 +371,7 @@ function submit() {
                     <th class="text-uppercase">الاسم</th>
                     <th class="text-uppercase">السعر بعد</th>
                     <th class="text-uppercase">السعر قبل</th>
+                    <th class="text-uppercase">الحالة</th>
                     <th class="text-uppercase">العمليات</th>
                   </tr>
                 </thead>
@@ -405,6 +396,13 @@ function submit() {
                     </td>
                     <td>
                       {{ product.main_price }}
+                    </td>
+                    <td>
+                      <ToggleActivationSwitch
+                        :id="product.id"
+                        v-model="product.is_active"
+                        :model="PRODUCTS_MODULE_NAME"
+                      />
                     </td>
                     <td>
                       <div class="d-flex">

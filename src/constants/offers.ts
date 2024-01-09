@@ -1,6 +1,7 @@
 export const OFFER_STATUSES = new Map([
-  ['pending', { label: 'قيد الانتظار' }],
-  ['accepted', { label: 'مقبول' }],
+  ['pending', { label: 'قيد المعالجة' }],
+  ['processing', { label: 'قيد الدراسة' }],
+  ['accepted', { label: 'تم الدراسة' }],
   ['rejected', { label: 'مرفوض' }],
   ['finished', { label: 'منتهي' }],
   ['cancelled', { label: 'ملغي' }],

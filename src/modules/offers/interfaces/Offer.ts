@@ -71,10 +71,10 @@ export type OfferProduct = {
   main_price: number
   discount_price: number
   status: string
+  is_active: boolean
   accepted?: boolean
   can_accept?: boolean
   can_reject?: boolean
-  is_active?: boolean
   show_available_quantity?: boolean
 }
 export interface OfferFormData {

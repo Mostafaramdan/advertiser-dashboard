@@ -8,6 +8,7 @@ import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import type { Offer, User } from '../interfaces/Offer'
 import OfferProductsAcceptanceModal from '../modals/OfferProductsAcceptanceModal.vue'
+import OfferProductsActivationModal from '../modals/OfferProductsActivationModal.vue'
 import OfferProductsQtyAvailabilityModal from '../modals/OfferProductsQtyAvailabilityModal.vue'
 import { offersService } from '../services/OffersService'
 
@@ -25,6 +26,7 @@ const MODEL_NAME = 'offers'
 const showNotificationModal = ref<boolean>(false)
 const showProductsAcceptanceModal = ref<boolean>(false)
 const showProductsQtyAvailabilityModal = ref<boolean>(false)
+const showProductsActivationsModal = ref<boolean>(false)
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
 const activeUser = ref<User | null>(null)
@@ -89,7 +91,6 @@ const permissions = computed(() => ({
   edit: hasPermission('update_offer'),
   delete: hasPermission('delete_offer'),
   changeStatus: hasPermission('change_status_offer'),
-  cancelOffer: hasPermission('cancel_offer'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -178,17 +179,9 @@ function openProductsQtyAvailabilityModal(item: Offer) {
   showProductsQtyAvailabilityModal.value = true
 }
 
-function cancelOffer(item: Offer) {
-  IsLoadingData.value = true
-  offersService
-    .cancelOffer(item.id)
-    .then((res) => {
-      item.status = 'cancelled'
-      toast.success(res.data.message)
-    })
-    .finally(() => {
-      IsLoadingData.value = false
-    })
+function openProductsActivationModal(item: Offer) {
+  activeItem.value = item
+  showProductsActivationsModal.value = true
 }
 
 // #endregion
@@ -210,6 +203,11 @@ function cancelOffer(item: Offer) {
     <OfferProductsQtyAvailabilityModal
       v-if="activeItem && showProductsQtyAvailabilityModal"
       v-model:showModal="showProductsQtyAvailabilityModal"
+      :offer-id="activeItem.id"
+    />
+    <OfferProductsActivationModal
+      v-if="activeItem && showProductsActivationsModal"
+      v-model:showModal="showProductsActivationsModal"
       :offer-id="activeItem.id"
     />
     <Component
@@ -334,17 +332,6 @@ function cancelOffer(item: Offer) {
 
                       <VListItemTitle>تعديل</VListItemTitle>
                     </VListItem>
-                    <VListItem
-                      v-if="['pending', 'accepted'].includes(item.status)"
-                      :disabled="!permissions.cancelOffer"
-                      @click="cancelOffer(item)"
-                    >
-                      <template #prepend>
-                        <VIcon icon="tabler-circle-x" />
-                      </template>
-
-                      <VListItemTitle>إلغاء العرض</VListItemTitle>
-                    </VListItem>
                     <VListItem @click="openProductsAcceptanceModal(item)">
                       <template #prepend>
                         <VIcon icon="tabler-shopping-bag-edit" />
@@ -354,10 +341,17 @@ function cancelOffer(item: Offer) {
                     </VListItem>
                     <VListItem @click="openProductsQtyAvailabilityModal(item)">
                       <template #prepend>
-                        <VIcon icon="tabler-eye-edit" />
+                        <VIcon icon="tabler-box" />
                       </template>
 
                       <VListItemTitle>تعديل حالة كمية المنتجات</VListItemTitle>
+                    </VListItem>
+                    <VListItem @click="openProductsActivationModal(item)">
+                      <template #prepend>
+                        <VIcon icon="tabler-eye-edit" />
+                      </template>
+
+                      <VListItemTitle>تعديل حالة عرض المنتجات</VListItemTitle>
                     </VListItem>
                     <VListItem
                       :disabled="!permissions.sendNotification"

@@ -1213,9 +1213,9 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             key: 'change_status_offer',
           },
           {
-            label: 'إلغاء',
+            label: 'تعديل حالة العرض',
             checked: false,
-            key: 'cancel_offer',
+            key: 'update_offer_status',
           },
           {
             label: 'إعادة نشر',
@@ -1276,6 +1276,46 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'تعديل',
             checked: false,
             key: 'update_offer_settings',
+          },
+        ],
+      },
+      {
+        title: 'المنتجات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_products',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'create_product',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'update_product',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'delete_product',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'change_status_product',
+          },
+          {
+            label: 'الموافقة علي المنتج',
+            checked: false,
+            key: 'accept_product',
+          },
+          {
+            label: 'تعديل حالة الكمية',
+            checked: false,
+            key: 'toggle_product_availability_quantity',
           },
         ],
       },

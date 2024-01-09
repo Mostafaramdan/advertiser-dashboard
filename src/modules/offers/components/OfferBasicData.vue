@@ -35,7 +35,6 @@ const permissions = computed(() => ({
   edit: hasPermission('update_offer'),
   changeStatus: hasPermission('change_status_offer'),
   sendNotification: hasPermission('notify_users'),
-  cancelOffer: hasPermission('cancel_offer'),
   changeQuantityStatus: hasPermission('change_quantity_status_offer'),
 }))
 
@@ -93,18 +92,6 @@ async function showConfirmModal(): Promise<void> {
   deleteItem()
 }
 
-function cancelOffer() {
-  isLoading.data = true
-  offersService
-    .cancelOffer(offerId)
-    .then((res) => {
-      toast.success(res.data.message)
-      offersStore.updateOfferStatus('cancelled')
-    })
-    .finally(() => {
-      isLoading.data = false
-    })
-}
 // #endregion
 </script>
 
@@ -189,17 +176,6 @@ function cancelOffer() {
                             <VIcon icon="tabler-trash" />
                           </template>
                           <VListItemTitle>حذف</VListItemTitle>
-                        </VListItem>
-                        <VListItem
-                          v-if="['pending', 'accepted'].includes(data.status)"
-                          :disabled="!permissions.cancelOffer"
-                          @click="cancelOffer"
-                        >
-                          <template #prepend>
-                            <VIcon icon="tabler-circle-x" />
-                          </template>
-
-                          <VListItemTitle>إلغاء العرض</VListItemTitle>
                         </VListItem>
                         <VListItem
                           :disabled="!permissions.sendNotification"
