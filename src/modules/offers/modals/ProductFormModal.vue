@@ -524,6 +524,7 @@ function onCreateBranch(branch: Branch) {
   if (!id) return
   branchesList.value.push({ id, label: name })
   formData.shipping_range.branches.push(id)
+  formRef.value.validateField('branches')
 }
 
 function edit(payload: ProductFormData) {
@@ -713,7 +714,7 @@ function submit() {
                 </VCol>
                 <VCol cols="12">
                   <VLabel class="text-body-2 text-high-emphasis mb-1" text="صور المنتج" />
-                  <div class="d-flex flex-wrap gap-4 mb-3" >
+                  <div class="d-flex flex-wrap gap-4 mb-3">
                     <template v-if="formData.attachmentsFiles.length">
                       <div
                         v-for="(attachment, index) in formData.attachmentsFiles"
@@ -730,7 +731,12 @@ function submit() {
                           width="150px"
                           height="150px"
                           rules="required"
-                          :accepted-types="['image/jpeg', 'image/png', 'image/svg+xml', 'image/gif']"
+                          :accepted-types="[
+                            'image/jpeg',
+                            'image/png',
+                            'image/svg+xml',
+                            'image/gif',
+                          ]"
                         />
                         <VBtn
                           @click="formData.attachmentsFiles.splice(index, 1)"
