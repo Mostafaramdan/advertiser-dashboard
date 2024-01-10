@@ -113,7 +113,6 @@ const formData = reactive<ProductFormData>({
     },
     unit_details: {
       product_quantity: null,
-      available_quantity: null,
       main_unit_id: null,
       sub_unit_id: null,
       sub_unit_value: null,
@@ -778,7 +777,7 @@ function submit() {
                 <VCol cols="12" class="py-0">
                   <ModalAlert text="بيانات المنتج" />
                 </VCol>
-                <VCol cols="12" md="4">
+                <VCol cols="12" md="6">
                   <AppAutocomplete
                     v-model="formData.product_data.unit_details.main_unit_id"
                     name="main_unit_id"
@@ -792,7 +791,7 @@ function submit() {
                     clearable
                   />
                 </VCol>
-                <VCol cols="12" md="4">
+                <VCol cols="12" md="6">
                   <AppTextField
                     v-model="formData.product_data.unit_details.product_quantity"
                     label="كمية العرض"
@@ -801,21 +800,7 @@ function submit() {
                     type="number"
                   />
                 </VCol>
-                <VCol cols="12" md="4">
-                  <AppTextField
-                    v-model="formData.product_data.unit_details.available_quantity"
-                    :disabled="!formData.product_data.unit_details.product_quantity"
-                    label="الكمية المتاحة"
-                    name="available_quantity"
-                    :rules="{
-                      required: formData.product_data.unit_details.product_quantity !== null,
-                      numeric: true,
-                      max_value: formData.product_data.unit_details.product_quantity,
-                    }"
-                    type="number"
-                  />
-                </VCol>
-                <VCol cols="12" md="4">
+                <VCol cols="12" md="6">
                   <AppAutocomplete
                     v-model="formData.product_data.unit_details.sub_unit_id"
                     name="sub_unit_id"
@@ -829,7 +814,7 @@ function submit() {
                     clearable
                   />
                 </VCol>
-                <VCol cols="12" md="8">
+                <VCol cols="12" md="6">
                   <AppTextField
                     v-model="formData.product_data.unit_details.sub_unit_value"
                     label="قيمة الوحدة الفرعية"
