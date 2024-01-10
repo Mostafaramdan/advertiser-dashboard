@@ -398,7 +398,7 @@ function submit() {
                     <th class="text-uppercase">الاسم</th>
                     <th class="text-uppercase">السعر بعد</th>
                     <th class="text-uppercase">السعر قبل</th>
-                    <th class="text-uppercase">حالة العرض</th>
+                    <th class="text-uppercase">حالة المنتج</th>
                     <th class="text-uppercase">حالة التنشيط</th>
                     <th class="text-uppercase">العمليات</th>
                   </tr>
