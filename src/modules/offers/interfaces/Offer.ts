@@ -124,7 +124,6 @@ export interface ProductFormData {
     }
     unit_details: {
       product_quantity: number | null
-      available_quantity: number | null
       main_unit_id: number | null
       sub_unit_id: number | null
       sub_unit_value: number | null

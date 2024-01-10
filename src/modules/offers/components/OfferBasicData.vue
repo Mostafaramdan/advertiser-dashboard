@@ -4,8 +4,10 @@ import { OFFER_STATUSES } from '@/constants/offers'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useOffersStore } from '@/stores/OffersStore'
 import { useToast } from 'vue-toastification'
+import OfferProductsAcceptanceModal from '../modals/OfferProductsAcceptanceModal.vue'
+import OfferProductsActivationModal from '../modals/OfferProductsActivationModal.vue'
+import OfferProductsQtyAvailabilityModal from '../modals/OfferProductsQtyAvailabilityModal.vue'
 import { offersService } from '../services/OffersService'
-
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
@@ -19,7 +21,9 @@ const MODEL_NAME = 'offers'
 const offerId = +route.params.id
 const confirmModal = ref<any>()
 const showNotificationModal = ref<boolean>(false)
-const activeUser = ref(null)
+const showProductsAcceptanceModal = ref<boolean>(false)
+const showProductsQtyAvailabilityModal = ref<boolean>(false)
+const showProductsActivationsModal = ref<boolean>(false)
 const isLoading = reactive({
   data: false,
   delete: false,
@@ -35,7 +39,9 @@ const permissions = computed(() => ({
   edit: hasPermission('update_offer'),
   changeStatus: hasPermission('change_status_offer'),
   sendNotification: hasPermission('notify_users'),
-  changeQuantityStatus: hasPermission('change_quantity_status_offer'),
+  acceptProducts: hasPermission('accept_product'),
+  editProductsQty: hasPermission('toggle_product_availability_quantity'),
+  changeProductsStatus: hasPermission('change_status_product'),
 }))
 
 const data = computed(() => offersStore.offerDetails)
@@ -67,8 +73,7 @@ function getPageData() {
     })
 }
 
-function openNotificationModal(user: any) {
-  activeUser.value = user
+function openNotificationModal() {
   showNotificationModal.value = true
 }
 
@@ -97,12 +102,29 @@ async function showConfirmModal(): Promise<void> {
 
 <template>
   <div>
-    <NotificationModal
-      v-if="activeUser && showNotificationModal"
-      v-model:showModal="showNotificationModal"
-      :user="activeUser"
-    />
-    <ConfirmModal ref="confirmModal" />
+    <template v-if="data">
+      <ConfirmModal ref="confirmModal" />
+      <NotificationModal
+        v-if="showNotificationModal"
+        v-model:showModal="showNotificationModal"
+        :user="data.user"
+      />
+      <OfferProductsAcceptanceModal
+        v-if="showProductsAcceptanceModal"
+        v-model:showModal="showProductsAcceptanceModal"
+        :offer-id="data.id"
+      />
+      <OfferProductsQtyAvailabilityModal
+        v-if="showProductsQtyAvailabilityModal"
+        v-model:showModal="showProductsQtyAvailabilityModal"
+        :offer-id="data.id"
+      />
+      <OfferProductsActivationModal
+        v-if="showProductsActivationsModal"
+        v-model:showModal="showProductsActivationsModal"
+        :offer-id="data.id"
+      />
+    </template>
     <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
       <VExpansionPanel elevation="0">
         <VExpansionPanelTitle> عرض تفاصيل العرض </VExpansionPanelTitle>
@@ -143,7 +165,7 @@ async function showConfirmModal(): Promise<void> {
                   </span>
                   <span class="d-flex align-center"
                     ><strong class="me-3">اسم المستخدم</strong>
-                    {{ data.user.username }}
+                    {{ data.user.account_name }}
                   </span>
                   <span class="d-flex align-center">
                     <strong class="me-3">تاريخ الانشاء</strong>
@@ -178,8 +200,38 @@ async function showConfirmModal(): Promise<void> {
                           <VListItemTitle>حذف</VListItemTitle>
                         </VListItem>
                         <VListItem
+                          :disabled="!permissions.acceptProducts"
+                          @click="showProductsAcceptanceModal = true"
+                        >
+                          <template #prepend>
+                            <VIcon icon="tabler-shopping-bag-edit" />
+                          </template>
+
+                          <VListItemTitle>الموافقة على المنتجات</VListItemTitle>
+                        </VListItem>
+                        <VListItem
+                          :disabled="!permissions.editProductsQty"
+                          @click="showProductsQtyAvailabilityModal = true"
+                        >
+                          <template #prepend>
+                            <VIcon icon="tabler-box" />
+                          </template>
+
+                          <VListItemTitle>تعديل حالة كمية المنتجات</VListItemTitle>
+                        </VListItem>
+                        <VListItem
+                          :disabled="!permissions.changeProductsStatus"
+                          @click="showProductsActivationsModal = true"
+                        >
+                          <template #prepend>
+                            <VIcon icon="tabler-eye-edit" />
+                          </template>
+
+                          <VListItemTitle>تعديل حالة عرض المنتجات</VListItemTitle>
+                        </VListItem>
+                        <VListItem
                           :disabled="!permissions.sendNotification"
-                          @click="openNotificationModal(data.user)"
+                          @click="showNotificationModal = true"
                         >
                           <template #prepend>
                             <VIcon icon="tabler-mail" />

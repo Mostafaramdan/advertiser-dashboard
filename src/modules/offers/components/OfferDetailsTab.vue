@@ -2,7 +2,6 @@
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { USERS_ROLES } from '@/constants/index'
 import { OFFER_STATUSES, OFFER_TYPES, STORES_TYPES } from '@/constants/offers'
-import { formatUrl } from '@/helpers/index'
 import { useOffersStore } from '@/stores/OffersStore'
 import type { User } from '../interfaces/Offer'
 
@@ -22,17 +21,7 @@ const data = computed(() => offersStore.offerDetails)
 
 const offerInfo = computed(() => {
   if (!data.value) return []
-  const {
-    offer_type,
-    from_date,
-    to_date,
-    user,
-    status,
-    expire_date,
-    hide_contact_data,
-    store,
-    location,
-  } = data.value
+  const { offer_type, from_date, to_date, user, status, expire_date, store } = data.value
   return [
     {
       label: 'النوع',
@@ -70,11 +59,6 @@ const offerInfo = computed(() => {
     {
       label: 'نوع المتجر',
       value: STORES_TYPES.get(store.type)?.label,
-    },
-    {
-      label: 'رابط المتجر',
-      value: store.url,
-      key: 'store_url',
     },
   ]
 })
@@ -117,24 +101,8 @@ function getProfileUrl(user: User) {
                   </h5>
 
                   <router-link v-if="item.key === 'user'" :to="getProfileUrl(item.value)">
-                    {{ item.value.username }}
+                    {{ item.value.account_name }}
                   </router-link>
-                  <a
-                    :href="formatUrl(item.value)"
-                    target="_blank"
-                    v-else-if="item.key === 'store_url'"
-                    >{{ item.value ?? '-' }}</a
-                  >
-                  <div v-else-if="item.key === 'location'">
-                    <a
-                      class="content-list__link"
-                      v-if="item.value"
-                      :href="`https://www.google.com/maps/search/?api=1&query=${item.value.lat},${item.value.lng}`"
-                      target="_blank"
-                      ><u>{{ item.value.address }}</u></a
-                    >
-                    <span v-else> لا يوجد </span>
-                  </div>
                   <p v-else class="text-body-2 mb-0">
                     {{ item.value ?? '-' }}
                   </p>

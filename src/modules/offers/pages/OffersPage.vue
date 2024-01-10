@@ -7,6 +7,7 @@ import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import type { Offer, User } from '../interfaces/Offer'
+import OfferEditStatusModal from '../modals/OfferEditStatusModal.vue'
 import OfferProductsAcceptanceModal from '../modals/OfferProductsAcceptanceModal.vue'
 import OfferProductsActivationModal from '../modals/OfferProductsActivationModal.vue'
 import OfferProductsQtyAvailabilityModal from '../modals/OfferProductsQtyAvailabilityModal.vue'
@@ -27,6 +28,7 @@ const showNotificationModal = ref<boolean>(false)
 const showProductsAcceptanceModal = ref<boolean>(false)
 const showProductsQtyAvailabilityModal = ref<boolean>(false)
 const showProductsActivationsModal = ref<boolean>(false)
+const showOfferEditStatusModal = ref<boolean>(false)
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
 const activeUser = ref<User | null>(null)
@@ -91,6 +93,10 @@ const permissions = computed(() => ({
   edit: hasPermission('update_offer'),
   delete: hasPermission('delete_offer'),
   changeStatus: hasPermission('change_status_offer'),
+  acceptProducts: hasPermission('accept_product'),
+  editProductsQty: hasPermission('toggle_product_availability_quantity'),
+  changeProductsStatus: hasPermission('change_status_product'),
+  editStatus: hasPermission('update_offer_status'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -184,6 +190,10 @@ function openProductsActivationModal(item: Offer) {
   showProductsActivationsModal.value = true
 }
 
+function openOfferEditStatusModal(item: Offer) {
+  activeItem.value = item
+  showOfferEditStatusModal.value = true
+}
 // #endregion
 </script>
 
@@ -216,6 +226,12 @@ function openProductsActivationModal(item: Offer) {
       v-model:showFilter="showFilter"
       @apply-filter="onApplyFilter"
       :init-filters="params"
+    />
+    <OfferEditStatusModal
+      :offer="activeItem"
+      v-if="activeItem && showOfferEditStatusModal"
+      v-model:showModal="showOfferEditStatusModal"
+      @edit-item="getPageData"
     />
     <VCard title="العروض" class="page-card">
       <VCardText>
@@ -271,7 +287,7 @@ function openProductsActivationModal(item: Offer) {
               }"
               style="min-inline-size: 205px"
             >
-              <span>{{ item.user.username }}</span>
+              <span>{{ item.user.account_name }}</span>
               <span class="text-sm text-disabled d-block">{{ USERS_ROLES[item.user.role] }}</span>
             </router-link>
           </template>
@@ -332,21 +348,40 @@ function openProductsActivationModal(item: Offer) {
 
                       <VListItemTitle>تعديل</VListItemTitle>
                     </VListItem>
-                    <VListItem @click="openProductsAcceptanceModal(item)">
+                    <VListItem
+                      :disabled="!permissions.editStatus"
+                      @click="openOfferEditStatusModal(item)"
+                    >
+                      <template #prepend>
+                        <VIcon icon="tabler-edit" />
+                      </template>
+
+                      <VListItemTitle>تعديل الحالة</VListItemTitle>
+                    </VListItem>
+                    <VListItem
+                      :disabled="!permissions.acceptProducts"
+                      @click="openProductsAcceptanceModal(item)"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-shopping-bag-edit" />
                       </template>
 
                       <VListItemTitle>الموافقة على المنتجات</VListItemTitle>
                     </VListItem>
-                    <VListItem @click="openProductsQtyAvailabilityModal(item)">
+                    <VListItem
+                      :disabled="!permissions.editProductsQty"
+                      @click="openProductsQtyAvailabilityModal(item)"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-box" />
                       </template>
 
                       <VListItemTitle>تعديل حالة كمية المنتجات</VListItemTitle>
                     </VListItem>
-                    <VListItem @click="openProductsActivationModal(item)">
+                    <VListItem
+                      :disabled="!permissions.changeProductsStatus"
+                      @click="openProductsActivationModal(item)"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-eye-edit" />
                       </template>

@@ -75,7 +75,7 @@ function submit() {
 
   isLoading.submit = true
   offersService
-    .offerProductsAcceptance(props.offerId, payload)
+    .offerProductsAcceptance(payload)
     .then((res) => {
       toast.success(res.data.message)
       showModal.value = false

@@ -70,7 +70,7 @@ function submit() {
 
   isLoading.submit = true
   offersService
-    .offerProductsQtyAvailability(props.offerId, payload)
+    .offerProductsQtyAvailability(payload)
     .then((res) => {
       toast.success(res.data.message)
       showModal.value = false

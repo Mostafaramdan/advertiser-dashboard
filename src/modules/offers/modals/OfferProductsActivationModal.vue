@@ -70,7 +70,7 @@ function submit() {
 
   isLoading.submit = true
   offersService
-    .offerProductsToggleActivation(props.offerId, payload)
+    .offerProductsToggleActivation(payload)
     .then((res) => {
       toast.success(res.data.message)
       showModal.value = false

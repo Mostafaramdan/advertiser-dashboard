@@ -2,8 +2,8 @@
 import {
   OFFER_DEADLINES_TIMES,
   OFFER_PAYMENT_METHODS,
+  PRODUCT_CONDITIONS,
   PRODUCT_PRICING_TYPES,
-  PRODUCT_STATUSES,
   PRODUCT_WARRANTY_DURATION_TYPES,
   PRODUCT_WEIGHT_UNITS,
 } from '@/constants/offers'
@@ -698,7 +698,7 @@ function submit() {
                 <VCol cols="12" v-if="props.storeType === 'website'">
                   <AppTextField
                     v-model="formData.link"
-                    label="رابط المتجر"
+                    label="رابط المنتج"
                     type="text"
                     name="link"
                     rules="required|validUrl"
@@ -897,7 +897,7 @@ function submit() {
                     v-model="formData.product_data.warranty_and_expiration.product_condition"
                     name="product_condition"
                     :items="
-                      Array.from(PRODUCT_STATUSES, ([key, value]) => ({
+                      Array.from(PRODUCT_CONDITIONS, ([key, value]) => ({
                         id: key,
                         label: value.label,
                       }))

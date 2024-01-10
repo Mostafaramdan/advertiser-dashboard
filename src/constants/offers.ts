@@ -12,10 +12,17 @@ export const OFFER_TYPES = new Map([
   ['out_platform', { label: 'خارج المنصة' }],
 ])
 
-export const PRODUCT_STATUSES = new Map([
+export const PRODUCT_CONDITIONS = new Map([
   ['new_product', { label: 'جديد' }],
   ['used_product', { label: 'مستعمل' }],
   ['expires_soon', { label: 'بتاريخ صلاحية' }],
+])
+
+export const PRODUCT_STATUSES = new Map([
+  ['pending', { label: 'في انتظار اتخاذ اجراء' }],
+  ['accepted', { label: 'مقبول' }],
+  ['rejected', { label: 'مرفوض' }],
+  ['posted', { label: 'منشور' }],
 ])
 
 export const PRODUCT_WEIGHT_UNITS = new Map([

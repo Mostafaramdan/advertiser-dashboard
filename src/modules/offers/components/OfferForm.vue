@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { OFFER_DATE_TYPES, OFFER_TYPES, STORES_TYPES } from '@/constants/offers'
+import { OFFER_DATE_TYPES, OFFER_TYPES, PRODUCT_STATUSES, STORES_TYPES } from '@/constants/offers'
 import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormActionType } from '@/interfaces/Forms'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import type { OfferFormData, OfferProduct } from '../interfaces/Offer'
 import ProductFormModal from '../modals/ProductFormModal.vue'
+import ProductPostModal from '../modals/ProductPostModal.vue'
 import { offersService } from '../services/OffersService'
 
 /***************************************
@@ -29,6 +30,7 @@ const route = useRoute()
 const { hasPermission } = useAuthStore()
 const formRef = ref<any>(null)
 const showProductFormModal = ref<boolean>(false)
+const showProductPostModal = ref<boolean>(false)
 const productFormAction = ref<FormActionType>('create')
 const activeProduct = ref<any>(null)
 const offerId: number = +route.params.id
@@ -113,6 +115,17 @@ async function showConfirmDeleteItem(product: OfferProduct): Promise<void> {
   const confirm = await confirmModal.value.open('يرجي التاكيد', 'هل انت متاكد من الحذف')
 
   if (confirm) deleteProduct(product)
+}
+
+function openProductPostModal(product: OfferProduct) {
+  activeProduct.value = product
+  showProductPostModal.value = true
+}
+
+function onPostProduct(productId: number) {
+  const targetIndex = formData.products.findIndex((product: any) => product.id === productId)
+  if (targetIndex === -1) return
+  formData.products[targetIndex].status = 'posted'
 }
 
 function prepareFormData(data: any) {
@@ -209,7 +222,12 @@ function submit() {
       :storeType="formData.store.type"
       :user-id="formData.user_id"
     />
-
+    <ProductPostModal
+      v-if="showProductPostModal"
+      v-model:showModal="showProductPostModal"
+      :product="activeProduct"
+      @postProduct="onPostProduct"
+    />
     <VCard class="page-card" v-loading="isLoading.data">
       <template #title>
         <div class="d-flex align-center">
@@ -380,7 +398,8 @@ function submit() {
                     <th class="text-uppercase">الاسم</th>
                     <th class="text-uppercase">السعر بعد</th>
                     <th class="text-uppercase">السعر قبل</th>
-                    <th class="text-uppercase">الحالة</th>
+                    <th class="text-uppercase">حالة العرض</th>
+                    <th class="text-uppercase">حالة التنشيط</th>
                     <th class="text-uppercase">العمليات</th>
                   </tr>
                 </thead>
@@ -401,10 +420,13 @@ function submit() {
                       </div>
                     </td>
                     <td>
-                      {{ product.discount_price }}
+                      {{ product.discount_price ?? '-' }}
                     </td>
                     <td>
-                      {{ product.main_price }}
+                      {{ product.main_price ?? '-' }}
+                    </td>
+                    <td>
+                      {{ PRODUCT_STATUSES.get(product.status)?.label }}
                     </td>
                     <td>
                       <ToggleActivationSwitch
@@ -416,29 +438,58 @@ function submit() {
                     <td>
                       <div class="d-flex">
                         <IconBtn
-                          :disabled="!permissions.viewProducts"
-                          @click="openProductFormModal(product, 'view')"
-                        >
-                          <VIcon icon="tabler-eye" />
-                        </IconBtn>
-                        <IconBtn
                           :disabled="!permissions.editProduct"
                           @click="openProductFormModal(product, 'edit')"
                         >
                           <VIcon icon="tabler-edit" />
                         </IconBtn>
-                        <IconBtn
-                          :disabled="!permissions.createProduct"
-                          @click="openProductFormModal(product, 'create')"
-                        >
-                          <VIcon icon="tabler-copy" />
-                        </IconBtn>
-                        <IconBtn
-                          :disabled="!permissions.deleteProduct"
-                          @click="showConfirmDeleteItem(product)"
-                        >
-                          <VIcon icon="tabler-trash" />
-                        </IconBtn>
+
+                        <VBtn icon variant="text" size="small" color="medium-emphasis">
+                          <VIcon size="24" icon="tabler-dots-vertical" />
+
+                          <VMenu activator="parent" max-height="265">
+                            <VList>
+                              <VListItem
+                                :disabled="!permissions.viewProducts"
+                                @click="openProductFormModal(product, 'view')"
+                              >
+                                <template #prepend>
+                                  <VIcon icon="tabler-eye" />
+                                </template>
+
+                                <VListItemTitle>عرض</VListItemTitle>
+                              </VListItem>
+                              <VListItem
+                                :disabled="!permissions.createProduct"
+                                @click="openProductFormModal(product, 'create')"
+                              >
+                                <template #prepend>
+                                  <VIcon icon="tabler-copy" />
+                                </template>
+
+                                <VListItemTitle>تكرار</VListItemTitle>
+                              </VListItem>
+                              <!-- TODO: ADD permission -->
+                              <VListItem @click="openProductPostModal(product)">
+                                <template #prepend>
+                                  <VIcon icon="tabler-send" />
+                                </template>
+
+                                <VListItemTitle>نشر</VListItemTitle>
+                              </VListItem>
+                              <VListItem
+                                :disabled="!permissions.deleteProduct"
+                                @click="showConfirmDeleteItem(product)"
+                              >
+                                <template #prepend>
+                                  <VIcon icon="tabler-trash" />
+                                </template>
+
+                                <VListItemTitle>حذف</VListItemTitle>
+                              </VListItem>
+                            </VList>
+                          </VMenu>
+                        </VBtn>
                       </div>
                     </td>
                   </tr>

@@ -65,16 +65,20 @@ class OffersService {
     )
   }
 
-  offerProductsAcceptance(id: number, data: any): AxiosPromise {
+  offerProductsAcceptance(data: any): AxiosPromise {
     return axios.put(`${this.productsPath}/acceptance`, data)
   }
 
-  offerProductsQtyAvailability(id: number, data: any): AxiosPromise {
+  offerProductsQtyAvailability(data: any): AxiosPromise {
     return axios.put(`${this.productsPath}/toggle_availability_quantity`, data)
   }
 
-  offerProductsToggleActivation(id: number, data: any): AxiosPromise {
+  offerProductsToggleActivation(data: any): AxiosPromise {
     return axios.put(`${this.productsPath}/toggle_activation`, data)
+  }
+
+  editOfferStatus(id: number, data: any): AxiosPromise {
+    return axios.put(`${this.contextPath}/${id}/update_offer_status`, data)
   }
 
   /** **************** patch ******************/

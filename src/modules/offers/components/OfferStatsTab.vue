@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
-import { OFFER_TYPES, PRODUCT_STATUSES } from '@/constants/offers'
+import { OFFER_TYPES, PRODUCT_CONDITIONS } from '@/constants/offers'
 import type { OfferStatsData } from '../interfaces/Offer'
 import { offersService } from '../services/OffersService'
 
@@ -59,7 +59,7 @@ const statsData = computed(() => {
     },
     {
       label: 'حالة المنتج',
-      value: PRODUCT_STATUSES.get(product_condition)?.label,
+      value: PRODUCT_CONDITIONS.get(product_condition)?.label,
     },
     {
       label: 'عدد مرات فتح العرض',
