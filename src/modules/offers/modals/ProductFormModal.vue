@@ -439,7 +439,7 @@ function prepareFormData(data: any) {
   data.shipping_range.branches =
     data.shipping_range.branches?.map((branch: DropdownMenuItem) => branch.id) || []
   data.product_data.unit_details.main_unit_id = data.product_data.unit_details.main_unit.id
-  data.product_data.unit_details.sub_unit_id = data.product_data.unit_details.sub_unit.id
+  data.product_data.unit_details.sub_unit_id = data.product_data.unit_details.sub_unit?.id
   data.preferences.payment_method_id = data.preferences.payment_method?.id
   data.preferences.deadline_id = data.preferences.deadline?.id
   data.category_id = data.category.id
@@ -577,6 +577,8 @@ function getFormData() {
   if (!payload.product_data.warranty_and_expiration.expire_date)
     delete payload.product_data.warranty_and_expiration.expire_date
   delete payload.shipping_segments
+  if (!payload.product_data.unit_details.sub_unit_value)
+    delete payload.product_data.unit_details.sub_unit_value
 
   return payload
 }
@@ -808,7 +810,6 @@ function submit() {
                     item-title="label"
                     item-value="id"
                     label="الوحدة الفرعية"
-                    rules="required"
                     :loading="isLoading.units"
                     :disabled="isLoading.units"
                     clearable
@@ -819,7 +820,10 @@ function submit() {
                     v-model="formData.product_data.unit_details.sub_unit_value"
                     label="قيمة الوحدة الفرعية"
                     name="sub_unit_value"
-                    rules="required|numeric"
+                    :rules="{
+                      required: !!formData.product_data.unit_details.sub_unit_id,
+                      numeric: true,
+                    }"
                     type="number"
                   />
                 </VCol>
