@@ -2,6 +2,7 @@
 import { OFFER_DATE_TYPES, OFFER_TYPES, STORES_TYPES } from '@/constants/offers'
 import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormActionType } from '@/interfaces/Forms'
+import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import type { OfferFormData, OfferProduct } from '../interfaces/Offer'
 import ProductFormModal from '../modals/ProductFormModal.vue'
@@ -25,6 +26,7 @@ const { t } = useI18n()
 const toast = useToast()
 const router = useRouter()
 const route = useRoute()
+const { hasPermission } = useAuthStore()
 const formRef = ref<any>(null)
 const showProductFormModal = ref<boolean>(false)
 const productFormAction = ref<FormActionType>('create')
@@ -63,6 +65,13 @@ const formTitle = computed(() => {
   return props.formAction === 'create' ? 'اضافة عرض' : 'تعديل عرض'
 })
 
+const permissions = computed(() => ({
+  createProduct: hasPermission('create_product'),
+  editProduct: hasPermission('update_product'),
+  deleteProduct: hasPermission('delete_product'),
+  changeProductStatus: hasPermission('change_status_product'),
+  viewProducts: hasPermission('view_products'),
+}))
 // #endregion
 
 /***************************************
@@ -267,7 +276,7 @@ function submit() {
                 <VLabel class="text-body-2 text-high-emphasis mb-1" text="المستخدم" />
                 <UsersSelectFilter
                   label=""
-                  :userRole="null"
+                  userRole="advertiser"
                   :model-value="value"
                   :error-messages="errorMessage"
                   :error="!!errorMessage"
@@ -359,7 +368,7 @@ function submit() {
                   class="py-2 d-block"
                   height="auto"
                   size="small"
-                  :disabled="!formData.user_id"
+                  :disabled="!formData.user_id || !permissions.createProduct"
                 >
                   اضافة منتج
                   <VIcon end icon="tabler-plus" />
@@ -406,16 +415,28 @@ function submit() {
                     </td>
                     <td>
                       <div class="d-flex">
-                        <IconBtn @click="openProductFormModal(product, 'view')">
+                        <IconBtn
+                          :disabled="!permissions.viewProducts"
+                          @click="openProductFormModal(product, 'view')"
+                        >
                           <VIcon icon="tabler-eye" />
                         </IconBtn>
-                        <IconBtn @click="openProductFormModal(product, 'edit')">
+                        <IconBtn
+                          :disabled="!permissions.editProduct"
+                          @click="openProductFormModal(product, 'edit')"
+                        >
                           <VIcon icon="tabler-edit" />
                         </IconBtn>
-                        <IconBtn @click="openProductFormModal(product, 'create')">
+                        <IconBtn
+                          :disabled="!permissions.createProduct"
+                          @click="openProductFormModal(product, 'create')"
+                        >
                           <VIcon icon="tabler-copy" />
                         </IconBtn>
-                        <IconBtn @click="showConfirmDeleteItem(product)">
+                        <IconBtn
+                          :disabled="!permissions.deleteProduct"
+                          @click="showConfirmDeleteItem(product)"
+                        >
                           <VIcon icon="tabler-trash" />
                         </IconBtn>
                       </div>
