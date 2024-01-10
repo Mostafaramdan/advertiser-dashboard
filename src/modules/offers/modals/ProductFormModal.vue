@@ -840,7 +840,7 @@ function submit() {
                 </VCol>
 
                 <VCol cols="12" class="py-0">
-                  <ModalAlert text="الوزن والابعاد" />
+                  <ModalAlert text="الوزن والابعاد (اختياري)" />
                 </VCol>
 
                 <VCol cols="12" md="3">
@@ -848,7 +848,7 @@ function submit() {
                     v-model="formData.product_data.dimensions.height"
                     label="الطول"
                     name="height"
-                    rules="required|numeric"
+                    rules="numeric"
                     type="number"
                   />
                 </VCol>
@@ -857,7 +857,7 @@ function submit() {
                     v-model="formData.product_data.dimensions.width"
                     label="العرض"
                     name="width"
-                    rules="required|numeric"
+                    rules="numeric"
                     type="number"
                   />
                 </VCol>
@@ -866,7 +866,7 @@ function submit() {
                     v-model="formData.product_data.dimensions.length"
                     label="الارتفاع"
                     name="length"
-                    rules="required|numeric"
+                    rules="numeric"
                     type="number"
                   />
                 </VCol>
@@ -879,7 +879,7 @@ function submit() {
                     v-model="formData.product_data.dimensions.weight"
                     label="الوزن"
                     name="weight"
-                    rules="required|numeric"
+                    rules="numeric"
                     type="number"
                   />
                 </VCol>
@@ -896,7 +896,6 @@ function submit() {
                     item-title="label"
                     item-value="id"
                     label="وحدة الوزن"
-                    rules="required"
                     clearable
                   />
                 </VCol>
