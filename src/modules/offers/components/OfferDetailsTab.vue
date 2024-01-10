@@ -100,7 +100,7 @@ function getProfileUrl(user: User) {
     <template v-if="data">
       <VExpansionPanels class="expansion-panels-width-border" :model-value="0">
         <VExpansionPanel elevation="0">
-          <VExpansionPanelTitle>بيانات التذكرة</VExpansionPanelTitle>
+          <VExpansionPanelTitle>بيانات العرض</VExpansionPanelTitle>
           <VExpansionPanelText>
             <div class="information-list">
               <VRow>
