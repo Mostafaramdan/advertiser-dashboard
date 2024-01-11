@@ -1247,21 +1247,21 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           //   checked: false,
           //   key: 'view_offer_notes',
           // },
-          {
-            label: 'إضافة ملاحظة',
-            checked: false,
-            key: 'create_offer_note',
-          },
-          {
-            label: 'تعديل ملاحظة',
-            checked: false,
-            key: 'update_offer_note',
-          },
-          {
-            label: 'حذف ملاحظة',
-            checked: false,
-            key: 'delete_offer_note',
-          },
+          // {
+          //   label: 'إضافة ملاحظة',
+          //   checked: false,
+          //   key: 'create_offer_note',
+          // },
+          // {
+          //   label: 'تعديل ملاحظة',
+          //   checked: false,
+          //   key: 'update_offer_note',
+          // },
+          // {
+          //   label: 'حذف ملاحظة',
+          //   checked: false,
+          //   key: 'delete_offer_note',
+          // },
         ],
       },
       {
