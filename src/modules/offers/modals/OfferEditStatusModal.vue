@@ -59,7 +59,7 @@ function edit() {
     .editOfferStatus(props.offer.id, formData)
     .then((res) => {
       toast.success(res.data.message)
-      emit('editItem', res.data.data)
+      emit('editItem', formData.status)
       showModal.value = false
     })
     .finally(() => {

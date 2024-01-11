@@ -4,6 +4,7 @@ import { OFFER_STATUSES } from '@/constants/offers'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useOffersStore } from '@/stores/OffersStore'
 import { useToast } from 'vue-toastification'
+import OfferEditStatusModal from '../modals/OfferEditStatusModal.vue'
 import OfferProductsAcceptanceModal from '../modals/OfferProductsAcceptanceModal.vue'
 import OfferProductsActivationModal from '../modals/OfferProductsActivationModal.vue'
 import OfferProductsQtyAvailabilityModal from '../modals/OfferProductsQtyAvailabilityModal.vue'
@@ -24,6 +25,7 @@ const showNotificationModal = ref<boolean>(false)
 const showProductsAcceptanceModal = ref<boolean>(false)
 const showProductsQtyAvailabilityModal = ref<boolean>(false)
 const showProductsActivationsModal = ref<boolean>(false)
+const showOfferEditStatusModal = ref<boolean>(false)
 const isLoading = reactive({
   data: false,
   delete: false,
@@ -42,6 +44,7 @@ const permissions = computed(() => ({
   acceptProducts: hasPermission('accept_product'),
   editProductsQty: hasPermission('toggle_product_availability_quantity'),
   changeProductsStatus: hasPermission('change_status_product'),
+  editStatus: hasPermission('update_offer_status'),
 }))
 
 const data = computed(() => offersStore.offerDetails)
@@ -73,10 +76,6 @@ function getPageData() {
     })
 }
 
-function openNotificationModal() {
-  showNotificationModal.value = true
-}
-
 function deleteItem() {
   isLoading.delete = true
   offersService
@@ -95,6 +94,11 @@ async function showConfirmModal(): Promise<void> {
   if (!confirm) return
 
   deleteItem()
+}
+
+function onEditOfferStatus(status: string) {
+  showOfferEditStatusModal.value = false
+  data.value.status = status
 }
 
 // #endregion
@@ -123,6 +127,12 @@ async function showConfirmModal(): Promise<void> {
         v-if="showProductsActivationsModal"
         v-model:showModal="showProductsActivationsModal"
         :offer-id="data.id"
+      />
+      <OfferEditStatusModal
+        :offer="data"
+        v-if="showOfferEditStatusModal"
+        v-model:showModal="showOfferEditStatusModal"
+        @edit-item="onEditOfferStatus"
       />
     </template>
     <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
@@ -198,6 +208,16 @@ async function showConfirmModal(): Promise<void> {
                             <VIcon icon="tabler-trash" />
                           </template>
                           <VListItemTitle>حذف</VListItemTitle>
+                        </VListItem>
+                        <VListItem
+                          :disabled="!permissions.editStatus"
+                          @click="showOfferEditStatusModal = true"
+                        >
+                          <template #prepend>
+                            <VIcon icon="tabler-edit" />
+                          </template>
+
+                          <VListItemTitle>تعديل الحالة</VListItemTitle>
                         </VListItem>
                         <VListItem
                           :disabled="!permissions.acceptProducts"
