@@ -1242,11 +1242,11 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             checked: false,
             key: 'view_offer_logs',
           },
-          {
-            label: 'عرض سجل الملاحظات',
-            checked: false,
-            key: 'view_offer_notes',
-          },
+          // {
+          //   label: 'عرض سجل الملاحظات',
+          //   checked: false,
+          //   key: 'view_offer_notes',
+          // },
           {
             label: 'إضافة ملاحظة',
             checked: false,
@@ -1311,6 +1311,11 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'الموافقة علي المنتج',
             checked: false,
             key: 'accept_product',
+          },
+          {
+            label: 'نشر',
+            checked: false,
+            key: 'post_product',
           },
           {
             label: 'تعديل حالة الكمية',
