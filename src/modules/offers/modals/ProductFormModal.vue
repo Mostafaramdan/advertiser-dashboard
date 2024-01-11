@@ -36,11 +36,13 @@ import ResponsibleFormModal from '../modals/ResponsibleFormModal.vue'
 interface ProductModalProps extends FormModalProps {
   storeType?: OfferStoreType
   userId?: number | null
+  offerId?: number | null
 }
 const props = withDefaults(defineProps<ProductModalProps>(), {
   showModal: false,
   storeType: null,
   userId: null,
+  offerId: null,
 })
 
 // #endregion
@@ -96,6 +98,7 @@ const isLoading = reactive({
 })
 
 const formData = reactive<ProductFormData>({
+  offer_id: props.offerId,
   user_id: props.userId,
   name: '',
   category_id: null,

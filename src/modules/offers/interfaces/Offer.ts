@@ -108,6 +108,7 @@ export type ProductPrice = {
 export type ProductPricingType = 'fixed' | 'range' | null
 
 export interface ProductFormData {
+  offer_id?: number | null
   user_id: number | null
   name: string
   category_id: number | null

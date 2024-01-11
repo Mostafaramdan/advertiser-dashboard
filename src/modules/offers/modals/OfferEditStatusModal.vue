@@ -46,11 +46,15 @@ const formData = reactive({
  **************************************/
 // #region Functions
 
-function getTicketsStatuses() {
+function getOfferStatuses() {
   return Array.from(OFFER_STATUSES, ([key, value]) => ({
     id: key,
     label: value.label,
-  })).filter((item) => item.id !== 'delayed')
+  })).filter((item) => {
+    if (item.id === 'cancelled' && !['pending', 'processing'].includes(props.offer.status))
+      return false
+    return true
+  })
 }
 
 function edit() {
@@ -91,7 +95,7 @@ function submit() {
               <VCol cols="12">
                 <AppSelect
                   v-model="formData.status"
-                  :items="getTicketsStatuses()"
+                  :items="getOfferStatuses()"
                   item-title="label"
                   item-value="id"
                   name="status"

@@ -189,7 +189,10 @@ function onEditOfferStatus(status: string) {
                 <div class="d-flex flex-wrap gap-3 w-100 mt-2">
                   <VBtn
                     variant="outlined"
-                    :disabled="!permissions.edit"
+                    :disabled="
+                      !permissions.edit ||
+                      !['pending', 'processing', 'accepted'].includes(data.status)
+                    "
                     :to="{ name: 'offer-edit-page', params: { id: data.id } }"
                   >
                     تعديل
@@ -200,7 +203,11 @@ function onEditOfferStatus(status: string) {
                     <VMenu activator="parent" max-height="265">
                       <VList>
                         <VListItem
-                          :disabled="isLoading.delete || !permissions.delete"
+                          :disabled="
+                            isLoading.delete ||
+                            !permissions.delete ||
+                            !['pending', 'processing'].includes(data.status)
+                          "
                           @click="showConfirmModal"
                           v-if="!data.is_deleted"
                         >
@@ -220,7 +227,10 @@ function onEditOfferStatus(status: string) {
                           <VListItemTitle>تعديل الحالة</VListItemTitle>
                         </VListItem>
                         <VListItem
-                          :disabled="!permissions.acceptProducts"
+                          :disabled="
+                            !permissions.acceptProducts ||
+                            !['pending', 'processing', 'accepted'].includes(data.status)
+                          "
                           @click="showProductsAcceptanceModal = true"
                         >
                           <template #prepend>
@@ -230,7 +240,9 @@ function onEditOfferStatus(status: string) {
                           <VListItemTitle>الموافقة على المنتجات</VListItemTitle>
                         </VListItem>
                         <VListItem
-                          :disabled="!permissions.editProductsQty"
+                          :disabled="
+                            !permissions.editProductsQty || !['accepted'].includes(data.status)
+                          "
                           @click="showProductsQtyAvailabilityModal = true"
                         >
                           <template #prepend>
@@ -240,7 +252,9 @@ function onEditOfferStatus(status: string) {
                           <VListItemTitle>تعديل حالة كمية المنتجات</VListItemTitle>
                         </VListItem>
                         <VListItem
-                          :disabled="!permissions.changeProductsStatus"
+                          :disabled="
+                            !permissions.changeProductsStatus || !['accepted'].includes(data.status)
+                          "
                           @click="showProductsActivationsModal = true"
                         >
                           <template #prepend>

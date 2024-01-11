@@ -14,10 +14,12 @@ const props = withDefaults(
     modelValue: OfferProduct[]
     storeType?: OfferStoreType
     userId?: number | null
+    offerId?: number | null
     showTitle?: boolean
   }>(),
   {
     showTitle: true,
+    offerId: null,
   },
 )
 
@@ -123,6 +125,7 @@ function onEditProduct(product: OfferProduct) {
       @edit-item="onEditProduct"
       :store-type="storeType"
       :user-id="userId"
+      :offer-id="offerId"
     />
     <ProductPostModal
       v-if="showProductPostModal"

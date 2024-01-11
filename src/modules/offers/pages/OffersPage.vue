@@ -329,7 +329,9 @@ function openOfferEditStatusModal(item: Offer) {
                   <VList>
                     <VListItem
                       v-if="!item.is_deleted"
-                      :disabled="!permissions.delete"
+                      :disabled="
+                        !permissions.delete || !['pending', 'processing'].includes(item.status)
+                      "
                       @click="showConfirmDeleteItem(item)"
                     >
                       <template #prepend>
@@ -339,7 +341,10 @@ function openOfferEditStatusModal(item: Offer) {
                       <VListItemTitle>حذف</VListItemTitle>
                     </VListItem>
                     <VListItem
-                      :disabled="!permissions.edit"
+                      :disabled="
+                        !permissions.edit ||
+                        !['pending', 'processing', 'accepted'].includes(item.status)
+                      "
                       :to="{ name: 'offer-edit-page', params: { id: item.id } }"
                     >
                       <template #prepend>
@@ -359,7 +364,10 @@ function openOfferEditStatusModal(item: Offer) {
                       <VListItemTitle>تعديل الحالة</VListItemTitle>
                     </VListItem>
                     <VListItem
-                      :disabled="!permissions.acceptProducts"
+                      :disabled="
+                        !permissions.acceptProducts ||
+                        !['pending', 'processing', 'accepted'].includes(item.status)
+                      "
                       @click="openProductsAcceptanceModal(item)"
                     >
                       <template #prepend>
@@ -369,7 +377,9 @@ function openOfferEditStatusModal(item: Offer) {
                       <VListItemTitle>الموافقة على المنتجات</VListItemTitle>
                     </VListItem>
                     <VListItem
-                      :disabled="!permissions.editProductsQty"
+                      :disabled="
+                        !permissions.editProductsQty || !['accepted'].includes(item.status)
+                      "
                       @click="openProductsQtyAvailabilityModal(item)"
                     >
                       <template #prepend>
@@ -379,7 +389,9 @@ function openOfferEditStatusModal(item: Offer) {
                       <VListItemTitle>تعديل حالة كمية المنتجات</VListItemTitle>
                     </VListItem>
                     <VListItem
-                      :disabled="!permissions.changeProductsStatus"
+                      :disabled="
+                        !permissions.changeProductsStatus || !['accepted'].includes(item.status)
+                      "
                       @click="openProductsActivationModal(item)"
                     >
                       <template #prepend>

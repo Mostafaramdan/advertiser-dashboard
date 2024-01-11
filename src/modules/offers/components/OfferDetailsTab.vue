@@ -98,6 +98,11 @@ function deleteProduct(productId: number) {
     })
 }
 
+function onDeleteProduct(productId: number) {
+  if (data.value.products.length > 1) deleteProduct(productId)
+  else toast.error('عفوا يجب ان يحتوي العرض على منتج واحد على الاقل')
+}
+
 // #endregion
 </script>
 
@@ -140,11 +145,12 @@ function deleteProduct(productId: number) {
         <VExpansionPanelText v-loading="isLoading.products">
           <OfferProductsTable
             v-model="data.products"
-            @delete-product="deleteProduct"
+            @delete-product="onDeleteProduct"
             v-loading="isLoading.products"
             :show-title="false"
             :store-type="data.store.type"
             :user-id="data.user.id"
+            :offer-id="data.id"
           />
         </VExpansionPanelText>
       </VExpansionPanel>
