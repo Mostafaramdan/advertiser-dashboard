@@ -328,6 +328,16 @@ function openOfferEditStatusModal(item: Offer) {
                 <VMenu activator="parent" max-height="265">
                   <VList>
                     <VListItem
+                      :disabled="!permissions.create"
+                      :to="{ name: 'offer-create-page', query: { offerId: item.id } }"
+                    >
+                      <template #prepend>
+                        <VIcon icon="tabler-copy" />
+                      </template>
+
+                      <VListItemTitle>تكرار</VListItemTitle>
+                    </VListItem>
+                    <VListItem
                       v-if="!item.is_deleted"
                       :disabled="
                         !permissions.delete || !['pending', 'processing'].includes(item.status)

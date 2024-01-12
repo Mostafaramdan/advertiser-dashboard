@@ -2,7 +2,6 @@
 import { OFFER_DATE_TYPES, OFFER_TYPES, STORES_TYPES } from '@/constants/offers'
 import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
 import type { FormActionType } from '@/interfaces/Forms'
-import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import type { OfferFormData } from '../interfaces/Offer'
 import { offersService } from '../services/OffersService'
@@ -26,9 +25,8 @@ const { t } = useI18n()
 const toast = useToast()
 const router = useRouter()
 const route = useRoute()
-const { hasPermission } = useAuthStore()
 const formRef = ref<any>(null)
-const offerId: number = +route.params.id
+const offerId: number = Number(route.params.id || route.query.offerId)
 const usersKeyword = ref('')
 const dateType = ref<any>(null)
 const afterTomorrowDate: Date = new Date(new Date().setDate(new Date().getDate() + 2))
@@ -66,7 +64,7 @@ const formTitle = computed(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
-if (props.formAction === 'edit') getOfferData()
+if (offerId) getOfferData()
 // #endregion
 
 /***************************************
