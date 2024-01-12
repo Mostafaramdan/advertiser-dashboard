@@ -66,6 +66,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const toast = useToast()
 const showModal = useVModel(props, 'showModal', emit)
+const MAX_FILE_SIZE = 10
 const showResponsibleFormModal = ref<boolean>(false)
 const showBranchesFormModal = ref<boolean>(false)
 const formRef = ref<any>(null)
@@ -681,7 +682,7 @@ function submit() {
                     label="الاسم"
                     type="text"
                     name="name"
-                    rules="required|min:1|max:500"
+                    rules="required|min:2|max:500"
                   />
                 </VCol>
                 <VCol cols="12" md="6">
@@ -735,12 +736,11 @@ function submit() {
                           width="150px"
                           height="150px"
                           rules="required"
-                          :accepted-types="[
-                            'image/jpeg',
-                            'image/png',
-                            'image/svg+xml',
-                            'image/gif',
-                          ]"
+                          :accepted-types="['image/jpeg', 'image/png', 'image/svg+xml']"
+                          :upload-tip="
+                            t('upload_tip', { formats: 'jpeg / png / svg', size: MAX_FILE_SIZE })
+                          "
+                          :max-file-size="MAX_FILE_SIZE"
                         />
                         <VBtn
                           @click="formData.attachmentsFiles.splice(index, 1)"
@@ -966,7 +966,7 @@ function submit() {
                 <VCol cols="12" md="6">
                   <AppTextField
                     v-model="formData.product_data.warranty_and_expiration.warranty_duration"
-                    label="فترة الصمان (اختياري)"
+                    label="فترة الضمان (اختياري)"
                     name="warranty_duration"
                     rules="numeric"
                     type="number"
@@ -984,7 +984,7 @@ function submit() {
                     "
                     item-title="label"
                     item-value="id"
-                    label="نوع قترة الصمان (اختياري)"
+                    label="نوع قترة الضمان (اختياري)"
                     clearable
                   />
                 </VCol>
@@ -1259,7 +1259,7 @@ function submit() {
                 </VCol>
 
                 <VCol cols="12" class="py-0">
-                  <ModalAlert text="التسعيير" />
+                  <ModalAlert text="التسعير" />
                 </VCol>
 
                 <VCol cols="12" class="pb-0">
@@ -1272,7 +1272,7 @@ function submit() {
                       }))
                     "
                     name="pricingType"
-                    label="نوع التسعيير"
+                    label="نوع التسعير"
                     rules="required"
                     option-label="label"
                     option-value="id"
@@ -1423,7 +1423,7 @@ function submit() {
                 </VCol>
 
                 <VCol cols="12" class="py-0">
-                  <ModalAlert text="بيانات الأستلام والتسلم" />
+                  <ModalAlert text="بيانات الأستلام والتسليم" />
                 </VCol>
 
                 <VCol cols="12" md="4" class="pb-0">
