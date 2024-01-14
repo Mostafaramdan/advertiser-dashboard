@@ -929,6 +929,7 @@ function submit() {
                       prepend-inner-icon="tabler-calendar"
                       :config="{
                         disableMobile: true,
+                        minDate: formAction === 'create' ? new Date() : null,
                       }"
                       @update:model-value="handleChange"
                     />
