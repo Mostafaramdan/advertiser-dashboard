@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/AuthStore'
-import OfferBasicData from '../components/OfferBasicData.vue'
+import { useAuthStore } from '@/stores/AuthStore';
+import OfferBasicData from '../components/OfferBasicData.vue';
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
@@ -40,12 +40,6 @@ const tabs = computed(() => {
       value: 'logs',
       component: OfferLogsTab,
       show: hasPermission('view_offer_logs'),
-    },
-    {
-      title: 'سجل الملاحظات',
-      value: 'notes',
-      component: OfferNotesTab,
-      show: hasPermission('view_offer_notes'),
     },
     {
       title: 'الاحصائيات',

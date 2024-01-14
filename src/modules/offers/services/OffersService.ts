@@ -1,6 +1,5 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { OfferNoteModalPayload } from '../interfaces/Offer'
 
 class OffersService {
   contextPath = 'offers'
@@ -18,10 +17,6 @@ class OffersService {
 
   getOfferLogs(id: number, params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/${id}/logs`, { params })
-  }
-
-  getOfferNotes(id: number, params: any): AxiosPromise {
-    return axios.get(`${this.contextPath}/${id}/offer_notes`, { params })
   }
 
   getStatistics(id: number): AxiosPromise {
@@ -49,20 +44,9 @@ class OffersService {
     return axios.post(`${this.contextPath}`, data)
   }
 
-  createOfferNote(payload: OfferNoteModalPayload): AxiosPromise {
-    return axios.post(`${this.contextPath}/${payload.offerId}/offer_notes`, payload.data)
-  }
-
   /** **************** put ******************/
   editItem(data: any): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
-  }
-
-  editOfferNote(payload: any): AxiosPromise {
-    return axios.put(
-      `${this.contextPath}/${payload.offerId}/offer_notes/${payload.data.id}`,
-      payload.data,
-    )
   }
 
   offerProductsAcceptance(data: any): AxiosPromise {
@@ -89,10 +73,6 @@ class OffersService {
   /** **************** delete ******************/
   deleteItem(id: number): AxiosPromise {
     return axios.delete(`${this.contextPath}/${id}`)
-  }
-
-  deleteOfferNote({ offerId, noteId }: { offerId: number; noteId: number }): AxiosPromise {
-    return axios.delete(`${this.contextPath}/${offerId}/offer_notes/${noteId}`)
   }
 }
 

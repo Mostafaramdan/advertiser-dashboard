@@ -194,7 +194,7 @@ interface OfferReminderRequest {
 export interface OfferStartReminder extends OfferReminderRequest {}
 export interface OfferQtyAvailabilityReminder extends OfferReminderRequest {}
 
-export interface OfferNotesItem {
+export interface ProductNotesItem {
   id: number
   created_at: string
   note: string
@@ -211,11 +211,11 @@ export interface OfferNoteUpdateData {
 }
 
 export interface OfferNoteModalProps extends FormModalProps {
-  offerId: number
+  productId: number
 }
 
 export interface OfferNoteModalPayload {
-  offerId: number
+  productId: number
   data: OfferNoteCreteData | OfferNoteUpdateData
 }
 

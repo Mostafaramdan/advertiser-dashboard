@@ -8,7 +8,7 @@ import type {
   OfferNoteModalProps,
   OfferNoteUpdateData,
 } from '../interfaces/Offer'
-import { offersService } from '../services/OffersService'
+import { productsService } from '../services/ProductsService'
 
 /***************************************
  **** Section Props Declaration  ******
@@ -75,8 +75,8 @@ if (props.activeItem) Object.assign(formData, cloneItem(props.activeItem))
  **************************************/
 // #region Functions
 function edit(payload: OfferNoteModalPayload) {
-  offersService
-    .editOfferNote(payload)
+  productsService
+    .editNote(payload)
     .then((res) => {
       toast.success(res.data.message)
       emit('editItem', formData as OfferNoteUpdateData)
@@ -88,8 +88,8 @@ function edit(payload: OfferNoteModalPayload) {
 }
 
 function create(payload: OfferNoteModalPayload) {
-  offersService
-    .createOfferNote(payload)
+  productsService
+    .createNote(payload)
     .then((res) => {
       toast.success(res.data.message)
       emit('createItem', res.data)
@@ -106,7 +106,7 @@ function submit() {
 
     isLoading.value = true
     const payload: OfferNoteModalPayload = {
-      offerId: props.offerId,
+      productId: props.productId,
       data: formData,
     }
     props.formAction === 'create' ? create(payload) : edit(payload)
@@ -130,7 +130,7 @@ function submit() {
                 <AppTextarea
                   v-model="formData.note"
                   name="note"
-                  label="نص الملاحظة"
+                  label="الوصف"
                   rows="4"
                   rules="required|min:10|max:250"
                 />

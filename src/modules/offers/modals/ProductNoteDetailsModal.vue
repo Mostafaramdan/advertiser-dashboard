@@ -55,7 +55,7 @@ const { formatDateTime } = UseGeneralHelpers()
     <!-- Dialog Content -->
     <VCard>
       <div>
-        <VCard v-if="activeItem" title="عرض ملاحظة">
+        <VCard v-if="activeItem" title="عرض توصية">
           <VCardText>
             <VList :lines="false">
               <VListItem class="px-2 py-2" title="اسم المسؤول" border>

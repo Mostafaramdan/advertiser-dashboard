@@ -4,6 +4,7 @@ import type { FormActionType } from '@/interfaces/Forms'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { OfferProduct, OfferStoreType } from '../interfaces/Offer'
 import ProductFormModal from '../modals/ProductFormModal.vue'
+import ProductNotesModal from '../modals/ProductNotesModal.vue'
 import ProductPostModal from '../modals/ProductPostModal.vue'
 /***************************************
  **** Section Props Declaration  ******
@@ -46,6 +47,7 @@ const confirmModal = ref<any>()
 const activeProduct = ref<any>(null)
 const showProductPostModal = ref<boolean>(false)
 const showProductFormModal = ref<boolean>(false)
+const showProductNotesModal = ref<boolean>(false)
 const productFormAction = ref<FormActionType>('create')
 // #endregion
 
@@ -69,6 +71,7 @@ const permissions = computed(() => ({
   changeProductStatus: hasPermission('change_status_product'),
   viewProducts: hasPermission('view_products'),
   postProduct: hasPermission('post_product'),
+  viewNotes: hasPermission('view_product_notes'),
 }))
 // #endregion
 
@@ -94,6 +97,11 @@ function openProductFormModal(
 function openProductPostModal(product: OfferProduct) {
   activeProduct.value = product
   showProductPostModal.value = true
+}
+
+function openProductNotesModal(product: OfferProduct) {
+  activeProduct.value = product
+  showProductNotesModal.value = true
 }
 
 function onPostProduct(productId: number) {
@@ -132,6 +140,11 @@ function onEditProduct(product: OfferProduct) {
       v-model:showModal="showProductPostModal"
       :product="activeProduct"
       @postProduct="onPostProduct"
+    />
+    <ProductNotesModal
+      :product-id="activeProduct?.id"
+      v-if="showProductNotesModal && activeProduct"
+      v-model:showModal="showProductNotesModal"
     />
 
     <div class="d-flex gap-3 flex-wrap align-center mb-3">
@@ -234,6 +247,16 @@ function onEditProduct(product: OfferProduct) {
                       </template>
 
                       <VListItemTitle>نشر</VListItemTitle>
+                    </VListItem>
+                    <VListItem
+                      :disabled="!permissions.viewNotes"
+                      @click="openProductNotesModal(product)"
+                    >
+                      <template #prepend>
+                        <VIcon icon="tabler-notes" />
+                      </template>
+
+                      <VListItemTitle>التوصيات</VListItemTitle>
                     </VListItem>
                     <VListItem
                       :disabled="!permissions.deleteProduct"

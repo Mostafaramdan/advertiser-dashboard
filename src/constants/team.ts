@@ -1242,26 +1242,6 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             checked: false,
             key: 'view_offer_logs',
           },
-          // {
-          //   label: 'عرض سجل الملاحظات',
-          //   checked: false,
-          //   key: 'view_offer_notes',
-          // },
-          // {
-          //   label: 'إضافة ملاحظة',
-          //   checked: false,
-          //   key: 'create_offer_note',
-          // },
-          // {
-          //   label: 'تعديل ملاحظة',
-          //   checked: false,
-          //   key: 'update_offer_note',
-          // },
-          // {
-          //   label: 'حذف ملاحظة',
-          //   checked: false,
-          //   key: 'delete_offer_note',
-          // },
         ],
       },
       {
@@ -1321,6 +1301,31 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'تعديل حالة الكمية',
             checked: false,
             key: 'toggle_product_availability_quantity',
+          },
+          {
+            label: 'عرض سجل التوصيات',
+            checked: false,
+            key: 'view_product_notes',
+          },
+          {
+            label: 'عرض جميع التوصيات',
+            checked: false,
+            key: 'view_all_product_notes',
+          },
+          {
+            label: 'إضافة توصية',
+            checked: false,
+            key: 'create_product_note',
+          },
+          {
+            label: 'تعديل توصية',
+            checked: false,
+            key: 'update_product_note',
+          },
+          {
+            label: 'حذف توصية',
+            checked: false,
+            key: 'delete_product_note',
           },
         ],
       },
