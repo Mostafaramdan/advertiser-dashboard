@@ -145,24 +145,12 @@ function getData() {
                   rounded="0"
                   divided
                   mandatory
+                  :disabled="!product.can_accept_or_reject"
                 >
-                  <VBtn
-                    :disabled="!product.can_accept"
-                    size="small"
-                    height="auto"
-                    class="py-2"
-                    rounded="0"
-                    :value="true"
+                  <VBtn size="small" height="auto" class="py-2" rounded="0" :value="true"
                     >قبول
                   </VBtn>
-                  <VBtn
-                    :disabled="!product.can_reject"
-                    size="small"
-                    height="auto"
-                    class="py-2"
-                    rounded="0"
-                    :value="false"
-                  >
+                  <VBtn size="small" height="auto" class="py-2" rounded="0" :value="false">
                     رفض</VBtn
                   >
                 </VBtnToggle>

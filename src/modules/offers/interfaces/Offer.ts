@@ -73,8 +73,10 @@ export type OfferProduct = {
   status: string
   is_active: boolean
   accepted?: boolean
-  can_accept?: boolean
-  can_reject?: boolean
+  can_accept_or_reject?: boolean
+  can_change_status?: boolean
+  can_change_quantity_status?: boolean
+  can_edit?: boolean
   show_available_quantity?: boolean
 }
 export interface OfferFormData {
@@ -162,6 +164,7 @@ export interface ProductFormData {
   pricing: {
     fixed: FixedPrice
     prices: ProductPrice[]
+    pricing_type: ProductPricingType
   }
   shipping_range: {
     countries: number[]

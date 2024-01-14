@@ -17,12 +17,7 @@ import { useVModel } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import ModalAlert from '../components/ModalAlert.vue'
 import type { Branch } from '../interfaces/Branch'
-import type {
-  OfferStoreType,
-  ProductFormData,
-  ProductPrice,
-  ProductPricingType,
-} from '../interfaces/Offer'
+import type { OfferStoreType, ProductFormData, ProductPrice } from '../interfaces/Offer'
 import { OfferDeadline } from '../interfaces/OfferDeadline'
 import { OfferPaymentMethod } from '../interfaces/OfferPaymentMethod'
 import type { Responsible } from '../interfaces/Responsible'
@@ -83,7 +78,6 @@ const usersKeyword = ref('')
 const selectedProduct = ref(null)
 const selectedResponsible = ref<null | Responsible>(null)
 const selectedPrice = ref<null | ProductPrice>(null)
-const pricingType = ref<ProductPricingType>(null)
 const isLoading = reactive({
   data: false,
   submit: false,
@@ -159,6 +153,7 @@ const formData = reactive<ProductFormData>({
       maximum_quantity: null,
     },
     prices: [],
+    pricing_type: null,
   },
   shipping_range: {
     countries: [],
@@ -448,11 +443,6 @@ function prepareFormData(data: any) {
   data.preferences.deadline_id = data.preferences.deadline?.id
   data.category_id = data.category.id
   data.attachmentsFiles = data.attachments.map((attachment: File) => attachment)
-  if (data.pricing.fixed) pricingType.value = 'fixed'
-  else {
-    pricingType.value = 'range'
-    data.pricing.fixed = {}
-  }
   // data.user_id = data.user.id
   // usersKeyword.value = data.user.username
 
@@ -576,7 +566,7 @@ function getFormData() {
   const payload = cloneItem(formData)
   payload.attachments = payload.attachmentsFiles.map((attachment: File) => attachment.id)
   delete payload.attachmentsFiles
-  if (pricingType.value === 'fixed') delete payload.pricing.prices
+  if (payload.pricing.pricing_type === 'fixed') delete payload.pricing.prices
   else delete payload.pricing.fixed
   if (!payload.product_data.warranty_and_expiration.expire_date)
     delete payload.product_data.warranty_and_expiration.expire_date
@@ -1265,14 +1255,14 @@ function submit() {
 
                 <VCol cols="12" class="pb-0">
                   <AppRadio
-                    v-model="pricingType"
+                    v-model="formData.pricing.pricing_type"
                     :options="
                       Array.from(PRODUCT_PRICING_TYPES, ([key, value]) => ({
                         id: key,
                         label: value.label,
                       }))
                     "
-                    name="pricingType"
+                    name="pricing_type"
                     label="نوع التسعير"
                     rules="required"
                     option-label="label"
@@ -1280,7 +1270,7 @@ function submit() {
                     inline
                   />
                 </VCol>
-                <template v-if="pricingType === 'fixed'">
+                <template v-if="formData.pricing.pricing_type === 'fixed'">
                   <VCol cols="12" md="6">
                     <AppTextField
                       v-model="formData.pricing.fixed.main_price"
@@ -1326,7 +1316,7 @@ function submit() {
                     />
                   </VCol>
                 </template>
-                <VCol cols="12" v-else-if="pricingType === 'range'">
+                <VCol cols="12" v-else-if="formData.pricing.pricing_type === 'range'">
                   <VLabel class="text-body-2 text-high-emphasis mb-1" text="تسعير شرائح البيع" />
                   <VRow
                     v-for="(price, index) in formData.pricing.prices"

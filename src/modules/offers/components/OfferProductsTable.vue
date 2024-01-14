@@ -207,7 +207,7 @@ function onEditProduct(product: OfferProduct) {
           <td>
             <div class="d-flex">
               <IconBtn
-                :disabled="!permissions.editProduct"
+                :disabled="!permissions.editProduct || !product.can_edit"
                 @click="openProductFormModal(product, 'edit')"
               >
                 <VIcon icon="tabler-edit" />

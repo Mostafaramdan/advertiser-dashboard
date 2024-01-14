@@ -130,7 +130,11 @@ function getData() {
               </VCol>
               <VCol cols="12" sm="4" class="py-1">
                 <div class="d-flex justify-sm-end px-2">
-                  <VSwitch v-model="product.is_active" :inset="false" />
+                  <VSwitch
+                    v-model="product.is_active"
+                    :inset="false"
+                    :disabled="!product.can_change_status"
+                  />
                 </div>
               </VCol>
             </VRow>
