@@ -443,6 +443,7 @@ function prepareFormData(data: any) {
   data.preferences.deadline_id = data.preferences.deadline?.id
   data.category_id = data.category.id
   data.attachmentsFiles = data.attachments.map((attachment: File) => attachment)
+  data.pricing.fixed = data.pricing.fixed || {}
   // data.user_id = data.user.id
   // usersKeyword.value = data.user.username
 
@@ -566,8 +567,6 @@ function getFormData() {
   const payload = cloneItem(formData)
   payload.attachments = payload.attachmentsFiles.map((attachment: File) => attachment.id)
   delete payload.attachmentsFiles
-  if (payload.pricing.pricing_type === 'fixed') delete payload.pricing.prices
-  else delete payload.pricing.fixed
   if (!payload.product_data.warranty_and_expiration.expire_date)
     delete payload.product_data.warranty_and_expiration.expire_date
   delete payload.shipping_segments
@@ -1316,7 +1315,7 @@ function submit() {
                     />
                   </VCol>
                 </template>
-                <VCol cols="12" v-else-if="formData.pricing.pricing_type === 'range'">
+                <VCol cols="12" v-else-if="formData.pricing.pricing_type === 'segments'">
                   <VLabel class="text-body-2 text-high-emphasis mb-1" text="تسعير شرائح البيع" />
                   <VRow
                     v-for="(price, index) in formData.pricing.prices"

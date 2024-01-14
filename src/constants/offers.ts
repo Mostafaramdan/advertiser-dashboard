@@ -40,7 +40,7 @@ export const PRODUCT_WARRANTY_DURATION_TYPES = new Map([
 
 export const PRODUCT_PRICING_TYPES = new Map([
   ['fixed', { label: 'ثابت' }],
-  ['range', { label: 'حسب الكمية' }],
+  ['segments', { label: 'حسب الكمية' }],
 ])
 
 export const STORES_TYPES = new Map([
