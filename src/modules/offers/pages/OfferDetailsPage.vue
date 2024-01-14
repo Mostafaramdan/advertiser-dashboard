@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/AuthStore';
-import OfferBasicData from '../components/OfferBasicData.vue';
+import { useAuthStore } from '@/stores/AuthStore'
+import OfferBasicData from '../components/OfferBasicData.vue'
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
 const OfferDetailsTab = defineAsyncComponent(() => import('../components/OfferDetailsTab.vue'))
 const OfferLogsTab = defineAsyncComponent(() => import('../components/OfferLogsTab.vue'))
-const OfferNotesTab = defineAsyncComponent(() => import('../components/OfferNotesTab.vue'))
 const OfferStatsTab = defineAsyncComponent(() => import('../components/OfferStatsTab.vue'))
 const OfferStartRemindersTab = defineAsyncComponent(
   () => import('../components/OfferStartRemindersTab.vue'),
