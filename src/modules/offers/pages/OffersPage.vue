@@ -100,6 +100,7 @@ const permissions = computed(() => ({
   editProductsQty: hasPermission('toggle_product_availability_quantity'),
   changeProductsStatus: hasPermission('change_status_product'),
   editStatus: hasPermission('update_offer_status'),
+  viewEditPermissions: hasPermission('view_offer_permissions'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -400,6 +401,13 @@ function openOfferEditStatusModal(item: Offer) {
                       </template>
 
                       <VListItemTitle>تعديل الحالة</VListItemTitle>
+                    </VListItem>
+                    <VListItem :disabled="!permissions.viewEditPermissions">
+                      <template #prepend>
+                        <VIcon icon="tabler-circle-key" />
+                      </template>
+
+                      <VListItemTitle>صلاحيات التعديل</VListItemTitle>
                     </VListItem>
                     <VListItem
                       :disabled="

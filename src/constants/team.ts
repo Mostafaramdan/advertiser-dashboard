@@ -1218,6 +1218,16 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             key: 'update_offer_status',
           },
           {
+            label: 'عرض صلاحيات التعديل',
+            checked: false,
+            key: 'view_offer_permissions',
+          },
+          {
+            label: 'تعديل صلاحيات التعديل',
+            checked: false,
+            key: 'update_offer_permissions',
+          },
+          {
             label: 'إعادة نشر',
             checked: false,
             key: 'repost_offer',
