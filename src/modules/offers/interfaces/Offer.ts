@@ -9,6 +9,8 @@ export interface User {
   email: string
   phone: string
   image_path: string
+  rate?: number
+  area_name?: string
 }
 
 type OfferType = 'in_platform' | 'out_platform'
@@ -24,7 +26,9 @@ export interface Offer {
   to_date: string
   user: User
   is_deleted: boolean
-  publish_status: boolean
+  products_count: number
+  accepted_products_count: number
+  rejected_products_count: number
 }
 
 export interface OfferDetailsBase {

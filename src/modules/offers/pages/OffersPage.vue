@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
-import { USERS_ROLES } from '@/constants/index'
 import { OFFER_STATUSES, OFFER_TYPES } from '@/constants/offers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
@@ -55,7 +54,7 @@ const {
 
 const headers: any = [
   {
-    title: 'الصورة/الحالة',
+    title: 'الحالة/رقم العرض',
     key: 'image_path',
   },
   {
@@ -67,8 +66,12 @@ const headers: any = [
     key: 'from_date',
   },
   {
-    title: 'النوع',
+    title: 'نوع العرض/عدد المنتجات',
     key: 'offer_type',
+  },
+  {
+    title: 'المنتجات المقبولة/المنتجات المرفوضة',
+    key: 'accepted_products_count',
   },
   {
     title: 'الحالة',
@@ -266,12 +269,18 @@ function openOfferEditStatusModal(item: Offer) {
                   <VImg v-if="item.image_path" :src="item.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
-                <VChip v-if="item.is_deleted" class="px-0 mt-1" color="error" label size="x-small">
-                  محذوف
+                <VChip
+                  class="px-1 mt-1"
+                  :color="item.is_deleted ? 'error' : 'success'"
+                  label
+                  size="x-small"
+                >
+                  {{ item.is_deleted ? 'محذوف' : 'متواجد' }}
                 </VChip>
               </div>
-              <div style="min-inline-size: 150px">
+              <div style="min-inline-size: 140px">
                 {{ OFFER_STATUSES.get(item.status)?.label }}
+                <span class="text-sm text-disabled d-block"> {{ item.id ?? '-' }}</span>
               </div>
             </div>
           </template>
@@ -285,10 +294,22 @@ function openOfferEditStatusModal(item: Offer) {
                 params: { id: item.user.id },
                 query: { tab: 'details' },
               }"
-              style="min-inline-size: 205px"
+              class="d-flex align-center"
             >
-              <span>{{ item.user.account_name }}</span>
-              <span class="text-sm text-disabled d-block">{{ USERS_ROLES[item.user.role] }}</span>
+              <div class="d-flex flex-column align-center me-3 py-1">
+                <VAvatar size="38" variant="tonal" cover>
+                  <VImg v-if="item.user.image_path" :src="item.user.image_path" cover />
+                  <span v-else>!</span>
+                </VAvatar>
+                <span class="d-flex align-center justify-center text-sm mt-1">
+                  <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
+                  {{ item.user.rate ?? '-' }}
+                </span>
+              </div>
+              <div style="min-inline-size: 140px">
+                <span>{{ item.user.account_name }}</span>
+                <span class="text-sm text-disabled d-block"> {{ item.user.area_name ?? '-' }}</span>
+              </div>
             </router-link>
           </template>
           <template #item.from_date="{ item }">
@@ -298,8 +319,15 @@ function openOfferEditStatusModal(item: Offer) {
             </div>
           </template>
           <template #item.offer_type="{ item }">
-            <div style="min-inline-size: 120px">
+            <div style="min-inline-size: 100px">
               <span>{{ OFFER_TYPES.get(item.offer_type)?.label }}</span>
+              <span class="text-sm text-disabled d-block"> {{ item.products_count }}</span>
+            </div>
+          </template>
+          <template #item.accepted_products_count="{ item }">
+            <div style="min-inline-size: 110px">
+              {{ item.accepted_products_count }}
+              <span class="text-sm text-disabled d-block"> {{ item.rejected_products_count }}</span>
             </div>
           </template>
           <template #item.is_active="{ item }">
@@ -439,6 +467,13 @@ function openOfferEditStatusModal(item: Offer) {
 </template>
 
 <style lang="scss" scoped>
+:deep(.v-data-table .v-table__wrapper) {
+  > table td,
+  > table th {
+    padding-inline: 8px;
+  }
+}
+
 :deep(.v-data-table .v-table__wrapper > table td) {
   max-inline-size: 250px;
   word-wrap: break-word;
