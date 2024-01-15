@@ -521,6 +521,21 @@ function onCreateBranch(branch: Branch) {
   formRef.value.validateField('branches')
 }
 
+function openAttachmentsModal() {
+  const galleryFirstItem: HTMLImageElement | null = document.querySelector('.attachment-thumbnail')
+  galleryFirstItem?.click()
+}
+
+function addNewAttachment() {
+  formData.attachmentsFiles.push(null as any)
+  nextTick(() => {
+    document.getElementById(`attachment-${formData.attachmentsFiles.length - 1}`)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    })
+  })
+}
+
 function edit(payload: ProductFormData) {
   productsService
     .editItem(payload)
@@ -594,6 +609,7 @@ function submit() {
 
 <template>
   <div>
+    <AppGalleryModal :attachments="formData.attachmentsFiles" />
     <ResponsibleFormModal
       v-if="showResponsibleFormModal && formData?.user_id"
       :user-id="formData.user_id"
@@ -708,7 +724,7 @@ function submit() {
                 </VCol>
                 <VCol cols="12">
                   <VLabel class="text-body-2 text-high-emphasis mb-1" text="صور المنتج" />
-                  <div class="d-flex flex-wrap gap-4 mb-3">
+                  <div class="d-flex overflow-x-auto overflow-y-hidden gap-4 mb-3 pe-2">
                     <template v-if="formData.attachmentsFiles.length">
                       <div
                         v-for="(attachment, index) in formData.attachmentsFiles"
@@ -717,6 +733,7 @@ function submit() {
                         @dragstart="dragStart($event, index)"
                         @dragover="dragOver"
                         @drop="drop($event, index)"
+                        :id="`attachment-${index}`"
                       >
                         <AppUploadFile
                           v-model="formData.attachmentsFiles[index]"
@@ -725,11 +742,21 @@ function submit() {
                           width="150px"
                           height="150px"
                           rules="required"
-                          :accepted-types="['image/jpeg', 'image/png', 'image/svg+xml']"
+                          :accepted-types="[
+                            'image/jpeg',
+                            'image/png',
+                            'image/svg+xml',
+                            'video/mp4',
+                            'video/webm',
+                          ]"
                           :upload-tip="
-                            t('upload_tip', { formats: 'jpeg / png / svg', size: MAX_FILE_SIZE })
+                            t('upload_tip', {
+                              formats: 'jpeg / png / svg / mp4 / webm',
+                              size: MAX_FILE_SIZE,
+                            })
                           "
                           :max-file-size="MAX_FILE_SIZE"
+                          @clicked="openAttachmentsModal"
                         />
                         <VBtn
                           @click="formData.attachmentsFiles.splice(index, 1)"
@@ -758,7 +785,7 @@ function submit() {
                   />
                   <VBtn
                     variant="outlined"
-                    @click="formData.attachmentsFiles.push(null as any)"
+                    @click="addNewAttachment"
                     class="py-2 mt-3 d-block"
                     height="auto"
                     size="small"
@@ -1591,5 +1618,10 @@ function submit() {
 <style lang="scss">
 .payment-method-select .v-list-item-title {
   white-space: normal;
+}
+
+.lg-container.lg-show {
+  position: relative;
+  z-index: 9999;
 }
 </style>

@@ -47,6 +47,7 @@ export interface File {
   info?: string
   created_at: string
   updated_at: string
+  is_vimeo?: boolean
 }
 
 // page tab nav item

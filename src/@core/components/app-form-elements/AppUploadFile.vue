@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<FormFileProps>(), {
  **** Section Emits Declaration ********
  **************************************/
 // #region Emits
-const emit = defineEmits<{ (e: 'update:modelValue', value: any): void }>()
+const emit = defineEmits<{ (e: 'update:modelValue', value: any): void; (e: 'clicked'): void }>()
 
 // #endregion
 
@@ -200,8 +200,17 @@ function cancelUpload() {
     <VLabel v-if="label && !hideLabel" class="mb-1 text-body-2 text-high-emphasis" :text="label" />
     <div class="upload-container" :style="{ width, height }">
       <div v-if="fileInfo" class="preview-box">
-        <img v-if="fileInfo.type === FILES_TYPES.image" :src="fileInfo.path" />
-        <video v-else-if="fileInfo.type === FILES_TYPES.video" :src="fileInfo.path" controls />
+        <img
+          @click="emit('clicked')"
+          v-if="fileInfo.type === FILES_TYPES.image"
+          :src="fileInfo.path"
+        />
+        <video
+          @click="emit('clicked')"
+          v-else-if="fileInfo.type === FILES_TYPES.video"
+          :src="fileInfo.path"
+          controls
+        />
         <a
           v-else
           :href="fileInfo.path"
