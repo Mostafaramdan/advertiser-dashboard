@@ -6,6 +6,7 @@ import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import type { Offer, User } from '../interfaces/Offer'
+import OfferEditPermissionsModal from '../modals/OfferEditPermissionsModal.vue'
 import OfferEditStatusModal from '../modals/OfferEditStatusModal.vue'
 import OfferProductsAcceptanceModal from '../modals/OfferProductsAcceptanceModal.vue'
 import OfferProductsActivationModal from '../modals/OfferProductsActivationModal.vue'
@@ -28,6 +29,7 @@ const showProductsAcceptanceModal = ref<boolean>(false)
 const showProductsQtyAvailabilityModal = ref<boolean>(false)
 const showProductsActivationsModal = ref<boolean>(false)
 const showOfferEditStatusModal = ref<boolean>(false)
+const showOfferEditPermissionsModal = ref<boolean>(false)
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
 const activeUser = ref<User | null>(null)
@@ -198,6 +200,11 @@ function openOfferEditStatusModal(item: Offer) {
   activeItem.value = item
   showOfferEditStatusModal.value = true
 }
+
+function openOfferEditPermissionsModal(item: Offer) {
+  activeItem.value = item
+  showOfferEditPermissionsModal.value = true
+}
 // #endregion
 </script>
 
@@ -236,6 +243,11 @@ function openOfferEditStatusModal(item: Offer) {
       v-if="activeItem && showOfferEditStatusModal"
       v-model:showModal="showOfferEditStatusModal"
       @edit-item="getPageData"
+    />
+    <OfferEditPermissionsModal
+      :offer-id="activeItem.id"
+      v-if="activeItem && showOfferEditPermissionsModal"
+      v-model:showModal="showOfferEditPermissionsModal"
     />
     <VCard title="العروض" class="page-card">
       <VCardText>
@@ -402,7 +414,10 @@ function openOfferEditStatusModal(item: Offer) {
 
                       <VListItemTitle>تعديل الحالة</VListItemTitle>
                     </VListItem>
-                    <VListItem :disabled="!permissions.viewEditPermissions">
+                    <VListItem
+                      :disabled="!permissions.viewEditPermissions"
+                      @click="openOfferEditPermissionsModal(item)"
+                    >
                       <template #prepend>
                         <VIcon icon="tabler-circle-key" />
                       </template>

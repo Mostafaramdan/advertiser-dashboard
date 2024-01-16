@@ -3,6 +3,7 @@ import { PRODUCT_STATUSES } from '@/constants/offers'
 import type { FormActionType } from '@/interfaces/Forms'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { OfferProduct, OfferStoreType } from '../interfaces/Offer'
+import ProductEditPermissionsModal from '../modals/ProductEditPermissionsModal.vue'
 import ProductFormModal from '../modals/ProductFormModal.vue'
 import ProductNotesModal from '../modals/ProductNotesModal.vue'
 import ProductPostModal from '../modals/ProductPostModal.vue'
@@ -48,6 +49,7 @@ const activeProduct = ref<any>(null)
 const showProductPostModal = ref<boolean>(false)
 const showProductFormModal = ref<boolean>(false)
 const showProductNotesModal = ref<boolean>(false)
+const showProductEditPermissionsModal = ref<boolean>(false)
 const productFormAction = ref<FormActionType>('create')
 // #endregion
 
@@ -72,6 +74,7 @@ const permissions = computed(() => ({
   viewProducts: hasPermission('view_products'),
   postProduct: hasPermission('post_product'),
   viewNotes: hasPermission('view_product_notes'),
+  viewEditPermissions: hasPermission('view_product_permissions'),
 }))
 // #endregion
 
@@ -102,6 +105,11 @@ function openProductPostModal(product: OfferProduct) {
 function openProductNotesModal(product: OfferProduct) {
   activeProduct.value = product
   showProductNotesModal.value = true
+}
+
+function openProductPermissionsModal(product: OfferProduct) {
+  activeProduct.value = product
+  showProductEditPermissionsModal.value = true
 }
 
 function onPostProduct(productId: number) {
@@ -145,6 +153,11 @@ function onEditProduct(product: OfferProduct) {
       :product-id="activeProduct?.id"
       v-if="showProductNotesModal && activeProduct"
       v-model:showModal="showProductNotesModal"
+    />
+    <ProductEditPermissionsModal
+      :product-id="activeProduct?.id"
+      v-if="showProductEditPermissionsModal && activeProduct"
+      v-model:showModal="showProductEditPermissionsModal"
     />
 
     <div class="d-flex gap-3 flex-wrap align-center mb-3">
@@ -257,6 +270,16 @@ function onEditProduct(product: OfferProduct) {
                       </template>
 
                       <VListItemTitle>التوصيات</VListItemTitle>
+                    </VListItem>
+                    <VListItem
+                      :disabled="!permissions.viewEditPermissions"
+                      @click="openProductPermissionsModal(product)"
+                    >
+                      <template #prepend>
+                        <VIcon icon="tabler-circle-key" />
+                      </template>
+
+                      <VListItemTitle>صلاحيات التعديل</VListItemTitle>
                     </VListItem>
                     <VListItem
                       :disabled="!permissions.deleteProduct"

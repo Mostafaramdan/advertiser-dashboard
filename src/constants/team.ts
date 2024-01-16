@@ -1337,6 +1337,16 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             checked: false,
             key: 'delete_product_note',
           },
+          {
+            label: 'عرض صلاحيات التعديل',
+            checked: false,
+            key: 'view_product_permissions',
+          },
+          {
+            label: 'تعديل صلاحيات التعديل',
+            checked: false,
+            key: 'update_product_permissions',
+          },
         ],
       },
     ],

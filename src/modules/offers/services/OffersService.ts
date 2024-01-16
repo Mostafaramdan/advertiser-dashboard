@@ -23,6 +23,10 @@ class OffersService {
     return axios.get(`${this.contextPath}/${id}/statistics`)
   }
 
+  getPermissions(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/permissions`)
+  }
+
   getOfferStartReminders(id: number, params: any): AxiosPromise {
     return axios.get(`${this.contextPath}/${id}/start_reminder_requests`, { params })
   }
@@ -63,6 +67,10 @@ class OffersService {
 
   editOfferStatus(id: number, data: any): AxiosPromise {
     return axios.put(`${this.contextPath}/${id}/update_offer_status`, data)
+  }
+
+  updatePermissions(id: number, data: any): AxiosPromise {
+    return axios.put(`${this.contextPath}/${id}/permissions`, data)
   }
 
   /** **************** patch ******************/

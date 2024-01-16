@@ -185,5 +185,33 @@
     "apple_pay": "Apple Pay",
     "stc_pay": "STC Pay"
   },
-  "filter_results": "تصفية النتائج"
+  "filter_results": "تصفية النتائج",
+  "offers": {
+    "permissions": {
+      "store_type": "تعديل نوع المتجر الخارجي",
+      "main_data": "تعديل البيانات الأساسية",
+      "offer_date": "تعديل التاريخ"
+    }
+  },
+  "products": {
+    "permissions": {
+      "toggle_show_quantity": "تعديل إظهار الكمية المتوفرة",
+      "main_data": "تعديل البيانات الأساسية",
+      "attachments_and_image": "تعديل الصور",
+      "shipping_range": "تعديل بيانات الشحن",
+      "description": "تعديل الوصف",
+      "product_data": "تعديل بيانات المنتج",
+      "expire_date": "تعديل تاريخ الصلاحية ",
+      "increase_available_quantity": "تعديل الكمية المتوفرة",
+      "decrease_prices": "تعديل الأسعار",
+      "quantity_limits": "تعديل كميات العميل",
+      "responsible": "تعديل بيانات المسؤل",
+      "qr": "تعديل قراء الباركود",
+      "print_invoices": "تعديل طباعة الفواتير",
+      "share_invoice": "مشاركة الفواتير خارج التطبيق",
+      "create_invoice_and_add_client": "خدمة إنشاء فواتير وإضافة عميل",
+      "multiple_product_instant_invoices": "تعدد المتجات في الفاتورة الفورية",
+      "connect_with_accounting_service": "ربط ببرنامج محاسبي API"
+    }
+  }
 }

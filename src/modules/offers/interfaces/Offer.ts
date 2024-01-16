@@ -258,3 +258,29 @@ export interface OfferAcceptModalFormPayload {
   offerId: number
   data: OfferAcceptModalFormData
 }
+
+export interface OfferPermissionsFormData {
+  store_type: boolean
+  offer_date: boolean
+  main_data: boolean
+}
+
+export interface ProductPermissionsFormData {
+  attachments_and_image: boolean
+  connect_with_accounting_service: boolean
+  create_invoice_and_add_client: boolean
+  decrease_prices: boolean
+  description: boolean
+  expire_date: boolean
+  increase_available_quantity: boolean
+  main_data: boolean
+  multiple_product_instant_invoices: boolean
+  print_invoices: boolean
+  product_data: boolean
+  qr: boolean
+  quantity_limits: boolean
+  responsible: boolean
+  share_invoice: boolean
+  shipping_range: boolean
+  toggle_show_quantity: boolean
+}

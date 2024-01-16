@@ -11,6 +11,10 @@ class ProductsService {
     return axios.get(`${this.contextPath}/${id}/${this.notesPath}`, { params })
   }
 
+  getPermissions(id: number): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}/permissions`)
+  }
+
   /** **************** post ******************/
   createNote(payload: OfferNoteModalPayload): AxiosPromise {
     return axios.post(`${this.contextPath}/${payload.productId}/${this.notesPath}`, payload.data)
@@ -26,6 +30,10 @@ class ProductsService {
       `${this.contextPath}/${payload.productId}/${this.notesPath}/${payload.data.id}`,
       payload.data,
     )
+  }
+
+  updatePermissions(id: number, data: any): AxiosPromise {
+    return axios.put(`${this.contextPath}/${id}/permissions`, data)
   }
 
   /** **************** delete ******************/

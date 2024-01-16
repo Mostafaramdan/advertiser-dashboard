@@ -4,6 +4,7 @@ import { OFFER_STATUSES } from '@/constants/offers'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useOffersStore } from '@/stores/OffersStore'
 import { useToast } from 'vue-toastification'
+import OfferEditPermissionsModal from '../modals/OfferEditPermissionsModal.vue'
 import OfferEditStatusModal from '../modals/OfferEditStatusModal.vue'
 import OfferProductsAcceptanceModal from '../modals/OfferProductsAcceptanceModal.vue'
 import OfferProductsActivationModal from '../modals/OfferProductsActivationModal.vue'
@@ -26,6 +27,7 @@ const showProductsAcceptanceModal = ref<boolean>(false)
 const showProductsQtyAvailabilityModal = ref<boolean>(false)
 const showProductsActivationsModal = ref<boolean>(false)
 const showOfferEditStatusModal = ref<boolean>(false)
+const showOfferEditPermissionsModal = ref<boolean>(false)
 const isLoading = reactive({
   data: false,
   delete: false,
@@ -45,6 +47,7 @@ const permissions = computed(() => ({
   editProductsQty: hasPermission('toggle_product_availability_quantity'),
   changeProductsStatus: hasPermission('change_status_product'),
   editStatus: hasPermission('update_offer_status'),
+  viewEditPermissions: hasPermission('view_offer_permissions'),
 }))
 
 const data = computed(() => offersStore.offerDetails)
@@ -133,6 +136,11 @@ function onEditOfferStatus(status: string) {
         v-if="showOfferEditStatusModal"
         v-model:showModal="showOfferEditStatusModal"
         @edit-item="onEditOfferStatus"
+      />
+      <OfferEditPermissionsModal
+        :offer-id="data.id"
+        v-if="showOfferEditPermissionsModal"
+        v-model:showModal="showOfferEditPermissionsModal"
       />
     </template>
     <VExpansionPanels class="expansion-panels-width-border mb-6" :model-value="0">
@@ -225,6 +233,16 @@ function onEditOfferStatus(status: string) {
                           </template>
 
                           <VListItemTitle>تعديل الحالة</VListItemTitle>
+                        </VListItem>
+                        <VListItem
+                          :disabled="!permissions.viewEditPermissions"
+                          @click="showOfferEditPermissionsModal = true"
+                        >
+                          <template #prepend>
+                            <VIcon icon="tabler-circle-key" />
+                          </template>
+
+                          <VListItemTitle>صلاحيات التعديل</VListItemTitle>
                         </VListItem>
                         <VListItem
                           :disabled="

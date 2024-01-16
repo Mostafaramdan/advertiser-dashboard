@@ -186,5 +186,33 @@
     "apple_pay": "Apple Pay",
     "stc_pay": "STC Pay"
   },
-  "filter_results": "Filter Results"
+  "filter_results": "Filter Results",
+  "offers": {
+    "permissions": {
+      "store_type": "Edit External Store Type",
+      "main_data": "Edit Main Data",
+      "offer_date": "Edit Offer Date"
+    }
+  },
+  "products": {
+    "permissions": {
+      "toggle_show_quantity": "Edit Show Available Quantity",
+      "main_data": "Edit Main Data",
+      "attachments_and_image": "Edit Images",
+      "shipping_range": "Edit Shipping Data",
+      "description": "Edit Description",
+      "product_data": "Edit Product Data",
+      "expire_date": "Edit Expiry Date",
+      "increase_available_quantity": "Edit Available Quantity",
+      "decrease_prices": "Edit Prices",
+      "quantity_limits": "Edit Customer Quantities",
+      "responsible": "Edit Responsible Person Data",
+      "qr": "Edit Barcode Scanning",
+      "print_invoices": "Edit Invoice Printing",
+      "share_invoice": "Share Invoices Outside the App",
+      "create_invoice_and_add_client": "Create Invoices and Add Client Service",
+      "multiple_product_instant_invoices": "Multiple Products in Instant Invoice",
+      "connect_with_accounting_service": "Connect with Accounting Service API"
+    }
+  }
 }
