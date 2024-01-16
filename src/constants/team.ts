@@ -1349,6 +1349,16 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'طلبات التنبية',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'view_remind_requests',
+          },
+        ],
+      },
     ],
   },
   {

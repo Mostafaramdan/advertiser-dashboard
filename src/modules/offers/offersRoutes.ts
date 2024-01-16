@@ -89,4 +89,12 @@ export const offersRoutes = [
       requiredPermission: 'view_offer_settings',
     },
   },
+  {
+    path: 'reminders_requests',
+    name: 'reminders_requests-page',
+    component: () => import('./pages/RemindersRequestsPage.vue'),
+    meta: {
+      requiredPermission: 'view_remind_requests',
+    },
+  },
 ]

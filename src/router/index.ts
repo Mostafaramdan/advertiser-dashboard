@@ -87,6 +87,7 @@ const router = createRouter({
           'view_banners',
           'view_offers',
           'view_offer_settings',
+          'view_remind_requests',
         ],
       },
       children: offersRoutes,

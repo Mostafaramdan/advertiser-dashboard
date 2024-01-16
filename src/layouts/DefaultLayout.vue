@@ -256,6 +256,7 @@ const navItems = computed(() => {
         'view_banners',
         'view_offers',
         'view_offer_settings',
+        'view_remind_requests',
       ]),
       to: null,
       children: [
@@ -288,6 +289,11 @@ const navItems = computed(() => {
           title: 'اعدادات تشغيل العروض',
           to: { name: 'offers-settings-page' },
           show: hasPermission('view_offer_settings'),
+        },
+        {
+          title: 'طلبات التنبية',
+          to: { name: 'reminders_requests-page' },
+          show: hasPermission('view_remind_requests'),
         },
       ],
     },
