@@ -54,10 +54,10 @@ const formData = reactive<OfferNoteCreteData | OfferNoteUpdateData>({
 // #region Computed
 const formTitle = computed(() => {
   return props.formAction === 'create'
-    ? 'اضافة ملاحظة'
+    ? 'اضافة توصية'
     : props.formAction === 'edit'
-      ? 'تعديل ملاحظة'
-      : 'عرض ملاحظة'
+      ? 'تعديل توصية'
+      : 'عرض توصية'
 })
 
 // #endregion
