@@ -8,6 +8,9 @@ class RemindersRequestsService {
   getItem(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}`, { params })
   }
+  getStats(params: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/statistics`, { params })
+  }
 
   /** **************** post ******************/
 

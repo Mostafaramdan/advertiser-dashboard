@@ -189,18 +189,6 @@ export interface OfferLogsItem {
   action_by: User
 }
 
-interface OfferReminderRequest {
-  id: number
-  created_at: string
-  user: User
-  from_quantity: number
-  to_quantity: number
-  emails: string[] | null
-}
-
-export interface OfferStartReminder extends OfferReminderRequest {}
-export interface OfferQtyAvailabilityReminder extends OfferReminderRequest {}
-
 export interface ProductNotesItem {
   id: number
   created_at: string

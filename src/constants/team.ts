@@ -1238,16 +1238,6 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             key: 'view_offer_statistics',
           },
           {
-            label: 'عرض طلبات تنبية بدء العرض',
-            checked: false,
-            key: 'view_start_reminder_requests',
-          },
-          {
-            label: 'عرض طلبات تنبية توفر الكمية',
-            checked: false,
-            key: 'view_availability_reminder_requests',
-          },
-          {
             label: 'عرض سجل العمليات',
             checked: false,
             key: 'view_offer_logs',

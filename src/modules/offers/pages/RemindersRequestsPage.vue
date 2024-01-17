@@ -1,21 +1,26 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { REMINDER_REQUEST_TYPES } from '@/constants/offers'
 import type { pageAction } from '@/interfaces/Shared'
-// import SupportTicketsStats from '@/modules/tickets/components/SupportTicketsStats.vue'
-import { ReminderRequest } from '../interfaces/ReminderRequest'
+import { useAuthStore } from '@/stores/AuthStore'
+import ReminderRequestsStats from '../components/ReminderRequestsStats.vue'
+import { ReminderRequest, User } from '../interfaces/ReminderRequest'
+import ReminderRequestDetailsModal from '../modals/ReminderRequestDetailsModal.vue'
 import { remindersRequestsService } from '../services/RemindersRequestsService'
-
 /***************************************
  **** Section Variables Declaration ****
  **************************************/
 // #region Variables
 const FilterComponent = defineAsyncComponent(
-  () => import('@/modules/tickets/components/SupportTicketsFilter.vue'),
+  () => import('../components/ReminderRequestsFilter.vue'),
 )
 const { t } = useI18n()
 const { formatDateTime } = UseGeneralHelpers()
+const { hasPermission } = useAuthStore()
+const activeUser = ref<User | null>(null)
 const MODEL_NAME = 'remind_requests'
+const showNotificationModal = ref<boolean>(false)
 const showFilter = ref<boolean>(false)
 const loadFilter = ref<boolean>(false)
 const params = reactive({
@@ -32,32 +37,31 @@ const {
   onReloadData,
   onChangeItemsPerPage,
   onChangeSearch,
+  showDetailsModal,
+  activeItem,
+  showViewModal,
 } = UseCrudHelpers<ReminderRequest>(remindersRequestsService, params, MODEL_NAME)
 
 const headers: any = [
   {
-    title: 'مقدم التذكرة',
+    title: 'صاحب الطلب/نوع الطلب',
     key: 'user',
   },
   {
-    title: 'نوع التذكرة/رقم التذكرة',
-    key: 'support_type',
+    title: 'رقم الجوال/البريد الالكتروني',
+    key: 'phone',
   },
   {
-    title: 'الحالة/تقييم العميل',
-    key: 'status',
+    title: 'اسم المنتج/رقم المنتج',
+    key: 'product',
   },
   {
-    title: 'تاريخ الانشاء/تاريخ أخر تعديل',
+    title: 'الكمية من/الكمية الي',
+    key: 'from_quantity',
+  },
+  {
+    title: 'تاريخ الطلب/تاريخ عرض المنتج',
     key: 'created_at',
-  },
-  {
-    title: 'المسؤول الاول/التوقيت',
-    key: 'primary_admin',
-  },
-  {
-    title: 'المسؤول الثاني/التوقيت',
-    key: 'secondary_admin',
   },
   {
     title: 'العمليات',
@@ -72,6 +76,10 @@ const headers: any = [
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
+const permissions = computed(() => ({
+  sendNotification: hasPermission('notify_users'),
+}))
+
 const pageActionsButtons = computed<pageAction[]>(() => {
   return [
     {
@@ -106,11 +114,22 @@ function onApplyFilter(filters: any) {
   getPageData()
 }
 
+function openNotificationModal(user: User) {
+  activeUser.value = user
+  showNotificationModal.value = true
+}
+
 // #endregion
 </script>
 
 <template>
   <section>
+    <ReminderRequestDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+    <NotificationModal
+      v-if="activeUser && showNotificationModal"
+      v-model:showModal="showNotificationModal"
+      :user="activeUser"
+    />
     <Component
       :is="FilterComponent"
       v-if="loadFilter"
@@ -119,7 +138,6 @@ function onApplyFilter(filters: any) {
     />
     <VCard class="page-card" title="طلبات التنبية">
       <VCardText>
-        <!-- <SupportTicketsStats /> -->
         <PageActions
           :page-actions-buttons="pageActionsButtons"
           :items-per-page="params.itemPerPage"
@@ -128,53 +146,73 @@ function onApplyFilter(filters: any) {
           @update:search="onChangeSearch"
           @reload-data="onReloadData"
         />
-        <!-- <VDataTableServer
+        <ReminderRequestsStats :params="params" />
+        <VDataTableServer
           v-loading="IsLoadingData"
           :headers="headers"
           :items="tableData"
-          show-select
           :items-length="metaData?.total || 0"
-          item-value="id"
           class="app-table"
           :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
         >
           <template #item.user="{ item }">
-            <div style="min-inline-size: 150px">
-              <span>{{ item.user.account_name }}</span>
-              <span class="text-sm text-disabled d-block">{{ USERS_TYPES[item.user.role] }}</span>
-            </div>
+            <router-link
+              :to="{
+                name:
+                  item.user.role === 'advertiser'
+                    ? 'advertisers-profile-page'
+                    : 'user-profile-page',
+                params: { id: item.user.id },
+                query: { tab: 'details' },
+              }"
+              class="d-flex align-center"
+            >
+              <div class="d-flex flex-column align-center me-3 py-1">
+                <VAvatar size="38" variant="tonal" cover>
+                  <VImg v-if="item.user.image_path" :src="item.user.image_path" cover />
+                  <span v-else>!</span>
+                </VAvatar>
+              </div>
+              <div style="min-inline-size: 140px">
+                <span>{{ item.user.account_name }}</span>
+                <span class="text-sm text-disabled d-block">
+                  {{ REMINDER_REQUEST_TYPES.get(item.type)?.label }}</span
+                >
+              </div>
+            </router-link>
           </template>
 
-          <template #item.support_type="{ item }">
+          <template #item.phone="{ item }">
             <div style="min-inline-size: 150px">
-              <span>{{ item.support_type }}</span>
-              <span class="text-sm text-disabled d-block"> {{ item.id }}</span>
+              <span>{{ item.user.phone }}</span>
+              <span class="text-sm text-disabled d-block"> {{ item.user.email }}</span>
             </div>
           </template>
-
-          <template #item.status="{ item }">
-            <div style="min-inline-size: 80px">
-              <span>{{ TICKETS_STATUSES.get(item.status)?.label }}</span>
-              <span class="d-flex align-center text-sm" v-if="item.rate !== null">
-                <VIcon icon="tabler-star-filled" color="#ffcc00" size="18" start />
-                {{ item.rate }}
-              </span>
-              <span v-else class="text-sm text-disabled d-block"> لا يوجد</span>
+          <template #item.product="{ item }">
+            <div style="min-inline-size: 150px">
+              <span>{{ item.product.name }}</span>
+              <span class="text-sm text-disabled d-block"> {{ item.user.id }}</span>
+            </div>
+          </template>
+          <template #item.from_quantity="{ item }">
+            <div class="text-no-wrap" style="min-inline-size: 80px">
+              {{ item.from_quantity ?? '-' }}
+              <span class="text-sm text-disabled d-block">{{ item.to_quantity ?? '-' }}</span>
             </div>
           </template>
 
           <template #item.created_at="{ item }">
-            <div class="text-no-wrap">
+            <div class="text-no-wrap" style="min-inline-size: 95px">
               {{ formatDateTime(item.created_at) }}
               <span class="text-sm text-disabled d-block">
-                {{ formatDateTime(item.last_update) }}</span
+                {{ formatDateTime(item.product.from_date) }}</span
               >
             </div>
           </template>
 
           <template #item.actions="{ item }">
             <div class="d-flex justify-center">
-              <IconBtn @click="() => console.log(item)">
+              <IconBtn @click="showViewModal(item)">
                 <VIcon icon="tabler-eye" />
               </IconBtn>
 
@@ -187,7 +225,16 @@ function onApplyFilter(filters: any) {
                       <template #prepend>
                         <VIcon icon="tabler-trash" />
                       </template>
-                      <VListItemTitle>حذف</VListItemTitle>
+                      <VListItemTitle>TODO: Archive</VListItemTitle>
+                    </VListItem>
+                    <VListItem
+                      :disabled="!permissions.sendNotification"
+                      @click="openNotificationModal(item.user)"
+                    >
+                      <template #prepend>
+                        <VIcon icon="tabler-mail" />
+                      </template>
+                      <VListItemTitle>ارسال تنبيه لصاحب الطلب</VListItemTitle>
                     </VListItem>
                   </VList>
                 </VMenu>
@@ -202,7 +249,7 @@ function onApplyFilter(filters: any) {
               :get-page-data="getPageData"
             />
           </template>
-        </VDataTableServer> -->
+        </VDataTableServer>
       </VCardText>
     </VCard>
   </section>

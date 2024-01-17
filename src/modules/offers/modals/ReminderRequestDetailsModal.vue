@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
+import { USERS_ROLES } from '@/constants/index'
+import { REMINDER_REQUEST_TYPES } from '@/constants/offers'
 import type { FormModalProps } from '@/interfaces/Forms'
 import { useVModel } from '@vueuse/core'
 
@@ -56,7 +58,7 @@ const { formatDateTime } = UseGeneralHelpers()
       <div>
         <VCard v-if="activeItem" title="عرض طلب">
           <VCardText>
-            <VList :lines="false">
+            <VList class="py-0" :lines="false">
               <VListItem title="صاحب الطلب" class="px-2 py-2" border>
                 <div class="d-flex align-start">
                   <div class="d-flex flex-column align-center me-3 py-1">
@@ -71,21 +73,52 @@ const { formatDateTime } = UseGeneralHelpers()
                   </div>
                   <div style="word-wrap: break-word">
                     {{ activeItem.user.account_name }}
-                    <span class="text-sm text-disabled d-block">{{ activeItem.user.email }}</span>
-                    <span class="text-sm text-disabled d-block">{{ activeItem.user.phone }}</span>
+                    <span class="text-sm text-disabled d-block">{{
+                      USERS_ROLES[activeItem.user.role]
+                    }}</span>
                   </div>
                 </div>
               </VListItem>
               <VListItem
                 class="px-2 py-2"
+                title="رقم الجوال"
+                :subtitle="activeItem.user.phone"
+                border
+              />
+              <VListItem
+                class="px-2 py-2"
+                title="البريد الالكتروني"
+                :subtitle="activeItem.user.email"
+                border
+              />
+              <VListItem
+                class="px-2 py-2"
+                title="نوع الطلب"
+                :subtitle="REMINDER_REQUEST_TYPES.get(activeItem.type)?.label"
+                border
+              />
+              <VListItem
+                class="px-2 py-2"
+                title="اسم المنتج"
+                :subtitle="activeItem.product.name"
+                border
+              />
+              <VListItem
+                class="px-2 py-2"
+                title="رقم المنتج"
+                :subtitle="activeItem.product.id"
+                border
+              />
+              <VListItem
+                class="px-2 py-2"
                 title="الكمية من"
-                :subtitle="activeItem.from_quantity"
+                :subtitle="activeItem.from_quantity ?? '-'"
                 border
               />
               <VListItem
                 class="px-2 py-2"
                 title="الكمية الى"
-                :subtitle="activeItem.to_quantity"
+                :subtitle="activeItem.to_quantity ?? '-'"
                 border
               />
               <VListItem
@@ -96,8 +129,8 @@ const { formatDateTime } = UseGeneralHelpers()
               />
               <VListItem
                 class="px-2 py-2"
-                title="تاريخ العرض"
-                :subtitle="formatDateTime(activeItem.created_at)"
+                title="تاريخ عرض المنتج"
+                :subtitle="formatDateTime(activeItem.product.from_date)"
                 border
               />
 

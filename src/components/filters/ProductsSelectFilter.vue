@@ -14,12 +14,13 @@ interface Props {
   id: string
   keyword?: string
   locationStrategy?: 'static' | 'connected'
-  userId: number
+  userId?: number | null
 }
 const props = withDefaults(defineProps<Props>(), {
   label: 'اختر منتج',
   keyword: '',
   locationStrategy: 'static',
+  userId: null,
 })
 // #endregion
 

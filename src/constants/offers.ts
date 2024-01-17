@@ -48,6 +48,18 @@ export const STORES_TYPES = new Map([
   ['marketplace', { label: 'منفذ بيع' }],
 ])
 
+export const REMINDER_REQUEST_TYPES = new Map([
+  ['start_reminder', { label: 'طلب تذكير بالبدء' }],
+  ['availability_reminder', { label: 'طلب تذكير بإتاحة الكمية' }],
+])
+
+export const REMINDER_REQUESTS_SORT_TYPES = {
+  min_quantity: 'الطلب الأقل كمية',
+  max_quantity: 'الطلب الاكثر كمية',
+  latest: 'الأحدث',
+  oldest: 'الأقدم',
+}
+
 export const OFFER_DATE_TYPES = {
   fixed: 'محدد',
   dynamic: 'مرن',
