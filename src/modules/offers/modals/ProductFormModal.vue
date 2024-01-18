@@ -934,8 +934,8 @@ function submit() {
                     v-slot="{ errorMessage, value, handleChange }"
                     v-model="formData.product_data.warranty_and_expiration.production_date"
                     name="production_date"
-                    label="تاريخ الانتاج"
-                    rules="required"
+                    label="تاريخ الانتاج (اختياري)"
+                    rules=""
                   >
                     <AppDateTimePicker
                       label="تاريخ الانتاج"
