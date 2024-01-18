@@ -346,16 +346,16 @@ function getPageData() {
         <VExpansionPanelText v-if="data">
           <VRow>
             <VCol cols="12" md="4" v-for="(item, index) in adsSpaceSettings" :key="index">
-              <div class="border py-1 px-2 rounded h-100">
-                <VSwitch :inset="false" readonly :model-value="item.value">
+              <VCard flat disabled class="border py-1 px-2 rounded h-100">
+                <VCheckbox readonly :model-value="item.value">
                   <template #label>
                     <span>
                       <span class="me-2">{{ item.label }}</span>
                       <span class="text-primary" v-if="item.labelValue">{{ item.labelValue }}</span>
                     </span>
                   </template>
-                </VSwitch>
-              </div>
+                </VCheckbox>
+              </VCard>
             </VCol>
           </VRow>
         </VExpansionPanelText>

@@ -82,6 +82,7 @@ export type OfferProduct = {
   can_change_quantity_status?: boolean
   can_edit?: boolean
   show_available_quantity?: boolean
+  can_post?: boolean
 }
 export interface OfferFormData {
   offer_type: OfferType | null

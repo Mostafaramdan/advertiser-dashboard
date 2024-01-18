@@ -309,6 +309,11 @@ const navItems = computed(() => {
       to: null,
       children: [
         {
+          title: 'اعدادات المساحات',
+          to: { name: 'ads-spaces-settings-page' },
+          show: hasPermission('view_ad_space_settings'),
+        },
+        {
           title: 'المسافات',
           to: { name: 'ads-spaces-distances' },
           show: hasPermission('view_distances'),
@@ -322,11 +327,6 @@ const navItems = computed(() => {
           title: 'المساحات',
           to: { name: 'ads-spaces-page' },
           show: hasPermission('view_ad_spaces'),
-        },
-        {
-          title: 'اعدادات المساحات',
-          to: { name: 'ads-spaces-settings-page' },
-          show: hasPermission('view_ad_space_settings'),
         },
       ],
     },

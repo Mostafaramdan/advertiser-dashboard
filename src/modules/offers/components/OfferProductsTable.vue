@@ -58,7 +58,7 @@ const productFormAction = ref<FormActionType>('create')
  **************************************/
 // #region Computed
 
-const products = computed({
+const products = computed<OfferProduct[]>({
   get() {
     return props.modelValue
   },
@@ -252,7 +252,7 @@ function onEditProduct(product: OfferProduct) {
                       <VListItemTitle>تكرار</VListItemTitle>
                     </VListItem>
                     <VListItem
-                      :disabled="!permissions.postProduct"
+                      :disabled="!permissions.postProduct || !product.can_post"
                       @click="openProductPostModal(product)"
                     >
                       <template #prepend>
