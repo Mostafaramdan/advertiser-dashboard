@@ -209,7 +209,10 @@ const arePriceRangesOverlapping = computed(() => {
 
 const minimumExpirationDate = computed(() => {
   const productionDate = formData.product_data.warranty_and_expiration.production_date
-  if (!productionDate) return null
+  if (!productionDate && props.formAction === 'create') {
+    const date = new Date()
+    return date.setDate(date.getDate() + 1)
+  }
 
   const date = new Date(productionDate)
   return date.setDate(date.getDate() + 1)
