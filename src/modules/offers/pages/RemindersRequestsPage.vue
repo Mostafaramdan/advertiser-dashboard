@@ -4,6 +4,7 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import { REMINDER_REQUEST_TYPES } from '@/constants/offers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
+import { useToast } from 'vue-toastification'
 import ReminderRequestsStats from '../components/ReminderRequestsStats.vue'
 import { ReminderRequest, User } from '../interfaces/ReminderRequest'
 import ReminderRequestDetailsModal from '../modals/ReminderRequestDetailsModal.vue'
@@ -16,6 +17,7 @@ const FilterComponent = defineAsyncComponent(
   () => import('../components/ReminderRequestsFilter.vue'),
 )
 const { t } = useI18n()
+const toast = useToast()
 const { formatDateTime } = UseGeneralHelpers()
 const { hasPermission } = useAuthStore()
 const activeUser = ref<User | null>(null)
@@ -119,6 +121,19 @@ function openNotificationModal(user: User) {
   showNotificationModal.value = true
 }
 
+function archiveItem(item: ReminderRequest) {
+  IsLoadingData.value = true
+  remindersRequestsService
+    .toggleArchived(item.id, item.type)
+    .then((res) => {
+      item.is_archived = !item.is_archived
+      toast.success(res.data.message)
+    })
+    .finally(() => {
+      IsLoadingData.value = false
+    })
+}
+
 // #endregion
 </script>
 
@@ -172,6 +187,14 @@ function openNotificationModal(user: User) {
                   <VImg v-if="item.user.image_path" :src="item.user.image_path" cover />
                   <span v-else>!</span>
                 </VAvatar>
+                <VChip
+                  class="px-1 mt-1"
+                  :color="item.is_archived ? 'error' : 'success'"
+                  label
+                  size="x-small"
+                >
+                  {{ item.is_archived ? 'مؤرشف' : 'متواجد' }}
+                </VChip>
               </div>
               <div style="min-inline-size: 140px">
                 <span>{{ item.user.account_name }}</span>
@@ -221,11 +244,11 @@ function openNotificationModal(user: User) {
 
                 <VMenu activator="parent">
                   <VList>
-                    <VListItem>
+                    <VListItem @click="archiveItem(item)">
                       <template #prepend>
-                        <VIcon icon="tabler-trash" />
+                        <VIcon :icon="item.is_archived ? 'tabler-archive-off' : 'tabler-archive'" />
                       </template>
-                      <VListItemTitle>TODO: Archive</VListItemTitle>
+                      <VListItemTitle>{{ item.is_archived ? 'استعادة' : 'أرشفة' }}</VListItemTitle>
                     </VListItem>
                     <VListItem
                       :disabled="!permissions.sendNotification"
@@ -235,6 +258,12 @@ function openNotificationModal(user: User) {
                         <VIcon icon="tabler-mail" />
                       </template>
                       <VListItemTitle>ارسال تنبيه لصاحب الطلب</VListItemTitle>
+                    </VListItem>
+                    <VListItem :disabled="!permissions.sendNotification">
+                      <template #prepend>
+                        <VIcon icon="tabler-mail" />
+                      </template>
+                      <VListItemTitle>ارسال تنبيه لصاحب عرض المنتج</VListItemTitle>
                     </VListItem>
                   </VList>
                 </VMenu>

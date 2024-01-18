@@ -15,6 +15,9 @@ class RemindersRequestsService {
   /** **************** post ******************/
 
   /** **************** put ******************/
+  toggleArchived(id: number, type: string): AxiosPromise {
+    return axios.put(`${this.contextPath}/${id}/toggle_archived?type=${type}`)
+  }
 
   /** **************** delete ******************/
 }
