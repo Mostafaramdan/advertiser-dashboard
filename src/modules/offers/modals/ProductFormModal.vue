@@ -1090,7 +1090,7 @@ function submit() {
                     </VCol>
                     <VCol cols="12" md="4" class="d-flex gap-3">
                       <VTextField
-                        :model-value="responsible.email"
+                        :model-value="responsible.email || '-'"
                         label="البريد الالكتروني"
                         readonly
                         disabled
@@ -1108,7 +1108,7 @@ function submit() {
                     </VCol>
                     <VCol cols="12" md="4" class="d-flex gap-3">
                       <VTextField
-                        :model-value="responsible.phone"
+                        :model-value="responsible.phone || '-'"
                         label="الهاتف"
                         readonly
                         disabled

@@ -165,7 +165,12 @@ const submit = () => {
                   label="الهاتف"
                   placeholder="الهاتف"
                   type="number"
-                  rules="required|numeric|min:6|max:14"
+                  :rules="{
+                    required: !formData.email,
+                    numeric: true,
+                    min: 6,
+                    max: 14,
+                  }"
                 />
               </VCol>
               <VCol cols="12">
@@ -173,7 +178,11 @@ const submit = () => {
                   v-model="formData.email"
                   label="البريد الالكتروني"
                   name="email"
-                  rules="required|min:6|email"
+                  :rules="{
+                    required: !formData.phone,
+                    email: true,
+                    min: 6,
+                  }"
                 />
               </VCol>
               <VCol cols="12">
