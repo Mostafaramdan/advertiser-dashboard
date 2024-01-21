@@ -11,3 +11,32 @@
     }
   }
 }
+
+.v-overlay-scroll-blocked {
+  .flatpickr-calendar.animate.open {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    background: rgba(#000, .4);
+    inline-size: 100%;
+    inset: 0 !important;
+    max-block-size: unset;
+
+    .flatpickr-innerContainer {
+      display: flex;
+      justify-content: center;
+    }
+
+    .flatpickr-months {
+      position: relative;
+    }
+
+    > *{ 
+      background: rgba(var(--v-theme-white), 1);
+      inline-size: 300px;
+    }
+  }
+}
