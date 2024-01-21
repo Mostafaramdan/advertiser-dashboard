@@ -15,6 +15,7 @@ export interface ReminderRequest {
     id: number
     name: string
     from_date: string
+    user: User
   }
   user: User
   emails: string[] | null

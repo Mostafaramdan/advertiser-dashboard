@@ -259,7 +259,7 @@ function archiveItem(item: ReminderRequest) {
                       </template>
                       <VListItemTitle>ارسال تنبيه لصاحب الطلب</VListItemTitle>
                     </VListItem>
-                    <VListItem :disabled="!permissions.sendNotification">
+                    <VListItem :disabled="!permissions.sendNotification" @click="openNotificationModal(item.product.user)">
                       <template #prepend>
                         <VIcon icon="tabler-mail" />
                       </template>
