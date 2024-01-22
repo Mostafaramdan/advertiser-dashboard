@@ -190,7 +190,7 @@
   "offers": {
     "permissions": {
       "store_type": "Edit External Store Type",
-      "main_data": "Edit Main Data",
+      "main_data": "Edit Store Name",
       "offer_date": "Edit Offer Date"
     }
   },
