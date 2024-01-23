@@ -10,4 +10,6 @@ export interface User {
   created_at: string
   permissions: string[]
   roles: DropdownMenuItem[]
+  apps: string[]
+  selectedApp: string | null
 }

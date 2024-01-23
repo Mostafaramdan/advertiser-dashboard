@@ -116,7 +116,7 @@ function onClickNotification(notification: DashboardNotification) {
 <template>
   <div>
     <ConfirmModal ref="confirmModal" />
-    <IconBtn id="notification-btn" class="me-4">
+    <IconBtn id="notification-btn" class="mx-2">
       <VBadge
         :model-value="!!unSeenCount"
         color="error"

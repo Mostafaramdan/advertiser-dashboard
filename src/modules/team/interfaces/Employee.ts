@@ -60,4 +60,5 @@ export interface EmployeeFormProps {
   front_id_image_id: number | null
   back_id_image_id: number | null
   created_at?: string
+  apps: string[]
 }

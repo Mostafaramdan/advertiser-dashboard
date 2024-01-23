@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import GeoLocationModal from '@/components/shared/GeoLocationModal.vue'
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
+import { MAIN_APPS } from '@/constants'
 import { GENDER_TYPES } from '@/constants/index'
 import { EMPLOYEES_TYPES } from '@/constants/team'
 import { cloneItem, getOptionsArrayFromObject } from '@/helpers/index'
@@ -11,7 +12,6 @@ import { useAuthStore } from '@/stores/AuthStore'
 import { useToast } from 'vue-toastification'
 import type { EmployeeDetails, EmployeeFormProps } from '../interfaces/Employee'
 import { employeesService } from '../services/EmployeesService'
-
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
@@ -74,6 +74,7 @@ const formData = reactive<EmployeeFormProps>({
     lat: 0,
     lng: 0,
   },
+  apps: [],
 })
 
 // #endregion
@@ -457,22 +458,6 @@ function submit() {
               </VCol>
               <VCol cols="12" md="6">
                 <AppAutocomplete
-                  v-model="formData.role_category_id"
-                  name="role_category_id"
-                  :items="categoriesList"
-                  item-title="label"
-                  item-value="id"
-                  label="القسم"
-                  placeholder="القسم"
-                  rules="required"
-                  :loading="isLoading.categories"
-                  :disabled="isLoading.categories"
-                  clearable
-                  prepend-inner-icon="tabler-category"
-                />
-              </VCol>
-              <VCol cols="12" md="6">
-                <AppAutocomplete
                   v-model="formData.roles"
                   name="roles"
                   :items="rolesList"
@@ -496,6 +481,51 @@ function submit() {
                     </span>
                   </template>
                 </AppAutocomplete>
+              </VCol>
+              <VCol cols="12" md="6">
+                <AppAutocomplete
+                  v-model="formData.apps"
+                  name="apps"
+                  :items="
+                    Array.from(MAIN_APPS, ([key, value]) => ({
+                      id: key,
+                      label: value.label,
+                    }))
+                  "
+                  item-title="label"
+                  item-value="id"
+                  label="التطبيقات"
+                  placeholder="التطبيقات"
+                  rules="required"
+                  clearable
+                  multiple
+                  prepend-inner-icon="tabler-apps"
+                >
+                  <template #selection="{ item, index }">
+                    <VChip v-if="index < 1">
+                      <span>{{ item.title }}</span>
+                    </VChip>
+                    <span v-if="index === 1" class="text-grey text-caption align-self-center">
+                      (+{{ formData.apps.length - 1 }} اخري)
+                    </span>
+                  </template>
+                </AppAutocomplete>
+              </VCol>
+              <VCol cols="12">
+                <AppAutocomplete
+                  v-model="formData.role_category_id"
+                  name="role_category_id"
+                  :items="categoriesList"
+                  item-title="label"
+                  item-value="id"
+                  label="القسم"
+                  placeholder="القسم"
+                  rules="required"
+                  :loading="isLoading.categories"
+                  :disabled="isLoading.categories"
+                  clearable
+                  prepend-inner-icon="tabler-category"
+                />
               </VCol>
               <VCol cols="12" class="d-flex flex-wrap gap-4">
                 <div>

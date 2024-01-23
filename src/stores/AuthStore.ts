@@ -19,6 +19,9 @@ export const useAuthStore = defineStore('authStore', {
     getToken(state: State) {
       return state.authUser?.token
     },
+    getSelectedApp(state: State) {
+      return state.authUser?.selectedApp
+    },
     hasPermission(state): (permission: string) => boolean {
       return (permission: string): boolean => {
         return !!state.authUser?.permissions?.includes(permission)
@@ -44,7 +47,18 @@ export const useAuthStore = defineStore('authStore', {
       localStorage.setItem('authUser', JSON.stringify(this.authUser))
     },
     setAuthUser(user: any) {
+      if (user) user.selectedApp = user.apps[0]
       this.authUser = user
+      this.saveUserDataInLocalStorage()
+    },
+    setSelectedApp(app: string) {
+      if (!this.authUser) return
+      this.authUser.selectedApp = app
+      this.saveUserDataInLocalStorage()
+    },
+    setUserApps(apps: string[]) {
+      if (this.authUser) this.authUser.apps = apps
+      if (!apps.includes(this.authUser?.selectedApp as string)) this.setSelectedApp(apps[0])
       this.saveUserDataInLocalStorage()
     },
     clearAuthUser() {
@@ -72,8 +86,11 @@ export const useAuthStore = defineStore('authStore', {
     getPermissions() {
       return new Promise((resolve) => {
         authService.getPermissions().then((res) => {
-          this.setUserPermissions(res.data.data)
-          resolve(res.data)
+          const { apps, permissions } = res.data.data
+
+          this.setUserPermissions(permissions)
+          this.setUserApps(apps)
+          resolve(permissions)
         })
       })
     },

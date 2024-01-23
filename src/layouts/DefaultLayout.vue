@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import NotificationsMenu from '@/components/dashboard-notifications/NotificationsMenu.vue'
+import MainAppsDropdown from '@/layouts/components/MainAppsDropdown.vue'
+import NavBarI18n from '@/layouts/components/NavBarI18n.vue'
+import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
+import UserProfile from '@/layouts/components/UserProfile.vue'
 import { useAuthStore } from '@/stores/AuthStore'
 import { useSkins } from '@core/composable/useSkins'
 import { useThemeConfig } from '@core/composable/useThemeConfig'
 import AppLoader from './components/AppLoader.vue'
-
-import NavBarI18n from '@/layouts/components/NavBarI18n.vue'
-import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
-import UserProfile from '@/layouts/components/UserProfile.vue'
 
 // @layouts plugin
 import { VerticalNavLayout } from '@layouts'
@@ -651,12 +651,13 @@ function getAuthUserPermissions() {
           <VIcon size="26" icon="tabler-menu-2" />
         </IconBtn>
 
+        <UserProfile />
+        <NotificationsMenu />
         <NavBarI18n />
         <NavbarThemeSwitcher />
 
         <VSpacer />
-        <NotificationsMenu />
-        <UserProfile />
+        <MainAppsDropdown />
       </div>
     </template>
 
