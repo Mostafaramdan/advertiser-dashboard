@@ -14,7 +14,7 @@ const store = useAuthStore()
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-const selectedApp = computed(() => store.getSelectedApp)
+const selectedApp = computed(() => store.selectedApp)
 const availableApps = computed(() => {
   return Array.from(MAIN_APPS, ([key, value]) => ({
     id: key,

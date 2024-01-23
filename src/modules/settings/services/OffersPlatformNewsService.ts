@@ -2,8 +2,8 @@ import type { AxiosPromise } from 'axios'
 import axios from 'axios'
 import type { PlatformNewsItem, PlatformNewsItemBase } from './../interfaces/PlatformNewsItem'
 
-class PlatformNewsService {
-  contextPath = 'betrend_page_news'
+class OffersPlatformNewsService {
+  contextPath = 'offers_page_news'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -30,4 +30,4 @@ class PlatformNewsService {
   }
 }
 
-export const platformNewsService = new PlatformNewsService()
+export const offersPlatformNewsService = new OffersPlatformNewsService()

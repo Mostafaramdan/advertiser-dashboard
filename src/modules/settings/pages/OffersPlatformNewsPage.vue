@@ -4,9 +4,9 @@ import { USERS_TYPES } from '@/constants/settings'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { PlatformNewsItem } from '../interfaces/PlatformNewsItem'
-import PlatformNewsDetailsModal from '../modals/PlatformNewsDetailsModal.vue'
-import PlatformNewsFormModal from '../modals/PlatformNewsFormModal.vue'
-import { platformNewsService } from '../services/PlatformNewsService'
+import OffersPlatformNewsDetailsModal from '../modals/OffersPlatformNewsDetailsModal.vue'
+import OffersPlatformNewsFormModal from '../modals/OffersPlatformNewsFormModal.vue'
+import { offersPlatformNewsService } from '../services/OffersPlatformNewsService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -43,7 +43,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<PlatformNewsItem>(platformNewsService, params, MODEL_NAME)
+} = UseCrudHelpers<PlatformNewsItem>(offersPlatformNewsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -76,11 +76,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('betrend_create_page_new'),
-  edit: hasPermission('betrend_update_page_new'),
-  delete: hasPermission('betrend_delete_page_new'),
-  changeStatus: hasPermission('betrend_change_status_page_new'),
-  sort: hasPermission('betrend_sort_page_new'),
+  create: hasPermission('offers_create_page_new'),
+  edit: hasPermission('offers_update_page_new'),
+  delete: hasPermission('offers_delete_page_new'),
+  changeStatus: hasPermission('offers_change_status_page_new'),
+  sort: hasPermission('offers_sort_page_new'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -107,7 +107,7 @@ getPageData()
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
-    <PlatformNewsFormModal
+    <OffersPlatformNewsFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
@@ -115,7 +115,7 @@ getPageData()
       @edit-item="onEditItem"
       @create-item="onCreateItem"
     />
-    <PlatformNewsDetailsModal
+    <OffersPlatformNewsDetailsModal
       v-if="showDetailsModal"
       v-model:showModal="showDetailsModal"
       :active-item="activeItem"

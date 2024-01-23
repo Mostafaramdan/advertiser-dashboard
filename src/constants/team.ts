@@ -805,32 +805,32 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض الكل',
             checked: false,
-            key: 'view_page_news',
+            key: 'betrend_view_page_news',
           },
           {
             label: 'إضافة',
             checked: false,
-            key: 'create_page_new',
+            key: 'betrend_create_page_new',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_page_new',
+            key: 'betrend_update_page_new',
           },
           {
             label: 'حذف',
             checked: false,
-            key: 'delete_page_new',
+            key: 'betrend_delete_page_new',
           },
           {
             label: 'تغيير الحالة',
             checked: false,
-            key: 'change_status_page_new',
+            key: 'betrend_change_status_page_new',
           },
           {
             label: 'ترتيب',
             checked: false,
-            key: 'sort_page_new',
+            key: 'betrend_sort_page_new',
           },
         ],
       },
@@ -1349,6 +1349,41 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'جديد المنصة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'offers_view_page_news',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'offers_create_page_new',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_page_new',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'offers_delete_page_new',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'offers_change_status_page_new',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'offers_sort_page_new',
+          },
+        ],
+      },
     ],
   },
   {
@@ -1486,6 +1521,41 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'تعديل',
             checked: false,
             key: 'update_ad_space_settings',
+          },
+        ],
+      },
+      {
+        title: 'جديد المنصة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'ad_spaces_view_page_news',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'ad_spaces_create_page_new',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_page_new',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'ad_spaces_delete_page_new',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'ad_spaces_change_status_page_new',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'ad_spaces_sort_page_new',
           },
         ],
       },

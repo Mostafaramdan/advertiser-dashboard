@@ -100,7 +100,23 @@ export const settingsRoutes = [
     name: 'platform-news-settings',
     component: () => import('./pages/PlatformNewsPage.vue'),
     meta: {
-      requiredPermission: 'view_page_news',
+      requiredPermission: 'betrend_view_page_news',
+    },
+  },
+  {
+    path: 'offers-platform-news',
+    name: 'offers-platform-news-settings',
+    component: () => import('./pages/OffersPlatformNewsPage.vue'),
+    meta: {
+      requiredPermission: 'offers_view_page_news',
+    },
+  },
+  {
+    path: 'ad-spaces-platform-news',
+    name: 'ad-space-platform-news-settings',
+    component: () => import('./pages/AdSpacesPlatformNewsPage.vue'),
+    meta: {
+      requiredPermission: 'offers_view_page_news',
     },
   },
   {

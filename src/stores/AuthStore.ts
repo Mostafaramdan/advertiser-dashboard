@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('authStore', {
     getToken(state: State) {
       return state.authUser?.token
     },
-    getSelectedApp(state: State) {
+    selectedApp(state: State) {
       return state.authUser?.selectedApp
     },
     hasPermission(state): (permission: string) => boolean {

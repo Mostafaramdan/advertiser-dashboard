@@ -27,8 +27,8 @@ const { switchToVerticalNavOnLtOverlayNavBreakpoint, isLessThanOverlayNavBreakpo
 // ℹ️ This will switch to vertical nav when define breakpoint is reached when in horizontal nav layout
 // Remove below composable usage if you are not using horizontal nav layout in your app
 const { layoutAttrs, injectSkinClasses } = useSkins()
-
-const { getPermissions } = useAuthStore()
+const authStore = useAuthStore()
+const { getPermissions } = authStore
 const isLoading = ref<boolean>(false)
 
 const { hasAtLeaseOnePermission, hasPermission } = useAuthStore()
@@ -39,6 +39,9 @@ const { hasAtLeaseOnePermission, hasPermission } = useAuthStore()
  **** Section Computed Declaration ****
  **************************************/
 // #region Computed
+const isBeTrendApp = computed(() => authStore.selectedApp === 'be-trend')
+const isOffersApp = computed(() => authStore.selectedApp === 'offers')
+const isAdSpacesApp = computed(() => authStore.selectedApp === 'ad-spaces')
 const navItems = computed(() => {
   return [
     {
@@ -207,7 +210,17 @@ const navItems = computed(() => {
         {
           title: 'جديد المنصة',
           to: { name: 'platform-news-settings' },
-          show: hasPermission('view_page_news'),
+          show: hasPermission('betrend_view_page_news') && isBeTrendApp.value,
+        },
+        {
+          title: 'جديد المنصة',
+          to: { name: 'offers-platform-news-settings' },
+          show: hasPermission('offers_view_page_news') && isOffersApp.value,
+        },
+        {
+          title: 'جديد المنصة',
+          to: { name: 'ad-space-platform-news-settings' },
+          show: hasPermission('ad_spaces_view_page_news') && isAdSpacesApp.value,
         },
         {
           title: 'شركاء النجاح',
@@ -650,7 +663,6 @@ function getAuthUserPermissions() {
         >
           <VIcon size="26" icon="tabler-menu-2" />
         </IconBtn>
-
         <UserProfile />
         <NotificationsMenu />
         <NavBarI18n />

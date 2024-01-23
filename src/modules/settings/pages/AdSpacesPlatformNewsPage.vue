@@ -4,9 +4,9 @@ import { USERS_TYPES } from '@/constants/settings'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { PlatformNewsItem } from '../interfaces/PlatformNewsItem'
-import PlatformNewsDetailsModal from '../modals/PlatformNewsDetailsModal.vue'
-import PlatformNewsFormModal from '../modals/PlatformNewsFormModal.vue'
-import { platformNewsService } from '../services/PlatformNewsService'
+import AdSpacesPlatformNewsDetailsModal from '../modals/AdSpacesPlatformNewsDetailsModal.vue'
+import AdSpacesPlatformNewsFormModal from '../modals/AdSpacesPlatformNewsFormModal.vue'
+import { adSpacesPlatformNewsService } from '../services/AdSpacesPlatformNewsService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -43,7 +43,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<PlatformNewsItem>(platformNewsService, params, MODEL_NAME)
+} = UseCrudHelpers<PlatformNewsItem>(adSpacesPlatformNewsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -76,11 +76,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('betrend_create_page_new'),
-  edit: hasPermission('betrend_update_page_new'),
-  delete: hasPermission('betrend_delete_page_new'),
-  changeStatus: hasPermission('betrend_change_status_page_new'),
-  sort: hasPermission('betrend_sort_page_new'),
+  create: hasPermission('ad_spaces_create_page_new'),
+  edit: hasPermission('ad_spaces_update_page_new'),
+  delete: hasPermission('ad_spaces_delete_page_new'),
+  changeStatus: hasPermission('ad_spaces_change_status_page_new'),
+  sort: hasPermission('ad_spaces_sort_page_new'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -107,7 +107,7 @@ getPageData()
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
-    <PlatformNewsFormModal
+    <AdSpacesPlatformNewsFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
@@ -115,7 +115,7 @@ getPageData()
       @edit-item="onEditItem"
       @create-item="onCreateItem"
     />
-    <PlatformNewsDetailsModal
+    <AdSpacesPlatformNewsDetailsModal
       v-if="showDetailsModal"
       v-model:showModal="showDetailsModal"
       :active-item="activeItem"

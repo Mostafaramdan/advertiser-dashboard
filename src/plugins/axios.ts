@@ -23,7 +23,7 @@ export const axiosConf = {
     function setHeaders(config: any) {
       const headers: any = config.headers
       const token = authStore.getToken
-      const appKey = authStore.getSelectedApp
+      const appKey = authStore.selectedApp
       if (token) headers.Authorization = `Bearer ${token}`
       if (appKey) headers['app-key'] = appKey
 
