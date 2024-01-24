@@ -3,9 +3,9 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { Partner } from '../interfaces/Partner'
-import PartnerDetailsModal from '../modals/PartnerDetailsModal.vue'
-import PartnerFormModal from '../modals/PartnerFormModal.vue'
-import { partnerService } from '../services/PartnerService'
+import AdSpacesPartnerDetailsModal from '../modals/AdSpacesPartnerDetailsModal.vue'
+import AdSpacesPartnerFormModal from '../modals/AdSpacesPartnerFormModal.vue'
+import { adSpacesPartnersService } from '../services/AdSpacesPartnersService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -42,7 +42,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<Partner>(partnerService, params, MODEL_NAME)
+} = UseCrudHelpers<Partner>(adSpacesPartnersService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -71,11 +71,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('betrend_create_partner'),
-  edit: hasPermission('betrend_update_partner'),
-  delete: hasPermission('betrend_delete_partner'),
-  changeStatus: hasPermission('betrend_change_status_partner'),
-  sort: hasPermission('betrend_sort_partner'),
+  create: hasPermission('ad_spaces_create_partner'),
+  edit: hasPermission('ad_spaces_update_partner'),
+  delete: hasPermission('ad_spaces_delete_partner'),
+  changeStatus: hasPermission('ad_spaces_change_status_partner'),
+  sort: hasPermission('ad_spaces_sort_partner'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -102,7 +102,7 @@ getPageData()
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
-    <PartnerFormModal
+    <AdSpacesPartnerFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
@@ -110,7 +110,7 @@ getPageData()
       @edit-item="onEditItem"
       @create-item="onCreateItem"
     />
-    <PartnerDetailsModal
+    <AdSpacesPartnerDetailsModal
       v-if="showDetailsModal"
       v-model:showModal="showDetailsModal"
       :active-item="activeItem"

@@ -6,7 +6,7 @@ import type {
 } from './../interfaces/TermsConditionsItem'
 
 class TermsConditionsService {
-  contextPath = 'terms'
+  contextPath = 'betrend_terms'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {

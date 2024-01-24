@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { USERS_TYPES } from '@/constants/settings'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import type { Partner } from '../interfaces/Partner'
-import PartnerDetailsModal from '../modals/PartnerDetailsModal.vue'
-import PartnerFormModal from '../modals/PartnerFormModal.vue'
-import { partnerService } from '../services/PartnerService'
+import type { AboutUsItem } from '../interfaces/AboutUsItem'
+import AdSpacesAboutUsDetailsModal from '../modals/AdSpacesAboutUsDetailsModal.vue'
+import AdSpacesAboutUsFormModal from '../modals/AdSpacesAboutUsFormModal.vue'
+import { adSpacesAboutUsService } from '../services/AdSpacesAboutUsService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -13,7 +14,7 @@ import { partnerService } from '../services/PartnerService'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'partners'
+const MODEL_NAME = 'abouts'
 
 const params: any = reactive({
   page: 1,
@@ -42,7 +43,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<Partner>(partnerService, params, MODEL_NAME)
+} = UseCrudHelpers<AboutUsItem>(adSpacesAboutUsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -52,6 +53,10 @@ const headers: any = [
   {
     title: 'العنوان',
     key: 'name',
+  },
+  {
+    title: 'نوع المستخدمين',
+    key: 'for',
   },
   {
     title: 'الحالة',
@@ -71,11 +76,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('betrend_create_partner'),
-  edit: hasPermission('betrend_update_partner'),
-  delete: hasPermission('betrend_delete_partner'),
-  changeStatus: hasPermission('betrend_change_status_partner'),
-  sort: hasPermission('betrend_sort_partner'),
+  create: hasPermission('ad_spaces_create_about'),
+  edit: hasPermission('ad_spaces_update_about'),
+  delete: hasPermission('ad_spaces_delete_about'),
+  changeStatus: hasPermission('ad_spaces_change_status_about'),
+  sort: hasPermission('ad_spaces_sort_about'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -102,7 +107,7 @@ getPageData()
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
-    <PartnerFormModal
+    <AdSpacesAboutUsFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
@@ -110,12 +115,12 @@ getPageData()
       @edit-item="onEditItem"
       @create-item="onCreateItem"
     />
-    <PartnerDetailsModal
+    <AdSpacesAboutUsDetailsModal
       v-if="showDetailsModal"
       v-model:showModal="showDetailsModal"
       :active-item="activeItem"
     />
-    <VCard title="شركاء النجاح" class="page-card">
+    <VCard title="من نحن" class="page-card">
       <VCardText>
         <PageActions
           :page-actions-buttons="pageActionsButtons"
@@ -145,6 +150,19 @@ getPageData()
             </span>
           </template>
 
+          <template #item.for="{ item }">
+            <div class="d-flex gap-2">
+              <VChip
+                v-for="type in item.for as unknown"
+                :key="type"
+                variant="outlined"
+                color="primary"
+                label
+              >
+                {{ USERS_TYPES[type] }}
+              </VChip>
+            </div>
+          </template>
           <template #item.is_active="{ item }">
             <ToggleActivationSwitch
               :id="item.id"

@@ -3,7 +3,7 @@ import axios from 'axios'
 import type { AboutUsItem, AboutUsItemBase } from './../interfaces/AboutUsItem'
 
 class AboutUsService {
-  contextPath = 'abouts'
+  contextPath = 'betrend_abouts'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {

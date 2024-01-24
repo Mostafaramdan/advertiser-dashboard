@@ -3,7 +3,7 @@ import axios from 'axios'
 import type { Video, VideoBase } from './../interfaces/Video'
 
 class VideosService {
-  contextPath = 'videos'
+  contextPath = 'betrend_videos'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {

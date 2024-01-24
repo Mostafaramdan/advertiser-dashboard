@@ -1,9 +1,12 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { Partner, PartnerBase } from './../interfaces/Partner'
+import type {
+  TermsConditionsItem,
+  TermsConditionsItemBase,
+} from './../interfaces/TermsConditionsItem'
 
-class PartnerService {
-  contextPath = 'betrend_partners'
+class OffersTermsConditionsService {
+  contextPath = 'offers_terms'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -15,12 +18,12 @@ class PartnerService {
   }
 
   /** **************** post ******************/
-  createItem(data: PartnerBase): AxiosPromise {
+  createItem(data: TermsConditionsItemBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 
   /** **************** put ******************/
-  editItem(data: Partner): AxiosPromise {
+  editItem(data: TermsConditionsItem): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
   }
 
@@ -30,4 +33,4 @@ class PartnerService {
   }
 }
 
-export const partnerService = new PartnerService()
+export const offersTermsConditionsService = new OffersTermsConditionsService()

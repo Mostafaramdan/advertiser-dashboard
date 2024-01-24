@@ -3,7 +3,7 @@ import axios from 'axios'
 import type { Question, QuestionBase } from './../interfaces/Question'
 
 class QuestionsService {
-  contextPath = 'questions'
+  contextPath = 'betrend_questions'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {

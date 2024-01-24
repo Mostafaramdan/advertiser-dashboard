@@ -17,7 +17,7 @@ const tabs = [
     title: 'الأسئلة الشائعة',
     value: 'questions',
     component: QuestionsList,
-    show: hasPermission('view_questions'),
+    show: hasPermission('betrend_view_questions'),
   },
   {
     title: 'أقسام الأسئلة الشائعة',

@@ -39,9 +39,9 @@ const { hasAtLeaseOnePermission, hasPermission } = useAuthStore()
  **** Section Computed Declaration ****
  **************************************/
 // #region Computed
-const isBeTrendApp = computed(() => authStore.selectedApp === 'be-trend')
+const isBeTrendApp = computed(() => authStore.selectedApp === 'be_trend')
 const isOffersApp = computed(() => authStore.selectedApp === 'offers')
-const isAdSpacesApp = computed(() => authStore.selectedApp === 'ad-spaces')
+const isAdSpacesApp = computed(() => authStore.selectedApp === 'spaces')
 const navItems = computed(() => {
   return [
     {
@@ -153,7 +153,7 @@ const navItems = computed(() => {
         {
           title: 'الاسئلة الشائعة',
           to: { name: 'questions-settings' },
-          show: hasPermission('view_questions'),
+          show: hasPermission('betrend_view_questions'),
         },
         {
           title: 'حسابات المعلنين',
@@ -200,7 +200,17 @@ const navItems = computed(() => {
         {
           title: 'الشروط والاحكام',
           to: { name: 'terms-conditions-settings' },
-          show: hasPermission('view_terms'),
+          show: hasPermission('betrend_view_terms') && isBeTrendApp.value,
+        },
+        {
+          title: 'الشروط والاحكام',
+          to: { name: 'offers-terms-conditions-settings' },
+          show: hasPermission('offers_view_terms') && isOffersApp.value,
+        },
+        {
+          title: 'الشروط والاحكام',
+          to: { name: 'ad-spaces-terms-conditions-settings' },
+          show: hasPermission('ad_spaces_view_terms') && isAdSpacesApp.value,
         },
         {
           title: 'بنود إضافية للباقات',
@@ -225,17 +235,47 @@ const navItems = computed(() => {
         {
           title: 'شركاء النجاح',
           to: { name: 'partners-settings' },
-          show: hasPermission('view_partners'),
+          show: hasPermission('betrend_view_partners') && isBeTrendApp.value,
+        },
+        {
+          title: 'شركاء النجاح',
+          to: { name: 'offers-partners-settings' },
+          show: hasPermission('offers_view_partners') && isOffersApp.value,
+        },
+        {
+          title: 'شركاء النجاح',
+          to: { name: 'ad-spaces-partners-settings' },
+          show: hasPermission('ad_spaces_view_partners') && isAdSpacesApp.value,
         },
         {
           title: 'الفيديوهات التعريفية',
           to: { name: 'videos-settings' },
-          show: hasPermission('view_videos'),
+          show: hasPermission('betrend_view_videos') && isBeTrendApp.value,
+        },
+        {
+          title: 'الفيديوهات التعريفية',
+          to: { name: 'offers-videos-settings' },
+          show: hasPermission('offers_view_videos') && isOffersApp.value,
+        },
+        {
+          title: 'الفيديوهات التعريفية',
+          to: { name: 'ad-spaces-videos-settings' },
+          show: hasPermission('ad_spaces_view_videos') && isAdSpacesApp.value,
         },
         {
           title: 'من نحن',
           to: { name: 'about-us-settings' },
-          show: hasPermission('view_abouts'),
+          show: hasPermission('betrend_view_abouts') && isBeTrendApp.value,
+        },
+        {
+          title: 'من نحن',
+          to: { name: 'offers-about-us-settings' },
+          show: hasPermission('offers_view_abouts') && isOffersApp.value,
+        },
+        {
+          title: 'من نحن',
+          to: { name: 'ad-spaces-about-us-settings' },
+          show: hasPermission('ad_spaces_view_abouts') && isAdSpacesApp.value,
         },
         {
           title: 'إعدادات التذاكر',

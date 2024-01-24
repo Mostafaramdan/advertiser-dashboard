@@ -1,9 +1,9 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { Partner, PartnerBase } from './../interfaces/Partner'
+import type { AboutUsItem, AboutUsItemBase } from './../interfaces/AboutUsItem'
 
-class PartnerService {
-  contextPath = 'betrend_partners'
+class OffersAboutUsService {
+  contextPath = 'offers_abouts'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -15,12 +15,12 @@ class PartnerService {
   }
 
   /** **************** post ******************/
-  createItem(data: PartnerBase): AxiosPromise {
+  createItem(data: AboutUsItemBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 
   /** **************** put ******************/
-  editItem(data: Partner): AxiosPromise {
+  editItem(data: AboutUsItem): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
   }
 
@@ -30,4 +30,4 @@ class PartnerService {
   }
 }
 
-export const partnerService = new PartnerService()
+export const offersAboutUsService = new OffersAboutUsService()

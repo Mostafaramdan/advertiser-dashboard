@@ -4,9 +4,9 @@ import { USERS_TYPES } from '@/constants/settings'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { Video } from '../interfaces/Video'
-import VideoDetailsModal from '../modals/VideoDetailsModal.vue'
-import VideoFormModal from '../modals/VideoFormModal.vue'
-import { videosService } from '../services/VideosService'
+import OffersVideoDetailsModal from '../modals/OffersVideoDetailsModal.vue'
+import OffersVideoFormModal from '../modals/OffersVideoFormModal.vue'
+import { offersVideosService } from '../services/OffersVideosService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -43,7 +43,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<Video>(videosService, params, MODEL_NAME)
+} = UseCrudHelpers<Video>(offersVideosService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -80,11 +80,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('betrend_create_video'),
-  edit: hasPermission('betrend_update_video'),
-  delete: hasPermission('betrend_delete_video'),
-  changeStatus: hasPermission('betrend_change_status_video'),
-  sort: hasPermission('betrend_sort_video'),
+  create: hasPermission('offers_create_video'),
+  edit: hasPermission('offers_update_video'),
+  delete: hasPermission('offers_delete_video'),
+  changeStatus: hasPermission('offers_change_status_video'),
+  sort: hasPermission('offers_sort_video'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -111,7 +111,7 @@ getPageData()
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
-    <VideoFormModal
+    <OffersVideoFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
@@ -119,7 +119,7 @@ getPageData()
       @edit-item="onEditItem"
       @create-item="onCreateItem"
     />
-    <VideoDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+    <OffersVideoDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
   </section>
   <VCard title="الفيديوهات التعريفية" class="page-card">
     <VCardText>

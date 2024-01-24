@@ -88,11 +88,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_term'),
-  edit: hasPermission('update_term'),
-  delete: hasPermission('delete_term'),
-  changeStatus: hasPermission('change_status_term'),
-  sort: hasPermission('sort_term'),
+  create: hasPermission('betrend_create_term'),
+  edit: hasPermission('betrend_update_term'),
+  delete: hasPermission('betrend_delete_term'),
+  changeStatus: hasPermission('betrend_change_status_term'),
+  sort: hasPermission('betrend_sort_term'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {

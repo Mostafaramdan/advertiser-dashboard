@@ -2,8 +2,8 @@ import type { AxiosPromise } from 'axios'
 import axios from 'axios'
 import type { Partner, PartnerBase } from './../interfaces/Partner'
 
-class PartnerService {
-  contextPath = 'betrend_partners'
+class OffersPartnersService {
+  contextPath = 'offers_partners'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -30,4 +30,4 @@ class PartnerService {
   }
 }
 
-export const partnerService = new PartnerService()
+export const offersPartnersService = new OffersPartnersService()

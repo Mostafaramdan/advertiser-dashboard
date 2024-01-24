@@ -68,7 +68,7 @@ export const settingsRoutes = [
     name: 'questions-settings',
     component: () => import('./pages/QuestionsPage.vue'),
     meta: {
-      requiredPermission: 'view_questions',
+      requiredPermission: 'betrend_view_questions',
     },
   },
   {
@@ -84,7 +84,23 @@ export const settingsRoutes = [
     name: 'terms-conditions-settings',
     component: () => import('./pages/TermsConditionsPage.vue'),
     meta: {
-      requiredPermission: 'view_terms',
+      requiredPermission: 'betrend_view_terms',
+    },
+  },
+  {
+    path: 'offers-terms-and-conditions',
+    name: 'offers-terms-conditions-settings',
+    component: () => import('./pages/OffersTermsConditionsPage.vue'),
+    meta: {
+      requiredPermission: 'offers_view_terms',
+    },
+  },
+  {
+    path: 'ad-spaces-terms-and-conditions',
+    name: 'ad-spaces-terms-conditions-settings',
+    component: () => import('./pages/AdSpacesTermsConditionsPage.vue'),
+    meta: {
+      requiredPermission: 'ad_spaces_view_terms',
     },
   },
   {
@@ -116,7 +132,7 @@ export const settingsRoutes = [
     name: 'ad-space-platform-news-settings',
     component: () => import('./pages/AdSpacesPlatformNewsPage.vue'),
     meta: {
-      requiredPermission: 'offers_view_page_news',
+      requiredPermission: 'ad_spaces_view_page_news',
     },
   },
   {
@@ -124,7 +140,23 @@ export const settingsRoutes = [
     name: 'partners-settings',
     component: () => import('./pages/PartnersPage.vue'),
     meta: {
-      requiredPermission: 'view_partners',
+      requiredPermission: 'betrend_view_partners',
+    },
+  },
+  {
+    path: 'offers-partners',
+    name: 'offers-partners-settings',
+    component: () => import('./pages/OffersPartnersPage.vue'),
+    meta: {
+      requiredPermission: 'offers_view_partners',
+    },
+  },
+  {
+    path: 'ad-spaces-partners',
+    name: 'ad-spaces-partners-settings',
+    component: () => import('./pages/AdSpacesPartnersPage.vue'),
+    meta: {
+      requiredPermission: 'ad_spaces_view_partners',
     },
   },
   {
@@ -132,7 +164,23 @@ export const settingsRoutes = [
     name: 'videos-settings',
     component: () => import('./pages/VideosPage.vue'),
     meta: {
-      requiredPermission: 'view_videos',
+      requiredPermission: 'betrend_view_videos',
+    },
+  },
+  {
+    path: 'offers-videos',
+    name: 'offers-videos-settings',
+    component: () => import('./pages/OffersVideosPage.vue'),
+    meta: {
+      requiredPermission: 'offers_view_videos',
+    },
+  },
+  {
+    path: 'ad-spaces-videos',
+    name: 'ad-spaces-videos-settings',
+    component: () => import('./pages/AdSpacesVideosPage.vue'),
+    meta: {
+      requiredPermission: 'ad_spaces_view_videos',
     },
   },
   {
@@ -140,7 +188,23 @@ export const settingsRoutes = [
     name: 'about-us-settings',
     component: () => import('./pages/AboutUsPage.vue'),
     meta: {
-      requiredPermission: 'view_abouts',
+      requiredPermission: 'betrend_view_abouts',
+    },
+  },
+  {
+    path: 'offers-about-us',
+    name: 'offers-about-us-settings',
+    component: () => import('./pages/OffersAboutUsPage.vue'),
+    meta: {
+      requiredPermission: 'offers_view_abouts',
+    },
+  },
+  {
+    path: 'ad-spaces-about-us',
+    name: 'ad-spaces-about-us-settings',
+    component: () => import('./pages/AdSpacesAboutUsPage.vue'),
+    meta: {
+      requiredPermission: 'ad_spaces_view_abouts',
     },
   },
   {

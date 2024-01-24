@@ -595,32 +595,32 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض الكل',
             checked: false,
-            key: 'view_questions',
+            key: 'betrend_view_questions',
           },
           {
             label: 'إضافة',
             checked: false,
-            key: 'create_question',
+            key: 'betrend_create_question',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_question',
+            key: 'betrend_update_question',
           },
           {
             label: 'حذف',
             checked: false,
-            key: 'delete_question',
+            key: 'betrend_delete_question',
           },
           {
             label: 'تغيير الحالة',
             checked: false,
-            key: 'change_status_question',
+            key: 'betrend_change_status_question',
           },
           {
             label: 'ترتيب',
             checked: false,
-            key: 'sort_question',
+            key: 'betrend_sort_question',
           },
         ],
       },
@@ -735,32 +735,32 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض الكل',
             checked: false,
-            key: 'view_terms',
+            key: 'betrend_view_terms',
           },
           {
             label: 'إضافة',
             checked: false,
-            key: 'create_term',
+            key: 'betrend_create_term',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_term',
+            key: 'betrend_update_term',
           },
           {
             label: 'حذف',
             checked: false,
-            key: 'delete_term',
+            key: 'betrend_delete_term',
           },
           {
             label: 'تغيير الحالة',
             checked: false,
-            key: 'change_status_term',
+            key: 'betrend_change_status_term',
           },
           {
             label: 'ترتيب',
             checked: false,
-            key: 'sort_term',
+            key: 'betrend_sort_term',
           },
         ],
       },
@@ -840,32 +840,32 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض الكل',
             checked: false,
-            key: 'view_partners',
+            key: 'betrend_view_partners',
           },
           {
             label: 'إضافة',
             checked: false,
-            key: 'create_partner',
+            key: 'betrend_create_partner',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_partner',
+            key: 'betrend_update_partner',
           },
           {
             label: 'حذف',
             checked: false,
-            key: 'delete_partner',
+            key: 'betrend_delete_partner',
           },
           {
             label: 'تغيير الحالة',
             checked: false,
-            key: 'change_status_partner',
+            key: 'betrend_change_status_partner',
           },
           {
             label: 'ترتيب',
             checked: false,
-            key: 'sort_partner',
+            key: 'betrend_sort_partner',
           },
         ],
       },
@@ -875,32 +875,32 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض الكل',
             checked: false,
-            key: 'view_videos',
+            key: 'betrend_view_videos',
           },
           {
             label: 'إضافة',
             checked: false,
-            key: 'create_video',
+            key: 'betrend_create_video',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_video',
+            key: 'betrend_update_video',
           },
           {
             label: 'حذف',
             checked: false,
-            key: 'delete_video',
+            key: 'betrend_delete_video',
           },
           {
             label: 'تغيير الحالة',
             checked: false,
-            key: 'change_status_video',
+            key: 'betrend_change_status_video',
           },
           {
             label: 'ترتيب',
             checked: false,
-            key: 'sort_video',
+            key: 'betrend_sort_video',
           },
         ],
       },
@@ -910,32 +910,32 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض الكل',
             checked: false,
-            key: 'view_abouts',
+            key: 'betrend_view_abouts',
           },
           {
             label: 'إضافة',
             checked: false,
-            key: 'create_about',
+            key: 'betrend_create_about',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_about',
+            key: 'betrend_update_about',
           },
           {
             label: 'حذف',
             checked: false,
-            key: 'delete_about',
+            key: 'betrend_delete_about',
           },
           {
             label: 'تغيير الحالة',
             checked: false,
-            key: 'change_status_about',
+            key: 'betrend_change_status_about',
           },
           {
             label: 'ترتيب',
             checked: false,
-            key: 'sort_about',
+            key: 'betrend_sort_about',
           },
         ],
       },
@@ -1384,6 +1384,146 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'الشروط والاحكام',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'offers_view_terms',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'offers_create_term',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_term',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'offers_delete_term',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'offers_change_status_term',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'offers_sort_term',
+          },
+        ],
+      },
+      {
+        title: 'شركاء النجاح',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'offers_view_partners',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'offers_create_partner',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_partner',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'offers_delete_partner',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'offers_change_status_partner',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'offers_sort_partner',
+          },
+        ],
+      },
+      {
+        title: 'من نحن',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'offers_view_abouts',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'offers_create_about',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_about',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'offers_delete_about',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'offers_change_status_about',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'offers_sort_about',
+          },
+        ],
+      },
+      {
+        title: 'الفيديوهات التعريفية',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'offers_view_videos',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'offers_create_video',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_video',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'offers_delete_video',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'offers_change_status_video',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'offers_sort_video',
+          },
+        ],
+      },
     ],
   },
   {
@@ -1556,6 +1696,146 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'ترتيب',
             checked: false,
             key: 'ad_spaces_sort_page_new',
+          },
+        ],
+      },
+      {
+        title: 'الشروط والاحكام',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'ad_spaces_view_terms',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'ad_spaces_create_term',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_term',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'ad_spaces_delete_term',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'ad_spaces_change_status_term',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'ad_spaces_sort_term',
+          },
+        ],
+      },
+      {
+        title: 'شركاء النجاح',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'ad_spaces_view_partners',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'ad_spaces_create_partner',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_partner',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'ad_spaces_delete_partner',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'ad_spaces_change_status_partner',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'ad_spaces_sort_partner',
+          },
+        ],
+      },
+      {
+        title: 'من نحن',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'ad_spaces_view_abouts',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'ad_spaces_create_about',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_about',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'ad_spaces_delete_about',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'ad_spaces_change_status_about',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'ad_spaces_sort_about',
+          },
+        ],
+      },
+      {
+        title: 'الفيديوهات التعريفية',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'ad_spaces_view_videos',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'ad_spaces_create_video',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_video',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'ad_spaces_delete_video',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'ad_spaces_change_status_video',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'ad_spaces_sort_video',
           },
         ],
       },

@@ -3,9 +3,9 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { Partner } from '../interfaces/Partner'
-import PartnerDetailsModal from '../modals/PartnerDetailsModal.vue'
-import PartnerFormModal from '../modals/PartnerFormModal.vue'
-import { partnerService } from '../services/PartnerService'
+import OffersPartnerDetailsModal from '../modals/OffersPartnerDetailsModal.vue'
+import OffersPartnerFormModal from '../modals/OffersPartnerFormModal.vue'
+import { offersPartnersService } from '../services/OffersPartnersService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -42,7 +42,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<Partner>(partnerService, params, MODEL_NAME)
+} = UseCrudHelpers<Partner>(offersPartnersService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -71,11 +71,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('betrend_create_partner'),
-  edit: hasPermission('betrend_update_partner'),
-  delete: hasPermission('betrend_delete_partner'),
-  changeStatus: hasPermission('betrend_change_status_partner'),
-  sort: hasPermission('betrend_sort_partner'),
+  create: hasPermission('offers_create_partner'),
+  edit: hasPermission('offers_update_partner'),
+  delete: hasPermission('offers_delete_partner'),
+  changeStatus: hasPermission('offers_change_status_partner'),
+  sort: hasPermission('offers_sort_partner'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -102,7 +102,7 @@ getPageData()
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
-    <PartnerFormModal
+    <OffersPartnerFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
@@ -110,7 +110,7 @@ getPageData()
       @edit-item="onEditItem"
       @create-item="onCreateItem"
     />
-    <PartnerDetailsModal
+    <OffersPartnerDetailsModal
       v-if="showDetailsModal"
       v-model:showModal="showDetailsModal"
       :active-item="activeItem"

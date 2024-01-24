@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
+import { listService } from '@/services/ListService'
 import { useAuthStore } from '@/stores/AuthStore'
-import type { Partner } from '../interfaces/Partner'
-import PartnerDetailsModal from '../modals/PartnerDetailsModal.vue'
-import PartnerFormModal from '../modals/PartnerFormModal.vue'
-import { partnerService } from '../services/PartnerService'
+import type { TermsConditionsItem } from '../interfaces/TermsConditionsItem'
+import OffersTermsConditionsDetailsModal from '../modals/OffersTermsConditionsDetailsModal.vue'
+import OffersTermsConditionsFormModal from '../modals/OffersTermsConditionsFormModal.vue'
+import { offersTermsConditionsService } from '../services/OffersTermsConditionsService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -13,13 +14,25 @@ import { partnerService } from '../services/PartnerService'
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'partners'
+const MODEL_NAME = 'terms'
 
 const params: any = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
+  type: ['support'],
 })
+
+const isLoading = reactive({
+  types: false,
+})
+
+const termsConditionsTypes = ref<{ label: string; id: string }[]>([
+  {
+    id: 'support',
+    label: 'شروط واحكام عامة',
+  },
+])
 
 const {
   selectedItems,
@@ -39,10 +52,10 @@ const {
   showEditModal,
   showViewModal,
   onEditItem,
-  onCreateItem,
+  reloadPageData,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<Partner>(partnerService, params, MODEL_NAME)
+} = UseCrudHelpers<TermsConditionsItem>(offersTermsConditionsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -52,6 +65,10 @@ const headers: any = [
   {
     title: 'العنوان',
     key: 'name',
+  },
+  {
+    title: 'النوع',
+    key: 'type',
   },
   {
     title: 'الحالة',
@@ -71,11 +88,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('betrend_create_partner'),
-  edit: hasPermission('betrend_update_partner'),
-  delete: hasPermission('betrend_delete_partner'),
-  changeStatus: hasPermission('betrend_change_status_partner'),
-  sort: hasPermission('betrend_sort_partner'),
+  create: hasPermission('offers_create_term'),
+  edit: hasPermission('offers_update_term'),
+  delete: hasPermission('offers_delete_term'),
+  changeStatus: hasPermission('offers_change_status_term'),
+  sort: hasPermission('offers_sort_term'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -94,7 +111,41 @@ const pageActionsButtons = computed<pageAction[]>(() => {
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
+getTermsConditionsTypes()
 getPageData()
+
+// #endregion
+
+/***************************************
+ **** Section Functions Declaration ****
+ **************************************/
+// #region Functions
+function getTermsConditionsTypes() {
+  isLoading.types = true
+  listService
+    .getTermsConditionsTypes()
+    .then((res) => {
+      termsConditionsTypes.value = res.data
+    })
+    .finally(() => {
+      isLoading.types = false
+    })
+}
+
+function handleOnEditItem(item: TermsConditionsItem) {
+  if (params.type.includes(item.type.id)) {
+    onEditItem(item)
+  } else {
+    params.type.push(item.type.id)
+    getPageData()
+  }
+}
+
+function handleCreateItem(item: any) {
+  if (!params.type.includes(item.data?.type?.id)) params.type.push(item.type)
+
+  reloadPageData()
+}
 
 // #endregion
 </script>
@@ -102,20 +153,21 @@ getPageData()
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
-    <PartnerFormModal
+    <OffersTermsConditionsFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
       :active-item="activeItem"
-      @edit-item="onEditItem"
-      @create-item="onCreateItem"
+      :terms-conditions-types="termsConditionsTypes"
+      @edit-item="handleOnEditItem"
+      @create-item="handleCreateItem"
     />
-    <PartnerDetailsModal
+    <OffersTermsConditionsDetailsModal
       v-if="showDetailsModal"
       v-model:showModal="showDetailsModal"
       :active-item="activeItem"
     />
-    <VCard title="شركاء النجاح" class="page-card">
+    <VCard title="الشروط والاحكام" class="page-card">
       <VCardText>
         <PageActions
           :page-actions-buttons="pageActionsButtons"
@@ -127,7 +179,33 @@ getPageData()
           @update:items-per-page="onChangeItemsPerPage"
           @update:search="onChangeSearch"
           @reload-data="onReloadData"
-        />
+        >
+          <div class="v-col-md-4 pa-0">
+            <AppSelect
+              v-model="params.type"
+              multiple
+              name="type"
+              :items="termsConditionsTypes"
+              item-title="label"
+              item-value="id"
+              label="النوع"
+              hide-default-label
+              :loading="isLoading.types"
+              :disabled="isLoading.types"
+              @update:model-value="onReloadData"
+            >
+              <template #selection="{ item, index }">
+                <VChip v-if="index < 1">
+                  <span>{{ item.title }}</span>
+                </VChip>
+                <span v-if="index === 1" class="text-grey text-caption align-self-center">
+                  (+{{ params.type.length - 1 }} اخري)
+                </span>
+              </template>
+            </AppSelect>
+          </div>
+          <span class="me-auto" />
+        </PageActions>
         <VDataTableServer
           v-model="selectedItems"
           v-loading="IsLoadingData"
@@ -142,6 +220,12 @@ getPageData()
           <template #item.name="{ item }">
             <span style="min-inline-size: 200px">
               {{ item.name }}
+            </span>
+          </template>
+
+          <template #item.type="{ item }">
+            <span style="min-inline-size: 150px">
+              {{ item.type.label }}
             </span>
           </template>
 
@@ -210,6 +294,14 @@ getPageData()
 </template>
 
 <style lang="scss" scoped>
+:deep(.v-select__selection-text) {
+  @include max-lines(1);
+}
+
+:deep(.search-input) {
+  margin: 0 !important;
+}
+
 :deep(.v-data-table .v-table__wrapper > table td) {
   max-inline-size: 250px;
   word-wrap: break-word;

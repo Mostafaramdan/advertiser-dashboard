@@ -1,26 +1,22 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { Partner, PartnerBase } from './../interfaces/Partner'
+import type { Video, VideoBase } from './../interfaces/Video'
 
-class PartnerService {
-  contextPath = 'betrend_partners'
+class OffersVideosService {
+  contextPath = 'offers_videos'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}`, { params })
   }
 
-  getSingleItem(id: any): AxiosPromise {
-    return axios.get(`${this.contextPath}/${id}`)
-  }
-
   /** **************** post ******************/
-  createItem(data: PartnerBase): AxiosPromise {
+  createItem(data: VideoBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 
   /** **************** put ******************/
-  editItem(data: Partner): AxiosPromise {
+  editItem(data: Video): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
   }
 
@@ -30,4 +26,4 @@ class PartnerService {
   }
 }
 
-export const partnerService = new PartnerService()
+export const offersVideosService = new OffersVideosService()
