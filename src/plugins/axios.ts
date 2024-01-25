@@ -71,6 +71,8 @@ export const axiosConf = {
         sharedStore.setLoading(false)
 
         const errorResponse = error.response
+        if (error.name === 'CanceledError') return Promise.reject(error)
+
         switch (errorResponse?.status) {
           case 400:
             // Bad Request
