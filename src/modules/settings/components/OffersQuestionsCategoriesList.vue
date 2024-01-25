@@ -4,9 +4,9 @@ import { USERS_TYPES } from '@/constants/settings'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { QuestionCategory } from '../interfaces/QuestionCategory'
-import QuestionCategoryDetailsModal from '../modals/QuestionCategoryDetailsModal.vue'
-import QuestionCategoryFormModal from '../modals/QuestionCategoryFormModal.vue'
-import { questionsCategoriesService } from '../services/QuestionsCategoriesService'
+import OffersQuestionCategoryDetailsModal from '../modals/OffersQuestionCategoryDetailsModal.vue'
+import OffersQuestionCategoryFormModal from '../modals/OffersQuestionCategoryFormModal.vue'
+import { offersQuestionsCategoriesService } from '../services/OffersQuestionsCategoriesService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -43,7 +43,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<QuestionCategory>(questionsCategoriesService, params, MODEL_NAME)
+} = UseCrudHelpers<QuestionCategory>(offersQuestionsCategoriesService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -76,11 +76,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('betrend_create_support_category'),
-  edit: hasPermission('betrend_update_support_category'),
-  delete: hasPermission('betrend_delete_support_category'),
-  changeStatus: hasPermission('betrend_change_status_support_category'),
-  sort: hasPermission('betrend_sort_support_category'),
+  create: hasPermission('offers_create_support_category'),
+  edit: hasPermission('offers_update_support_category'),
+  delete: hasPermission('offers_delete_support_category'),
+  changeStatus: hasPermission('offers_change_status_support_category'),
+  sort: hasPermission('offers_sort_support_category'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -107,7 +107,7 @@ getPageData()
 <template>
   <div>
     <ConfirmModal ref="confirmModal" />
-    <QuestionCategoryFormModal
+    <OffersQuestionCategoryFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
@@ -115,7 +115,10 @@ getPageData()
       @edit-item="onEditItem"
       @create-item="onCreateItem"
     />
-    <QuestionCategoryDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+    <OffersQuestionCategoryDetailsModal
+      v-model:showModal="showDetailsModal"
+      :active-item="activeItem"
+    />
     <PageActions
       :page-actions-buttons="pageActionsButtons"
       :items-per-page="params.itemPerPage"

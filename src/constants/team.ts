@@ -630,32 +630,32 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض الكل',
             checked: false,
-            key: 'view_support_categories',
+            key: 'betrend_view_support_categories',
           },
           {
             label: 'إضافة',
             checked: false,
-            key: 'create_support_category',
+            key: 'betrend_create_support_category',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_support_category',
+            key: 'betrend_update_support_category',
           },
           {
             label: 'حذف',
             checked: false,
-            key: 'delete_support_category',
+            key: 'betrend_delete_support_category',
           },
           {
             label: 'تغيير الحالة',
             checked: false,
-            key: 'change_status_support_category',
+            key: 'betrend_change_status_support_category',
           },
           {
             label: 'ترتيب',
             checked: false,
-            key: 'sort_support_category',
+            key: 'betrend_sort_support_category',
           },
         ],
       },
@@ -1524,6 +1524,76 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'الاسئلة الشائعة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'offers_view_questions',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'offers_create_question',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_question',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'offers_delete_question',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'offers_change_status_question',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'offers_sort_question',
+          },
+        ],
+      },
+      {
+        title: 'أقسام الأسئلة الشائعة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'offers_view_support_categories',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'offers_create_support_category',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_support_category',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'offers_delete_support_category',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'offers_change_status_support_category',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'offers_sort_support_category',
+          },
+        ],
+      },
     ],
   },
   {
@@ -1836,6 +1906,76 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'ترتيب',
             checked: false,
             key: 'ad_spaces_sort_video',
+          },
+        ],
+      },
+      {
+        title: 'الاسئلة الشائعة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'ad_spaces_view_questions',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'ad_spaces_create_question',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_question',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'ad_spaces_delete_question',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'ad_spaces_change_status_question',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'ad_spaces_sort_question',
+          },
+        ],
+      },
+      {
+        title: 'أقسام الأسئلة الشائعة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'ad_spaces_view_support_categories',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'ad_spaces_create_support_category',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_support_category',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'ad_spaces_delete_support_category',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'ad_spaces_change_status_support_category',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'ad_spaces_sort_support_category',
           },
         ],
       },

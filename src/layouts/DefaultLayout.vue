@@ -153,7 +153,17 @@ const navItems = computed(() => {
         {
           title: 'الاسئلة الشائعة',
           to: { name: 'questions-settings' },
-          show: hasPermission('betrend_view_questions'),
+          show: hasPermission('betrend_view_questions') && isBeTrendApp.value,
+        },
+        {
+          title: 'الاسئلة الشائعة',
+          to: { name: 'offers-questions-settings' },
+          show: hasPermission('offers_view_questions') && isOffersApp.value,
+        },
+        {
+          title: 'الاسئلة الشائعة',
+          to: { name: 'ad-spaces-questions-settings' },
+          show: hasPermission('ad_spaces_view_questions') && isOffersApp.value,
         },
         {
           title: 'حسابات المعلنين',

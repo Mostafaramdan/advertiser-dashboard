@@ -1,22 +1,26 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { QuestionCategory, QuestionCategoryBase } from './../interfaces/QuestionCategory'
+import type { Question, QuestionBase } from './../interfaces/Question'
 
-class QuestionsCategoriesService {
-  contextPath = 'betrend_support_categories'
+class AdSpacesQuestionsService {
+  contextPath = 'ad_spaces_questions'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}`, { params })
   }
 
+  getSingleItem(id: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}`)
+  }
+
   /** **************** post ******************/
-  createItem(data: QuestionCategoryBase): AxiosPromise {
+  createItem(data: QuestionBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 
   /** **************** put ******************/
-  editItem(data: QuestionCategory): AxiosPromise {
+  editItem(data: Question): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
   }
 
@@ -26,4 +30,4 @@ class QuestionsCategoriesService {
   }
 }
 
-export const questionsCategoriesService = new QuestionsCategoriesService()
+export const adSpacesQuestionsService = new AdSpacesQuestionsService()

@@ -19,7 +19,15 @@ class ListService {
   }
 
   getQuestionsCategories(): AxiosPromise {
-    return axios.get(`${this.contextPath}/support_categories`)
+    return axios.get(`${this.contextPath}/betrend_support_categories`)
+  }
+
+  getOffersQuestionsCategories(): AxiosPromise {
+    return axios.get(`${this.contextPath}/offers_support_categories`)
+  }
+
+  getAdSpacesQuestionsCategories(): AxiosPromise {
+    return axios.get(`${this.contextPath}/ad_spaces_support_categories`)
   }
 
   getTermsConditionsTypes(): AxiosPromise {

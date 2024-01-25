@@ -72,6 +72,22 @@ export const settingsRoutes = [
     },
   },
   {
+    path: 'offers-questions',
+    name: 'offers-questions-settings',
+    component: () => import('./pages/OffersQuestionsPage.vue'),
+    meta: {
+      requiredPermission: 'offers_view_questions',
+    },
+  },
+  {
+    path: 'ad-spaces-questions',
+    name: 'ad-spaces-questions-settings',
+    component: () => import('./pages/AdSpacesQuestionsPage.vue'),
+    meta: {
+      requiredPermission: 'ad_spaces_view_questions',
+    },
+  },
+  {
     path: 'rating-items',
     name: 'rating-items-settings',
     component: () => import('./pages/RateItemsPage.vue'),

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/AuthStore'
-import QuestionsCategoriesList from '../components/QuestionsCategoriesList.vue'
-import QuestionsList from '../components/QuestionsList.vue'
+import OffersQuestionsCategoriesList from '../components/OffersQuestionsCategoriesList.vue'
+import OffersQuestionsList from '../components/OffersQuestionsList.vue'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -16,14 +16,14 @@ const tabs = [
   {
     title: 'الأسئلة الشائعة',
     value: 'questions',
-    component: QuestionsList,
-    show: hasPermission('betrend_view_questions'),
+    component: OffersQuestionsList,
+    show: hasPermission('offers_view_questions'),
   },
   {
     title: 'أقسام الأسئلة الشائعة',
     value: 'categories',
-    component: QuestionsCategoriesList,
-    show: hasPermission('betrend_view_support_categories'),
+    component: OffersQuestionsCategoriesList,
+    show: hasPermission('offers_view_support_categories'),
   },
 ]
 

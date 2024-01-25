@@ -2,8 +2,8 @@ import type { AxiosPromise } from 'axios'
 import axios from 'axios'
 import type { QuestionCategory, QuestionCategoryBase } from './../interfaces/QuestionCategory'
 
-class QuestionsCategoriesService {
-  contextPath = 'betrend_support_categories'
+class OffersQuestionsCategoriesService {
+  contextPath = 'offers_support_categories'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -26,4 +26,4 @@ class QuestionsCategoriesService {
   }
 }
 
-export const questionsCategoriesService = new QuestionsCategoriesService()
+export const offersQuestionsCategoriesService = new OffersQuestionsCategoriesService()

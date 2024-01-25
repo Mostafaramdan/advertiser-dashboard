@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
-import { USERS_TYPES } from '@/constants/settings'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
-import type { QuestionCategory } from '../interfaces/QuestionCategory'
-import QuestionCategoryDetailsModal from '../modals/QuestionCategoryDetailsModal.vue'
-import QuestionCategoryFormModal from '../modals/QuestionCategoryFormModal.vue'
-import { questionsCategoriesService } from '../services/QuestionsCategoriesService'
+import type { Question } from '../interfaces/Question'
+import AdSpacesQuestionDetailsModal from '../modals/AdSpacesQuestionDetailsModal.vue'
+import AdSpacesQuestionFormModal from '../modals/AdSpacesQuestionFormModal.vue'
+import { adSpacesQuestionsService } from '../services/AdSpacesQuestionsService'
+import AdSpacesQuestionsCategoriesSelect from './AdSpacesQuestionsCategoriesSelect.vue'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -14,12 +14,13 @@ import { questionsCategoriesService } from '../services/QuestionsCategoriesServi
 // #region Variables
 const { t } = useI18n()
 const { hasPermission } = useAuthStore()
-const MODEL_NAME = 'support_categories'
+const MODEL_NAME = 'questions'
 
-const params = reactive({
+const params: any = reactive({
   page: 1,
   itemPerPage: 10,
   keyword: '',
+  category_id: null,
 })
 
 const {
@@ -43,7 +44,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<QuestionCategory>(questionsCategoriesService, params, MODEL_NAME)
+} = UseCrudHelpers<Question>(adSpacesQuestionsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -51,12 +52,12 @@ const headers: any = [
     key: 'sort',
   },
   {
-    title: 'الاسم',
-    key: 'name',
+    title: 'السؤال',
+    key: 'question',
   },
   {
-    title: 'نوع المستخدمين',
-    key: 'user_types',
+    title: 'القسم',
+    key: 'category',
   },
   {
     title: 'الحالة',
@@ -76,11 +77,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('betrend_create_support_category'),
-  edit: hasPermission('betrend_update_support_category'),
-  delete: hasPermission('betrend_delete_support_category'),
-  changeStatus: hasPermission('betrend_change_status_support_category'),
-  sort: hasPermission('betrend_sort_support_category'),
+  create: hasPermission('ad_spaces_create_question'),
+  edit: hasPermission('ad_spaces_update_question'),
+  delete: hasPermission('ad_spaces_delete_question'),
+  changeStatus: hasPermission('ad_spaces_change_status_question'),
+  sort: hasPermission('ad_spaces_sort_question'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -107,7 +108,7 @@ getPageData()
 <template>
   <div>
     <ConfirmModal ref="confirmModal" />
-    <QuestionCategoryFormModal
+    <AdSpacesQuestionFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
@@ -115,7 +116,11 @@ getPageData()
       @edit-item="onEditItem"
       @create-item="onCreateItem"
     />
-    <QuestionCategoryDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+    <AdSpacesQuestionDetailsModal
+      v-if="showDetailsModal"
+      v-model:showModal="showDetailsModal"
+      :active-item="activeItem"
+    />
     <PageActions
       :page-actions-buttons="pageActionsButtons"
       :items-per-page="params.itemPerPage"
@@ -126,7 +131,16 @@ getPageData()
       @update:items-per-page="onChangeItemsPerPage"
       @update:search="onChangeSearch"
       @reload-data="onReloadData"
-    />
+    >
+      <div class="v-col-md-4 pa-0">
+        <AdSpacesQuestionsCategoriesSelect
+          v-model="params.category_id"
+          hide-default-label
+          @update:model-value="onReloadData"
+        />
+      </div>
+      <span class="me-auto" />
+    </PageActions>
     <VDataTableServer
       v-model="selectedItems"
       v-loading="IsLoadingData"
@@ -138,24 +152,15 @@ getPageData()
       class="app-table"
       :no-data-text="IsLoadingData ? t('general.loading') : t('general.no_data')"
     >
-      <template #item.name="{ item }">
-        <span>
-          {{ item.name }}
+      <template #item.question="{ item }">
+        <span style="min-inline-size: 200px">
+          {{ item.question }}
         </span>
       </template>
-
-      <template #item.user_types="{ item }">
-        <div class="d-flex gap-2">
-          <VChip
-            v-for="type in item.user_types as unknown"
-            :key="type"
-            variant="outlined"
-            color="primary"
-            label
-          >
-            {{ USERS_TYPES[type] }}
-          </VChip>
-        </div>
+      <template #item.category="{ item }">
+        <span style="min-inline-size: 150px">
+          {{ item.category?.name }}
+        </span>
       </template>
 
       <template #item.is_active="{ item }">
@@ -219,6 +224,14 @@ getPageData()
 </template>
 
 <style lang="scss" scoped>
+:deep(.v-select__selection-text) {
+  @include max-lines(1);
+}
+
+:deep(.search-input) {
+  margin: 0 !important;
+}
+
 :deep(.v-data-table .v-table__wrapper > table td) {
   max-inline-size: 250px;
   word-wrap: break-word;
