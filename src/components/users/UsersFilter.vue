@@ -84,11 +84,12 @@ function getCountries() {
 }
 
 function getAreas() {
+  const country_id = filters.country_id
   filters.area_id = null
-  if (!filters.country_id) return
+  if (!country_id) return
   isLoading.areas = true
   listService
-    .getAreas(filters.country_id)
+    .getCountriesAreas({ country_id })
     .then((res: any) => {
       areasList.value = res.data.data
     })

@@ -39,7 +39,7 @@ const { hasAtLeaseOnePermission, hasPermission } = useAuthStore()
  **** Section Computed Declaration ****
  **************************************/
 // #region Computed
-const isBeTrendApp = computed(() => authStore.selectedApp === 'be_trend')
+const isBeTrendApp = computed(() => authStore.selectedApp === 'betrend')
 const isOffersApp = computed(() => authStore.selectedApp === 'offers')
 const isAdSpacesApp = computed(() => authStore.selectedApp === 'spaces')
 const navItems = computed(() => {

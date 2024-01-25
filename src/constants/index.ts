@@ -55,7 +55,7 @@ export const DAYS = {
 }
 
 export const MAIN_APPS = new Map([
-  ['be_trend', { label: 'بي ترند' }],
+  ['betrend', { label: 'بي ترند' }],
   ['offers', { label: 'العروض' }],
   ['spaces', { label: 'المساحات' }],
 ])

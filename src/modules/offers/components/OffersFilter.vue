@@ -88,7 +88,7 @@ function getCountries() {
 function getAreas() {
   isLoading.areas = true
   listService
-    .getAreas(filters.countries[0])
+    .getCountriesAreas({ countries: filters.countries })
     .then((res: any) => {
       areasList.value = res.data.data
     })
@@ -98,8 +98,8 @@ function getAreas() {
 }
 
 function onChangeCountries() {
-  const countriesLength = filters.countries.length
-  if (countriesLength !== 1) {
+  if (!filters.countries.length) {
+    areasList.value = []
     filters.areas = []
     return
   }
@@ -154,7 +154,7 @@ function onChangeCountries() {
             item-title="label"
             label="المدن"
             :loading="isLoading.areas"
-            :disabled="isLoading.areas || filters.countries.length !== 1"
+            :disabled="isLoading.areas || filters.countries.length === 0"
             clearable
             multiple
           >

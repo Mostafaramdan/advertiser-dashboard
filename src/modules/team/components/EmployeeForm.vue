@@ -114,10 +114,11 @@ function getCountries() {
 }
 
 function getAreas() {
-  if (!formData.country_id) return
+  const country_id = formData.country_id
+  if (!country_id) return
   isLoading.areas = true
   listService
-    .getAreas(formData.country_id)
+    .getCountriesAreas({ country_id })
     .then((res: any) => {
       areasList.value = res.data.data
       if (!areasList.value.find((area) => area.id === formData.area_id)) formData.area_id = null
