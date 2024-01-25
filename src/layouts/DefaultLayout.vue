@@ -41,7 +41,7 @@ const { hasAtLeaseOnePermission, hasPermission } = useAuthStore()
 // #region Computed
 const isBeTrendApp = computed(() => authStore.selectedApp === 'betrend')
 const isOffersApp = computed(() => authStore.selectedApp === 'offers')
-const isAdSpacesApp = computed(() => authStore.selectedApp === 'spaces')
+const isAdSpacesApp = computed(() => authStore.selectedApp === 'ad_spaces')
 const navItems = computed(() => {
   return [
     {
@@ -163,7 +163,7 @@ const navItems = computed(() => {
         {
           title: 'الاسئلة الشائعة',
           to: { name: 'ad-spaces-questions-settings' },
-          show: hasPermission('ad_spaces_view_questions') && isOffersApp.value,
+          show: hasPermission('ad_spaces_view_questions') && isAdSpacesApp.value,
         },
         {
           title: 'حسابات المعلنين',
