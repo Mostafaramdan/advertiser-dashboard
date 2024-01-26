@@ -95,12 +95,12 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض',
             checked: false,
-            key: 'view_general_settings',
+            key: 'betrend_view_general_settings',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_general_settings',
+            key: 'betrend_update_general_settings',
           },
         ],
       },
@@ -110,12 +110,12 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض',
             checked: false,
-            key: 'view_social_settings',
+            key: 'betrend_view_social_settings',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_social_settings',
+            key: 'betrend_update_social_settings',
           },
         ],
       },
@@ -125,12 +125,12 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض',
             checked: false,
-            key: 'view_schedule_settings',
+            key: 'betrend_view_schedule_settings',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_schedule_settings',
+            key: 'betrend_update_schedule_settings',
           },
         ],
       },
@@ -140,27 +140,27 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض الكل',
             checked: false,
-            key: 'view_billing_cards',
+            key: 'betrend_view_billing_cards',
           },
           {
             label: 'إضافة',
             checked: false,
-            key: 'create_billing_card',
+            key: 'betrend_create_billing_card',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_billing_card',
+            key: 'betrend_update_billing_card',
           },
           {
             label: 'حذف',
             checked: false,
-            key: 'delete_billing_card',
+            key: 'betrend_delete_billing_card',
           },
           {
             label: 'تغيير الحالة',
             checked: false,
-            key: 'change_status_billing_card',
+            key: 'betrend_change_status_billing_card',
           },
         ],
       },
@@ -1597,6 +1597,86 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
     ],
   },
   {
+    title: 'إعدادت حساب المنصة العروض',
+    groups: [
+      {
+        title: 'بيانات المنصة',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'offers_view_general_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_general_settings',
+          },
+        ],
+      },
+      {
+        title: 'حسابات التواصل',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'offers_view_social_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_social_settings',
+          },
+        ],
+      },
+      {
+        title: 'دوام المنصة',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'offers_view_schedule_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_schedule_settings',
+          },
+        ],
+      },
+      {
+        title: 'طرق الدفع',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'offers_view_billing_cards',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'offers_create_billing_card',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_billing_card',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'offers_delete_billing_card',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'offers_change_status_billing_card',
+          },
+        ],
+      },
+    ],
+  },
+  {
     title: 'المساحات',
     groups: [
       {
@@ -1976,6 +2056,86 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'ترتيب',
             checked: false,
             key: 'ad_spaces_sort_support_category',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'إعدادت حساب المنصة المساحات',
+    groups: [
+      {
+        title: 'بيانات المنصة',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'ad_spaces_view_general_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_general_settings',
+          },
+        ],
+      },
+      {
+        title: 'حسابات التواصل',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'ad_spaces_view_social_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_social_settings',
+          },
+        ],
+      },
+      {
+        title: 'دوام المنصة',
+        permissions: [
+          {
+            label: 'عرض',
+            checked: false,
+            key: 'ad_spaces_view_schedule_settings',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_schedule_settings',
+          },
+        ],
+      },
+      {
+        title: 'طرق الدفع',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'ad_spaces_view_billing_cards',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'ad_spaces_create_billing_card',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_billing_card',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'ad_spaces_delete_billing_card',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'ad_spaces_change_status_billing_card',
           },
         ],
       },

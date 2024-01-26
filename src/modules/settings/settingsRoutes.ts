@@ -261,10 +261,10 @@ export const settingsRoutes = [
     component: () => import('./pages/platform/IndexPage.vue'),
     meta: {
       requireAtLeastOnePermission: [
-        'view_general_settings',
-        'view_social_settings',
-        'view_schedule_settings',
-        'view_billing_cards',
+        'betrend_view_general_settings',
+        'betrend_view_social_settings',
+        'betrend_view_schedule_settings',
+        'betrend_view_billing_cards',
       ],
     },
     children: [
@@ -273,7 +273,7 @@ export const settingsRoutes = [
         name: 'platform-settings-details',
         component: () => import('./pages/platform/DetailsPage.vue'),
         meta: {
-          requiredPermission: 'view_general_settings',
+          requiredPermission: 'betrend_view_general_settings',
         },
       },
       {
@@ -281,7 +281,7 @@ export const settingsRoutes = [
         name: 'social-accounts-settings',
         component: () => import('./pages/platform/SocialAccountsPage.vue'),
         meta: {
-          requiredPermission: 'view_social_settings',
+          requiredPermission: 'betrend_view_social_settings',
         },
       },
       {
@@ -289,7 +289,7 @@ export const settingsRoutes = [
         name: 'work-time-settings',
         component: () => import('./pages/platform/WorkTimePage.vue'),
         meta: {
-          requiredPermission: 'view_schedule_settings',
+          requiredPermission: 'betrend_view_schedule_settings',
         },
       },
       {
@@ -297,7 +297,7 @@ export const settingsRoutes = [
         name: 'payment-methods-settings',
         component: () => import('./pages/platform/PaymentMethodsPage.vue'),
         meta: {
-          requiredPermission: 'view_billing_cards',
+          requiredPermission: 'betrend_view_billing_cards',
         },
       },
     ],
