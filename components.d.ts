@@ -93,6 +93,7 @@ declare module 'vue' {
     PageActions: typeof import('./src/components/shared/PageActions.vue')['default']
     PageBackBtn: typeof import('./src/components/shared/PageBackBtn.vue')['default']
     PagePagination: typeof import('./src/components/shared/PagePagination.vue')['default']
+    PageTabs: typeof import('./src/components/shared/PageTabs.vue')['default']
     PageTabsNav: typeof import('./src/components/shared/PageTabsNav.vue')['default']
     PaymentStatsCard: typeof import('./src/components/home/PaymentStatsCard.vue')['default']
     PendingRequestsFilter: typeof import('./src/components/filters/PendingRequestsFilter.vue')['default']

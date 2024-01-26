@@ -85,7 +85,21 @@ export interface NotificationModalProps {
   }
 }
 
+// dropdown menu
 export interface DropdownMenuItem {
   id: number
   label: string
+}
+
+// page tabs
+export interface PageTab {
+  title: string
+  value: string
+  show?: boolean
+  component?: any
+}
+
+export interface PageTabsProps {
+  tabItems: PageTab[]
+  modelValue: string | null
 }
