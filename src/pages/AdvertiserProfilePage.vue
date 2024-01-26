@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import ProfileBasicInfo from '@/components/advertiser-profile/ProfileBasicInfo.vue'
+import UseTabsHelpers from '@/composables/UseTabsHelpers'
 import type { AdvertiserBasicData } from '@/interfaces/Advertiser'
+import { PageTab } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 
 /***************************************
@@ -37,7 +39,7 @@ const ChatBlockLogsTab = defineAsyncComponent(
 const route = useRoute()
 const router = useRouter()
 const { hasPermission } = useAuthStore()
-const currentTab = ref<any>()
+const { currentTab, updateRouteQuery } = UseTabsHelpers('details')
 const user = ref<AdvertiserBasicData | null>(null)
 const advertiserId = ref<number>(+route.params.id)
 // #endregion
@@ -46,7 +48,7 @@ const advertiserId = ref<number>(+route.params.id)
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-const tabs = computed(() => {
+const tabs = computed<PageTab[]>(() => {
   return [
     {
       title: 'بيانات المعلن',
@@ -118,36 +120,9 @@ const permissions = computed(() => ({
  **************************************/
 // #region Watchers
 watch(route, () => {
-  currentTab.value = route.query?.tab
-  // also update advertiser id for notifications click actions as it used as a key to render the components
+  // update advertiser id for notifications click actions as it used as a key to render the components
   advertiserId.value = +route.params.id
 })
-
-// #endregion
-
-/***************************************
- **** Section Lifecycle Hooks  *********
- **************************************/
-// #region Lifecycle Hooks
-// check tab from query
-onMounted(() => {
-  const tab = route.query.tab
-  if (tab) currentTab.value = tab
-  else currentTab.value = tabs.value[0].value
-})
-
-// #endregion
-
-/***************************************
- **** Section Functions Declaration ****
- **************************************/
-// #region Functions
-function updateRouteQuery() {
-  nextTick(() => {
-    router.push({ path: route.fullPath, query: { tab: currentTab.value } })
-  })
-}
-
 // #endregion
 </script>
 
@@ -198,13 +173,7 @@ function updateRouteQuery() {
     <ProfileBasicInfo @update:user="($event) => (user = $event)" />
     <VCard>
       <VCardText class="pa-4">
-        <VTabs v-model="currentTab" class="mb-3 v-tabs-pill" @update:model-value="updateRouteQuery">
-          <template v-for="tab in tabs" :key="tab.value">
-            <VTab v-if="tab.show" :value="tab.value">
-              {{ tab.title }}
-            </VTab>
-          </template>
-        </VTabs>
+        <PageTabs :tab-items="tabs" v-model="currentTab" @update:model-value="updateRouteQuery" />
         <div v-for="tab in tabs" :key="tab.value">
           <Component :is="tab.component" v-if="currentTab === tab.value && tab.show" :user="user" />
         </div>

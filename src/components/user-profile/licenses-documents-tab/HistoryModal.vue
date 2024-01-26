@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import UseTabsHelpers from '@/composables/UseTabsHelpers'
+import { PageTab } from '@/interfaces/Shared'
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
@@ -31,8 +33,8 @@ const emit = defineEmits<{
  **************************************/
 // #region Variables
 const showModal = useVModel(props, 'showModal', emit)
-const currentTab = ref<string>(props.activeTab)
-const tabs = [
+const { currentTab } = UseTabsHelpers(props.activeTab)
+const tabs: PageTab[] = [
   {
     title: 'سجل التنبيهات',
     value: 'notifications',
@@ -79,13 +81,7 @@ const tabs = [
 
         <!-- tabs -->
         <VCardText class="pa-4">
-          <VTabs v-model="currentTab" class="mb-3 v-tabs-pill">
-            <template v-for="tab in tabs" :key="tab.value">
-              <VTab :value="tab.value">
-                {{ tab.title }}
-              </VTab>
-            </template>
-          </VTabs>
+          <PageTabs :tab-items="tabs" v-model="currentTab" />
           <div v-for="tab in tabs" :key="tab.value">
             <Component :is="tab.component" v-if="currentTab === tab.value" :activeId="activeId" />
           </div>

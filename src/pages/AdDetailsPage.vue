@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import AdBasicData from '@/components/ads/AdBasicData.vue'
+import UseTabsHelpers from '@/composables/UseTabsHelpers'
+import { PageTab } from '@/interfaces/Shared'
 import { adsService } from '@/services/AdsService'
 import { useAdsStore } from '@/stores/AdsStore'
 import { useAuthStore } from '@/stores/AuthStore'
@@ -11,11 +13,10 @@ const DetailsTab = defineAsyncComponent(() => import('@/components/ads/AdDetails
 const CommentsTab = defineAsyncComponent(() => import('@/components/ads/AdCommentsTab.vue'))
 const ReportsTab = defineAsyncComponent(() => import('@/components/ads/AdReportsTab.vue'))
 const route = useRoute()
-const router = useRouter()
 const adsStore = useAdsStore()
 const { hasPermission } = useAuthStore()
+const { currentTab, updateRouteQuery } = UseTabsHelpers('details')
 const isLoading = ref<boolean>(false)
-const currentTab = ref<any>()
 const adRequestId = +route.params.id
 
 // #endregion
@@ -24,7 +25,7 @@ const adRequestId = +route.params.id
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-const tabs = computed(() => {
+const tabs = computed<PageTab[]>(() => {
   return [
     {
       title: 'بيانات الاعلان',
@@ -49,40 +50,16 @@ const tabs = computed(() => {
 // #endregion
 
 /***************************************
- **** Section Watchers *****************
- **************************************/
-// #region Watchers
-watch(route, () => {
-  currentTab.value = route.query?.tab
-})
-
-// #endregion
-
-/***************************************
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
 getPageData()
-
-// check tab from query
-onMounted(() => {
-  const tab = route.query.tab
-  if (tab) currentTab.value = tab
-  else currentTab.value = tabs.value[0].value
-})
-
 // #endregion
 
 /***************************************
  **** Section Functions Declaration ****
  **************************************/
 // #region Functions
-function updateRouteQuery() {
-  nextTick(() => {
-    router.push({ path: route.fullPath, query: { tab: currentTab.value } })
-  })
-}
-
 function getPageData() {
   adsStore.setAdDetails(null)
   isLoading.value = true
@@ -110,13 +87,7 @@ function getPageData() {
       </template>
       <VCardText>
         <AdBasicData />
-        <VTabs v-model="currentTab" class="mb-3 v-tabs-pill" @update:model-value="updateRouteQuery">
-          <template v-for="tab in tabs" :key="tab.value">
-            <VTab v-if="tab.show" :value="tab.value">
-              {{ tab.title }}
-            </VTab>
-          </template>
-        </VTabs>
+        <PageTabs :tab-items="tabs" v-model="currentTab" @update:model-value="updateRouteQuery" />
         <template v-for="tab in tabs" :key="tab.value">
           <Component :is="tab.component" v-if="currentTab === tab.value && tab.show" />
         </template>

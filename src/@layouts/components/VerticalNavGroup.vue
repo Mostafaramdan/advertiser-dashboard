@@ -174,11 +174,16 @@ watch(isVerticalNavMini(windowWidth, isVerticalNavHovered), (val) => {
 //       isGroupOpen.value = false
 //   }
 // })
+
+function showGroup(item: NavGroup) {
+  return item.children.some((child) => child.show)
+}
 </script>
 
 <template>
   <li
     class="nav-group"
+    v-if="showGroup(item)"
     :class="[
       {
         active: isGroupActive,
@@ -227,9 +232,6 @@ watch(isVerticalNavMini(windowWidth, isVerticalNavHovered), (val) => {
             :item="child"
           />
         </template>
-        <li class="nav-link ps-15 pb-4" v-if="item.children.every((child) => !child.show)">
-          عفوا ليس لديك صلاحيات
-        </li>
       </ul>
     </TransitionExpand>
   </li>

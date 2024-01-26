@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AdsRequestBasicData from '@/components/ads-requests/AdsRequestBasicData.vue'
+import UseTabsHelpers from '@/composables/UseTabsHelpers'
 import { adsRequestsService } from '@/services/AdsRequestsService'
 import { useAdsRequestsStore } from '@/stores/AdsRequestsStore'
 /***************************************
@@ -16,10 +17,9 @@ const AdsRequestContentTab = defineAsyncComponent(
   () => import('@/components/ads-requests/AdsRequestContentTab.vue'),
 )
 const route = useRoute()
-const router = useRouter()
 const adsRequestsStore = useAdsRequestsStore()
+const { currentTab, updateRouteQuery } = UseTabsHelpers('details')
 const isLoading = ref<boolean>(false)
-const currentTab = ref<any>()
 const adRequestId = +route.params.id
 
 // #endregion
@@ -50,40 +50,16 @@ const tabs = computed(() => {
 // #endregion
 
 /***************************************
- **** Section Watchers *****************
- **************************************/
-// #region Watchers
-watch(route, () => {
-  currentTab.value = route.query?.tab
-})
-
-// #endregion
-
-/***************************************
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
 getPageData()
-
-// check tab from query
-onMounted(() => {
-  const tab = route.query.tab
-  if (tab) currentTab.value = tab
-  else currentTab.value = tabs.value[0].value
-})
-
 // #endregion
 
 /***************************************
  **** Section Functions Declaration ****
  **************************************/
 // #region Functions
-function updateRouteQuery() {
-  nextTick(() => {
-    router.push({ path: route.fullPath, query: { tab: currentTab.value } })
-  })
-}
-
 function getPageData() {
   adsRequestsStore.setAdsRequestDetails(null)
   isLoading.value = true
@@ -111,11 +87,7 @@ function getPageData() {
       </template>
       <VCardText>
         <AdsRequestBasicData />
-        <VTabs v-model="currentTab" class="mb-3 v-tabs-pill" @update:model-value="updateRouteQuery">
-          <VTab :value="tab.value" v-for="tab in tabs" :key="tab.value">
-            {{ tab.title }}
-          </VTab>
-        </VTabs>
+        <PageTabs :tab-items="tabs" v-model="currentTab" @update:model-value="updateRouteQuery" />
         <template v-if="!isLoading">
           <div v-for="tab in tabs" :key="tab.value">
             <Component :is="tab.component" v-if="currentTab === tab.value" />

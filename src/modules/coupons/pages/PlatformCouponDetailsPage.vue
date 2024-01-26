@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import UseTabsHelpers from '@/composables/UseTabsHelpers'
+import { PageTab } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 /***************************************
  **** Section Variables Declaration ****
@@ -14,10 +16,9 @@ const PlatformCouponDetailsTab = defineAsyncComponent(
   () => import('../components/PlatformCouponDetailsTab.vue'),
 )
 const route = useRoute()
-const router = useRouter()
 const { hasPermission } = useAuthStore()
 const isLoading = ref<boolean>(false)
-const currentTab = ref<any>()
+const { currentTab, updateRouteQuery } = UseTabsHelpers('details')
 
 // #endregion
 
@@ -25,7 +26,7 @@ const currentTab = ref<any>()
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-const tabs = computed(() => {
+const tabs = computed<PageTab[]>(() => {
   return [
     {
       title: 'تفاصيل الكوبون',
@@ -48,40 +49,6 @@ const tabs = computed(() => {
   ]
 })
 // #endregion
-
-/***************************************
- **** Section Watchers *****************
- **************************************/
-// #region Watchers
-watch(route, () => {
-  currentTab.value = route.query?.tab
-})
-
-// #endregion
-
-/***************************************
- **** Section Lifecycle Hooks  *********
- **************************************/
-// #region Lifecycle Hooks
-// check tab from query
-onMounted(() => {
-  const tab = route.query.tab
-  if (tab) currentTab.value = tab
-  else currentTab.value = tabs.value[0].value
-})
-
-// #endregion
-
-/***************************************
- **** Section Functions Declaration ****
- **************************************/
-// #region Functions
-function updateRouteQuery() {
-  nextTick(() => {
-    router.push({ path: route.fullPath, query: { tab: currentTab.value } })
-  })
-}
-// #endregion
 </script>
 
 <template>
@@ -97,13 +64,7 @@ function updateRouteQuery() {
         </div>
       </template>
       <VCardText>
-        <VTabs v-model="currentTab" class="mb-3 v-tabs-pill" @update:model-value="updateRouteQuery">
-          <template v-for="tab in tabs" :key="tab.value">
-            <VTab :value="tab.value" v-if="tab.show">
-              {{ tab.title }}
-            </VTab>
-          </template>
-        </VTabs>
+        <PageTabs :tab-items="tabs" v-model="currentTab" @update:model-value="updateRouteQuery" />
         <template v-if="!isLoading">
           <div v-for="tab in tabs" :key="tab.value">
             <Component :is="tab.component" v-if="currentTab === tab.value && tab.show" />

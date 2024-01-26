@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import UseTabsHelpers from '@/composables/UseTabsHelpers'
+import { PageTab } from '@/interfaces/Shared'
 import DisputeRequestBasicData from '@/modules/disputes/components/DisputeRequestBasicData.vue'
 import { requestsService } from '@/modules/disputes/services/RequestsService'
 import { useAuthStore } from '@/stores/AuthStore'
@@ -20,11 +22,10 @@ const DisputeRequestOtherDetailsTab = defineAsyncComponent(
   () => import('../components/DisputeRequestOtherDetailsTab.vue'),
 )
 const route = useRoute()
-const router = useRouter()
 const disputesStore = useDisputesStore()
 const { hasPermission } = useAuthStore()
+const { currentTab, updateRouteQuery } = UseTabsHelpers('details')
 const isLoading = ref<boolean>(false)
-const currentTab = ref<any>()
 const disputeRequestId = +route.params.id
 
 // #endregion
@@ -33,7 +34,7 @@ const disputeRequestId = +route.params.id
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-const tabs = computed(() => {
+const tabs = computed<PageTab[]>(() => {
   return [
     {
       title: 'تفاصيل التنازع',
@@ -64,42 +65,18 @@ const tabs = computed(() => {
 // #endregion
 
 /***************************************
- **** Section Watchers *****************
- **************************************/
-// #region Watchers
-watch(route, () => {
-  currentTab.value = route.query?.tab
-})
-
-// #endregion
-
-/***************************************
  **** Section Lifecycle Hooks  *********
  **************************************/
 // #region Lifecycle Hooks
 // reset basic data
 disputesStore.setRequestDetails(null)
 getBasicData()
-
-// check tab from query
-onMounted(() => {
-  const tab = route.query.tab
-  if (tab) currentTab.value = tab
-  else currentTab.value = tabs.value[0].value
-})
-
 // #endregion
 
 /***************************************
  **** Section Functions Declaration ****
  **************************************/
 // #region Functions
-function updateRouteQuery() {
-  nextTick(() => {
-    router.push({ path: route.fullPath, query: { tab: currentTab.value } })
-  })
-}
-
 function getBasicData() {
   isLoading.value = true
   requestsService
@@ -126,13 +103,7 @@ function getBasicData() {
       </template>
       <VCardText>
         <DisputeRequestBasicData />
-        <VTabs v-model="currentTab" class="mb-3 v-tabs-pill" @update:model-value="updateRouteQuery">
-          <template v-for="tab in tabs" :key="tab.value">
-            <VTab :value="tab.value" v-if="tab.show">
-              {{ tab.title }}
-            </VTab>
-          </template>
-        </VTabs>
+        <PageTabs :tab-items="tabs" v-model="currentTab" @update:model-value="updateRouteQuery" />
         <template v-for="tab in tabs" :key="tab.value">
           <Component
             :is="tab.component"

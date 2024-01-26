@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import UseTabsHelpers from '@/composables/UseTabsHelpers'
+import { PageTab } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import OfferBasicData from '../components/OfferBasicData.vue'
 /***************************************
@@ -9,18 +11,15 @@ const OfferDetailsTab = defineAsyncComponent(() => import('../components/OfferDe
 const OfferLogsTab = defineAsyncComponent(() => import('../components/OfferLogsTab.vue'))
 const OfferStatsTab = defineAsyncComponent(() => import('../components/OfferStatsTab.vue'))
 
-const route = useRoute()
-const router = useRouter()
 const { hasPermission } = useAuthStore()
-const currentTab = ref<any>()
-
+const { currentTab, updateRouteQuery } = UseTabsHelpers('details')
 // #endregion
 
 /***************************************
  **** Section Computed Variables  ******
  **************************************/
 // #region Computed
-const tabs = computed(() => {
+const tabs = computed<PageTab[]>(() => {
   return [
     {
       title: 'بيانات العرض',
@@ -43,41 +42,6 @@ const tabs = computed(() => {
   ]
 })
 // #endregion
-
-/***************************************
- **** Section Watchers *****************
- **************************************/
-// #region Watchers
-watch(route, () => {
-  currentTab.value = route.query?.tab
-})
-
-// #endregion
-
-/***************************************
- **** Section Lifecycle Hooks  *********
- **************************************/
-// #region Lifecycle Hooks
-// check tab from query
-onMounted(() => {
-  const tab = route.query.tab
-  if (tab) currentTab.value = tab
-  else currentTab.value = tabs.value[0].value
-})
-
-// #endregion
-
-/***************************************
- **** Section Functions Declaration ****
- **************************************/
-// #region Functions
-function updateRouteQuery() {
-  nextTick(() => {
-    router.push({ path: route.fullPath, query: { tab: currentTab.value } })
-  })
-}
-
-// #endregion
 </script>
 
 <template>
@@ -91,13 +55,7 @@ function updateRouteQuery() {
       </template>
       <VCardText>
         <OfferBasicData />
-        <VTabs v-model="currentTab" class="mb-3 v-tabs-pill" @update:model-value="updateRouteQuery">
-          <template v-for="tab in tabs" :key="tab.value">
-            <VTab v-if="tab.show" :value="tab.value">
-              {{ tab.title }}
-            </VTab>
-          </template>
-        </VTabs>
+        <PageTabs :tab-items="tabs" v-model="currentTab" @update:model-value="updateRouteQuery" />
         <template v-for="tab in tabs" :key="tab.value">
           <Component :is="tab.component" v-if="currentTab === tab.value && tab.show" />
         </template>
