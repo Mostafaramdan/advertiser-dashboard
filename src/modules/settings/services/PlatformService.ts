@@ -2,7 +2,7 @@ import type { AxiosPromise } from 'axios'
 import axios from 'axios'
 
 class PlatformService {
-  contextPath = 'platform_setting'
+  contextPath = 'betrend_platform_setting'
 
   /** **************** get ******************/
   getGeneralData(country_id: number): AxiosPromise {

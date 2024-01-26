@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useToast } from 'vue-toastification'
-import type { WorkTimeData } from '../../interfaces/WorkTime'
-import { platformService } from '../../services/PlatformService'
 import { WORK_DAYS } from '@/constants/settings'
 import { cloneItem, getChangesOfArray } from '@/helpers/index'
 import { useAuthStore } from '@/stores/AuthStore'
+import { useToast } from 'vue-toastification'
+import type { WorkTimeData } from '../../interfaces/WorkTime'
+import { platformService } from '../../services/PlatformService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -31,7 +31,7 @@ const isLoading = reactive({
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  edit: hasPermission('update_schedule_settings'),
+  edit: hasPermission('betrend_update_schedule_settings'),
 }))
 
 // #endregion

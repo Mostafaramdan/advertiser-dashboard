@@ -86,7 +86,7 @@ const formData = reactive<PlatformFormData | any>({
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  edit: hasPermission('update_general_settings'),
+  edit: hasPermission('betrend_update_general_settings'),
 }))
 
 // #endregion

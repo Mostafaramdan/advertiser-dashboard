@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { PaymentGetWay, PaymentMethod } from '../interfaces/PlatformDetails'
 import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 import { PAYMENT_GET_WAYS } from '@/constants/settings'
 import { useAuthStore } from '@/stores/AuthStore'
+import type { PaymentGetWay, PaymentMethod } from '../interfaces/PlatformDetails'
 /***************************************
  **** Section Props Declaration  ******
  **************************************/
@@ -43,9 +43,9 @@ const cardStatus = ref(props.payment.is_active)
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  edit: hasPermission('update_billing_card'),
-  delete: hasPermission('delete_billing_card'),
-  changeStatus: hasPermission('change_status_billing_card'),
+  edit: hasPermission('betrend_update_billing_card'),
+  delete: hasPermission('betrend_delete_billing_card'),
+  changeStatus: hasPermission('betrend_change_status_billing_card'),
 }))
 
 // #endregion

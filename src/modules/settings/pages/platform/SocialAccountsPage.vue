@@ -28,7 +28,7 @@ const isLoading = reactive({
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  edit: hasPermission('update_social_settings'),
+  edit: hasPermission('betrend_update_social_settings'),
 }))
 
 // #endregion

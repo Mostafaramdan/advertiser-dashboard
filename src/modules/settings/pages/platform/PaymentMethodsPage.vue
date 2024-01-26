@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
+import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
+import { useAuthStore } from '@/stores/AuthStore'
 import { useDisplay } from 'vuetify'
 import PaymentMethodCard from '../../components/PaymentMethodCard.vue'
 import type { PaymentGetWay, PaymentMethod } from '../../interfaces/PlatformDetails'
 import PaymentMethodFormModal from '../../modals/PaymeMethodFormModal.vue'
 import { platformService } from '../../services/PlatformService'
-import { useAuthStore } from '@/stores/AuthStore'
-import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
-import UseGeneralHelpers from '@/composables/UseGeneralHelpers'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -41,7 +41,7 @@ const data = reactive<any>({
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('create_billing_card'),
+  create: hasPermission('betrend_create_billing_card'),
 }))
 
 // #endregion

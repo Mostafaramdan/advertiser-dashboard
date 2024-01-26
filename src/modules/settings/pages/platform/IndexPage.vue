@@ -9,22 +9,22 @@ const navLinks = computed<PageTabNavItem[]>(() => {
     {
       title: 'بيانات المنصة',
       to: { name: 'platform-settings-details' },
-      show: hasPermission('view_general_settings'),
+      show: hasPermission('betrend_view_general_settings'),
     },
     {
       title: 'حسابات التواصل',
       to: { name: 'social-accounts-settings' },
-      show: hasPermission('view_social_settings'),
+      show: hasPermission('betrend_view_social_settings'),
     },
     {
       title: 'دوام المنصة',
       to: { name: 'work-time-settings' },
-      show: hasPermission('view_schedule_settings'),
+      show: hasPermission('betrend_view_schedule_settings'),
     },
     {
       title: 'طرق الدفع',
       to: { name: 'payment-methods-settings' },
-      show: hasPermission('view_billing_cards'),
+      show: hasPermission('betrend_view_billing_cards'),
     },
   ]
 })
