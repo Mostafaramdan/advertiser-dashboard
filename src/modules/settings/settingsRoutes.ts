@@ -60,7 +60,23 @@ export const settingsRoutes = [
     name: 'reports-reasons-settings',
     component: () => import('./pages/ReportsReasons.vue'),
     meta: {
-      requiredPermission: 'view_report_reasons',
+      requiredPermission: 'betrend_view_report_reasons',
+    },
+  },
+  {
+    path: 'offers-reports-reasons',
+    name: 'offers-reports-reasons-settings',
+    component: () => import('./pages/OffersReportsReasons.vue'),
+    meta: {
+      requiredPermission: 'offers_view_report_reasons',
+    },
+  },
+  {
+    path: 'ad-spaces-reports-reasons',
+    name: 'ad-spaces-reports-reasons-settings',
+    component: () => import('./pages/AdSpacesReportsReasons.vue'),
+    meta: {
+      requiredPermission: 'ad_spaces_view_report_reasons',
     },
   },
   {
@@ -244,7 +260,23 @@ export const settingsRoutes = [
     name: 'ready-replies-settings',
     component: () => import('./pages/ReadyRepliesPage.vue'),
     meta: {
-      requiredPermission: 'view_admin_replies',
+      requiredPermission: 'betrend_view_admin_replies',
+    },
+  },
+  {
+    path: 'offers-ready-replies',
+    name: 'offers-ready-replies-settings',
+    component: () => import('./pages/OffersReadyRepliesPage.vue'),
+    meta: {
+      requiredPermission: 'offers_view_admin_replies',
+    },
+  },
+  {
+    path: 'ad-spaces-ready-replies',
+    name: 'ad-spaces-ready-replies-settings',
+    component: () => import('./pages/AdSpacesReadyRepliesPage.vue'),
+    meta: {
+      requiredPermission: 'ad_spaces_view_admin_replies',
     },
   },
   {

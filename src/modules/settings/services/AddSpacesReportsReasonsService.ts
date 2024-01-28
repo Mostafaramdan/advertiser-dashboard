@@ -2,8 +2,8 @@ import type { AxiosPromise } from 'axios'
 import axios from 'axios'
 import type { ReportReason, ReportReasonBase } from './../interfaces/ReportReason'
 
-class ReportsReasonsService {
-  contextPath = 'betrend_report_reasons'
+class AddSpacesReportsReasonsService {
+  contextPath = 'ad_spaces_report_reasons'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
@@ -26,4 +26,4 @@ class ReportsReasonsService {
   }
 }
 
-export const reportsReasonsService = new ReportsReasonsService()
+export const addSpacesReportsReasonsService = new AddSpacesReportsReasonsService()

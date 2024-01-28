@@ -4,9 +4,9 @@ import { REPLIES_TYPES } from '@/constants/settings'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { ReadyReply } from '../interfaces/ReadyReply'
-import ReadyReplyDetailsModal from '../modals/ReadyReplyDetailsModal.vue'
-import ReadyReplyFormModal from '../modals/ReadyReplyFormModal.vue'
-import { readyRepliesService } from '../services/ReadyRepliesService'
+import OffersReadyReplyDetailsModal from '../modals/OffersReadyReplyDetailsModal.vue'
+import OffersReadyReplyFormModal from '../modals/OffersReadyReplyFormModal.vue'
+import { offersReadyRepliesService } from '../services/OffersReadyRepliesService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -43,7 +43,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<ReadyReply>(readyRepliesService, params, MODEL_NAME)
+} = UseCrudHelpers<ReadyReply>(offersReadyRepliesService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -76,11 +76,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('betrend_create_admin_reply'),
-  edit: hasPermission('betrend_update_admin_reply'),
-  delete: hasPermission('betrend_delete_admin_reply'),
-  changeStatus: hasPermission('betrend_change_status_admin_reply'),
-  sort: hasPermission('betrend_sort_admin_reply'),
+  create: hasPermission('offers_create_admin_reply'),
+  edit: hasPermission('offers_update_admin_reply'),
+  delete: hasPermission('offers_delete_admin_reply'),
+  changeStatus: hasPermission('offers_change_status_admin_reply'),
+  sort: hasPermission('offers_sort_admin_reply'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -107,7 +107,7 @@ getPageData()
 <template>
   <section>
     <ConfirmModal ref="confirmModal" />
-    <ReadyReplyFormModal
+    <OffersReadyReplyFormModal
       v-if="showFormModal"
       v-model:showModal="showFormModal"
       :form-action="FormAction"
@@ -115,7 +115,7 @@ getPageData()
       @edit-item="onEditItem"
       @create-item="onCreateItem"
     />
-    <ReadyReplyDetailsModal
+    <OffersReadyReplyDetailsModal
       v-if="showDetailsModal"
       v-model:showModal="showDetailsModal"
       :active-item="activeItem"

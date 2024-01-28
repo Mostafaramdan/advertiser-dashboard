@@ -3,9 +3,9 @@ import { UseCrudHelpers } from '@/composables/UserCrudHelpers'
 import type { pageAction } from '@/interfaces/Shared'
 import { useAuthStore } from '@/stores/AuthStore'
 import type { ReportReason } from '../interfaces/ReportReason'
-import ReportReasonDetailsModal from '../modals/ReportReasonDetailsModal.vue'
-import ReportReasonFormModal from '../modals/ReportReasonFormModal.vue'
-import { reportsReasonsService } from '../services/ReportsReasonsService'
+import OffersReportReasonDetailsModal from '../modals/OffersReportReasonDetailsModal.vue'
+import OffersReportReasonFormModal from '../modals/OffersReportReasonFormModal.vue'
+import { offersReportsReasonsService } from '../services/OffersReportsReasonsService'
 
 /***************************************
  **** Section Variables Declaration ****
@@ -42,7 +42,7 @@ const {
   onCreateItem,
   showConfirmDeleteItem,
   sortItems,
-} = UseCrudHelpers<ReportReason>(reportsReasonsService, params, MODEL_NAME)
+} = UseCrudHelpers<ReportReason>(offersReportsReasonsService, params, MODEL_NAME)
 
 const headers: any = [
   {
@@ -75,11 +75,11 @@ const headers: any = [
  **************************************/
 // #region Computed
 const permissions = computed(() => ({
-  create: hasPermission('betrend_create_report_reason'),
-  edit: hasPermission('betrend_update_report_reason'),
-  delete: hasPermission('betrend_delete_report_reason'),
-  changeStatus: hasPermission('betrend_change_status_report_reason'),
-  sort: hasPermission('betrend_sort_report_reason'),
+  create: hasPermission('offers_create_report_reason'),
+  edit: hasPermission('offers_update_report_reason'),
+  delete: hasPermission('offers_delete_report_reason'),
+  changeStatus: hasPermission('offers_change_status_report_reason'),
+  sort: hasPermission('offers_sort_report_reason'),
 }))
 
 const pageActionsButtons = computed<pageAction[]>(() => {
@@ -105,7 +105,7 @@ getPageData()
 
 <template>
   <ConfirmModal ref="confirmModal" />
-  <ReportReasonFormModal
+  <OffersReportReasonFormModal
     v-if="showFormModal"
     v-model:showModal="showFormModal"
     :form-action="FormAction"
@@ -113,7 +113,7 @@ getPageData()
     @create-item="onCreateItem"
     @edit-item="onEditItem"
   />
-  <ReportReasonDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
+  <OffersReportReasonDetailsModal v-model:showModal="showDetailsModal" :active-item="activeItem" />
   <VCard title="أسباب البلاغات" class="page-card">
     <VCardText>
       <PageActions

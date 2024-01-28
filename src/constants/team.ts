@@ -665,32 +665,32 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض الكل',
             checked: false,
-            key: 'view_report_reasons',
+            key: 'betrend_view_report_reasons',
           },
           {
             label: 'إضافة',
             checked: false,
-            key: 'create_report_reason',
+            key: 'betrend_create_report_reason',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_report_reason',
+            key: 'betrend_update_report_reason',
           },
           {
             label: 'حذف',
             checked: false,
-            key: 'delete_report_reason',
+            key: 'betrend_delete_report_reason',
           },
           {
             label: 'تغيير الحالة',
             checked: false,
-            key: 'change_status_report_reason',
+            key: 'betrend_change_status_report_reason',
           },
           {
             label: 'ترتيب',
             checked: false,
-            key: 'sort_report_reason',
+            key: 'betrend_sort_report_reason',
           },
         ],
       },
@@ -975,32 +975,32 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           {
             label: 'عرض الكل',
             checked: false,
-            key: 'view_admin_replies',
+            key: 'betrend_view_admin_replies',
           },
           {
             label: 'إضافة',
             checked: false,
-            key: 'create_admin_reply',
+            key: 'betrend_create_admin_reply',
           },
           {
             label: 'تعديل',
             checked: false,
-            key: 'update_admin_reply',
+            key: 'betrend_update_admin_reply',
           },
           {
             label: 'حذف',
             checked: false,
-            key: 'delete_admin_reply',
+            key: 'betrend_delete_admin_reply',
           },
           {
             label: 'تغيير الحالة',
             checked: false,
-            key: 'change_status_admin_reply',
+            key: 'betrend_change_status_admin_reply',
           },
           {
             label: 'ترتيب',
             checked: false,
-            key: 'sort_admin_reply',
+            key: 'betrend_sort_admin_reply',
           },
         ],
       },
@@ -1594,6 +1594,76 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
           },
         ],
       },
+      {
+        title: 'أسباب البلاغات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'offers_view_report_reasons',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'offers_create_report_reason',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_report_reason',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'offers_delete_report_reason',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'offers_change_status_report_reason',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'offers_sort_report_reason',
+          },
+        ],
+      },
+      {
+        title: 'الردود الجاهزة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'offers_view_admin_replies',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'offers_create_admin_reply',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'offers_update_admin_reply',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'offers_delete_admin_reply',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'offers_change_status_admin_reply',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'offers_sort_admin_reply',
+          },
+        ],
+      },
     ],
   },
   {
@@ -2056,6 +2126,76 @@ export const PERMISSIONS_LIST: PermissionListItem[] = [
             label: 'ترتيب',
             checked: false,
             key: 'ad_spaces_sort_support_category',
+          },
+        ],
+      },
+      {
+        title: 'أسباب البلاغات',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'ad_spaces_view_report_reasons',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'ad_spaces_create_report_reason',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_report_reason',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'ad_spaces_delete_report_reason',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'ad_spaces_change_status_report_reason',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'ad_spaces_sort_report_reason',
+          },
+        ],
+      },
+      {
+        title: 'الردود الجاهزة',
+        permissions: [
+          {
+            label: 'عرض الكل',
+            checked: false,
+            key: 'ad_spaces_view_admin_replies',
+          },
+          {
+            label: 'إضافة',
+            checked: false,
+            key: 'ad_spaces_create_admin_reply',
+          },
+          {
+            label: 'تعديل',
+            checked: false,
+            key: 'ad_spaces_update_admin_reply',
+          },
+          {
+            label: 'حذف',
+            checked: false,
+            key: 'ad_spaces_delete_admin_reply',
+          },
+          {
+            label: 'تغيير الحالة',
+            checked: false,
+            key: 'ad_spaces_change_status_admin_reply',
+          },
+          {
+            label: 'ترتيب',
+            checked: false,
+            key: 'ad_spaces_sort_admin_reply',
           },
         ],
       },

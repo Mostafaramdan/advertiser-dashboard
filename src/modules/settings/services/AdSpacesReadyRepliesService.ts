@@ -1,22 +1,26 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
-import type { ReportReason, ReportReasonBase } from './../interfaces/ReportReason'
+import type { ReadyReply, ReadyReplyBase } from './../interfaces/ReadyReply'
 
-class ReportsReasonsService {
-  contextPath = 'betrend_report_reasons'
+class AdSpacesReadyRepliesService {
+  contextPath = 'ad_spaces_admin_replies'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
     return axios.get(`${this.contextPath}`, { params })
   }
 
+  getSingleItem(id: any): AxiosPromise {
+    return axios.get(`${this.contextPath}/${id}`)
+  }
+
   /** **************** post ******************/
-  createItem(data: ReportReasonBase): AxiosPromise {
+  createItem(data: ReadyReplyBase): AxiosPromise {
     return axios.post(`${this.contextPath}`, data)
   }
 
   /** **************** put ******************/
-  editItem(data: ReportReason): AxiosPromise {
+  editItem(data: ReadyReply): AxiosPromise {
     return axios.put(`${this.contextPath}/${data.id}`, data)
   }
 
@@ -26,4 +30,4 @@ class ReportsReasonsService {
   }
 }
 
-export const reportsReasonsService = new ReportsReasonsService()
+export const adSpacesReadyRepliesService = new AdSpacesReadyRepliesService()

@@ -267,7 +267,17 @@ const navItems = computed(() => {
         {
           title: 'أسباب البلاغات',
           to: { name: 'reports-reasons-settings' },
-          show: hasPermission('view_report_reasons'),
+          show: hasPermission('betrend_view_report_reasons') && isBeTrendApp.value,
+        },
+        {
+          title: 'أسباب البلاغات',
+          to: { name: 'offers-reports-reasons-settings' },
+          show: hasPermission('offers_view_report_reasons') && isOffersApp.value,
+        },
+        {
+          title: 'أسباب البلاغات',
+          to: { name: 'ad-spaces-reports-reasons-settings' },
+          show: hasPermission('ad_spaces_view_report_reasons') && isAdSpacesApp.value,
         },
         {
           title: 'عناصر التقييم',
@@ -367,7 +377,17 @@ const navItems = computed(() => {
         {
           title: 'الردود الجاهزة',
           to: { name: 'ready-replies-settings' },
-          show: hasPermission('view_admin_replies'),
+          show: hasPermission('betrend_view_admin_replies') && isBeTrendApp.value,
+        },
+        {
+          title: 'الردود الجاهزة',
+          to: { name: 'offers-ready-replies-settings' },
+          show: hasPermission('offers_view_admin_replies') && isOffersApp.value,
+        },
+        {
+          title: 'الردود الجاهزة',
+          to: { name: 'ad-spaces-ready-replies-settings' },
+          show: hasPermission('ad_spaces_view_admin_replies') && isAdSpacesApp.value,
         },
         {
           title: 'شرائح الميزانية',

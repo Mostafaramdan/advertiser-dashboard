@@ -3,7 +3,7 @@ import axios from 'axios'
 import type { ReadyReply, ReadyReplyBase } from './../interfaces/ReadyReply'
 
 class ReadyRepliesService {
-  contextPath = 'admin_replies'
+  contextPath = 'betrend_admin_replies'
 
   /** **************** get ******************/
   getItem(params: any): AxiosPromise {
