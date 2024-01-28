@@ -303,6 +303,100 @@ export const settingsRoutes = [
     ],
   },
   {
+    path: 'offers-platform',
+    name: 'offers-platform-settings',
+    component: () => import('./pages/platform/OffersIndexPage.vue'),
+    meta: {
+      requireAtLeastOnePermission: [
+        'offers_view_general_settings',
+        'offers_view_social_settings',
+        'offers_view_schedule_settings',
+        'offers_view_billing_cards',
+      ],
+    },
+    children: [
+      {
+        path: 'details',
+        name: 'offers-platform-settings-details',
+        component: () => import('./pages/platform/OffersDetailsPage.vue'),
+        meta: {
+          requiredPermission: 'offers_view_general_settings',
+        },
+      },
+      {
+        path: 'social-accounts',
+        name: 'offers-social-accounts-settings',
+        component: () => import('./pages/platform/OffersSocialAccountsPage.vue'),
+        meta: {
+          requiredPermission: 'offers_view_social_settings',
+        },
+      },
+      {
+        path: 'work-time',
+        name: 'offers-work-time-settings',
+        component: () => import('./pages/platform/OffersWorkTimePage.vue'),
+        meta: {
+          requiredPermission: 'offers_view_schedule_settings',
+        },
+      },
+      {
+        path: 'payment-methods',
+        name: 'offers-payment-methods-settings',
+        component: () => import('./pages/platform/OffersPaymentMethodsPage.vue'),
+        meta: {
+          requiredPermission: 'offers_view_billing_cards',
+        },
+      },
+    ],
+  },
+  {
+    path: 'ad-spaces-platform',
+    name: 'ad-spaces-platform-settings',
+    component: () => import('./pages/platform/AdSpacesIndexPage.vue'),
+    meta: {
+      requireAtLeastOnePermission: [
+        'ad_spaces_view_general_settings',
+        'ad_spaces_view_social_settings',
+        'ad_spaces_view_schedule_settings',
+        'ad_spaces_view_billing_cards',
+      ],
+    },
+    children: [
+      {
+        path: 'details',
+        name: 'ad-spaces-platform-settings-details',
+        component: () => import('./pages/platform/AdSpacesDetailsPage.vue'),
+        meta: {
+          requiredPermission: 'ad_spaces_view_general_settings',
+        },
+      },
+      {
+        path: 'social-accounts',
+        name: 'ad-spaces-social-accounts-settings',
+        component: () => import('./pages/platform/AdSpacesSocialAccountsPage.vue'),
+        meta: {
+          requiredPermission: 'ad_spaces_view_social_settings',
+        },
+      },
+      {
+        path: 'work-time',
+        name: 'ad-spaces-work-time-settings',
+        component: () => import('./pages/platform/AdSpacesWorkTimePage.vue'),
+        meta: {
+          requiredPermission: 'ad_spaces_view_schedule_settings',
+        },
+      },
+      {
+        path: 'payment-methods',
+        name: 'ad-spaces-payment-methods-settings',
+        component: () => import('./pages/platform/AdSpacesPaymentMethodsPage.vue'),
+        meta: {
+          requiredPermission: 'ad_spaces_view_billing_cards',
+        },
+      },
+    ],
+  },
+  {
     path: 'financial-settings',
     name: 'financial-settings',
     component: () => import('./pages/financial-settings/IndexPage.vue'),

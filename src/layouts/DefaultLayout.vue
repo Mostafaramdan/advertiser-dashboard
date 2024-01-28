@@ -64,7 +64,7 @@ const navItems = computed(() => {
               'betrend_view_social_settings',
               'betrend_view_schedule_settings',
               'betrend_view_billing_cards',
-            ]) && !isBeTrendApp.value,
+            ]) && isBeTrendApp.value,
           to: null,
           children: [
             {
@@ -86,6 +86,72 @@ const navItems = computed(() => {
               title: 'طرق الدفع',
               to: { name: 'payment-methods-settings' },
               show: hasPermission('betrend_view_billing_cards'),
+            },
+          ],
+        },
+        {
+          title: 'إعدادت حساب المنصة',
+          show:
+            hasAtLeaseOnePermission([
+              'offers_view_general_settings',
+              'offers_view_social_settings',
+              'offers_view_schedule_settings',
+              'offers_view_billing_cards',
+            ]) && isOffersApp.value,
+          to: null,
+          children: [
+            {
+              title: 'بيانات المنصة',
+              to: { name: 'offers-platform-settings-details' },
+              show: hasPermission('offers_view_general_settings'),
+            },
+            {
+              title: 'حسابات التواصل',
+              to: { name: 'offers-social-accounts-settings' },
+              show: hasPermission('offers_view_social_settings'),
+            },
+            {
+              title: 'دوام المنصة',
+              to: { name: 'offers-work-time-settings' },
+              show: hasPermission('offers_view_schedule_settings'),
+            },
+            {
+              title: 'طرق الدفع',
+              to: { name: 'offers-payment-methods-settings' },
+              show: hasPermission('offers_view_billing_cards'),
+            },
+          ],
+        },
+        {
+          title: 'إعدادت حساب المنصة',
+          show:
+            hasAtLeaseOnePermission([
+              'ad_spaces_view_general_settings',
+              'ad_spaces_view_social_settings',
+              'ad_spaces_view_schedule_settings',
+              'ad_spaces_view_billing_cards',
+            ]) && isAdSpacesApp.value,
+          to: null,
+          children: [
+            {
+              title: 'بيانات المنصة',
+              to: { name: 'ad-spaces-platform-settings-details' },
+              show: hasPermission('ad_spaces_view_general_settings'),
+            },
+            {
+              title: 'حسابات التواصل',
+              to: { name: 'ad-spaces-social-accounts-settings' },
+              show: hasPermission('ad_spaces_view_social_settings'),
+            },
+            {
+              title: 'دوام المنصة',
+              to: { name: 'ad-spaces-work-time-settings' },
+              show: hasPermission('ad_spaces_view_schedule_settings'),
+            },
+            {
+              title: 'طرق الدفع',
+              to: { name: 'ad-spaces-payment-methods-settings' },
+              show: hasPermission('ad_spaces_view_billing_cards'),
             },
           ],
         },
