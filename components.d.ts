@@ -67,6 +67,7 @@ declare module 'vue' {
     CustomRadiosWithIcon: typeof import('./src/@core/components/app-form-elements/CustomRadiosWithIcon.vue')['default']
     CustomRadiosWithImage: typeof import('./src/@core/components/app-form-elements/CustomRadiosWithImage.vue')['default']
     DailyStats: typeof import('./src/components/home/DailyStats.vue')['default']
+    DateRangeFilter: typeof import('./src/components/filters/DateRangeFilter.vue')['default']
     DetailsTab: typeof import('./src/components/advertiser-profile/DetailsTab.vue')['default']
     DialogCloseBtn: typeof import('./src/@core/components/DialogCloseBtn.vue')['default']
     EnableOneTimePasswordDialog: typeof import('./src/components/dialogs/EnableOneTimePasswordDialog.vue')['default']

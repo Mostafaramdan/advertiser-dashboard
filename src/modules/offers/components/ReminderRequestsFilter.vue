@@ -69,28 +69,36 @@ function resetFilter() {
       <VExpansionPanel elevation="0">
         <VExpansionPanelTitle> عرض حسب التاريخ </VExpansionPanelTitle>
         <VExpansionPanelText>
-          <AppDateTimePicker
-            v-model="filters.from_date"
-            placeholder="من"
-            clearable
-            prepend-inner-icon="tabler-calendar"
-            :config="{ disableMobile: true, maxDate: new Date() }"
-            class="mb-3"
-          />
-          <AppDateTimePicker
-            v-model="filters.to_date"
-            placeholder="الي"
-            clearable
-            prepend-inner-icon="tabler-calendar"
-            :config="{ disableMobile: true, maxDate: new Date() }"
-          />
+          <DateRangeFilter v-model:fromDate="filters.from_date" v-model:toDate="filters.to_date" />
         </VExpansionPanelText>
       </VExpansionPanel>
       <VExpansionPanel elevation="0">
         <VExpansionPanelTitle> عرض حسب الكمية</VExpansionPanelTitle>
         <VExpansionPanelText>
-          <VTextField label="من" v-model="filters.from_quantity" clearable />
-          <VTextField label="الي" v-model="filters.to_quantity" clearable class="mt-3" />
+          <div class="mb-3">
+            <AppTextField
+              name="from"
+              label="من"
+              placeholder="من"
+              hide-default-label
+              v-model="filters.from_quantity"
+              clearable
+              type="number"
+              rules="numeric"
+            />
+          </div>
+          <div>
+            <AppTextField
+              name="to"
+              label="الي"
+              placeholder="الي"
+              hide-default-label
+              v-model="filters.to_quantity"
+              clearable
+              :rules="{ numeric: true, greaterThanValue: filters.from_quantity }"
+              type="number"
+            />
+          </div>
         </VExpansionPanelText>
       </VExpansionPanel>
       <VExpansionPanel elevation="0">

@@ -39,6 +39,10 @@ const props = defineProps({
     variant: 'outlined',
     color: 'primary',
   }),
+  hideLabel: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits<Emit>()
@@ -127,7 +131,7 @@ const elementId = computed(() => {
   <div class="app-picker-field">
     <!-- v-input -->
     <VLabel
-      v-if="fieldProps.label"
+      v-if="fieldProps.label && !hideLabel"
       class="mb-1 text-body-2 text-high-emphasis"
       :for="elementId"
       :text="fieldProps.label"
@@ -250,8 +254,7 @@ input[altinputclass='inlinePicker'] {
         justify-content: center !important;
         inline-size: 16.625rem;
         min-inline-size: 16.625rem;
-        padding-block-end: 0.75rem;
-        padding-block-start: 0;
+        padding-block: 0 0.75rem;
 
         .flatpickr-day {
           block-size: 2.125rem;
