@@ -25,6 +25,7 @@ const props = withDefaults(
 // #region Emits
 const emit = defineEmits<{
   (e: 'update:showModal', value: boolean): void
+  (e: 'save'): void
 }>()
 
 // #endregion
@@ -79,6 +80,7 @@ function submit() {
     .then((res) => {
       toast.success(res.data.message)
       showModal.value = false
+      emit('save')
     })
     .finally(() => {
       isLoading.submit = false

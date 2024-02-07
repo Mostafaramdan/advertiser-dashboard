@@ -120,6 +120,7 @@ function onEditOfferStatus(status: string) {
         v-if="showProductsAcceptanceModal"
         v-model:showModal="showProductsAcceptanceModal"
         :offer-id="data.id"
+        @save="getPageData"
       />
       <OfferProductsQtyAvailabilityModal
         v-if="showProductsQtyAvailabilityModal"

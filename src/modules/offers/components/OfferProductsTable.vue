@@ -215,6 +215,7 @@ function onEditProduct(product: OfferProduct) {
               :id="product.id"
               v-model="product.is_active"
               :model="PRODUCTS_MODULE_NAME"
+              :disabled="!product.can_change_status"
             />
           </td>
           <td>
@@ -282,7 +283,7 @@ function onEditProduct(product: OfferProduct) {
                       <VListItemTitle>صلاحيات التعديل</VListItemTitle>
                     </VListItem>
                     <VListItem
-                      :disabled="!permissions.deleteProduct"
+                      :disabled="!permissions.deleteProduct || !product.can_delete"
                       @click="showConfirmDeleteItem(product)"
                     >
                       <template #prepend>
