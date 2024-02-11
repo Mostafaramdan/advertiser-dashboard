@@ -77,21 +77,7 @@ function resetFilter() {
       <VExpansionPanel elevation="0">
         <VExpansionPanelTitle> عرض حسب التاريخ </VExpansionPanelTitle>
         <VExpansionPanelText>
-          <AppDateTimePicker
-            v-model="filters.from_date"
-            placeholder="من"
-            clearable
-            prepend-inner-icon="tabler-calendar"
-            :config="{ disableMobile: true, maxDate: new Date() }"
-            class="mb-3"
-          />
-          <AppDateTimePicker
-            v-model="filters.to_date"
-            placeholder="الي"
-            clearable
-            prepend-inner-icon="tabler-calendar"
-            :config="{ disableMobile: true, maxDate: new Date() }"
-          />
+          <DateRangeFilter v-model:fromDate="filters.from_date" v-model:toDate="filters.to_date" />
         </VExpansionPanelText>
       </VExpansionPanel>
       <VExpansionPanel elevation="0">
